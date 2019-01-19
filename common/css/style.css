@@ -1,0 +1,410 @@
+@charset "UTF-8";
+.h2_page {
+    position: relative;
+    font-size: 18px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.h2_page::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: #333;
+    bottom: 0;
+    left: 0;
+}
+
+.h3_page {
+    position: relative;
+    font-size: 15px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: #000;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.h4_page {
+    background: #e6e6e6;
+    margin: 20px 0;
+    padding: 10px;
+    font-weight: 700;
+}
+
+.h5_page {
+    border-bottom:1px solid #e6e6e6;
+    padding-bottom:10px;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.flexBox__form + .h3_page {
+    margin-top: 35px;
+}
+
+.inputBlock {
+    position: relative;
+}
+
+.inputForm {
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: none !important;
+}
+
+.inputForm:read-only {
+    font-weight:bold;
+    background: #e6e6e6;
+}
+
+.blockAdvise +.h3_page {
+    margin-top: 35px;
+}
+
+.radioForm, .labelReg, .chkForm {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.labelReg {
+    margin-left: 5px;
+    margin-right: 20px;
+}
+
+.labelBlock {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.inputBlock+.labelBlock {
+    margin-top: 20px;
+}
+
+.customSelect {
+    padding: 0;
+    margin: 10px 0 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    max-height: 40px;
+}
+
+.customSelect::before {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 30%;
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid #333;
+    border-top: 2px solid #333;
+    -moztransform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+    -ms-transform: rotate(225deg);
+    transform: rotate(225deg);
+}
+
+.customSelect select {
+    padding: 10px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #333;
+    outline: none;
+}
+
+.flexBox__form+.flexBox__form {
+    margin: 10px 0;
+}
+
+.flexBox__form .inputBlock {
+    width: 49%;
+}
+
+.flexBox__form--2, .flexBox__form--3 {
+    flex-wrap: wrap;
+}
+
+.flexBox__form--3 .inputBlock {
+    width: 32%;
+}
+
+.flexBox__form--2 .inputBlock {
+    width: 48%;
+}
+
+.submitBtn {
+    border: none;
+    outline: none;
+}
+
+.file-custom:after {
+    content: 'Chọn hình ảnh' !important;
+}
+
+.file-custom:before {
+    max-height: 40px !important;
+    height: auto !important;
+}
+
+.file-custom {
+    box-shadow: none !important;
+}
+
+.file {
+    display: block !important;
+    width: 49%;
+}
+
+.searchBtn {
+    background: url('../img/header/icon_loop.svg') no-repeat center center;
+    background-size: 25px 25px;
+    height: 40px;
+    width: 40px;
+    font-size: 0 !important;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.blockPage {
+    border: none;
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 20px;
+    width: 48%;
+}
+
+.customerInfo {
+    width: 58%;
+}
+
+.customerCard {
+    width: 40%;
+    text-align: right;
+    font-style: italic;
+}
+
+.customerCard img {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.tblPage {
+    margin: 25px 0;
+    width: 100%;
+    border: 1px solid #e6e6e6;
+}
+
+.tblPage thead {
+    background: #e6e6e6;
+    font-weight: 900;
+}
+
+.tblPage tr td {
+    padding: 10px;
+    border: 1px solid #e6e6e6;
+}
+
+.tblPage tr:hover {
+    background: #f6f6f6;
+}
+
+.tblPage tr td.last {
+    text-align: center;
+}
+
+.tblPage tr td a {
+    font-size: 18px;
+}
+
+.tblPage tr td.text a  {
+    font-size: 12px;
+    display: inline-block;
+    background: #000;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+.btnSubmit {
+    border: none;
+    background: #333;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    text-align: center;
+    max-width: 200px;
+    margin: 10px auto 0;
+    padding: 0 50px;
+    text-transform: uppercase;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.loginBlock {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.buttonBar {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonBar .customSelect {
+    margin-top: 0;
+    margin-right: 10px;
+    width: 20%;
+}
+
+.buttonBar a {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+    margin-left: 10px;
+}
+
+.buttonBar a i {
+    margin-right: 5px;
+}
+.formSearch {
+    margin-bottom: 35px;
+}
+
+/* TEST */
+
+.blockPage+.blockPage {
+    margin-top: 50px;
+}
+
+.blockPage--full {
+    width: 100%;
+}
+
+.blockPage--half {
+    width: 49%;
+}
+
+.textBox {
+    margin: 50px 0;
+    padding: 50px;
+}
+
+.mt0 {
+    margin-top: 0;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+textarea.inputForm {
+    margin-top: 15px;
+    min-height: 120px;
+}
+
+.innerService {
+    padding: 20px;
+    background: #f6f6f6;
+}
+
+/* HIDE */
+
+.blockAdvise, .blockSur, .form_services, .monneyDeposit {
+    display: none;
+}
+
+
+.blockSur {
+    margin-top: 20px;
+}
+
+.blockFacebook {
+    margin-top: 10px;
+}
+
+/* COLOR */
+
+.noteIcon em {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10px;
+    margin: 0 25px 0 5px;
+}
+
+.noteColor {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+}
+
+.note--tvv {
+    background: #fc0410;
+}
+
+.note--bsnk {
+    background: #ff7031;
+}
+
+.note--quay {
+    background: #fce128;
+}
+
+.note--bsk {
+    background: #5d56da;
+}
+
+.note--phauthuat {
+    background: #36cf2a;
+}
+
+.note--hauphau {
+    background: #fb76ea;
+}
+
+.note--cskh {
+    background: #63fef1;
+}
+
+.typeService {
+    display: none;
+}
+
+.readOnly {
+    pointer-events: none;
+}
+
+#totalFee {
+    background: #ffd6d6;
+}

@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+/* Tablet */
+
+@media only screen and (min-width:768px) and (max-width:1024px) {}
+
+
+/* Smartphone */
+
+@media only screen and (max-width:767px) {
+    .textBox {
+        padding:10px 10px;
+    }
+    .maxW {
+        margin: 20px auto !important;
+    }
+    #logo img {
+        height: auto;
+    }
+    .blockPage {
+        padding: 15px;
+        border-radius: 15px;
+    }
+    .h2_page {
+        font-size: 16px;
+    }
+    .h3_page {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .flexBox__form .inputBlock {
+        width: 100% !important;
+        margin: 5px 0;
+    }
+    textarea.inputForm {
+        margin-top: 0;
+    }
+    .hideSide {
+        width: 90%;
+    }
+    .buttonBar {
+        justify-content: space-between;
+    }
+    .buttonBar a {
+        margin: 0;
+        width: 49%;
+    }
+    .noteIcon {
+        flex-wrap: wrap;
+    }
+    .noteIcon p {
+        width: 50%;
+    }
+    .loginBlock {
+        width: 90% !important;
+        max-width: inherit !important;
+    }
+
+    .loginBlock .inputBlock {
+        margin: 5px 0;
+    }
+}
