@@ -40,7 +40,31 @@ include(APP_PATH."libs/head.php");
     </div>
 
         <div class="blockPage blockPage--full">
-            <h2 class="h2_page">Danh sách khách hàng trong ngày</h2>
+            <?php if($_COOKIE['role_cookies']=='customer-care') { ?>
+                <h2 class="h2_page">Danh sách khách hàng đến lịch</h2>
+                <?php
+                    $wp_query = new WP_Query();
+                    $param = array (
+                    'posts_per_page' => '4',
+                    'post_type' => 'news',
+                    'post_status' => 'publish',
+                    'order' => 'DESC',
+                    'paged' => $paged,
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                ?>
+                <tr>
+                    <td><span class="noteColor note--<?php echo get_field('status') ?>"></span></td>
+                    <td><?php the_title(); ?></td>
+                    <td><?php the_field('fullname'); ?></td>
+                    <td><?php the_field('mobile'); ?></td>
+                    <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
+                </tr>
+                <?php endwhile;endif; ?>
+            <?php } ?>
+
+            <h2 class="h2_page">Danh sách khách hàng trong ngày</h2> 
             <table class="tblPage">
             <thead>
                 <tr>
@@ -54,35 +78,93 @@ include(APP_PATH."libs/head.php");
             <tbody>
                 <?php
                     $wp_query = new WP_Query();
-                    $param=array(
-                    'post_type'=>'surgery',
-                    'order' => 'DESC',
-                    'posts_per_page' => '-1',
-                    'meta_query' => array(
-                        array(
-                        'key' => 'date',
-                        'value' => $curr_date,
-                        'compare' => 'LIKE'
-                    ))
-                    // 'meta_query'	=> array(
-                    //     'relation'		=> 'OR',
-                    //     array(
-                    //         'key'	 	=> 'status',
-                    //         'value'	  	=> 'tvv',
-                    //         'compare' 	=> '=',
-                    //     ),
-                    //     array(
-                    //         'key'	  	=> 'status',
-                    //         'value'	  	=> 'bsnk',
-                    //         'compare' 	=> '=',
-                    //     ),
-                    //     array(
-                    //         'key'	  	=> 'status',
-                    //         'value'	  	=> 'bsk',
-                    //         'compare' 	=> '=',
-                    //     ),
-                    // )
-                    );    
+                    if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='counter')) {
+                        $param=array(
+                        'post_type'=>'surgery',
+                        'order' => 'DESC',
+                        'posts_per_page' => '-1',
+                        'meta_query'	=> array(
+                            array(
+                                'key' => 'date',
+                                'value' => $curr_date,
+                                'compare' => 'LIKE'
+                            ),
+                        )
+                        );
+                    }
+                    
+                    if($_COOKIE['role_cookies']=='doctor') {
+                        $param=array(
+                        'post_type'=>'surgery',
+                        'order' => 'DESC',
+                        'posts_per_page' => '-1',
+                        'meta_query'	=> array(
+                            'relation'		=> 'OR',
+                            array(
+                                'key' => 'date',
+                                'value' => $curr_date,
+                                'compare' => 'LIKE'
+                            ),
+                            array(
+                                'key'	  	=> 'status',
+                                'value'	  	=> 'counter',
+                                'compare' 	=> '=',
+                            ),
+                            )
+                        );
+                    }
+
+                    if($_COOKIE['role_cookies']=='room') {
+                        $param=array(
+                            'post_type'=>'surgery',
+                            'order' => 'DESC',
+                            'posts_per_page' => '-1',
+                            'meta_query'	=> array(
+                                'relation'		=> 'OR',
+                                array(
+                                    'key' => 'date',
+                                    'value' => $curr_date,
+                                    'compare' => 'LIKE'
+                                ),
+                                array(
+                                    'key'	  	=> 'status',
+                                    'value'	  	=> 'bsk',
+                                    'compare' 	=> '=',
+                                ),
+                                array(
+                                    'key'	  	=> 'status',
+                                    'value'	  	=> 'bsnk',
+                                    'compare' 	=> '=',
+                                ),
+                                array(
+                                    'key'	  	=> 'status',
+                                    'value'	  	=> 'phauthuat',
+                                    'compare' 	=> '=',
+                                ),
+                            )
+                        );
+                    }    
+
+                    if($_COOKIE['role_cookies']=='customer-care') {
+                        $param=array(
+                            'post_type'=>'surgery',
+                            'order' => 'DESC',
+                            'posts_per_page' => '-1',
+                            'meta_query'	=> array(
+                                'relation'		=> 'OR',
+                                array(
+                                    'key' => 'date',
+                                    'value' => $curr_date,
+                                    'compare' => 'LIKE'
+                                ),
+                                array(
+                                    'key'	  	=> 'status',
+                                    'value'	  	=> 'hauphau',
+                                    'compare' 	=> '=',
+                                ),
+                                )
+                        );
+                    }
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                 ?>
@@ -91,8 +173,10 @@ include(APP_PATH."libs/head.php");
                     <td><?php the_title(); ?></td>
                     <td><?php the_field('fullname'); ?></td>
                     <td><?php the_field('mobile'); ?></td>
-                    <?php if($_COOKIE['role_cookies']=='manager') { ?>
-                        <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                    <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
+                        <td class="last">
+                        <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                        <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
                         <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
                         </td>        
                     <?php } ?>
@@ -105,11 +189,20 @@ include(APP_PATH."libs/head.php");
                     <td class="last"><a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                     <?php } ?>
 
-                    <?php if($_COOKIE['role_cookies']=='room') { ?>
-                    <td class="last"><a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <?php if($_COOKIE['role_cookies']=='room') { 
+                        $stt = get_field('status');
+                    ?>
+                    <?php if(($stt=='bsk')||($stt=='bsnk')) { ?>
+                        <td class="last"><a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <?php } else { ?>
+                        <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                     <?php } ?>
 
-                    
+                    <?php } ?>
+
+                    <?php if($_COOKIE['role_cookies']=='customer-care') { ?>
+                    <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <?php } ?>
                 </tr>
                 <?php endwhile;endif; ?>
             </tbody>

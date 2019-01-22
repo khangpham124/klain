@@ -118,7 +118,7 @@ include(APP_PATH."admin/wp-load.php");
 
         $price=(int)$_POST['price'];
         $discount=$_POST['discount'];
-
+        $numb_image = $_POST['numb_image'];
         $status = $_POST['status'];
 
         $customer_post = array(
@@ -129,7 +129,7 @@ include(APP_PATH."admin/wp-load.php");
         $pid = wp_insert_post($customer_post);
         add_post_meta($pid, 'fullname', $fullname);
         add_post_meta($pid, 'mobile', $mobile);
-        add_post_meta($pid, 'cusId_post', $cusId_post);
+        add_post_meta($pid, 'cusid_post', $cusId_post);
         add_post_meta($pid, 'advise', $advise);
         add_post_meta($pid, 'adviser', $adviser);
         add_post_meta($pid, 'channel', $channel);
@@ -146,6 +146,7 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'status', $status);
         add_post_meta($pid, 'price', $price);
         add_post_meta($pid, 'sale_discount', $discount);
+        add_post_meta($pid, 'numb_image', $numb_image);
 
         header('Location:'.APP_URL.'surgery');
     }

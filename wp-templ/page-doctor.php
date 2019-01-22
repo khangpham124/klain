@@ -26,7 +26,6 @@ include(APP_PATH."libs/head.php");
         <h2 class="h2_page">Tạo phiếu thu</h2>
             <?php
                 $id_sur = $_GET['idSurgery'];
-                $idCustomer = 'KLAIN_19';
                 $wp_query = new WP_Query();
                 $param = array (
                 'posts_per_page' => '-1',
@@ -52,24 +51,36 @@ include(APP_PATH."libs/head.php");
             </div>
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <h3 class="h3_page">Bệnh Án</h3>
-                <div class="flexBox flexBox--between flexBox__form">
-                    <div class="flexBox__cols">
-                        <h4 class="h4_page">Dịch vụ yêu cầu</h4>
-                        <p class="inputBlock">
+                    <h4 class="h4_page">Dịch vụ yêu cầu</h4>
+                    <p class="inputBlock">
                         <input type="text" class="inputForm" readonly value="<?php the_field('services'); ?>" />
-                        </p>
-                    </div>
-                </div>
+                    </p>
+                    <h4 class="h4_page">Hình ảnh trước phẫu thuật</h4>
+                    <?php
+                    $numb_image = get_field('numb_image');
+                    for($i=1;$i<=$numb_image;$i++) {
+                    ?>
+                    <label class="file">
+                        <input type="file" name="file<?php echo $i; ?>" id="file<?php echo $i; ?>" aria-label="hình ảnh">
+                        <span class="file-custom"></span>
+                    </label>
+                    <?php } ?>
+                
+                <h3 class="h3_page">Dành riêng cho BSK</h3>    
+            <textarea class="inputForm" <?php if($_COOKIE['role_cookies']!='boss') { ?>readonly<?php } ?> name="bsk" id="bsk"></textarea>
                 
                 <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
-                <input type="hidden" name="status" value="quay" >
-                <input type="hidden" name="action" value="edit" >
                 <?php if($_COOKIE['role_cookies']=='doctor') { ?>
+                    <input type="hidden" name="status" value="bsnk" >
                     <input type="hidden" name="bsnk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                    <input type="hidden" name="numb_image" value="<?php echo $numb_image; ?>" >
                     <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                    <input type="hidden" name="action" value="edit_bsnk" >
                 <?php } else {  ?>
+                    <input type="hidden" name="status" value="bsk" >
                     <input class="btnSubmit" type="submit" name="submit" value="Tạo">
                     <input type="hidden" name="bsk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                    <input type="hidden" name="action" value="edit_bsk" >
                 <?php } ?>    
             </form>
         <?php endwhile;endif; ?>    
@@ -85,46 +96,6 @@ include(APP_PATH."libs/head.php");
 <!--/wrapper-->
 <!--===================================================-->
 
-<script>
-$( function() {
-    var price_real = $('#price_real').val();
-    var promotion = $('#promotion').val();
-    if($('input[name="accept"]').is(':checked')) {
-        var price_sale = $('#price_sale').val();
-    } else {
-        var price_sale = 0;
-    }
-
-    var code_voucher = 0;
-    $("#code_voucher").on('click', function () {
-        if($('input[name="code_voucher"]').is(':checked')) {
-            var code_voucher = $('#code_voucher').val();
-            alert(code_voucher);
-        }
-    });
-
-
-
-    if($('input[name="promotion"]').is(':checked')) {
-        var promotion = $('#promotion').val();
-    } else {
-        var promotion = 0;
-    }
-
-    var totalPrice = price_real - price_sale - promotion - code_voucher;
-    $('#totalFee').val(totalPrice);
-
-
-    $('input[type=radio][name=statusPay]').change(function() {
-        if (this.value == 'Đặt cọc') {
-            $('.monneyDeposit').slideDown(200);
-        } else {
-            $('.monneyDeposit').slideUp(200);    
-        }
-    });
-
-});
-</script>      
 
 </body>
 </html>	

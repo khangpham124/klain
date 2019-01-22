@@ -85,7 +85,7 @@ include(APP_PATH."libs/head.php");
             <h3 class="h3_page">Thông tin cơ bản</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                 <p class="inputBlock">
-                <input type="text" class="inputForm" name="cusId_post" id="cusId_post" value="" placeholder="Họ tên" />
+                <input type="text" class="inputForm" name="cusId_post" id="cusId_post" value="" placeholder="ID" />
                 </p>
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="fullname" id="fullname" value="" placeholder="Họ tên" />
@@ -173,7 +173,7 @@ include(APP_PATH."libs/head.php");
                                 $typecat_serve = $term_type->slug;
                                 }
                             ?>
-                                <option data-type="<?php echo $typecat_serve;  ?>" data-price="<?php echo get_field('price'); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
+                                <option data-image="<?php echo get_field('numb_image'); ?>" data-type="<?php echo $typecat_serve; ?>" data-price="<?php echo get_field('price'); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
                             <?php endwhile;endif; ?>
                         </select>
                     </p>
@@ -315,6 +315,7 @@ include(APP_PATH."libs/head.php");
 
             <input type="hidden" name="action" value="create" >
             <input type="hidden" name="status" value="tvv" >
+            <input type="hidden" name="numb_image" id="numb_image" value="" >
             <input class="btnSubmit" type="submit" name="submit" value="Tạo">
         </form>
     </div>
@@ -398,7 +399,9 @@ include(APP_PATH."libs/head.php");
         var type = $('select[name="services"] :selected').attr('class');
         var price = $('select[name="services"] :selected').attr('data-price');
         var type_detail = $('select[name="services"] :selected').attr('data-type');
+        var numb_image = $('select[name="services"] :selected').attr('data-image');
         $('#price').val(price);
+        $('#numb_image').val(numb_image);
         if(type=='body') {
             $('.typeService').slideUp(200);
             $('.form_services').slideUp(200);
