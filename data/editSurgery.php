@@ -107,7 +107,7 @@ $pid = $_POST['idSurgery'];
         header('Location:'.APP_URL.'surgery');
     }
 
-    if($_POST['action']=='ekip_create') {
+    if($_POST['action']=='ekip_report') {
         $list_supplies = get_posts(array(
             'numberposts' => -1,
             'post_type' => 'supplies',
@@ -126,6 +126,11 @@ $pid = $_POST['idSurgery'];
         update_post_meta($pid,'report',$status);
         
         header('Location:'.APP_URL.'surgery');
+    }
+
+    if($_POST['action']=='cskh_edit') {
+        $status = $_POST['status'];
+        update_post_meta($pid,'status',$status);
     }
 
 ?>
