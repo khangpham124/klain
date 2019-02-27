@@ -9,7 +9,13 @@ if(!$_COOKIE['login_cookies']) {
 }
 include(APP_PATH."libs/head.php");
 ?>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
+<style type="text/css">
+    #datepicker {
+        display: none;
+    }
+</style>
 </head>
 
 <body id="top">
@@ -38,9 +44,44 @@ include(APP_PATH."libs/head.php");
                     <p class="inputBlock">
                     <input type="number" class="inputForm" name="mobile" id="mobile" placeholder="Điện thoại" />
                     </p>
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                        <p class="inputBlock customSelect">
+                            <select id="day" name="day">
+                                <option value="">Ngày</option>
+                                <?php for($i=0;$i<=31;$i++) { ?>
+                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                <?php } ?>
+                            </select>
+                        </p>
+                        <p class="inputBlock customSelect">    
+                            <select id="month" name="month">
+                                <option value="">Tháng</option>
+                                <?php for($i=0;$i<=31;$i++) { ?>
+                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                <?php } ?>
+                            </select>
+                            </p>
+                        <p class="inputBlock customSelect">    
+                            <select id="year" name="year">
+                                <option value="">Năm</option>
+                                <?php for($i=1940;$i<=2019;$i++) { ?>
+                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                <?php } ?>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+                <h3 class="h3_page">Thông tin tài khoản online</h3>
+                <div class="flexBox flexBox--between flexBox__form">
+                    <p class="inputBlock">
+                    <input type="text" class="inputForm" name="facebook" placeholder="facebook" />
+                    </p>
                     <p class="inputBlock customSelect">
                         <select id="address" name="address">
                             <option value="">Chọn Tỉnh/Thành phố</option>
+                            <option value="Đài Loan">--Đài Loan</option>
+                            <option value="Trung Quốc">--Trung Quốc</option>
+                            <option value="Hàn Quốc">--Hàn Quốc</option>
                             <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                             <option value="Hà Nội">Hà Nội</option>
                             <option value="Đà Nẵng">Đà Nẵng</option>
@@ -108,12 +149,6 @@ include(APP_PATH."libs/head.php");
                         </select>
                     </p>
                 </div>
-                <h3 class="h3_page">Thông tin tài khoản online</h3>
-                <div class="flexBox flexBox--between flexBox__form">
-                    <p class="inputBlock">
-                    <input type="text" class="inputForm" name="facebook" placeholder="facebook" />
-                    </p>
-                </div>
                 <input type="hidden" name="action" value="create" >
                 <input type="hidden" name="creator" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                 <input class="btnSubmit" type="submit" name="submit" value="Tạo">
@@ -147,6 +182,8 @@ include(APP_PATH."libs/head.php");
 	  });
 	});
 </script>
+
+
 
 </body>
 </html>	

@@ -23,6 +23,51 @@ function initRollOverImages() {
 
 $(document).ready(initRollOverImages);
 
+// $(document).ready(function(){
+//     $("input[data-type='number']").keyup(function(event){
+//       // skip for arrow keys
+//       if(event.which >= 37 && event.which <= 40){
+//           event.preventDefault();
+//       }
+//       var $this = $(this);
+//       var num = $this.val().replace(/,/gi, "");
+//       var num2 = num.split(/(?=(?:\d{3})+$)/).join(",");
+//       // the following line has been simplified. Revision history contains original.
+//       $this.val(num2);
+//   });
+// });
+
+
+$(document).ready(function(){
+    $("input[data-type='number']").keyup(function(event){
+      // skip for arrow keys
+      if(event.which >= 37 && event.which <= 40){
+          event.preventDefault();
+      }
+      var $this = $(this);
+      var num = $this.val().replace(/,/gi, "").split("").reverse().join("");
+      
+      var num2 = RemoveRougeChar(num.replace(/(.{3})/g,"$1,").split("").reverse().join(""));
+      
+      var mask = $(this).next('span');
+      // the following line has been simplified. Revision history contains original.
+      mask.text(num2);
+  });
+});
+
+function RemoveRougeChar(convertString){
+    
+    
+    if(convertString.substring(0,1) == ","){
+        
+        return convertString.substring(1, convertString.length)            
+        
+    }
+    return convertString;
+    
+}
+
+
 /*-----------------------------------------------------------
 jquery-opacity-rollover.js　※class="opa"を付ければOK
 -------------------------------------------------------------*/

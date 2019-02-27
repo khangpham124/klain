@@ -9,6 +9,10 @@ include(APP_PATH."admin/wp-load.php");
         $facebook = $_POST['facebook'];
         $address = $_POST['address'];
         $creator = $_POST['creator'];
+        $day = $_POST['day'];
+        $month = $_POST['month'];
+        $year = $_POST['year'];
+        $birth = $day.'-'.$month.'-'.$day;
         
         $customer_post = array(
             'post_title'    => $fullname,
@@ -21,6 +25,7 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'mobile', $mobile);
         add_post_meta($pid, 'facebook', $facebook);
         add_post_meta($pid, 'address', $address);
+        add_post_meta($pid, 'birthday', $birth);
         add_post_meta($pid, 'creator', $creator);
         header('Location:'.APP_URL.'customers');
     }

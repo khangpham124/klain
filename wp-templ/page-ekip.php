@@ -66,216 +66,131 @@ include(APP_PATH."libs/head.php");
             <?php endwhile;endif; ?>
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
             <!-- phuong thu tu van -->
-            <h3 class="h3_page">Mổ chính</h3>
+
+            <h3 class="h3_page">Bác sĩ phụ trách</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-            <p class="inputBlock customSelect" >
-                    <select name="doctor1" id="doctor1">
-                        <option value="">Lựa chọn bác sĩ</option>
-                        <?php
-                            $wp_query = new WP_Query();
-                            $param=array(
-                            'post_type'=>'users',
-                            'order' => 'DESC',
-                            'posts_per_page' => '-1',
-                            'tax_query' => array(
-                                'relation' => 'OR',
-                                array(
-                                'taxonomy' => 'userscat',
-                                'field' => 'slug',
-                                'terms' => 'doctor'
-                                ),
-                                array(
-                                    'taxonomy' => 'userscat',
-                                    'field' => 'slug',
-                                    'terms' => 'boss'
-                                ),
-                                )
-                            );
-                            $wp_query->query($param);
-                            if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                        ?>
-                            <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                        <?php endwhile;endif; ?>
-                    </select>
-            </p>
-            
-            <p class="inputBlock customSelect">
-                <select name="doctor2" id="doctor2">
-                    <option value="">Lựa chọn bác sĩ</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
+            <p class="inputBlock" >
+                <?php
+                    $wp_query = new WP_Query();
+                    $param=array(
+                    'post_type'=>'users',
+                    'order' => 'DESC',
+                    'posts_per_page' => '-1',
+                    'tax_query' => array(
+                        'relation' => 'OR',
+                        array(
+                        'taxonomy' => 'userscat',
+                        'field' => 'slug',
+                        'terms' => 'doctor'
+                        ),
+                        array(
                             'taxonomy' => 'userscat',
                             'field' => 'slug',
-                            'terms' => 'doctor'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-                </select>
+                            'terms' => 'boss'
+                        ),
+                        )
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                ?>
+                    <input type="checkbox" name="check01[]" value="<?php the_field('fullname') ?>" id="dr_<?php echo $post->ID ?>"><label for="dr_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                <?php endwhile;endif; ?>
             </p>
+            <?php wp_reset_query(); ?>
+            </div>
+
+            <h3 class="h3_page">Mổ chính</h3>
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+            <p class="inputBlock" >
+                <?php
+                    $wp_query = new WP_Query();
+                    $param=array(
+                    'post_type'=>'users',
+                    'order' => 'DESC',
+                    'posts_per_page' => '-1',
+                    'tax_query' => array(
+                        'relation' => 'OR',
+                        array(
+                        'taxonomy' => 'userscat',
+                        'field' => 'slug',
+                        'terms' => 'doctor'
+                        ),
+                        array(
+                            'taxonomy' => 'userscat',
+                            'field' => 'slug',
+                            'terms' => 'boss'
+                        ),
+                        array(
+                            'taxonomy' => 'userscat',
+                            'field' => 'slug',
+                            'terms' => 'nursing-primary'
+                        ),
+                        )
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                ?>
+                    <input type="checkbox" name="check02[]" value="<?php the_field('fullname') ?>" id="mo_<?php echo $post->ID ?>"><label for="mo_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                <?php endwhile;endif; ?>
+            </p>
+            <?php wp_reset_query(); ?>
             </div>
             <!-- phuong thu tu van -->
+            
 
             <h3 class="h3_page">Phụ mổ</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
-            <p class="inputBlock customSelect">
-                <select name="nursing1" id="nursing1">
-                    <option value="">Lựa chọn điều dưỡng</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
+            <p class="inputBlock" >
+                <?php
+                    $wp_query = new WP_Query();
+                    $param=array(
+                    'post_type'=>'users',
+                    'order' => 'DESC',
+                    'posts_per_page' => '-1',
+                    'tax_query' => array(
+                        'relation' => 'OR',
+                        array(
+                        'taxonomy' => 'userscat',
+                        'field' => 'slug',
+                        'terms' => 'nursing'
+                        ),
+                        array(
                             'taxonomy' => 'userscat',
                             'field' => 'slug',
-                            'terms' => 'nursing'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-            </select>
-            </p>
-            <p class="inputBlock customSelect">
-            <select name="nursing2" id="nursing2">
-                    <option value="">Lựa chọn điều dưỡng</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
-                            'taxonomy' => 'userscat',
-                            'field' => 'slug',
-                            'terms' => 'nursing'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-            </select>
-            </p>
-            <p class="inputBlock customSelect">
-            <select name="nursing3" id="nursing3">
-                    <option value="">Lựa chọn điều dưỡng</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
-                            'taxonomy' => 'userscat',
-                            'field' => 'slug',
-                            'terms' => 'nursing'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-            </select>
-            </p>
-            </div>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-            <p class="inputBlock customSelect">
-            <select name="nursing4" id="nursing4">
-                    <option value="">Lựa chọn điều dưỡng</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
-                            'taxonomy' => 'userscat',
-                            'field' => 'slug',
-                            'terms' => 'nursing'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-            </select>
-            </p>
-            <p class="inputBlock customSelect">
-            <select name="nursing5">
-                    <option value="">Lựa chọn điều dưỡng</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
-                            'taxonomy' => 'userscat',
-                            'field' => 'slug',
-                            'terms' => 'nursing'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-            </select>
+                            'terms' => 'nursing-primary'
+                        ),
+                        )
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                ?>
+                    <input type="checkbox" name="check03[]" value="<?php the_field('fullname') ?>" id="pm_<?php echo $post->ID ?>"><label for="pm_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                <?php endwhile;endif; ?>
             </p>
             </div>
             
             <h3 class="h3_page">KTV GM</h3>
-            <p class="inputBlock customSelect">
-            <select name="ktv" id="ktv">
-                    <option value="">Lựa chọn điều dưỡng</option>
-                    <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
-                            'taxonomy' => 'userscat',
-                            'field' => 'slug',
-                            'terms' => 'ktv'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
-                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                    <?php endwhile;endif; ?>
-            </select>
+            <p class="inputBlock" >
+                <?php
+                    $wp_query = new WP_Query();
+                    $param=array(
+                    'post_type'=>'users',
+                    'order' => 'DESC',
+                    'posts_per_page' => '-1',
+                    'tax_query' => array(
+                        'relation' => 'OR',
+                        array(
+                        'taxonomy' => 'userscat',
+                        'field' => 'slug',
+                        'terms' => 'ktv'
+                        ),
+                        )
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                ?>
+                    <input type="checkbox" name="check04[]" value="<?php the_field('fullname') ?>" id="ktv_<?php echo $post->ID ?>"><label for="ktv_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                <?php endwhile;endif; ?>
             </p>
             <h3 class="h3_page">Phòng mổ</h3>
             <p class="inputBlock customSelect">
@@ -293,22 +208,28 @@ include(APP_PATH."libs/head.php");
             <select name="input" id="input">
                     <option value="">Lựa chọn điều dưỡng</option>
                     <?php
-                        $wp_query = new WP_Query();
-                        $param=array(
-                        'post_type'=>'users',
-                        'order' => 'DESC',
-                        'posts_per_page' => '-1',
-                        'tax_query' => array(
-                            array(
+                    $wp_query = new WP_Query();
+                    $param=array(
+                    'post_type'=>'users',
+                    'order' => 'DESC',
+                    'posts_per_page' => '-1',
+                    'tax_query' => array(
+                        'relation' => 'OR',
+                        array(
+                        'taxonomy' => 'userscat',
+                        'field' => 'slug',
+                        'terms' => 'nursing'
+                        ),
+                        array(
                             'taxonomy' => 'userscat',
                             'field' => 'slug',
-                            'terms' => 'nursing'
-                            )
-                            )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    ?>
+                            'terms' => 'nursing-primary'
+                        ),
+                        )
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                ?>
                         <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
                     <?php endwhile;endif; ?>
             </select>

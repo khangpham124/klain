@@ -28,7 +28,11 @@ if($_POST['action']=='create') {
         update_option('option_image', $attach_id);
         update_post_meta($pid, '_my_file_upload', $attach_id);
     }
-    update_post_meta($pid,'_thumbnail_id',$attach_id);
+    if($attach_id!="") {
+        update_post_meta($pid,'_thumbnail_id',$attach_id);
+    } else {
+        $thumbnail_id = APP_URL.'img/top/favicon.png';
+    }
     set_post_thumbnail( $pid, $thumbnail_id );
     header('Location:'.APP_URL.'users');
 }

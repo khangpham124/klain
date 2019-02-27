@@ -20,15 +20,10 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     
     <div class="blockPage blockPage--full">
-        <div class="buttonBar">
-            <a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
-            <a href="<?php echo APP_URL ?>add-surgery/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
-            <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
-        </div>
         <h2 class="h2_page">Tạo phiếu thu</h2>
             <?php
                 $id_sur = $_GET['idSurgery'];
-                $idCustomer = 'KLAIN_19';
+                $idCustomer = date("Y").'_';
                 $wp_query = new WP_Query();
                 $param = array (
                 'posts_per_page' => '-1',
@@ -41,12 +36,9 @@ include(APP_PATH."libs/head.php");
                 if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
             ?>
             <h3 class="h3_page">Thông tin khách hàng</h3>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" readonly value="<?php the_field('fullname'); ?>" />
-                </p>
-                <p class="inputBlock">
-                <input type="text" class="inputForm" name="idcard" placeholder="Só CMND" readonly value="<?php the_field('idcard'); ?>" />
                 </p>
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php the_field('mobile'); ?>" />
@@ -74,10 +66,16 @@ include(APP_PATH."libs/head.php");
                     
                         <h4 class="h4_page">Phương thức thanh toán</h4>
                         <p class="inputBlock" id="radmethodPay">
-                            <input type="radio" class="radioForm" id="rad1" name="methodPay" value="cash" /><label class="labelReg" for="rad1">Tiền mặt</label><br>
-                            <input type="radio" class="radioForm" id="rad2" name="methodPay" value="bank-transfer" /><label class="labelReg" for="rad2">Chuyển khoản</label><br>
-                            <input type="radio" class="radioForm" id="rad3" name="methodPay" value="visa" /><label class="labelReg" for="rad3">Visa/Master</label>
+                            <input type="checkbox" class="radioForm" id="rad1" name="methodPay" value="cash" /><label class="labelReg" for="rad1">Tiền mặt</label><br>
+                            <input type="text" class="inputForm" name="" placeholder="Số tiền mặt" value="" /><br>
+                            <input type="checkbox" class="radioForm" id="rad2" name="methodPay" value="bank-transfer" /><label class="labelReg" for="rad2">Chuyển khoản</label><br>
+                            <input type="text" class="inputForm" name="" placeholder="Số chuyển khoản" value="" /><br>
+                            <input type="checkbox" class="radioForm" id="rad3" name="methodPay" value="visa" /><label class="labelReg" for="rad3">Visa/Master</label><br>
+                            <input type="text" class="inputForm" name="" placeholder="Thanh toán visa" value="" />
                         </p>
+                        <div class="infoPay">
+                            <textarea class="inputForm" name="infoPayment" id="infoPayment"></textarea>
+                        </div>
                         <h4 class="h4_page">Tình trạng thanh toán</h4>
                         <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                             <p class="inputBlock" id="radstatusPay">
@@ -85,7 +83,7 @@ include(APP_PATH."libs/head.php");
                                 <input type="radio" class="radioForm" id="rad5" name="statusPay" value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label>
                             </p>
                             <p class="inputBlock monneyDeposit">
-                                <input type="number" class="inputForm" name="deposit" placeholder="Số tiền cọc" />
+                                <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
                             </p>
                         </div>    
                     </div>
@@ -95,24 +93,68 @@ include(APP_PATH."libs/head.php");
                         <p class="inputBlock">
                             <input type="text" class="inputForm" id="price_real" readonly value="<?php the_field('price'); ?>" />
                         </p>
+                        <?php
+                           $price_curr =  get_field('price');
+                           $sale_discount = get_field('sale_discount');
+                           $lim1 = 30000000;
+                           $lim2 = 49000000;
+                           $lim3 = 50000000;
+                           $lim4 = 79000000;
+                           $lim5 = 80000000;
+                           $lim6 = 99000000;
+                           $lim7 = 100000000;
+                           if(($price_curr >= $lim1)&&($price_curr <= $lim2)) {
+                               if($sale_discount <= 1000000) {
+                                   $check = "checked";
+                               } else {
+                                    $check = "";
+                               }
+                           }
+                           if(($price_curr >= $lim3)&&($price_curr <= $lim4)) {
+                                if($sale_discount <= 2000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "";
+                                }
+                            }
+                            if(($price_curr >= $lim5)&&($price_curr <= $lim6)) {
+                                if($sale_discount <= 3000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "";
+                                }
+                            }
+                            if($price_curr >= $lim7) {
+                                if($sale_discount <= 5000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "";
+                                }
+                            }
+                        ?>
                         <h4 class="h4_page">Sale giảm giá</h4>
                         <p class="inputBlock">
-                            <input type="text" class="inputForm" id="price_sale" name="price_sale" <?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?> value="<?php the_field('sale_discount'); ?>" />
+                            <input type="text" data-type="number" class="inputForm" id="price_sale" name="price_sale" <?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?> value="<?php the_field('sale_discount'); ?>" />
                         </p>
                         <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
-                            <input type="checkbox" class="chkForm" <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" /><label class="labelReg" for="accept">Quản lý chấp nhận</label>
+                            <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" /><label class="labelReg" for="accept">Giam gia dc chấp nhận</label>
                             <?php if(get_field('accept')=='yes') { ?>
                                 <br>
                             Duyệt bởi : <?php echo get_field('approve'); ?>
                             <?php } ?>
                         </p>
-                        <h4 class="h4_page">Chương trình giảm giá</h4>
+
+                        <!-- <h4 class="h4_page">Chương trình giảm giá</h4>
                             <p class="inputBlock">
                                 <input type="checkbox" class="chkForm" id="code_voucher" name="code_voucher" value="500" /><label class="labelReg" for="code_voucher">Code voucher</label><br class="sp">
                                 <input type="checkbox" class="chkForm" id="promotion" name="promotion" value="100" /><label class="labelReg" for="promotion">Chương trình khuyến mãi</label><br class="sp">
-                            </p>
+                            </p> -->
                         <h4 class="h4_page">Thành tiền</h4>    
                         <p class="inputBlock"><input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="" /></p>
+                        <div class="inputBlock monneyDeposit">
+                            <h4 class="h4_page">Con lai</h4>    
+                            <p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="" /></p>
+                        </div>
                     </div>
                 </div>
                 
@@ -123,9 +165,12 @@ include(APP_PATH."libs/head.php");
                 <input type="hidden" name="status" value="quay" >
                 <input type="hidden" name="action" value="edit" >
                 <?php if($_COOKIE['role_cookies']=='manager') { ?>
-                    <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                    <input class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>" type="submit" name="submit" value="Cập nhật">
                 <?php } else {  ?>
-                    <input class="btnSubmit" type="submit" name="submit" value="Tạo">
+                    <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
+                        <input class="btnSubmit" type="submit" name="submit" value="Tạo">
+                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phieu</a>
+                    </div>
                 <?php } ?>    
             </form>
         <?php endwhile;endif; ?>    
@@ -151,13 +196,13 @@ $( function() {
         var price_sale = 0;
     }
 
-    var code_voucher = 0;
-    $("#code_voucher").on('click', function () {
-        if($('input[name="code_voucher"]').is(':checked')) {
-            var code_voucher = $('#code_voucher').val();
-            alert(code_voucher);
-        }
-    });
+    // var code_voucher = 0;
+    // $("#code_voucher").on('click', function () {
+    //     if($('input[name="code_voucher"]').is(':checked')) {
+    //         var code_voucher = $('#code_voucher').val();
+    //         alert(code_voucher);
+    //     }
+    // });
 
 
 
@@ -167,8 +212,14 @@ $( function() {
         var promotion = 0;
     }
 
+    
     var totalPrice = price_real - price_sale - promotion - code_voucher;
     $('#totalFee').val(totalPrice);
+    $('#deposit').on('input',function(e){
+        var deposit = $('#deposit').val();
+        var reMain = totalPrice - deposit;
+        $('#remain').val(reMain);
+    });
 
 
     $('input[type=radio][name=statusPay]').change(function() {
@@ -176,6 +227,14 @@ $( function() {
             $('.monneyDeposit').slideDown(200);
         } else {
             $('.monneyDeposit').slideUp(200);    
+        }
+    });
+
+    $('input[type=radio][name=methodPay]').change(function() {
+        if (this.value != 'cash') {
+            $('.infoPay').slideDown(200);
+        } else {
+            $('.infoPay').slideUp(200);    
         }
     });
 

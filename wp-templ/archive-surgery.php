@@ -1,5 +1,8 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+if(!$_COOKIE['login_cookies']) {    
+	header('Location:'.APP_URL.'login');
+}
 include(APP_PATH."libs/head.php"); 
 ?>
 </head>
@@ -66,14 +69,52 @@ include(APP_PATH."libs/head.php");
                     <td><?php the_title(); ?></td>
                     <td><?php the_field('fullname'); ?></td>
                     <td><?php the_field('mobile'); ?></td>
-                    <?php if($_COOKIE['role_cookies']=='manager') { ?>
-                        <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                    <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
+                        <td class="last">
+                        <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                        <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>">Phòng mổ</a>
                         <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
                         </td>        
                     <?php } ?>
 
                     <?php if($_COOKIE['role_cookies']=='counter') { ?>
-                    <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <td class="last">
+                        <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                        <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                    </td>
+                    <?php } ?>
+                    
+                    <?php if($_COOKIE['role_cookies']=='doctor') { ?>
+                    <td class="last"><a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                    <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                    </td>
+                    <?php } ?>
+
+                    <?php if($_COOKIE['role_cookies']=='room') { 
+                        $stt = get_field('status');
+                    ?>
+                    <?php if(($stt=='bsk')||($stt=='bsnk')) { ?>
+                        <td class="last"><a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                        <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                    </td>
+                    <?php } else { ?>
+                        <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                        <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                    </td>
+                    <?php } ?>
+
+                    <?php } ?>
+
+                    <?php if($_COOKIE['role_cookies']=='customer-care') { ?>
+                    <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                    <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                    </td>
+                    <?php } ?>
+                    <?php if($_COOKIE['role_cookies']=='sale') { ?>
+                    <td class="last">
+                    <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                    </td>
                     <?php } ?>
                 </tr>
                 <?php endwhile;endif; ?>

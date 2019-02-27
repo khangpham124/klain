@@ -1,7 +1,7 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
-unset($_COOKIE['login_cookies']);
-unset($_COOKIE['role_cookies']);
-unset($_COOKIE['name_cookies']);
+setcookie('login_cookies','', time() + 86400, "/");
+setcookie('role_cookies','', time() + 86400, "/");
+setcookie('name_cookies','', time() + 86400, "/");
 header('Location:'.APP_URL.'login');
 ?>

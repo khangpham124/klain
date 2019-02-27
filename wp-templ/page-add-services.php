@@ -9,6 +9,7 @@ if(!$_COOKIE['login_cookies']) {
 }
 include(APP_PATH."libs/head.php"); 
 ?>
+<link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
 </head>
 
 <body id="top">
@@ -22,22 +23,22 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thêm Dịch vụ</h2>
-        
-            <form action="<?php echo APP_URL; ?>data/addServices.php" method="post">
+            <form action="<?php echo APP_URL; ?>data/addServices.php" method="post" id="addServices">
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" name="name" placeholder="Tên dịch vụ" />
+                    <input type="text" class="inputForm" id="name" name="name" placeholder="Tên dịch vụ" />
+                    </p>
+                    <p class="inputBlock inputNumber">
+                        <input type="text" id="price" data-type="number" class="inputForm" name="price" placeholder="Giá" />
+                        <span></span>
                     </p>
                     <p class="inputBlock">
-                    <input type="number" class="inputForm" name="price" placeholder="Giá" />
-                    </p>
-                    <p class="inputBlock">
-                    <input type="number" class="inputForm" name="numb_img" placeholder="Só lượng ảnh cần chụp" />
+                    <input type="number" class="inputForm" id="numb_img" name="numb_img" placeholder="Só lượng ảnh cần chụp" />
                     </p>
                 </div>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">    
                     <p class="inputBlock customSelect">
-                    <select name="services">
+                    <select name="services" id="services">
                         <option>Lựa chọn loại</option>
                         <?php
                             $args=array(
@@ -59,7 +60,7 @@ include(APP_PATH."libs/head.php");
                     </p>
 
                     <p class="inputBlock customSelect">
-                    <select name="type">
+                    <select name="type" id="type">
                         <option>Lựa chọn chi tiết</option>
                         <?php
                             $args=array(
@@ -95,6 +96,23 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 <!--===================================================-->
-
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
+<script type="text/javascript">
+	$(function(){
+	  $("#addServices").exValidation({
+	    rules: {
+            name: "chkrequired",
+            price: "chkrequired",
+            numb_img: "chkrequired",
+            services:"chkselect",
+            type:"chkselect",
+	    },
+	    stepValidation: true,
+	    scrollToErr: true,
+	    errHoverHide: true
+	  });
+    });
+</script>
 </body>
 </html>	

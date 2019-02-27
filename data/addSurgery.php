@@ -13,6 +13,7 @@ include(APP_PATH."admin/wp-load.php");
         $channel = $_POST['channel'];
         $services = $_POST['services'];
         $date = $_POST['datechose'];
+        $time = strtotime($_POST['datechose']);
         $hasSur = $_POST['hasSur'];
 
         if($hasSur=='yes') {
@@ -135,6 +136,7 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'channel', $channel);
         add_post_meta($pid, 'services', $services);
         add_post_meta($pid, 'date', $date);
+        add_post_meta($pid, 'time', $time);
         add_post_meta($pid, 'hasSur', $hasSur);
         add_post_meta($pid, 'detail_history', $detail_history);
         add_post_meta($pid, 'self_status', $self_status);

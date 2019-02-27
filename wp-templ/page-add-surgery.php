@@ -28,14 +28,10 @@ include(APP_PATH."libs/head.php");
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin Khởi tạo dịch vụ</h2>
         
-        <h3 class="h3_page">Tra cứu thông tin khách hàng cũ</h3>
+        <h3 class="h3_page">Tra cứu thông tin khách hàng</h3>
         
-        <form action="" method="post" class="formSearch">
-            <p class="inputBlock ui-widget">
-            <input type="text" id="tags" name="search" class="inputForm" placeholder="Tìm kiếm" />
-            <input type="submit" class="submitBtn searchBtn">
-            </p>
-        </form>
+        <?php include(APP_PATH."libs/searchBlock.php"); ?>
+
         <?php
             if($_POST['search']!='') {
             $wp_query = new WP_Query();
@@ -83,7 +79,7 @@ include(APP_PATH."libs/head.php");
         <!-- <form action="<?php echo APP_URL; ?>confirm-services/" method="post" enctype="multipart/form-data" id="addServices"> -->
         <form action="<?php echo APP_URL; ?>data/addSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
             <h3 class="h3_page">Thông tin cơ bản</h3>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="cusId_post" id="cusId_post" value="" placeholder="ID" />
                 </p>
@@ -181,7 +177,7 @@ include(APP_PATH."libs/head.php");
                     <input type="text" class="inputForm" readonly name="price" id="price" value="" placeholder="Giá" />
                     </p>
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                    <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
                     </p>
                 </div>
 
@@ -303,8 +299,6 @@ include(APP_PATH."libs/head.php");
                         <textarea class="inputForm" name="target_text"></textarea>
                     </p>    
                 </div>
-                <h4 class="h4_page">Tiền căn dị ứng</h4>
-                <textarea class="inputForm" name="caution"></textarea>
 
                 <h4 class="h4_page">Tư vấn của bác sĩ</h4>
                 <textarea class="inputForm" name="doctor_advise"></textarea>
@@ -343,8 +337,8 @@ include(APP_PATH."libs/head.php");
 
     $('#datepicker').datepicker({
     dateFormat: 'd-m-yy',
-    minDate: dateToday,
-    maxDate: "+4w",
+    // minDate: dateToday,
+    // maxDate: "+4w",
     altField: '#datechose',
     onSelect: function (date) {
         var currTime = new Date();

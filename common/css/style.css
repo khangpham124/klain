@@ -143,6 +143,10 @@
     width: 49%;
 }
 
+.flexBox__form .inputBlock--full {
+    width: 100% !important;
+}
+
 .flexBox__form--2, .flexBox__form--3 {
     flex-wrap: wrap;
 }
@@ -185,7 +189,7 @@
     width: 40px;
     font-size: 0 !important;
     position: absolute;
-    right: 0;
+    right: 0px;
     top: 0;
 }
 
@@ -237,7 +241,7 @@
 }
 
 .tblPage tr td a {
-    font-size: 18px;
+    font-size: 25px;
 }
 
 .tblPage tr td.text a  {
@@ -293,7 +297,31 @@
     margin-left: 10px;
 }
 
-.buttonBar a i {
+.listMange {
+    flex-wrap: wrap;
+}
+
+.listMange + .listMange {
+    margin-top: 10px;
+}
+
+.listMange li {
+    width: 49%;
+}
+
+.listMange a {
+    display: block;
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+
+}
+
+.buttonBar a:first-child {
+    margin-left: 0;
+}
+
+.buttonBar a i , .listMange a i{
     margin-right: 5px;
 }
 .formSearch {
@@ -407,4 +435,164 @@ textarea.inputForm {
 
 #totalFee {
     background: #ffd6d6;
+}
+.tabBox {
+    display: none;
+    padding-top: 20px;
+}
+
+.smallLabel {
+    display: block;
+    font-style: italic;
+}
+
+.borderBox {
+    padding: 15px;
+    border: 1px solid #e6e6e6;
+}
+
+.tabItem {
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.tabItem li {
+    background: #f1f1f1;
+    padding: 15px 0;
+    text-decoration: underline;
+}
+
+.tabItem li.active {
+    background: #c6c6c6;
+}
+
+
+.tabItem--5 li {
+    width: 20%;
+}
+
+.tabItem--4 li {
+    width: 25%;
+}
+
+.noteRemind {
+    display: inline-block;
+    padding: 3px 10px;
+    color: #fff;
+}
+
+.noteRemind--1 {
+    background: #fc0410;
+}
+
+.noteRemind--3 {
+    background: #fce128;
+    color: #000;
+}
+
+.noteRemind--5 {
+    background: #36cf2a;
+    color: #000;
+}
+
+.noteRemind--10 { 
+    background: #fb76ea;
+    color: #000;
+}
+
+#top .buttonBar {
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+.mt40 {
+    margin-top: 40px;
+}
+.mt0 {
+    margin-top: 0 !important;
+}
+
+.infoPay {
+    display: none;
+}
+
+.formSearch {
+    padding: 0;
+    margin: 10px 0 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    max-height: 40px;
+}
+
+.methodSearch {
+    position: absolute;
+    right: 40px;
+    top: 0;
+    background: #000;
+    height: 40px;
+}
+
+.methodSearch::before {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 30%;
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    -moztransform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+    -ms-transform: rotate(225deg);
+    transform: rotate(225deg);
+}
+
+.methodSearch select {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #fff;
+    outline: none;
+    font-size: 12px;
+}
+
+
+.inputNumber input {
+    color: #fff;
+}
+
+.inputNumber span {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+}
+
+.overlay {
+    background: rgba(0,0,0,.6);
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    display: none;
+}
+
+.popUp {
+    position: absolute;
+    background: #fff;
+    top:50%;
+    left: 50%;
+    width: 60%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 30px;
+    z-index: 550;
+    display: none;
 }

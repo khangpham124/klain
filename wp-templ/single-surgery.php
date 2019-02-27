@@ -27,235 +27,316 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin Ca phẫu thuật</h2>
-        
-        <h3 class="h3_page">Tra cứu thông tin khách hàng cũ</h3>
-        
-            <h3 class="h3_page">Thông tin cơ bản</h3>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                <p class="inputBlock">
-                <input type="text" class="inputForm" name="fullname" id="fullname" value="" placeholder="Họ tên" />
-                </p>
-                <p class="inputBlock">
-                <input type="number" class="inputForm" name="mobile" id="mobile" id="mobile" placeholder="Số điện thoại" />
-                </p>
-            </div>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-            <p class="inputBlock">
-                <input type="text" class="inputForm" name="idcard" id="idcard" id="idcard" placeholder="CMND" />
-                </p>
-                <p class="inputBlock">
-                <input type="text" class="inputForm" name="address" id="address" id="address" placeholder="Địa chỉ" />
-                </p>
-            </div>
-            
-            <!-- phuong thu tu van -->
-            <h3 class="h3_page">Thông tin tư vấn</h3>
-            <p class="inputBlock" id="radAdvise">
-                <input type="radio" class="radioForm" id="rad1" name="advise" value="yes" /><label class="labelReg" for="rad1">Đã được tư vấn</label>
-                <input type="radio" class="radioForm" id="rad2" name="advise" value="no" /><label class="labelReg" for="rad2">Chưa được tư vấn</label>
-            </p>
-            <div class="blockAdvise">
+
+         <ul class="tabItem tabItem--5 flexBox flexBox--center flexBox--wrap">
+            <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab4">Chi tiết ca phẫu thuật</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab5">Chăm sóc hậu phẫu</a></li>
+        </ul>
+
+        <div class="tabContent">
+            <div class="tabBox" id="tab1">
+                <h3 class="h3_page">Thông tin cơ bản</h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <p class="inputBlock customSelect">
-                        <select name="adviser" id="adviser">
-                            <option value="">Lựa chọn tư vấn viên</option>
-                            <?php
-                                $wp_query = new WP_Query();
-                                $param=array(
-                                'post_type'=>'users',
-                                'order' => 'DESC',
-                                'posts_per_page' => '-1',
-                                'tax_query' => array(
-                                array(
-                                'taxonomy' => 'userscat',
-                                'field' => 'slug',
-                                'terms' => 'sale'
-                                )
-                                )
-                                );
-                                $wp_query->query($param);
-                                if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                            ?>
-                                <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                            <?php endwhile;endif; ?>
-                        </select>
+                    <p class="inputBlock">
+                    <input type="text" class="inputForm" name="fullname" id="fullname" value="<?php echo get_field('fullname'); ?>" placeholder="Họ tên" />
                     </p>
-                    <p class="inputBlock customSelect">
-                        <select name="channel">
-                            <option value="">Lựa chọn kệnh tư vấn</option>
-                            <option value="facebook">Qua facebook</option>
-                            <option value="mobile">Qua Điện thoại</option>
-                        </select>
+                    <p class="inputBlock">
+                    <input type="number" class="inputForm" name="mobile" id="mobile" id="mobile" value="<?php echo get_field('mobile'); ?>" placeholder="Số điện thoại" />
+                    </p>
+                </div>    
+                <!-- phuong thu tu van -->
+                <h3 class="h3_page">Thông tin tư vấn</h3>
+                <p class="inputBlock" id="radAdvise">
+                    <input type="radio" class="radioForm" <?php if(get_field('advise')=="yes") { ?>checked <?php } ?> id="rad1" name="advise" value="yes" /><label class="labelReg" for="rad1">Đã được tư vấn</label>
+                    <input type="radio" class="radioForm" <?php if(get_field('advise')=="no") { ?>checked <?php } ?> id="rad2" name="advise" value="no" /><label class="labelReg" for="rad2">Chưa được tư vấn</label>
+                </p>
+                <?php $adviser = get_field('adviser'); ?>
+
+                <div class="blockAdvise" <?php if($adviser!='') { ?>style="display:block"<?php } ?>>
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <p class="inputBlock">
+                        <input type="text" class="inputForm" name="facebook" id="facebook" value="<?php echo $adviser; ?>"/>
+                    </p>  
+                        <p class="inputBlock customSelect">
+                            <select name="channel">
+                                <option value="">Lựa chọn kệnh tư vấn</option>
+                                <option <?php if(get_field('channel')=='facebook') { ?>selected<?php } ?> value="facebook">Qua facebook</option>
+                                <option <?php if(get_field('channel')=='mobile') { ?>selected<?php } ?> value="mobile">Qua Điện thoại</option>
+                            </select>
+                        </p>  
+                    </div>
+                    <p class="inputBlock blockFacebook">
+                        <input type="text" class="inputForm" name="facebook" id="facebook" placeholder="Facebook của khách" />
                     </p>  
                 </div>
-                <p class="inputBlock blockFacebook">
-                    <input type="text" class="inputForm" name="facebook" id="facebook" placeholder="Facebook của khách" />
-                </p>  
+                <!-- phuong thu tu van -->
+
+                <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
+
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                        <div class="inputBlock">
+                            <input type="text" class="inputForm" id="datechose" readonly name="datechose" value="<?php echo get_field('date'); ?>" placeholder="Chọn ngày phẫu thuật">
+                        </div>
+                    </div>    
+                
+
+                    <h4 class="h4_page">Lịch sử phẫu thuật (trước kia)</h4>
+                    <div class="inputBlock">
+                        <div><?php the_field('detail_history'); ?></div>
+
+                        <h4 class="h4_page">Tình trạng hiện tại</h4>
+                        <input type="text" class="inputForm" readonly  value="<?php echo get_field('self_status'); ?>" >
+
+                        <h4 class="h4_page">Mong muốn của khách hàng</h4>
+                        <div><?php the_field('target'); ?></div>
+                    </div>
+
+                    <div class="typeService" id="faceSurery" >
+                        <h4 class="h4_page">Cấu trúc nguyên thuỷ</h4>
+                            <textarea class="inputForm" name="origin" id="origin"></textarea>
+                        <h4 class="h4_page">Mong muốn của khách hàng</h4>
+                        <p class="inputBlock">
+                            <input type="radio" class="radioForm" id="wish1" name="target" value="Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên" /><label class="labelReg" for="wish1">Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên</label>
+                            <input type="radio" class="radioForm" id="wish2" name="target" value="Theo nhu cầu của khách" /><label class="labelReg" for="wish2">Theo nhu cầu của khách</label>
+                            <textarea class="inputForm" name="target_text"></textarea>
+                        </p>    
+                    </div>
+                    <h4 class="h4_page">Tiền căn dị ứng</h4>
+                    <div><?php the_field('caution'); ?></div>
+
+                    <h4 class="h4_page">Tư vấn của bác sĩ</h4>
+                    <div><?php the_field('doctor_advise'); ?></div>
+
+                    <h4 class="h4_page">Ý kiến của khách hàng</h4>
+                    <div><?php the_field('cus_note'); ?></div>
+                </div>
+
+                <div class="tabBox" id="tab2">
+                    <h3 class="h3_page">Tình trạng thanh toán : <?php the_field('payment_status'); ?></h3>
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                        <?php $services = get_field('services'); ?>
+                        <p class="inputBlock">
+                        <input type="text" class="inputForm" name="discount" readonly value="<?php echo $services; ?> (<?php echo number_format(get_field('price')); ?> Đ)" placeholder="" />
+                        </p>
+                        <p class="inputBlock">
+                        <input type="text" class="inputForm" name="discount" readonly  value= "Giá giảm: <?php echo number_format(get_field('sale_discount')); ?> Đ" placeholder="Giá giảm" />
+                        </p>
+
+                        <p class="inputBlock">
+                        <input type="text" class="inputForm" id="price_real" readonly value="Còn lại: <?php echo get_field('total'); ?>" />
+                        </p>
+                        
+
+                        <p class="inputBlock">
+                        <input type="text" class="inputForm" name="discount" readonly  value= "Duyệt bởi : <?php echo get_field('approve'); ?>" />
+                        </p>
+                    </div>
+
+                    <h4 class="h4_page">Thông tin thanh toán</h4>
+                    <div><?php the_field('payment_detail'); ?></div>
+                    
+                </div>
+                <div class="tabBox" id="tab3">
+                    <h3 class="h3_page">Bác sĩ:<?php the_field('bsnk_name'); ?></h3>
+                    <h4 class="h4_page">Bệnh án ngoại khoa</h4>
+                    <div>
+                        <?php the_field('bsnk_advise'); ?>
+                    </div>
+                    <h4 class="h4_page">Hình ảnh trước khi phẫu thuật</h4>
+                    <ul></ul>
+
+                    <h4 class="h4_page">Bác sỉ Khải</h4>
+                    <div>
+                        <?php the_field('bsk'); ?>
+                    </div>
+                </div>
+                <div class="tabBox" id="tab4">
+                    <?php
+                    $room_name = get_field('ekip');
+                    $room_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $room_name . "'" );
+
+                    ?>
+                    <h3 class="h3_page">Thông tin phòng mổ : Phòng số <?php echo get_field('room',$room_id); ?></h3>
+                    <table class="tblPage">
+                        <tr>
+                            <th>Bác sĩ 1</th>
+                            <td><?php the_field('doctor1',$room_id); ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Bác sĩ 1</th>
+                            <td><?php the_field('doctor2',$room_id); ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Danh sách điều dưỡng</th>
+                            <td>
+                                <?php the_field('nursing1',$room_id); ?><br>
+                                <?php the_field('nursing2',$room_id); ?><br>
+                                <?php the_field('nursing3',$room_id); ?><br>
+                                <?php the_field('nursing4',$room_id); ?><br>
+                                <?php the_field('nursing5',$room_id); ?><br>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Gây mê</th>
+                            <td><?php the_field('ktv',$room_id); ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Nhập thông tin</th>
+                            <td><strong><?php the_field('input',$room_id); ?></strong></td>
+                        </tr>
+                    </table>
+
+                    <h3 class="h3_page">Tường trình ca mổ</h3>
+                    <div><?php the_field('report'); ?></div>
+                    <h3 class="h3_page">Vật tư sử dụng</h3>
+                    <div><?php the_field('supplies'); ?></div>
+                </div>
+                <div class="tabBox" id="tab5">
+                    <h3 class="h3_page">Chăm sóc hậu phẫu</h3>
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
+            <h3 class="h3_page">Thông tin khách hàng</h3>
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                <p class="inputBlock">
+                <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" readonly value="<?php the_field('fullname'); ?>" />
+                </p>
+                <p class="inputBlock">
+                <input type="text" class="inputForm" name="idcard" placeholder="Só CMND" readonly value="<?php the_field('idcard'); ?>" />
+                </p>
+                <p class="inputBlock">
+                <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php the_field('mobile'); ?>" />
+                </p>
             </div>
+            
             <!-- phuong thu tu van -->
+            <h3 class="h3_page">Ngay sau phẫu thuật</h3>
+            <div class="inputBlock">
+                <textarea class="inputForm" name="after_surgery" id="after_surgery" <?php if(get_field('status_1')!='') { ?>readonly<?php } ?>  placeholder="TÌnh trạng"><?php the_field('status_1'); ?></textarea>
+            </div>
+            <textarea class="inputForm" <?php if(get_field('message_1')!='') { ?>readonly<?php } ?>    name="message_1" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
+            <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="custommer_voice_1" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                <p class="inputBlock customSelect mt0">
+                    <select name="rating_1" id="rating_1">
+                    <option>Đánh giá của khách</option>
+                    <option value="Hài lòng">Hài lòng</option>
+                    <option value="Bình thường">Bình thường</option>
+                    <option value="Không hài lòng">Không hài lòng</option>
+                    </select>
+                </p>
+                <p class="inputBlock">
+                <input type="text" class="inputForm" readonly value="<?php the_field('emp_1'); ?>" />
+                </p>
+            </div>
 
-            <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+            <h3 class="h3_page">Vệ sinh sau 1 ngày</h3>
+            <div class="inputBlock">
+                <textarea class="inputForm" <?php if(get_field('status_2')!='') { ?>readonly<?php } ?>  name="after_1day" id="after_1day" placeholder="TÌnh trạng"><?php the_field('status_2'); ?></textarea>
+            </div>
+            <textarea class="inputForm" <?php if(get_field('message_2')!='') { ?>readonly<?php } ?>  name="message_2" placeholder="Lời dặn"><?php the_field('message_2'); ?></textarea>
+            <textarea class="inputForm" <?php if(get_field('custommer_voice_2')!='') { ?>readonly<?php } ?>  name="custommer_voice_2" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_2'); ?></textarea>
+
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                <p class="inputBlock customSelect mt0">
+                    <select name="rating_2" id="rating_2">
+                    <option>Đánh giá của khách</option>
+                    <option value="Hài lòng">Hài lòng</option>
+                    <option value="Bình thường">Bình thường</option>
+                    <option value="Không hài lòng">Không hài lòng</option>
+                    </select>
+                </p>
+                <p class="inputBlock">
+                <input type="text" class="inputForm" readonly value="<?php the_field('emp_2'); ?>" />
+                </p>
+            </div>
+
+            <h3 class="h3_page">Tái khám sau 5 ngày</h3>
+                <div class="inputBlock">
+            <textarea class="inputForm" name="after_5day" <?php if(get_field('status_3')!='') { ?>readonly<?php } ?> id="after_5day" placeholder="TÌnh trạng"><?php the_field('status_3'); ?></textarea>
+                </div>
+                <textarea class="inputForm" <?php if(get_field('message_3')!='') { ?>readonly<?php } ?>  name="message_3" placeholder="Lời dặn"><?php the_field('message_3'); ?></textarea>
+                <textarea class="inputForm" <?php if(get_field('custommer_voice_3')!='') { ?>readonly<?php } ?>  name="custommer_voice_3" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_3'); ?></textarea>
+
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <p class="inputBlock customSelect mt0">
-                        <select name="services" id="services">
-                            <option value="">Lựa chọn dịch vụ</option>
-                            <?php
-                                $wp_query = new WP_Query();
-                                $param=array(
-                                'post_type'=>'services',
-                                'order' => 'DESC',
-                                'posts_per_page' => '-1',
-                                );
-                                $wp_query->query($param);
-                                if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                                $terms = get_the_terms($post->ID,'servicescat');
-                                foreach($terms as $term) { 
-                                $type_serve = $term->name;
-                                }
-
-                                $terms_type = get_the_terms($post->ID,'typecat');
-                                foreach($terms_type as $term_type) { 
-                                $typecat_serve = $term_type->slug;
-                                }
-                            ?>
-                                <option data-type="<?php echo $typecat_serve;  ?>" data-price="<?php echo number_format(get_field('price')); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
-                            <?php endwhile;endif; ?>
+                        <select name="rating_3" id="rating_3">
+                        <option>Đánh giá của khách</option>
+                        <option value="Hài lòng">Hài lòng</option>
+                        <option value="Bình thường">Bình thường</option>
+                        <option value="Không hài lòng">Không hài lòng</option>
                         </select>
                     </p>
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" readonly name="price" id="price" value="" placeholder="Giá" />
-                    </p>
-                    <p class="inputBlock">
-                    <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                    <input type="text" class="inputForm" readonly value="<?php the_field('emp_3'); ?>" />
                     </p>
                 </div>
 
+                <h3 class="h3_page">Tái khám sau 10 ngày</h3>
+                <div class="inputBlock">
+                    <textarea class="inputForm" <?php if(get_field('status_4')!='') { ?>readonly<?php } ?>  name="after_10day" id="after_10day" placeholder="TÌnh trạng"><?php the_field('status_4'); ?></textarea>
+                </div>
+                <textarea class="inputForm" <?php if(get_field('message_4')!='') { ?>readonly<?php } ?>  name="message_4" placeholder="Lời dặn"><?php the_field('message_4'); ?></textarea>
+                <textarea class="inputForm" <?php if(get_field('custommer_voice_4')!='') { ?>readonly<?php } ?>  name="custommer_voice_4" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_4'); ?></textarea>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <div class="inputBlock">
-                        <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
-                        <div id="datepicker"></div>
-                    </div>
-                </div>    
-            
-
-                <h4 class="h4_page">Lịch sử phẫu thuật (đồi với dịch cụ yêu cầu)</h4>
-                <p class="inputBlock" id="radHis">
-                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Đã từng</label>
-                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Chưa từng</label>
-                </p>
-
-                <div class="blockSur">
-                    <div class="inputBlock">
-                        <label>Chi tiết ca phẫu thuật trước</label>
-                        <textarea class="inputForm" name="howto" placeholder="phương pháp thực hiện"></textarea>
-                        <textarea class="inputForm" name="doctorOld" placeholder="tên bác sĩ"></textarea>
-                        <textarea class="inputForm" name="statusOld" placeholder="Tình trạng viêm hoặc nhiễm trùng"></textarea>
-                    </div>
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <p class="inputBlock">
-                            <input type="text" class="inputForm" name="oldtime" placeholder="Thời điểm phẫu thuật" />
-                        </p>
-                        <p class="inputBlock customSelect mt0">
-                            <select name="reason" id="reason">
-                                <option value="">Lý do muốn làm lại</option>
-                                <option value="Thấy ghê">Thấy ghê</option>
-                                <option value="Thấy ớn">Thấy ớn</option>
-                                <option value="Thấy không ổn">Thấy không ổn</option>
-                            </select>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="typeService" id="bodySurery" >    
-                    <h4 class="h4_page">Tình trạng hiện tại</h4>
-                        <input type="checkbox" class="chkForm" id="chk1" name="self_status" value="Ngực nhỏ" /><label class="labelReg" for="chk1">Ngực nhỏ</label><br class="sp">
-                        <input type="checkbox" class="chkForm" id="chk2" name="self_status" value="Ngực chảy xệ" /><label class="labelReg" for="chk2">Ngực chảy xệ</label><br class="sp">
-                        <input type="checkbox" class="chkForm" id="chk3" name="self_status" value="Ngực quá to" /><label class="labelReg" for="chk3">Ngực quá to</label><br class="sp">
-                        <input type="checkbox" class="chkForm" id="chk4" name="self_status" value="Dư mỡ" /><label class="labelReg" for="chk4">Dư mỡ</label><br class="sp">
-                        <input type="checkbox" class="chkForm" id="chk5" name="self_status" value="Mông nhỏ" /><label class="labelReg" for="chk5">Mông nhỏ</label>
-
-                    <h4 class="h4_page">Mong muốn của khách hàng</h4>
-                        <div class="form_services" id="form_nguc">
-                            <h5 class="h5_page">Dịch vụ ngực</h5>
-                            <div class="innerService">
-                                <p class="inputBlock">
-                                    <input type="text" class="inputForm" name="size_nguc" placeholder="Kích thước" />
-                                </p>
-                                <label class="labelBlock">Dáng ngực</label>
-                                <p class="inputBlock">
-                                    <input type="radio" class="radioForm" id="shape1" name="shape" value="Tròn" /><label class="labelReg" for="shape1">Tròn</label>
-                                    <input type="radio" class="radioForm" id="shape2" name="shape" value="Giọt nước" /><label class="labelReg" for="shape2">Giọt nước</label>
-                                </p>
-                                <label class="labelBlock">Loại túi</label>
-                                <p class="inputBlock">
-                                    <input type="radio" class="radioForm" id="styleT1" name="styleT" value="Nanochip Ergonomix" /><label class="labelReg" for="styleT1">Nanochip Ergonomix</label><br class="sp">
-                                    <input type="radio" class="radioForm" id="styleT2" name="styleT" value="Nanochip" /><label class="labelReg" class="labelReg" for="styleT2">Nanochip</label><br class="sp">
-                                    <input type="radio" class="radioForm" id="styleT3" name="styleT" value="Nano không chip" /><label class="labelReg" for="styleT3">Nano không chip</label><br class="sp">
-                                    <input type="radio" class="radioForm" id="styleT4" name="styleT" value="Mentor" /><label class="labelReg" for="styleT4">Mentor</label><br class="sp">
-                                    <input type="radio" class="radioForm" id="styleT5" name="styleT" value="Natrelle" /><label  class="labelReg"for="styleT5">Natrelle</label><br class="sp">
-                                </p>
-                                <label class="labelBlock">Dịch vụ kèm theo</label>
-                                <input type="checkbox" class="chkForm" id="plus1" name="plus" value="Thu quầng" /><label class="labelReg" for="plus1">Thu quầng</label><br class="sp">
-                                <input type="checkbox" class="chkForm" id="plus2" name="plus" value="Thu ti" /><label class="labelReg" for="plus2">Thu ti</label><br class="sp">
-                                <input type="checkbox" class="chkForm" id="plus3" name="plus" value="Treo sa trễ" /><label class="labelReg" for="plus3">Treo sa trễ</label><br class="sp">
-                                <input type="checkbox" class="chkForm" id="plus4" name="plus" value="Áo định hình" /><label class="labelReg" for="plus4">Áo định hình</label><br class="sp">
-                            </div>
-                        </div>
-
-                        <div class="form_services" id="form_mong">
-                            <h5 class="h5_page">Dịch vụ mông</h5>
-                            <div class="innerService">
-                                <p class="inputBlock">
-                                    <input type="text" class="inputForm" name="size_mong" placeholder="Kích thước" />
-                                </p>
-                                <label class="labelBlock">Loại túi</label>
-                                <input type="text" class="inputForm" name="styleT1" placeholder="Loại túi" />
-                            </div>
-                        </div>
-                        
-                        <div class="form_services" id="form_hm">
-                            <h5 class="h5_page">Dịch vụ hút mỡ</h5>
-                            <div class="innerService">
-                                <label class="labelBlock">Bụng</label>
-                                    <p class="inputBlock">
-                                    <input type="checkbox" class="chkForm" id="stomach1" name="stomach" value="Trên" /><label class="labelReg" for="stomach1">Trên</label><br class="sp">
-                                    <input type="checkbox" class="chkForm" id="stomach2" name="stomach" value="Dưới" /><label class="labelReg" for="stomach2">Dưới</label><br class="sp">
-                                    <input type="checkbox" class="chkForm" id="stomach3" name="stomach" value="Eo" /><label class="labelReg" for="stomach3">Eo</label><br class="sp">
-                                    <input type="checkbox" class="chkForm" id="stomach4" name="stomach" value="Lưng" /><label class="labelReg" for="stomach4">Lưng</label><br class="sp">
-                                    <input type="checkbox" class="chkForm" id="stomach5" name="stomach" value="Cải thiện toàn bộ" /><label class="labelReg" for="stomach5">Cải thiện toàn bộ</label>
-                                    </p>
-                                <label class="labelBlock">Tạo hình bụng</label>
-                                    <p class="inputBlock">
-                                        <input type="radio" class="radioForm" id="shape3" name="shape_hm" value="Yes" /><label class="labelReg" for="shape3">Có</label>
-                                        <input type="radio" class="radioForm" id="shape4" name="shape_hm" value="No" /><label for="shape4">Không</label>
-                                    </p>
-                                <label class="labelBlock">Bắp tay</label>
-                                <textarea class="inputForm" name="arm"></textarea>
-                                <label class="labelBlock">Đùi</label>
-                                <textarea class="inputForm" name="thighs"></textarea>
-                            </div>
-                        </div>
-                </div>
-
-                <div class="typeService" id="faceSurery" >
-                    <h4 class="h4_page">Cấu trúc nguyên thuỷ</h4>
-                        <textarea class="inputForm" name="origin" id="origin"></textarea>
-                    <h4 class="h4_page">Mong muốn của khách hàng</h4>
+                    <p class="inputBlock customSelect mt0">
+                        <select name="rating_4" id="rating_4">
+                        <option>Đánh giá của khách</option>
+                        <option value="Hài lòng">Hài lòng</option>
+                        <option value="Bình thường">Bình thường</option>
+                        <option value="Không hài lòng">Không hài lòng</option>
+                        </select>
+                    </p>
                     <p class="inputBlock">
-                        <input type="radio" class="radioForm" id="wish1" name="target" value="Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên" /><label class="labelReg" for="wish1">Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên</label>
-                        <input type="radio" class="radioForm" id="wish2" name="target" value="Theo nhu cầu của khách" /><label class="labelReg" for="wish2">Theo nhu cầu của khách</label>
-                        <textarea class="inputForm" name="target_text"></textarea>
-                    </p>    
+                    <input type="text" class="inputForm" readonly value="<?php the_field('emp_4'); ?>" />
+                    </p>
                 </div>
-                <h4 class="h4_page">Tiền căn dị ứng</h4>
-                <textarea class="inputForm" name="caution"></textarea>
 
-                <h4 class="h4_page">Tư vấn của bác sĩ</h4>
-                <textarea class="inputForm" name="doctor_advise"></textarea>
+                <h3 class="h3_page">Tái khám sau 1 tháng</h3>
+                <div class="inputBlock">
+                    <textarea class="inputForm" name="after_1month" <?php if(get_field('status_5')!='') { ?>readonly<?php } ?>  id="after_1month" placeholder="TÌnh trạng"><?php the_field('status_5'); ?></textarea>
+                </div>
+                <textarea class="inputForm" <?php if(get_field('message_5')!='') { ?>readonly<?php } ?>  name="message_5" placeholder="Lời dặn"><?php the_field('message_5'); ?></textarea>
+                <textarea class="inputForm" <?php if(get_field('custommer_voice_5')!='') { ?>readonly<?php } ?>  name="custommer_voice_5" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_5'); ?></textarea>
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <p class="inputBlock customSelect mt0">
+                        <select name="rating_5" id="rating_5">
+                        <option>Đánh giá của khách</option>
+                        <option value="Hài lòng">Hài lòng</option>
+                        <option value="Bình thường">Bình thường</option>
+                        <option value="Không hài lòng">Không hài lòng</option>
+                        </select>
+                    </p>
+                    <p class="inputBlock">
+                    <input type="text" class="inputForm" readonly value="<?php the_field('emp_5'); ?>" />
+                    </p>
+                </div>
 
-                <h4 class="h4_page">Ý kiến của khách hàng</h4>
-                <textarea class="inputForm" name="cus_note"></textarea>
+
+                <h3 class="h3_page">Tái khám khi có vấn đề</h3>
+                <div class="inputBlock">
+                    <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
+                    <div id="datepicker"></div>
+                </div>
+                <p class="inputBlock">
+                    <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
+                </p>
+                <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
+
+                <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
+                <input type="hidden" name="status" value="cskh" >
+                <input type="hidden" name="action" value="cskh_edit" >
+                <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+            </form>
+                    
+                </div>
+
 
             <button onclick="window.print();return false;" class="btnSubmit">In</button>
     </div>
@@ -270,101 +351,16 @@ include(APP_PATH."libs/head.php");
 <!--/wrapper-->
 <!--===================================================-->
 
-  <script>
-  $( function() {
-    var currTime = new Date();  
-    var hour = currTime.getHours();
-    var hourText = hour.toString()
-    var minutes = currTime.getMinutes();
-    var minText = minutes.toString();
-    var timeCompText = hourText + minText;
-    var timeComp = parseInt(timeCompText);
-    var dateToday = new Date();  
-
-    $('#datepicker').datepicker({
-    dateFormat: 'd-m-yy',
-    minDate: dateToday,
-    maxDate: "+4w",
-    altField: '#datechose',
-    onSelect: function (date) {
-        var currTime = new Date();
-        var currDate =currTime.getDate()+"-"+(currTime.getMonth()+1)+"-"+currTime.getFullYear();
-        var choseDate = $(this).val();
-    }
-    });
-
-    $("#datechose").on('click', function () {
-        $('#datepicker').show(200);
-    });
-
-    $('#datechose').change(function(){
-        $('#datepicker').datepicker('setDate', $(this).val());
-    });
-      
-  });
-</script>
-
-<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
-<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
-<script type="text/javascript">
-	$(function(){
-	  $("#addServices").exValidation({
-	    rules: {
-            fullname: "chkrequired",
-            address: "chkrequired",
-			mobile: "chkrequired",
-	    },
-	    stepValidation: true,
-	    scrollToErr: true,
-	    errHoverHide: true
-	  });
-
-    $('input[type=radio][name=advise]').change(function() {
-        if (this.value == 'yes') {
-            $('.blockAdvise').slideDown(200);
-        } else {
-            $('.blockAdvise').slideUp(200);    
-        }
-    });
-
-    $('input[type=radio][name=hasSur]').change(function() {
-        if (this.value == 'yes') {
-            $('.blockSur').slideDown(200);
-        } else {
-            $('.blockSur').slideUp(200);    
-        }
-    });
-
-    $('#services').on('change', function() {
-        var type = $('select[name="services"] :selected').attr('class');
-        var price = $('select[name="services"] :selected').attr('data-price');
-        var type_detail = $('select[name="services"] :selected').attr('data-type');
-        $('#price').val(price);
-        if(type=='body') {
-            $('.typeService').slideUp(200);
-            $('.form_services').slideUp(200);
-            $('#bodySurery').slideDown(200);
-            $('#form_'+type_detail).slideDown(200);
-        } else {
-            $('.typeService').slideUp(200);
-            $('#faceSurery').slideDown(200);
-        }
-        
-    });
-
-    $('#getData').click(function() {
-        var cus_id = $('#cus_id').text();
-        var cus_name = $('#cus_name').text();
-        var cus_mobile = $('#cus_mobile').text();
-        var cus_add = $('#cus_add').text();
-        var cus_idcard = $('#cus_idcard').text();
-        $("#fullname").val(cus_name);
-        $("#mobile").val(cus_mobile);
-        $("#address").val(cus_add);
-        $("#idcard").val(cus_idcard);
-    });
-
-});
+ <script type="text/javascript">
+    $('#tab1').show();
+    $('.tabItem li:nth-child(1)').addClass('active');
+    $('.tabItem li').click(function() {
+        $('.tabItem li').removeClass('active');
+        $(this).toggleClass('active');
+        var tabId = $(this).find('a').attr('data-id');
+        $('.tabBox').fadeOut(200);
+        $('#'+tabId).fadeIn(200);
+    });        
 </script>
 
 </body>
