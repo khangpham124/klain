@@ -176,10 +176,49 @@ include(APP_PATH."libs/head.php");
                     <p class="inputBlock">
                     <input type="text" class="inputForm" readonly name="price" id="price" value="" placeholder="Giá" />
                     </p>
-                    <p class="inputBlock">
-                    <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                    <p class="inputBlock inputNumber">
+                        <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                        <span></span>
                     </p>
                 </div>
+                
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                    <p class="inputBlock customSelect mt0">
+                        <select name="services" id="services">
+                            <option value="">Lựa chọn dịch vụ</option>
+                            <?php
+                                $wp_query = new WP_Query();
+                                $param=array(
+                                'post_type'=>'services',
+                                'order' => 'DESC',
+                                'posts_per_page' => '-1',
+                                );
+                                $wp_query->query($param);
+                                if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                                $terms = get_the_terms($post->ID,'servicescat');
+                                foreach($terms as $term) { 
+                                $type_serve = $term->name;
+                                }
+
+                                $terms_type = get_the_terms($post->ID,'typecat');
+                                foreach($terms_type as $term_type) { 
+                                $typecat_serve = $term_type->slug;
+                                }
+                            ?>
+                                <option data-image="<?php echo get_field('numb_image'); ?>" data-type="<?php echo $typecat_serve; ?>" data-price="<?php echo get_field('price'); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
+                            <?php endwhile;endif; ?>
+                        </select>
+                    </p>
+                    <p class="inputBlock">
+                    <input type="text" class="inputForm" readonly name="price" id="price" value="" placeholder="Giá" />
+                    </p>
+                    <p class="inputBlock inputNumber">
+                        <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                        <span></span>
+                    </p>
+                </div>
+
+                <p class="addServices"><i class="fa fa-plus-circle" aria-hidden="true"></i>thêm dịch vụ</p>
 
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
@@ -324,7 +363,7 @@ include(APP_PATH."libs/head.php");
 <!--/wrapper-->
 <!--===================================================-->
 
-  <script>
+<script>
   $( function() {
     var currTime = new Date();  
     var hour = currTime.getHours();

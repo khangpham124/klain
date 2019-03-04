@@ -48,5 +48,21 @@ include(APP_PATH."libs/head.php");
 <!--/wrapper-->
 <!--===================================================-->
 
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
+<script type="text/javascript">
+	$(function(){
+	  $("#addServices").exValidation({
+	    rules: {
+            name: "chkrequired",
+            unit: "chkrequired",
+	    },
+	    stepValidation: true,
+	    scrollToErr: true,
+	    errHoverHide: true
+	  });
+    });
+</script>
+
 </body>
 </html>	

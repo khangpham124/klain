@@ -40,6 +40,7 @@ include(APP_PATH."libs/head.php");
                     <input type="text" class="inputForm" name="idcard" id="idcard" placeholder="Só CMND" />
                     </p>
                 </div>
+
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">    
                     <p class="inputBlock">
                     <input type="number" class="inputForm" name="mobile" id="mobile" placeholder="Điện thoại" />
@@ -71,6 +72,18 @@ include(APP_PATH."libs/head.php");
                         </p>
                     </div>
                 </div>
+
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <label class="file">
+                        <input type="file" name="file1" id="file1" aria-label="Mặt trước chứng minh">
+                        <span class="file-custom"></span>
+                    </label>
+                    <label class="file">
+                        <input type="file" name="file2" id="file2" aria-label="Mặt sau chứng minh">
+                        <span class="file-custom"></span>
+                    </label>
+                </div>
+                
                 <h3 class="h3_page">Thông tin tài khoản online</h3>
                 <div class="flexBox flexBox--between flexBox__form">
                     <p class="inputBlock">
