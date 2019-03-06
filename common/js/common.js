@@ -68,6 +68,14 @@ function RemoveRougeChar(convertString){
 }
 
 
+$('.btnSubmit').click(function() {
+    $(this).addClass('disable');
+});
+
+$('#getData').click(function() {
+    $(this).addClass('disable');
+});
+
 /*-----------------------------------------------------------
 jquery-opacity-rollover.js　※class="opa"を付ければOK
 -------------------------------------------------------------*/

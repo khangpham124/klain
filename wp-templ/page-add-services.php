@@ -80,6 +80,32 @@ include(APP_PATH."libs/head.php");
                         <?php endforeach; ?>
                     </select>
                     </p>
+
+                    <p class="inputBlock customSelect">
+                    <select name="main" id="main">
+                        <option>Lựa chọn dịch vụ chính</option>
+                        <?php
+                            $wp_query = new WP_Query();
+                            $param = array (
+                                'posts_per_page' => '-1',
+                                'post_type' => 'services',
+                                'post_status' => 'publish',
+                                'order' => 'DESC',
+                                // 'meta_query' => array(
+                                //     array(
+                                //     'key' => 'main',
+                                //     'value' => '',
+                                //     'compare' => '='
+                                //     ))
+                            );
+                            $wp_query->query($param);
+                            if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                            
+                        ?>
+                            <option value="<?php echo $post->ID; ?>"><?php echo $post->post_title; ?></option>
+                        <?php endwhile;endif; ?>
+                    </select>
+                    </p>
                 </div>
                 <input type="hidden" name="action" value="create" >
                 <input class="btnSubmit" type="submit" name="submit" value="Tạo">

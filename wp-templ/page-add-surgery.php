@@ -30,7 +30,7 @@ include(APP_PATH."libs/head.php");
         
         <h3 class="h3_page">Tra cứu thông tin khách hàng</h3>
         
-        <?php include(APP_PATH."libs/searchBlock.php"); ?>
+        <?php include(APP_PATH."libs/searchBlock_2.php"); ?>
 
         <?php
             if($_POST['search']!='') {
@@ -76,7 +76,6 @@ include(APP_PATH."libs/head.php");
         <?php endif; } ?>
 
 
-        <!-- <form action="<?php echo APP_URL; ?>confirm-services/" method="post" enctype="multipart/form-data" id="addServices"> -->
         <form action="<?php echo APP_URL; ?>data/addSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
             <h3 class="h3_page">Thông tin cơ bản</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
@@ -148,7 +147,7 @@ include(APP_PATH."libs/head.php");
             <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                     <p class="inputBlock customSelect mt0">
-                        <select name="services" id="services">
+                        <select name="services" id="services" class="services servicesSl">
                             <option value="">Lựa chọn dịch vụ</option>
                             <?php
                                 $wp_query = new WP_Query();
@@ -169,64 +168,33 @@ include(APP_PATH."libs/head.php");
                                 $typecat_serve = $term_type->slug;
                                 }
                             ?>
-                                <option data-image="<?php echo get_field('numb_image'); ?>" data-type="<?php echo $typecat_serve; ?>" data-price="<?php echo get_field('price'); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
+                                <option data-service="<?php echo $post->ID; ?>" data-image="<?php echo get_field('numb_image'); ?>" data-type="<?php echo $typecat_serve; ?>" data-price="<?php echo get_field('price'); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
                             <?php endwhile;endif; ?>
                         </select>
                     </p>
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" readonly name="price" id="price" value="" placeholder="Giá" />
+                    <input type="text" class="inputForm priceNumb" readonly name="price" value="" placeholder="Giá" />
                     </p>
                     <p class="inputBlock inputNumber">
                         <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
                         <span></span>
                     </p>
                 </div>
+                <div id="moreBox"></div>
+                <div id="moreBox2"></div>
                 
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
-                    <p class="inputBlock customSelect mt0">
-                        <select name="services" id="services">
-                            <option value="">Lựa chọn dịch vụ</option>
-                            <?php
-                                $wp_query = new WP_Query();
-                                $param=array(
-                                'post_type'=>'services',
-                                'order' => 'DESC',
-                                'posts_per_page' => '-1',
-                                );
-                                $wp_query->query($param);
-                                if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                                $terms = get_the_terms($post->ID,'servicescat');
-                                foreach($terms as $term) { 
-                                $type_serve = $term->name;
-                                }
-
-                                $terms_type = get_the_terms($post->ID,'typecat');
-                                foreach($terms_type as $term_type) { 
-                                $typecat_serve = $term_type->slug;
-                                }
-                            ?>
-                                <option data-image="<?php echo get_field('numb_image'); ?>" data-type="<?php echo $typecat_serve; ?>" data-price="<?php echo get_field('price'); ?>" class="<?php echo $type_serve; ?>" value="<?php the_title(); ?>"><?php the_title(); ?></option>
-                            <?php endwhile;endif; ?>
-                        </select>
-                    </p>
-                    <p class="inputBlock">
-                    <input type="text" class="inputForm" readonly name="price" id="price" value="" placeholder="Giá" />
-                    </p>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                        <span></span>
-                    </p>
-                </div>
-
                 <p class="addServices"><i class="fa fa-plus-circle" aria-hidden="true"></i>thêm dịch vụ</p>
+                <p class="noteServices">(Chỉ dành cho các dịch vụ có liên quan, tối đa 3 dịch vụ)</p>
+            <!-- ADD SERVICES -->
 
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+            <!-- DATE -->
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mt10">
                     <div class="inputBlock">
                         <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
                         <div id="datepicker"></div>
                     </div>
-                </div>    
-            
+                </div>
+            <!-- DATE -->          
 
                 <h4 class="h4_page">Lịch sử phẫu thuật (đồi với dịch cụ yêu cầu)</h4>
                 <p class="inputBlock" id="radHis">
@@ -339,7 +307,7 @@ include(APP_PATH."libs/head.php");
                     </p>    
                 </div>
 
-                <h4 class="h4_page">Tư vấn của bác sĩ</h4>
+                <h4 class="h4_page">Tư vấn của người tư vấn</h4>
                 <textarea class="inputForm" name="doctor_advise"></textarea>
 
                 <h4 class="h4_page">Ý kiến của khách hàng</h4>
@@ -349,7 +317,11 @@ include(APP_PATH."libs/head.php");
             <input type="hidden" name="action" value="create" >
             <input type="hidden" name="status" value="tvv" >
             <input type="hidden" name="numb_image" id="numb_image" value="" >
-            <input class="btnSubmit" type="submit" name="submit" value="Tạo">
+            <div class="flexBox flexBox--arround flexBox__form flexBox__form--3">
+                <input class="btnSubmit" type="submit" name="submit" value="Tạo">
+                <input class="btnSubmit btnSubmit--dr" type="submit" name="pending" value="Chờ khám">
+                <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>"><i class="fa fa-print" aria-hidden="true"></i> In</a>
+            </div>
         </form>
     </div>
 </div>
@@ -430,10 +402,8 @@ include(APP_PATH."libs/head.php");
 
     $('#services').on('change', function() {
         var type = $('select[name="services"] :selected').attr('class');
-        var price = $('select[name="services"] :selected').attr('data-price');
         var type_detail = $('select[name="services"] :selected').attr('data-type');
         var numb_image = $('select[name="services"] :selected').attr('data-image');
-        $('#price').val(price);
         $('#numb_image').val(numb_image);
         if(type=='body') {
             $('.typeService').slideUp(200);
@@ -444,8 +414,32 @@ include(APP_PATH."libs/head.php");
             $('.typeService').slideUp(200);
             $('#faceSurery').slideDown(200);
         }
-        
     });
+
+    $('.servicesSl').live('change',function(){
+        var price = $('option:selected',this).attr('data-price');
+        $(this).parent().next().find('.priceNumb').val(price);
+    });
+    
+    $('.addServices').click(function() {
+        var services = $('select[name="services"] :selected').attr('data-service');
+        var content = $('#moreBox').text();
+        if(content=='') {
+            var divappend = $('#moreBox');    
+        } else {
+            var divappend = $('#moreBox2');
+            $(this).hide(200);
+            $('.noteServices').hide(200);
+        }
+        $('<p class="taC"><img src="<?php echo APP_URL; ?>common/img/icon/loading.gif" alt ></p>').appendTo(divappend);
+
+        $.ajax({
+            url: 'http://vnese-freelance.co/projects/klain/data/loadServices.php?services=' + services,
+            }).done(function(data) { // data what is sent back by the php page
+            divappend.html(data); // display data
+        });
+    });
+
 
     $('#getData').click(function() {
         var cus_id = $('#cus_id').text();
@@ -459,9 +453,33 @@ include(APP_PATH."libs/head.php");
         $("#address").val(cus_add);
         $("#idcard").val(cus_idcard);
     });
-
 });
 </script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function() {
+    var availableTags = [
+	<?php 
+	$wp_query = new WP_Query();
+	$param = array (
+	'posts_per_page' => '-1',
+	'post_type' => 'customers',
+	'post_status' => 'publish',
+	'order' => 'DESC',
+	'paged' => $paged,
+	);
+	$wp_query->query($param);
+	if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+	?>
+      "<?php the_title(); ?>",
+     <?php endwhile; endif; ?>
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });
+  </script>
 
 </body>
 </html>	

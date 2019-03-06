@@ -6,6 +6,7 @@ if($_POST['action']!='') {
     $price = $_POST['price'];
     $numb_img = $_POST['numb_img'];
     $services = $_POST['services'];
+    $main = $_POST['main'];
     $type = $_POST['type'];
     $user_post = array(
         'post_title'    => $name,
@@ -16,6 +17,7 @@ if($_POST['action']!='') {
     wp_set_object_terms( $pid, $services, 'servicescat' );
     wp_set_object_terms( $pid, $type, 'typecat' );
     add_post_meta($pid, 'price', $price);
+    add_post_meta($pid, 'main', $main);
     header('Location:'.APP_URL.'services');
 }
 ?>

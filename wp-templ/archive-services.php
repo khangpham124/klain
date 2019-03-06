@@ -19,7 +19,15 @@ include(APP_PATH."libs/head.php");
 
 <div class="blockPage blockPage--full maxW">
     <div class="buttonBar">
-        <a href="<?php echo APP_URL ?>add-services/"><i class="fa fa-user-plus" aria-hidden="true"></i>Thêm dịch vụ</a>
+        <p class="inputBlock customSelect">
+            <select id="selectBox">
+                <option value="">Lọc Dịch vụ</option>
+                <option value="<?php echo APP_URL ?>users/"> Tất cả</option>
+            </select>
+        </p>
+        <a href="<?php echo APP_URL ?>add-services/"><i class="fa fa-plus-square" aria-hidden="true"></i>Thêm dịch vụ</a>
+        <a href="javascript:void(0)" class="showIcon"><i class="fa fa-minus-square" aria-hidden="true"></i>Xoá dịch vụ</a>
+        <a href="<?php echo APP_URL ?>services/"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Sửa dịch vụ</a>
         <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
     </div>
     <h2 class="h2_page">Danh sách dịch vụ</h2>
@@ -47,7 +55,10 @@ include(APP_PATH."libs/head.php");
                 <tr>
                     <td><?php the_title(); ?></td>
                     <td><?php echo number_format(get_field('price')); ?></td>
-                    <td class="last"><a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <td class="last">
+                    <a href="<?php echo wp_nonce_url(APP_URL."/admin/wp-admin/post.php?action=trash&post=$post->ID", 'delete-post_' . $post->ID); ?>" class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                    <a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                    </td>
                 </tr>
                 <?php endwhile;endif;?>
             </tbody>
@@ -72,7 +83,12 @@ include(APP_PATH."libs/head.php");
           }
           return false;
       });
+
+      $('.showIcon').click(function() {
+          $('.removeItem').toggleClass('fade');
+        });
     });
+
 </script>
 </body>
 </html>	

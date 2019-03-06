@@ -19,7 +19,7 @@ include(APP_PATH."libs/head.php");
 
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
-        <h2 class="h2_page">Thong tin benh an</h2>
+        <h2 class="h2_page">Thông tin bệnh án</h2>
             <?php
                 $id_sur = $_GET['idSurgery'];
                 $wp_query = new WP_Query();
@@ -49,57 +49,96 @@ include(APP_PATH."libs/head.php");
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <h3 class="h3_page">Bệnh Án</h3>
                     <h4 class="h4_page">Dịch vụ yêu cầu : <?php the_field('services'); ?></h4>
-                    <h4 class="h4_page">Hoi benh</h4>
-                    <div class="inputBlock">
-                        <label class="smallLabel">Qua trinh benh ly</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
-                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
-                            <p class="inputBlock borderBox" id="radHis">
-                                <label class="smallLabel">Di ung thuoc</label>
-                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
-                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong</label>
-                            </p>
-                            <p class="inputBlock borderBox" id="radHis">
-                                <label class="smallLabel">Di ung thuc an</label>
-                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
-                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong</label>
-                            </p>
+                    <h4 class="h4_page">Hỏi bệnh</h4>
+                    <table class="tblPage">
+                        <tr>
+                            <th>Quá trình bệnh lý</th>
+                            <td><textarea class="inputForm" name="howto" placeholder=""></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Dị ứng thuốc</th>
+                            <td>
+                                <p class="inputBlock borderBox" id="radHis">
+                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
+                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong</label>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dị ứng thức ăn</th>
+                            <td>
+                                <p class="inputBlock borderBox" id="radHis">
+                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
+                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong</label>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tiền căn nội khoa</th>
+                            <td>
+                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tiền căn ngoại khoa</th>
+                            <td>
+                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            </td>
+                        </tr>  
+                        <tr>
+                            <th>Kinh nguyệt</th>
+                            <td>
+                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <th>Di truyền</th>
+                            <td>
+                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <th>Đặc điểm liên quan bệnh</th>
+                            <td>
+                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Dị ứng</label>
+                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Ma tuý</label>
+                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Rượu bia</label>
+                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Thuốc lá</label>
+                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Thuốc lào</label>
+                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Khác</label>
+                            </td>
+                        </tr>                
+                    </table>                
+                
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                        <div class="inputBlock">
+                            <label class="smallLabel">Mạch</label>
+                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <label class="smallLabel">Nhiệt đõ</label>
+                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <label class="smallLabel">Huyết áp</label>
+                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
                         </div>
-                        <label class="smallLabel">Tien can noi khoa</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
-                        <label class="smallLabel">Tien can ngoai khoa</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
-                        <label class="smallLabel">Kinh nguyet</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
-                        <label class="smallLabel">Gia dinh</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                        <div class="inputBlock">
+                            <label class="smallLabel">Nhịp thở</label>
+                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <label class="smallLabel">Cân nặng</label>
+                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                        </div>
                     </div>
 
-                     <h4 class="h4_page">Khám bệnh</h4>
+                    <h4 class="h4_page">Khám bệnh</h4>
+                    <table class="tblPage">
+                        <tr>
+                            <th>Toàn thân</th>
+                            <td><textarea class="inputForm" name="howto" placeholder=""></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Bệnh ngoại khoa</th>
+                            <td><textarea class="inputForm" name="howto" placeholder=""></textarea></td>
+                        </tr>
+                    </table>    
                     <div class="inputBlock">
-                        <label class="smallLabel">Toàn thân</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
-                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                            <div class="inputBlock">
-                                <label class="smallLabel">Mạch</label>
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                                <label class="smallLabel">Nhiệt đõ</label>
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                                <label class="smallLabel">Huyết áp</label>
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                            </div>
-                            <div class="inputBlock">
-                                <label class="smallLabel">Nhịp thở</label>
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                                <label class="smallLabel">Can nang</label>
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                            </div>
-                        </div>
-
-
-                        <label class="smallLabel">Bệnh ngoại khoa</label>
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
-
                         <h4 class="h4_page">Các cơ quan</h4>
                         <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
                             <li><a href="javascript:void(0)"  data-id="tab1">MŨI</a></li>
@@ -446,7 +485,7 @@ include(APP_PATH."libs/head.php");
                             <div class="tabBox" id="tab3">
                                 <table class="tblPage">
                                     <tr>
-                                        <th>Số lần phẫu thuật mũi</th>
+                                        <th>Số lần phẫu thuật</th>
                                         <td>
                                             <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Đều</label>
                                             <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không đều</label>
@@ -457,25 +496,55 @@ include(APP_PATH."libs/head.php");
                                     </table>
                             </div>
                             <div class="tabBox" id="tab4">
-                                
+                                <div class="inputBlock">
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Tuần hoàn" />
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Răng hàm mặt" />
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Hô hấp" />
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Thân tiết niệu, sinh dục">
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Thần kinh" />
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Nội tiết,dinh dưỡng, các bệnh lý khác" />
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Tiêu hoá" />
+                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Cơ Xương khớp" />
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <h4 class="h4_page">Các xét nghiệm cận lâm sàng cần thực hiện</h4>
+                    <div class="inputBlock">
+                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                    </div>
+                    <h4 class="h4_page">Tóm tắt bệnh án</h4>
+                    <div class="inputBlock">
+                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                    </div>
+
+                    <h3 class="h3_page">Chuẩn đoán khi vào khoa</h3>
+                        <div class="inputBlock">
+                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bệnh chính" />
+                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bệnh kèm theo" />
+                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Phân biệt" />
+                        </div>
+                    <h3 class="h3_page">Tiên lượng</h3>   
+                        <div class="inputBlock">
+                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bệnh chính" /> 
+                        </div>
+                    <h3 class="h3_page">Hướng điều trị</h3>   
+                    <div class="inputBlock">
+                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                    </div>  
 
 
-
-
-                    <!-- <h4 class="h4_page">Hình ảnh trước phẫu thuật</h4>
+                    <h4 class="h4_page">Hình ảnh trước phẫu thuật</h4>
                     <?php
-                    // $numb_image = get_field('numb_image');
-                    // for($i=1;$i<=$numb_image;$i++) {
+                    $numb_image = get_field('numb_image');
+                    for($i=1;$i<=$numb_image;$i++) {
                     ?>
                     <label class="file">
                         <input type="file" name="file<?php echo $i; ?>" id="file<?php echo $i; ?>" accept="image/*" capture="camera">
                         <span class="file-custom"></span>
                     </label>
-                    <?php //} ?> -->
+                    <?php } ?>
                 
                 <h3 class="h3_page">Dành riêng cho BSK</h3>    
                 <textarea class="inputForm" <?php if($_COOKIE['role_cookies']!='boss') { ?>readonly<?php } ?> name="bsk" id="bsk"></textarea>

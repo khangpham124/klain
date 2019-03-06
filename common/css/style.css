@@ -255,7 +255,7 @@
 .btnSubmit {
     border: none;
     background: #333;
-    color: #fff;
+    color: #fff !important;
     height: 40px;
     line-height: 40px;
     display: block;
@@ -267,6 +267,17 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    position: relative;
+}
+
+.btnSubmit.disable, #getData.disable {
+    pointer-events: none;
+    opacity: .7;
+}
+
+
+.btnSubmit:hover {
+    opacity: .6;
 }
 
 .loginBlock {
@@ -295,6 +306,10 @@
     color: #fff;
     padding: 8px 15px;
     margin-left: 10px;
+}
+
+.buttonBar a:hover {
+    opacity: .7;
 }
 
 .listMange {
@@ -518,11 +533,11 @@ textarea.inputForm {
 .formSearch {
     padding: 0;
     margin: 10px 0 0;
-    border: 1px solid #e6e6e6;
     border-radius: 4px;
     overflow: hidden;
     background: #fff;
     max-height: 40px;
+    margin-bottom: 30px;
 }
 
 .methodSearch {
@@ -595,4 +610,44 @@ textarea.inputForm {
     padding: 30px;
     z-index: 550;
     display: none;
+}
+
+.addServices {
+    padding: 15px 20px;
+    margin: 20px 0 5px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    display: inline-block;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.addServices:hover {
+    opacity: .7;
+}
+
+#doctor .tblPage th {
+    width: 28%;
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: bold;
+}
+
+.removeItem {
+    color: #fc0410 !important;
+    opacity: 0;
+    -moz-transition:all 0.2s ease-out;
+-o-transition:all 0.2s ease-out;
+-webkit-transition:all 0.2s ease-out;
+-ms-transition:all 0.2s ease-out;
+}
+
+.fade {
+    opacity: 1;
+} 
+
+.noteServices {
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 25px;
 }
