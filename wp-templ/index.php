@@ -21,7 +21,7 @@ include(APP_PATH."libs/head.php");
     <div class="flexBox flexBox--between flexBox__form flexBox__form--2 blockPage--full">
         <div class="blockPage">
             <?php include(APP_PATH."libs/searchBlock.php"); ?>
-            <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='counter')) { ?>
+            <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
             <div class="buttonBar">
                 <a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
                 <a href="<?php echo APP_URL ?>add-surgery/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
@@ -133,8 +133,23 @@ include(APP_PATH."libs/head.php");
                 
             <?php } ?>
 
+            <?php if(($_COOKIE['role_cookies']=='adviser')||($_COOKIE['role_cookies']=='sale')) { ?>
+                <div class="buttonBar">
+                    <a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
+                    <a href="<?php echo APP_URL ?>add-surgery/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
+                    <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
+                </div>
+                <div class="blockPage blockPage--half mt0">
+                    <h2 class="h2_page">Mục Quản lý Cá nhân</h2>
+                    <ul class="listMange flexBox flexBox--between">
+                        <li><a href="<?php echo APP_URL; ?>customers"><i class="fa fa-users" aria-hidden="true"></i>Quản lý Khách hàng</a></li>
+                    </ul>
+                    <ul class="listMange flexBox flexBox--between">   
+                        <li><a href="<?php echo APP_URL; ?>surgery"><i class="fa fa-medkit" aria-hidden="true"></i>Quản lý Ca Phẫu thuật</a></li>
+                    </ul>
+                </div>  
+            <?php } else { ?>    
             <h2 class="h2_page">Danh sách khách hàng trong ngày</h2> 
-            
             <table class="tblPage">
             <thead>
                 <tr>
@@ -169,7 +184,7 @@ include(APP_PATH."libs/head.php");
                         'order' => 'DESC',
                         'posts_per_page' => '-1',
                         'meta_query'	=> array(
-                            // 'relation'		=> 'OR',
+                            'relation'		=> 'OR',
                             // array(
                             //     'key' => 'date',
                             //     'value' => $curr_date,
@@ -179,6 +194,11 @@ include(APP_PATH."libs/head.php");
                                 'key'	  	=> 'status',
                                 'value'	  	=> 'quay',
                                 'compare' 	=> '=',
+                            ),
+                            array(
+                                'key' => 'status',
+                                'value' => 'pending',
+                                'compare' => '='
                             ),
                             )
                         );
@@ -237,34 +257,70 @@ include(APP_PATH."libs/head.php");
                     }
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                    $stt = get_field('status');
                 ?>
                 <tr>
-                    <td><span class="noteColor note--<?php echo get_field('status') ?>"></span></td>
+                    <td>
+                        <?php
+                        $stt = get_field('status');
+                        switch ($stt) {
+                            case "tvv":
+                                $stt_text = "Tư vấn viên";
+                            break;
+                            case "pending":
+                                $stt_text = "Chờ khám";
+                            break;
+                            case "quay":
+                                $stt_text = "Quầy";
+                            break;
+                            case "bsnk":
+                                $stt_text = "Bác sĩ ngoại khoa";
+                            break;
+                            case "bsk":
+                                $stt_text = "Bác sĩ Khải";
+                            break;
+                            case "phauthuat":
+                                $stt_text = "Phẫu thuật";
+                            break;
+                            case "hauphau":
+                                $stt_text = "Hậu phẫu";
+                            break;
+                            case "cskh":
+                                $stt_text = "CSKH";
+                            break;
+                        }
+                        ?>
+                        <span class="noteColor note--<?php echo $stt ?>"></span>
+                        <em><?php echo $stt_text ?></em>
+                    </td>
                     <td><?php the_title(); ?></td>
                     <td><?php the_field('fullname'); ?></td>
                     <td><?php the_field('mobile'); ?></td>
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
                         <td class="last">
-                        <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                        <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                        <a href="<?php the_permalink(); ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                        <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
+                        <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                        <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                         </td>        
                     <?php } ?>
 
                     <?php if($_COOKIE['role_cookies']=='counter') { ?>
-                    <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
                     <?php } ?>
                     
                     <?php if($_COOKIE['role_cookies']=='doctor') { ?>
-                    <td class="last"><a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                        <?php if($stt=='pending') { ?>
+                        <td class="last"><a href="<?php the_permalink();?>"><i class="fa fa-stethoscope" aria-hidden="true"></i></a></td>
+                        <?php } else { ?>
+                        <td class="last"><a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-stethoscope" aria-hidden="true"></i></a></td>
+                        <?php } ?>
                     <?php } ?>
 
                     <?php if($_COOKIE['role_cookies']=='room') { 
-                        $stt = get_field('status');
                     ?>
                     <?php if(($stt=='bsk')||($stt=='bsnk')) { ?>
-                        <td class="last"><a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                        <td class="last"><a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a></td>
                     <?php } else { ?>
                         <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                     <?php } ?>
@@ -272,23 +328,14 @@ include(APP_PATH."libs/head.php");
                     <?php } ?>
 
                     <?php if($_COOKIE['role_cookies']=='customer-care') { ?>
-                    <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-phone-square" aria-hidden="true"></i></a></td>
                     <?php } ?>
                 </tr>
                 <?php endwhile;endif; ?>
             </tbody>
         </table>
-        <div class='noteIcon flexBox flexBox--center flexBox--between'>
-            <p><span class="noteColor note--tvv"></span><em>Tư vấn viên</em></p>
-            <p><span class="noteColor note--quay"></span><em>Quầy</em></p>
-            <p><span class="noteColor note--bsnk"></span><em>Bác sĩ ngoại khoa</em></p>
-            <p><span class="noteColor note--bsk"></span><em>Bác sĩ Khải</em></p>
-            <p><span class="noteColor note--phauthuat"></span><em>Phẫu thuật</em></p>
-            <p><span class="noteColor note--hauphau"></span><em>Hậu phẫu</em></p>
-            <p><span class="noteColor note--cskh"></span><em>CSKH</em></p>
         </div>
-        </div>
-
+        <?php } ?>
 </div>
 
 
@@ -322,7 +369,7 @@ include(APP_PATH."libs/head.php");
       source: availableTags
     });
   });
-  </script>
+</script>
 
 </body>
 </html>	

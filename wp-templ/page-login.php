@@ -20,7 +20,7 @@ include(APP_PATH."libs/head.php");
 		<p class="inputBlock">
 		<input type="text" name="username" class="inputForm" placeholder="Username hoặc mobile" />
 		</p>
-		<p class="inputBlock">
+		<p class="inputBlock mt10">
 		<input type="password" name="password" class="inputForm" placeholder="Password" />
 		</p>
 		<input class="btnSubmit" type="submit" name="submit" value="Đăng nhập">

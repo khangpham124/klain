@@ -30,22 +30,27 @@ include(APP_PATH."libs/head.php");
 
          <ul class="tabItem tabItem--5 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
+            <?php if(($_COOKIE['role_cookies']!='doctor')&&(get_field('status'!='pending'))) { ?>
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
             <li><a href="javascript:void(0)"  data-id="tab4">Chi tiết ca phẫu thuật</a></li>
             <li><a href="javascript:void(0)"  data-id="tab5">Chăm sóc hậu phẫu</a></li>
+            <?php } ?>
         </ul>
 
         <div class="tabContent">
             <div class="tabBox" id="tab1">
+                <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <h3 class="h3_page">Thông tin cơ bản</h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <p class="inputBlock">
                     <input type="text" class="inputForm" name="fullname" id="fullname" value="<?php echo get_field('fullname'); ?>" placeholder="Họ tên" />
                     </p>
-                    <p class="inputBlock">
-                    <input type="number" class="inputForm" name="mobile" id="mobile" id="mobile" value="<?php echo get_field('mobile'); ?>" placeholder="Số điện thoại" />
-                    </p>
+                    <?php if($_COOKIE['role_cookies']!='doctor') { ?>
+                        <p class="inputBlock">
+                        <input type="number" class="inputForm" name="mobile" id="mobile" id="mobile" value="<?php echo get_field('mobile'); ?>" placeholder="Số điện thoại" />
+                        </p>
+                    <?php } ?>
                 </div>    
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Thông tin tư vấn</h3>
@@ -108,12 +113,22 @@ include(APP_PATH."libs/head.php");
                     <div><?php the_field('caution'); ?></div>
 
                     <h4 class="h4_page">Tư vấn của bác sĩ</h4>
-                    <div><?php the_field('doctor_advise'); ?></div>
+                    <div>
+                    <textarea class="inputForm" <?php if(($_COOKIE['role_cookies']!='doctor')&&(get_field('status')=='pending')) { ?>readonly<?php } ?> name="doctor_advise"><?php if(get_field('doctor_advise')!="") {echo get_field('doctor_advise'); } ?></textarea>
+                    </div>
 
                     <h4 class="h4_page">Ý kiến của khách hàng</h4>
                     <div><?php the_field('cus_note'); ?></div>
+                    <input type="hidden" name="name_edit" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                    <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                    <?php if(get_field('status')=='pending') { ?>
+                        <input type="hidden" name="status" value="tvv" >
+                    <?php } ?>
+                    <input type="hidden" name="action" value="edit_info" >
+                    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+                    </form>
                 </div>
-
+                <!-- het tabl1 -->
                 <div class="tabBox" id="tab2">
                     <h3 class="h3_page">Tình trạng thanh toán : <?php the_field('payment_status'); ?></h3>
                     <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
@@ -199,10 +214,10 @@ include(APP_PATH."libs/head.php");
                     <div><?php the_field('supplies'); ?></div>
                 </div>
                 <div class="tabBox" id="tab5">
-                    <h3 class="h3_page">Chăm sóc hậu phẫu</h3>
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
-            <h3 class="h3_page">Thông tin khách hàng</h3>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                <h3 class="h3_page">Chăm sóc hậu phẫu</h3>
+                <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+                <h3 class="h3_page">Thông tin khách hàng</h3>
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" readonly value="<?php the_field('fullname'); ?>" />
                 </p>
@@ -342,7 +357,7 @@ include(APP_PATH."libs/head.php");
     </div>
 </div>
 
-
+</div>
 <!--Footer-->
 <?php include(APP_PATH."libs/footer.php"); ?>
 <!--/Footer-->

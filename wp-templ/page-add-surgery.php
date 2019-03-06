@@ -31,52 +31,14 @@ include(APP_PATH."libs/head.php");
         <h3 class="h3_page">Tra cứu thông tin khách hàng</h3>
         
         <?php include(APP_PATH."libs/searchBlock_2.php"); ?>
-
-        <?php
-            if($_POST['search']!='') {
-            $wp_query = new WP_Query();
-                $param = array (
-                'posts_per_page' => '-1',
-                'post_type' => 'customers',
-                'post_status' => 'publish',
-                'order' => 'DESC',
-                's'=>$_POST['search']
-                );
-            $wp_query->query($param);
-            if($wp_query->have_posts()): 
+        <?php 
+        if($_POST['search']) {
+            include(APP_PATH."data/searchResult.php");
+        }
         ?>
-        <h2 class="h2_page">Kết quả tìm kiếm</h2>
-        <table class="tblPage">
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Họ tên</td>
-                    <td>Số điện thoại</td>
-                    <td>Địa chỉ</td>
-                    <td>Số CMND</td>
-                    <td>Facebook</td>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                    while($wp_query->have_posts()) :$wp_query->the_post();
-                ?>
-                <tr>
-                    <td id="cus_id"><?php the_ID(); ?></td>
-                    <td id="cus_name"><?php the_title(); ?></td>
-                    <td id="cus_mobile"><?php the_field('mobile') ?></td>
-                    <td id="cus_add"><?php the_field('address') ?></td>
-                    <td id="cus_idcard"><?php the_field('idcard') ?></td>
-                    <td class="last text"><a href="javascript:void(0)" id="getData">Sử dụng</i></a></td>
-                </tr>
-                <tr>
-                <?php endwhile; ?>    
-            </tbody>
-        </table>
-        <?php endif; } ?>
-
 
         <form action="<?php echo APP_URL; ?>data/addSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
+            <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='adviser')||($_COOKIE['role_cookies']=='sale')) { ?>
             <h3 class="h3_page">Thông tin cơ bản</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                 <p class="inputBlock">
@@ -116,11 +78,17 @@ include(APP_PATH."libs/head.php");
                                 'order' => 'DESC',
                                 'posts_per_page' => '-1',
                                 'tax_query' => array(
-                                array(
-                                'taxonomy' => 'userscat',
-                                'field' => 'slug',
-                                'terms' => 'sale'
-                                )
+                                    'relation' => 'OR',
+                                    array(
+                                    'taxonomy' => 'userscat',
+                                    'field' => 'slug',
+                                    'terms' => 'sale'
+                                    ),
+                                    array(
+                                        'taxonomy' => 'userscat',
+                                        'field' => 'slug',
+                                        'terms' => 'adviser'
+                                    ),
                                 )
                                 );
                                 $wp_query->query($param);
@@ -135,6 +103,7 @@ include(APP_PATH."libs/head.php");
                             <option value="">Lựa chọn kệnh tư vấn</option>
                             <option value="facebook">Qua facebook</option>
                             <option value="mobile">Qua Điện thoại</option>
+                            <option value="tmv">Tại TMV</option>
                         </select>
                     </p>  
                 </div>
@@ -176,7 +145,7 @@ include(APP_PATH."libs/head.php");
                     <input type="text" class="inputForm priceNumb" readonly name="price" value="" placeholder="Giá" />
                     </p>
                     <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                        <input type="text" data-type="number" class="inputForm" name="sale_discount" id="discount" value="" placeholder="Giá giảm" />
                         <span></span>
                     </p>
                 </div>
@@ -184,6 +153,7 @@ include(APP_PATH."libs/head.php");
                 <div id="moreBox2"></div>
                 
                 <p class="addServices"><i class="fa fa-plus-circle" aria-hidden="true"></i>thêm dịch vụ</p>
+                <p class="addServices--rmv"><i class="fa fa-minus-circle" aria-hidden="true"></i>xoá dịch vụ</p>
                 <p class="noteServices">(Chỉ dành cho các dịch vụ có liên quan, tối đa 3 dịch vụ)</p>
             <!-- ADD SERVICES -->
 
@@ -217,9 +187,8 @@ include(APP_PATH."libs/head.php");
                         <p class="inputBlock customSelect mt0">
                             <select name="reason" id="reason">
                                 <option value="">Lý do muốn làm lại</option>
-                                <option value="Thấy ghê">Thấy ghê</option>
-                                <option value="Thấy ớn">Thấy ớn</option>
-                                <option value="Thấy không ổn">Thấy không ổn</option>
+                                <option value="Do ý muốn chủ quan (không thích hình dáng đã phẫu thuật trước đó)">Do ý muốn chủ quan (không thích hình dáng đã phẫu thuật trước đó)</option>
+                                <option value="Do có vấn đề (viêm, nhiễm trùng, lệch méo, hỏng ...)">Do có vấn đề (viêm, nhiễm trùng, lệch méo, hỏng ...)</option>
                             </select>
                         </p>
                     </div>
@@ -245,7 +214,7 @@ include(APP_PATH."libs/head.php");
                                     <input type="radio" class="radioForm" id="shape1" name="shape" value="Tròn" /><label class="labelReg" for="shape1">Tròn</label>
                                     <input type="radio" class="radioForm" id="shape2" name="shape" value="Giọt nước" /><label class="labelReg" for="shape2">Giọt nước</label>
                                 </p>
-                                <label class="labelBlock">Loại túi</label>
+                                <!-- <label class="labelBlock">Loại túi</label>
                                 <p class="inputBlock">
                                     <input type="radio" class="radioForm" id="styleT1" name="styleT" value="Nanochip Ergonomix" /><label class="labelReg" for="styleT1">Nanochip Ergonomix</label><br class="sp">
                                     <input type="radio" class="radioForm" id="styleT2" name="styleT" value="Nanochip" /><label class="labelReg" class="labelReg" for="styleT2">Nanochip</label><br class="sp">
@@ -257,7 +226,7 @@ include(APP_PATH."libs/head.php");
                                 <input type="checkbox" class="chkForm" id="plus1" name="plus" value="Thu quầng" /><label class="labelReg" for="plus1">Thu quầng</label><br class="sp">
                                 <input type="checkbox" class="chkForm" id="plus2" name="plus" value="Thu ti" /><label class="labelReg" for="plus2">Thu ti</label><br class="sp">
                                 <input type="checkbox" class="chkForm" id="plus3" name="plus" value="Treo sa trễ" /><label class="labelReg" for="plus3">Treo sa trễ</label><br class="sp">
-                                <input type="checkbox" class="chkForm" id="plus4" name="plus" value="Áo định hình" /><label class="labelReg" for="plus4">Áo định hình</label><br class="sp">
+                                <input type="checkbox" class="chkForm" id="plus4" name="plus" value="Áo định hình" /><label class="labelReg" for="plus4">Áo định hình</label><br class="sp"> -->
                             </div>
                         </div>
 
@@ -267,8 +236,8 @@ include(APP_PATH."libs/head.php");
                                 <p class="inputBlock">
                                     <input type="text" class="inputForm" name="size_mong" placeholder="Kích thước" />
                                 </p>
-                                <label class="labelBlock">Loại túi</label>
-                                <input type="text" class="inputForm" name="styleT1" placeholder="Loại túi" />
+                                <!-- <label class="labelBlock">Loại túi</label>
+                                <input type="text" class="inputForm" name="styleT1" placeholder="Loại túi" /> -->
                             </div>
                         </div>
                         
@@ -301,17 +270,20 @@ include(APP_PATH."libs/head.php");
                         <textarea class="inputForm" name="origin" id="origin"></textarea>
                     <h4 class="h4_page">Mong muốn của khách hàng</h4>
                     <p class="inputBlock">
-                        <input type="radio" class="radioForm" id="wish1" name="target" value="Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên" /><label class="labelReg" for="wish1">Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên</label>
-                        <input type="radio" class="radioForm" id="wish2" name="target" value="Theo nhu cầu của khách" /><label class="labelReg" for="wish2">Theo nhu cầu của khách</label>
+                        <!-- <input type="radio" class="radioForm" id="wish1" name="target" value="Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên" /><label class="labelReg" for="wish1">Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên</label>
+                        <input type="radio" class="radioForm" id="wish2" name="target" value="Theo nhu cầu của khách" /><label class="labelReg" for="wish2">Theo nhu cầu của khách</label> -->
                         <textarea class="inputForm" name="target_text"></textarea>
                     </p>    
                 </div>
+                <?php } ?>
 
                 <h4 class="h4_page">Tư vấn của người tư vấn</h4>
                 <textarea class="inputForm" name="doctor_advise"></textarea>
 
+                <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='adviser')||($_COOKIE['role_cookies']=='sale')) { ?>
                 <h4 class="h4_page">Ý kiến của khách hàng</h4>
                 <textarea class="inputForm" name="cus_note"></textarea>
+                <?php } ?>
 
 
             <input type="hidden" name="action" value="create" >
@@ -425,21 +397,35 @@ include(APP_PATH."libs/head.php");
         var services = $('select[name="services"] :selected').attr('data-service');
         var content = $('#moreBox').text();
         if(content=='') {
-            var divappend = $('#moreBox');    
+            var divappend = $('#moreBox');  
+            var count = 2;  
         } else {
             var divappend = $('#moreBox2');
+            var count = 3;
             $(this).hide(200);
             $('.noteServices').hide(200);
         }
         $('<p class="taC"><img src="<?php echo APP_URL; ?>common/img/icon/loading.gif" alt ></p>').appendTo(divappend);
-
+        $('.addServices--rmv').css('display','inline-block');
         $.ajax({
-            url: 'http://vnese-freelance.co/projects/klain/data/loadServices.php?services=' + services,
+            url: 'http://vnese-freelance.co/projects/klain/data/loadServices.php?services=' + services +'&count='+ count,
             }).done(function(data) { // data what is sent back by the php page
             divappend.html(data); // display data
         });
     });
 
+    $('.addServices--rmv').click(function() {
+        var content = $('#moreBox').text();
+        var content2 = $('#moreBox2').text();
+        if((content!='')&&(content2!='')) {
+            $('#moreBox2').empty();
+        }
+        if((content!='')&&(content2=='')) {
+            $('#moreBox').empty();
+        }
+        $('.addServices').css('display','inline-block');
+    });
+    
 
     $('#getData').click(function() {
         var cus_id = $('#cus_id').text();

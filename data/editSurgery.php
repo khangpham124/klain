@@ -5,7 +5,20 @@ require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
 require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
 require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
-$pid = $_POST['idSurgery'];
+    $pid = $_POST['idSurgery'];
+    
+    if($_POST['action']=='edit_info') {
+        $doctor_advise = $_POST['doctor_advise'];
+        $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
+    
+        if($_POST['status']) {
+            $status = $_POST['status'];
+            update_post_meta($pid,'status',$status);
+        }
+        update_post_meta($pid,'doctor_advise',$doctor_advise);
+        header('Location:'.APP_URL);
+    }
+
     if($_POST['action']=='edit') {
         $accept = $_POST['accept'];
         $approve = $_POST['approve'];
