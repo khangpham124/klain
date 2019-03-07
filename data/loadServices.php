@@ -7,7 +7,7 @@ $count = $_GET['count'];
 
 <div class="flexBox flexBox--between flexBox__form flexBox__form--3 mt10">
     <p class="inputBlock customSelect mt0">
-        <select name="services<?php echo $count; ?>" class="services servicesSl">
+        <select name="services_<?php echo $count; ?>" class="services servicesSl">
             <option value="">Lựa chọn dịch vụ</option>
             <?php
                 $wp_query = new WP_Query();

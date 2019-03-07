@@ -5,15 +5,12 @@ include(APP_PATH."admin/wp-load.php");
     if($_POST['action']=='create') {
 
         $count=file_get_contents(APP_PATH."data/sur_no.txt");
-
         $file=fopen(APP_PATH."data/sur_no.txt","w");
         $down=$count+1;
-
         fwrite($file,$down);
-
-
         $idsurgery = 'SUR_'.date("Y").'_'.date("m").'_'.$count;
-        echo $idsurgery;
+        // create id
+
         $fullname = $_POST['fullname'];
         $mobile = $_POST['mobile'];
         $cusId_post = $_POST['cusId_post'];
@@ -22,7 +19,6 @@ include(APP_PATH."admin/wp-load.php");
         $advise = $_POST['advise'];
         $adviser = $_POST['adviser'];
         $channel = $_POST['channel'];
-        $services = $_POST['services'];
         $date = $_POST['datechose'];
         $time = strtotime($_POST['datechose']);
         $hasSur = $_POST['hasSur'];
@@ -129,6 +125,11 @@ include(APP_PATH."admin/wp-load.php");
         $doctor_advise = $_POST['doctor_advise'];
         $cus_note = $_POST['cus_note'];
 
+
+        $services = $_POST['services'];
+        $service_2 = $_POST['services_2'];
+        $service_3 = $_POST['services_3'];
+        
         $price=(int)$_POST['price'];
         $price_2=(int)$_POST['price_2'];
         $price_3=(int)$_POST['price_3'];
@@ -136,6 +137,9 @@ include(APP_PATH."admin/wp-load.php");
         $discount=$_POST['sale_discount'];
         $discount_2=$_POST['sale_discount_2'];
         $discount_3=$_POST['sale_discount_3'];
+
+
+        
         $numb_image = $_POST['numb_image'];
         if($_POST['submit']!='') {
             $status = $_POST['status'];
@@ -156,8 +160,8 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'adviser', $adviser);
         add_post_meta($pid, 'channel', $channel);
         add_post_meta($pid, 'services', $services);
-        add_post_meta($pid, 'services_2', $services2);
-        add_post_meta($pid, 'services_3', $services3);
+        add_post_meta($pid, 'services_2', $service_2);
+        add_post_meta($pid, 'services_3', $services_3);
         add_post_meta($pid, 'date', $date);
         add_post_meta($pid, 'time', $time);
         add_post_meta($pid, 'hasSur', $hasSur);

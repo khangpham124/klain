@@ -9,7 +9,7 @@ include(APP_PATH."libs/head.php");
 ?>
 </head>
 
-<body id="top">
+<body id="counter">
 <!--===================================================-->
 <div id="wrapper">
 <!--===================================================-->
@@ -57,119 +57,149 @@ include(APP_PATH."libs/head.php");
                 </div>
 
                 <h3 class="h3_page">Thông tin thanh toán</h3>
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <div class="flexBox__cols">
-                        <h4 class="h4_page">Dịch vụ yêu cầu</h4>
-                        <p class="inputBlock">
-                        <input type="text" class="inputForm" readonly value="<?php the_field('services'); ?>" />
-                        </p>
-                    
-                        <h4 class="h4_page">Phương thức thanh toán</h4>
-                        <p class="inputBlock" id="radmethodPay">
-                            <input type="checkbox" class="radioForm" id="rad1" name="methodPay" value="cash" /><label class="labelReg" for="rad1">Tiền mặt</label><br>
-                            <input type="text" class="inputForm" name="" placeholder="Số tiền mặt" value="" /><br>
-                            <input type="checkbox" class="radioForm" id="rad2" name="methodPay" value="bank-transfer" /><label class="labelReg" for="rad2">Chuyển khoản</label><br>
-                            <input type="text" class="inputForm" name="" placeholder="Số chuyển khoản" value="" /><br>
-                            <input type="checkbox" class="radioForm" id="rad3" name="methodPay" value="visa" /><label class="labelReg" for="rad3">Visa/Master</label><br>
-                            <input type="text" class="inputForm" name="" placeholder="Thanh toán visa" value="" />
-                        </p>
-                        <div class="infoPay">
-                            <textarea class="inputForm" name="infoPayment" id="infoPayment"></textarea>
-                        </div>
-                        <h4 class="h4_page">Tình trạng thanh toán</h4>
-                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                            <p class="inputBlock" id="radstatusPay">
-                                <input type="radio" class="radioForm" id="rad4" name="statusPay" value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label>
-                                <input type="radio" class="radioForm" id="rad5" name="statusPay" value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label>
-                            </p>
-                            <p class="inputBlock monneyDeposit">
-                                <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
-                            </p>
-                        </div>    
-                    </div>
 
-                    <div class="flexBox__cols">
-                        <h4 class="h4_page">Giá gốc dịch vụ</h4>
-                        <p class="inputBlock">
-                            <input type="text" class="inputForm" id="price_real" readonly value="<?php the_field('price'); ?>" />
-                        </p>
-                        <?php
-                           $price_curr =  get_field('price');
-                           $sale_discount = get_field('sale_discount');
-                           $lim1 = 30000000;
-                           $lim2 = 49000000;
-                           $lim3 = 50000000;
-                           $lim4 = 79000000;
-                           $lim5 = 80000000;
-                           $lim6 = 99000000;
-                           $lim7 = 100000000;
-                           if(($price_curr >= $lim1)&&($price_curr <= $lim2)) {
-                               if($sale_discount <= 1000000) {
-                                   $check = "checked";
-                               } else {
-                                    $check = "";
-                               }
-                           }
-                           if(($price_curr >= $lim3)&&($price_curr <= $lim4)) {
-                                if($sale_discount <= 2000000) {
-                                    $check = "checked";
-                                } else {
-                                    $check = "";
-                                }
-                            }
-                            if(($price_curr >= $lim5)&&($price_curr <= $lim6)) {
-                                if($sale_discount <= 3000000) {
-                                    $check = "checked";
-                                } else {
-                                    $check = "";
-                                }
-                            }
-                            if($price_curr >= $lim7) {
-                                if($sale_discount <= 5000000) {
-                                    $check = "checked";
-                                } else {
-                                    $check = "";
-                                }
-                            }
-                        ?>
-                        <h4 class="h4_page">Sale giảm giá</h4>
-                        <p class="inputBlock">
-                            <input type="text" data-type="number" class="inputForm" id="price_sale" name="price_sale" <?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?> value="<?php the_field('sale_discount'); ?>" />
-                        </p>
-                        <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
-                            <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" /><label class="labelReg" for="accept">Giam gia dc chấp nhận</label>
-                            <?php if(get_field('accept')=='yes') { ?>
-                                <br>
-                            Duyệt bởi : <?php echo get_field('approve'); ?>
-                            <?php } ?>
-                        </p>
-
-                        <!-- <h4 class="h4_page">Chương trình giảm giá</h4>
-                            <p class="inputBlock">
-                                <input type="checkbox" class="chkForm" id="code_voucher" name="code_voucher" value="500" /><label class="labelReg" for="code_voucher">Code voucher</label><br class="sp">
-                                <input type="checkbox" class="chkForm" id="promotion" name="promotion" value="100" /><label class="labelReg" for="promotion">Chương trình khuyến mãi</label><br class="sp">
-                            </p> -->
-                        <h4 class="h4_page">Thành tiền</h4>    
-                        <p class="inputBlock"><input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="" /></p>
-                        <div class="inputBlock monneyDeposit">
-                            <h4 class="h4_page">Con lai</h4>    
-                            <p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="" /></p>
-                        </div>
-                    </div>
-                </div>
                 
+                <h4 class="h4_page">Dịch vụ yêu cầu</h4>
+                    <table class="tblPage">
+                        <tr>
+                            <th><?php the_field('services'); ?></th>
+                            <td><input type="text" class="inputForm" id="price_real_1" readonly value="<?php echo number_format(get_field('price')); ?>" /></td>
+                        </tr>
+                        <?php if(get_field('services_2')!='') { ?>
+                        <tr>
+                            <th><?php the_field('services_2'); ?></th>
+                            <td><input type="text" class="inputForm" id="price_real_3" readonly value="<?php echo number_format(get_field('price_2')); ?>" /></td>
+                        </tr>
+                        <?php } ?>
+                        <?php if(get_field('services_3')!='') { ?>
+                        <tr>
+                            <th><?php the_field('services_3'); ?></th>
+                            <td><input type="text" class="inputForm" id="price_real_3" readonly value="<?php echo number_format(get_field('price_3')); ?>" /></td>
+                        </tr>
+                        <?php } ?>
+                        <tr>
+                            <th>Giảm giá</th>
+                            <td><input type="text" class="inputForm" id="sale_discount_1" readonly value="<?php echo number_format(get_field('sale_discount')); ?>" /></td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">
+                            <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
+                            <?php
+                            $price1 = get_field('price');
+                            $price2 = get_field('price_2');
+                            $price3 = get_field('price_3');
+                            $discount = get_field('sale_discount');
+                            $total_price = (int)$price1 + (int)$price2 + (int)$price3;
+                            $total_discount = (int)$discount;
+                            $total_remain =$total_price - $total_discount;
+
+                            $lim1 = 30000000;
+                            $lim2 = 49000000;
+                            $lim3 = 50000000;
+                            $lim4 = 79000000;
+                            $lim5 = 80000000;
+                            $lim6 = 99000000;
+                            $lim7 = 100000000;
+                            if(($total_price >= $lim1)&&($total_price <= $lim2)) {
+                                if($total_discount <= 1000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "test";
+                                }
+                            }
+                            if(($total_price >= $lim3)&&($total_price <= $lim4)) {
+                                if($total_discount <= 2000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "";
+                                }
+                            }
+                            if(($total_price >= $lim5)&&($total_price <= $lim6)) {
+                                if($total_discount <= 3000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "";
+                                }
+                            }
+                            if($total_price >= $lim7) {
+                                if($total_discount <= 5000000) {
+                                    $check = "checked";
+                                } else {
+                                    $check = "";
+                                }
+                            }
+                            ?>
+                                <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" /><label class="labelReg" for="accept">Giảm giá được chấp nhận</label>
+                            </p>
+                                <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
+                                <?php if(get_field('accept')=='yes') { ?>
+                                    <br>
+                                Duyệt bởi : <?php echo get_field('approve'); ?>
+                                <?php } ?>
+                            </p>
+                            </th>
+                        </tr>
+                        <tr>
+                        <th>Tồng cộng</th>
+                            <td><p class="inputBlock"><input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo $total_remain; ?>" /></p></td>
+                        </tr>
+                    </table>
+
+         
+                    <h4 class="h4_page">Phương thức thanh toán</h4>
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                        <div class="inputBlock" id="radstatusPay">
+                            <input type="radio" class="radioForm" id="rad4" name="statusPay" value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br>
+                            <input type="radio" class="radioForm" id="rad5" name="statusPay" value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
+                            <input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" /><label class="labelReg" for="rad6">Nợ</label><br>
+
+                            <p class="inputBlock inputNumber monneyNo">
+                                <input type="text" data-type="number" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" />
+                                <span></span>
+                            </p>
+                            <p class="inputBlock inputNumber monneyDeposit">
+                             <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
+                             <span></span>
+                            </p>
+                        </div>
+
+                        <div class="inputBlock" id="radmethodPay">
+                            <input type="checkbox" class="radioForm" id="rad1" name="methodPay" value="cash" /><label class="labelReg" for="rad1">Tiền mặt</label><br>
+                            <p class="inputBlock inputNumber">
+                                <input type="text" data-type="number" class="inputForm" name="cash_money" id="cash_money" placeholder="Số tiền mặt" value="" />
+                                <span></span>
+                            </p>
+                            <input type="checkbox" class="radioForm" id="rad2" name="methodPay" value="bank-transfer" /><label class="labelReg" for="rad2">Chuyển khoản</label><br>
+                            <p class="inputBlock inputNumber">
+                                <input type="text" data-type="number" class="inputForm" name="bank_money" id="bank_money" placeholder="Số chuyển khoản" value="" />
+                                <span></span>
+                            </p>
+                            <input type="checkbox" class="radioForm" id="rad3" name="methodPay" value="visa" /><label class="labelReg" for="rad3">Visa/Master</label><br>
+                            <p class="inputBlock inputNumber">
+                                <input type="text" data-type="number" class="inputForm" name="visa_money" id="visa_money" placeholder="Thanh toán visa" value="" />
+                                <span></span>
+                            </p>
+                        </div>
+                    </div> 
+
+                <table class="tblPage">
+                    <tr>
+                        <th>Số tiền thanh toán</th>
+                        <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="" /></p></td>
+                    </tr>
+                </table>    
+            
                 <input type="hidden" name="idCustomer" value="<?php echo $idCustomer; ?>" >
                 <input type="hidden" name="cusId_post" value="<?php echo get_field('cusId_post'); ?>" >
                 <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
                 <input type="hidden" name="approve" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                 <input type="hidden" name="status" value="quay" >
                 <input type="hidden" name="action" value="edit" >
-                <?php if($_COOKIE['role_cookies']=='manager') { ?>
-                    <input class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>" type="submit" name="submit" value="Cập nhật">
-                <?php } else {  ?>
+                <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) { ?>
                     <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
-                        <input class="btnSubmit" type="submit" name="submit" value="Tạo">
-                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phieu</a>
+                        <input class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>"  onclick="checkMoney()" type="submit" name="submit" value="Cập nhật">
+                        <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phieu</a>
+                        <a href="<?php echo APP_URL; ?>data/editSurgery?action=cancel&idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">Huỷ</a>
                     </div>
                 <?php } ?>    
             </form>
@@ -188,13 +218,13 @@ include(APP_PATH."libs/head.php");
 
 <script>
 $( function() {
-    var price_real = $('#price_real').val();
-    var promotion = $('#promotion').val();
-    if($('input[name="accept"]').is(':checked')) {
-        var price_sale = $('#price_sale').val();
-    } else {
-        var price_sale = 0;
-    }
+    // var price_real = $('#price_real').val();
+    // var promotion = $('#promotion').val();
+    // if($('input[name="accept"]').is(':checked')) {
+    //     var price_sale = $('#price_sale').val();
+    // } else {
+    //     var price_sale = 0;
+    // }
 
     // var code_voucher = 0;
     // $("#code_voucher").on('click', function () {
@@ -205,38 +235,53 @@ $( function() {
     // });
 
 
-
-    if($('input[name="promotion"]').is(':checked')) {
-        var promotion = $('#promotion').val();
-    } else {
-        var promotion = 0;
-    }
+    // 
+    //     var promotion = $('#promotion').val();
+    // } else {
+    //     var promotion = 0;
+    // }
 
     
-    var totalPrice = price_real - price_sale - promotion - code_voucher;
-    $('#totalFee').val(totalPrice);
-    $('#deposit').on('input',function(e){
-        var deposit = $('#deposit').val();
-        var reMain = totalPrice - deposit;
-        $('#remain').val(reMain);
-    });
+    if($('input[name="accept"]').is(':checked')) {
+        var totalPrice = $('#totalFee').val();
+        $('#deposit').on('keyup', function(e){
+                var deposit = $('#deposit').val();
+                var reMain = totalPrice - deposit;
+                $('#remain').val(reMain);
+            
+        });
+        $('#debt').on('keyup', function(e){
+                var debt = $('#debt').val();
+                var reMain = totalPrice - debt;
+                $('#remain').val(reMain);
+        });
 
+    }
+    
 
     $('input[type=radio][name=statusPay]').change(function() {
         if (this.value == 'Đặt cọc') {
             $('.monneyDeposit').slideDown(200);
-        } else {
-            $('.monneyDeposit').slideUp(200);    
+            $('.monneyNo').slideUp(200);
+            $('#debt').val('');
+        }
+        if (this.value == 'Nợ') {
+            $('.monneyDeposit').slideUp(200);
+            $('.monneyNo').slideDown(200);
+            $('#deposit').val('');
         }
     });
-
-    $('input[type=radio][name=methodPay]').change(function() {
-        if (this.value != 'cash') {
-            $('.infoPay').slideDown(200);
-        } else {
-            $('.infoPay').slideUp(200);    
+    function checkMoney() {
+        var cash_money = $('#cash_money').val();
+        var bank_money = $('#bank_money').val();
+        var visa_money = $('#visa_money').val();
+        var money_tt = $('#remain').val();
+        var calc_money = cash_money + bank_money + visa_money;
+        if(money_tt > calc_money) {
+            alert('vui lòng kiểm tra các khoản thanh toán');
         }
-    });
+    }
+    
 
 });
 </script>      

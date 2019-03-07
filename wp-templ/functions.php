@@ -98,6 +98,8 @@ add_action( 'restrict_manage_posts', 'todo_restrict_manage_posts' );
 add_filter('parse_query','todo_convert_restrict');
 /* term drop down function end*/
 
+
+
 //for archives
 global $my_archives_post_type;
 add_filter( 'getarchives_where', 'my_getarchives_where', 10, 2 );
@@ -432,3 +434,5 @@ function my_acf_pre_save_post($post_id) {
   }
   
   add_filter('acf/pre_save_post' , 'my_acf_pre_save_post');
+
+  
