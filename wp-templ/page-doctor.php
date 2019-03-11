@@ -42,13 +42,16 @@ include(APP_PATH."libs/head.php");
                 <input type="text" class="inputForm" name="idcard" placeholder="Só CMND" readonly value="<?php the_field('idcard'); ?>" />
                 </p>
                 <p class="inputBlock">
-                <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php the_field('mobile'); ?>" />
+                <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php echo get_field('idcustomer',get_field('cusid_post')); ?>" />
                 </p>
-            </div>
+            </div> 
+
 
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <h3 class="h3_page">Bệnh Án</h3>
-                    <h4 class="h4_page">Dịch vụ yêu cầu : <?php the_field('services'); ?></h4>
+                <h4 class="h4_page">Dịch vụ yêu cầu : <?php the_field('services'); ?>
+                <?php if(get_field('services_2')!='') { ?>,<?php echo get_field('services_2'); ?><?php } ?>
+                <?php if(get_field('services_3')!='') { ?>,<?php echo get_field('services_3'); ?><?php } ?></h4>
                     <h4 class="h4_page">Hỏi bệnh</h4>
                     <table class="tblPage">
                         <tr>
@@ -59,8 +62,8 @@ include(APP_PATH."libs/head.php");
                             <th>Dị ứng thuốc</th>
                             <td>
                                 <p class="inputBlock borderBox" id="radHis">
-                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
-                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong</label>
+                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
+                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
                                 </p>
                             </td>
                         </tr>
@@ -68,8 +71,8 @@ include(APP_PATH."libs/head.php");
                             <th>Dị ứng thức ăn</th>
                             <td>
                                 <p class="inputBlock borderBox" id="radHis">
-                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
-                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong</label>
+                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
+                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
                                 </p>
                             </td>
                         </tr>

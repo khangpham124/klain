@@ -70,11 +70,12 @@ include(APP_PATH."libs/head.php");
                         </tbody>
                     </table>
                 </div>
+                <?php wp_reset_query(); ?>
                 <div class="customerCard">
                     <?php
-                    $image_front = wp_get_attachment_image_src(get_field('ic_front'),'full');
+                    $image_front = get_field('ic_front');
                     ?>
-                <img src="<?php echo $image_front[0]; ?>">
+                <img src="<?php echo $image_front; ?>">
                     <p class="inputBlock">
                     <input type="text" class="inputForm" name="idcard" id="idcard" value="<?php the_field('idcard') ?>" placeholder="Só CMND" />
                     </p>

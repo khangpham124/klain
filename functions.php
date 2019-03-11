@@ -433,41 +433,6 @@ function my_acf_pre_save_post($post_id) {
   
   }
   
-  
   add_filter('acf/pre_save_post' , 'my_acf_pre_save_post');
-
-
-
-  add_action('init', 'my_custom_medical');
-function my_custom_medical()
-{
-  $labels = array(
-    'name' => _x('Medical', 'post type general name'),
-    'singular_name' => _x('Medical', 'post type singular name'),
-    'add_new' => _x('Add Medical', 'news'),
-    'add_new_item' => __('Add new item'),
-    'edit_item' => __('Edit Medical'),
-    'new_item' => __('New Item'),
-    'view_item' => __('View Item'),
-    'search_staff' => __('sample記事を探す'),
-    'not_found' =>  __('Not found'),
-    'not_found_in_trash' => __('Not found'),
-    'parent_item_colon' => ''
-  );
-  $args = array(
-    'labels' => $labels,
-    'public' => true,
-    'publicly_queryable' => true,
-    'show_ui' => true,
-    'query_var' => true,
-    'rewrite' => true,
-    'capability_type' => 'post',
-    'hierarchical' => false,
-    'menu_position' => 5,
-    'supports' => array('title'),
-    'has_archive' => true
-  );
-  register_post_type('Medical',$args);
-}
 
   

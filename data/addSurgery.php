@@ -13,7 +13,7 @@ include(APP_PATH."admin/wp-load.php");
 
         $fullname = $_POST['fullname'];
         $mobile = $_POST['mobile'];
-        $cusId_post = $_POST['cusId_post'];
+        $cusId_post = $_POST['cusid_post'];
 
 
         $advise = $_POST['advise'];

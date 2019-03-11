@@ -42,21 +42,21 @@ include(APP_PATH."libs/head.php");
             <h3 class="h3_page">Thông tin cơ bản</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                 <p class="inputBlock">
-                <input type="text" class="inputForm" name="cusId_post" id="cusId_post" value="" placeholder="ID" />
+                <input type="text" class="inputForm" name="cusid_post" readOnly id="cusid_post" value="" placeholder="ID" />
                 </p>
                 <p class="inputBlock">
-                <input type="text" class="inputForm" name="fullname" id="fullname" value="" placeholder="Họ tên" />
+                <input type="text" class="inputForm" name="fullname" readOnly id="fullname" value="" placeholder="Họ tên" />
                 </p>
                 <p class="inputBlock">
-                <input type="number" class="inputForm" name="mobile" id="mobile" id="mobile" placeholder="Số điện thoại" />
+                <input type="number" class="inputForm" name="mobile" readOnly id="mobile" id="mobile" placeholder="Số điện thoại" />
                 </p>
             </div>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
             <p class="inputBlock">
-                <input type="text" class="inputForm" name="idcard" id="idcard" id="idcard" placeholder="CMND" />
+                <input type="text" class="inputForm" name="idcard" readOnly id="idcard" id="idcard" placeholder="CMND" />
                 </p>
                 <p class="inputBlock">
-                <input type="text" class="inputForm" name="address" id="address" id="address" placeholder="Địa chỉ" />
+                <input type="text" class="inputForm" name="address" readOnly id="address" id="address" placeholder="Địa chỉ" />
                 </p>
             </div>
             
@@ -114,7 +114,7 @@ include(APP_PATH."libs/head.php");
             <!-- phuong thu tu van -->
 
             <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <p class="inputBlock customSelect mt0">
                         <select name="services" id="services" class="services servicesSl">
                             <option value="">Lựa chọn dịch vụ</option>
@@ -142,11 +142,7 @@ include(APP_PATH."libs/head.php");
                         </select>
                     </p>
                     <p class="inputBlock">
-                    <input type="text" class="inputForm priceNumb" readonly name="price" value="" placeholder="Giá" />
-                    </p>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="sale_discount" id="discount" value="" placeholder="Giá giảm" />
-                        <span></span>
+                    <input type="text" class="inputForm priceNumb" readonly id="price_1" name="price" value="" placeholder="Giá" />
                     </p>
                 </div>
                 <div id="moreBox"></div>
@@ -155,6 +151,11 @@ include(APP_PATH."libs/head.php");
                 <p class="addServices"><i class="fa fa-plus-circle" aria-hidden="true"></i>thêm dịch vụ</p>
                 <p class="addServices--rmv"><i class="fa fa-minus-circle" aria-hidden="true"></i>xoá dịch vụ</p>
                 <p class="noteServices">(Chỉ dành cho các dịch vụ có liên quan, tối đa 3 dịch vụ)</p>
+                <p class="inputBlock inputNumber">
+                        <input type="text" data-type="number" class="inputForm" name="sale_discount" id="discount" value="0" placeholder="Giá giảm" />
+                        <span></span>
+                </p>
+
             <!-- ADD SERVICES -->
 
             <!-- DATE -->
@@ -391,6 +392,14 @@ include(APP_PATH."libs/head.php");
     $('.servicesSl').live('change',function(){
         var price = $('option:selected',this).attr('data-price');
         $(this).parent().next().find('.priceNumb').val(price);
+        // var p1 = $('#price_1').val();
+        // var p2 = $('#price_2').val();
+        // var p3 = $('#price_3').val();
+        // var tt_templ = p1 + p2 + p3;
+        // console.log(p1);
+        // var sale_discount = $('#sale_discount').val();
+        // var total_templ = tt_templ - sale_discount;
+        // $('#total_templ').val(total_templ);
     });
     
     $('.addServices').click(function() {
@@ -433,7 +442,7 @@ include(APP_PATH."libs/head.php");
         var cus_mobile = $('#cus_mobile').text();
         var cus_add = $('#cus_add').text();
         var cus_idcard = $('#cus_idcard').text();
-        $("#cusId_post").val(cus_id);
+        $("#cusid_post").val(cus_id);
         $("#fullname").val(cus_name);
         $("#mobile").val(cus_mobile);
         $("#address").val(cus_add);

@@ -5,7 +5,7 @@ $services = $_GET['services'];
 $count = $_GET['count'];
 ?>
 
-<div class="flexBox flexBox--between flexBox__form flexBox__form--3 mt10">
+<div class="flexBox flexBox--between flexBox__form flexBox__form--2 mt10">
     <p class="inputBlock customSelect mt0">
         <select name="services_<?php echo $count; ?>" class="services servicesSl">
             <option value="">Lựa chọn dịch vụ</option>
@@ -31,10 +31,6 @@ $count = $_GET['count'];
         </select>
     </p>
     <p class="inputBlock">
-    <input type="text" class="inputForm priceNumb" readonly name="price_<?php echo $count; ?>" value="" placeholder="Giá" />
-    </p>
-    <p class="inputBlock inputNumber">
-        <input type="text" data-type="number" class="inputForm" name="sale_discount_<?php echo $count; ?>" id="discount" value="" placeholder="Giá giảm" />
-        <span></span>
+    <input type="text" class="inputForm priceNumb" readonly name="price_<?php echo $count; ?>" id="price_<?php echo $count; ?>" value="" placeholder="Giá" />
     </p>
 </div>

@@ -20,59 +20,122 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
     }
 
     if($_POST['action']=='edit') {
+        //UPDATE CUSTOMER INFO
+        $cusid_post = $_POST['cusid_post'];
+
+        if((get_field('idcustomer',$cusid_post))=='') {
+            $count=file_get_contents(APP_PATH."data/cus_no.txt");
+            $file=fopen(APP_PATH."data/cus_no.txt","w");
+            $down=$count+1;
+            fwrite($file,$down);
+            $idCustomer = 'CUS_'.date("Y").'_'.date("m").'_'.$count;
+
+            if($_FILES["file1"]["name"]!="") {
+                $parts1=pathinfo($_FILES["file1"]["name"]);
+                $ext1=".".strtolower($parts1["extension"]);	
+                $filename = strtolower($parts1["filename"]);
+                $custom_name = $idCustomer.'_front';
+                
+                $attach_file = $custom_name.$ext1;
+                move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/customers/".$attach_file);
+                $linkFile_front="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/customers/".$attach_file;
+            }
+            if($_FILES["file2"]["name"]!="") {
+                $parts1=pathinfo($_FILES["file2"]["name"]);
+                $ext1=".".strtolower($parts1["extension"]);	
+                $filename = strtolower($parts1["filename"]);
+                $custom_name = $idCustomer.'_back';
+                
+                $attach_file = $custom_name.$ext1;
+                move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/customers/".$attach_file);
+                $linkFile_back="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/customers/".$attach_file;
+            }
+
+            update_post_meta($cusid_post, 'ic_front', $linkFile_front);
+            update_post_meta($cusid_post, 'ic_back', $linkFile_back);
+            update_post_meta($cusid_post, 'idcustomer', $idCustomer);
+        }
+        //UPDATE CUSTOMER INFO
+
         $accept = $_POST['accept'];
         $approve = $_POST['approve'];
-        $price_sale = $_POST['price_sale'];
+        $sale_discount = $_POST['sale_discount'];
+        $total = $_POST['totalFee'];
+        
+
         update_post_meta($pid,'accept',$accept);
-        update_post_meta($pid,'approve',$approve);
-        update_post_meta($pid,'sale_discount',$price_sale);
+        if(get_field('approve',$pid)=='') {
+            update_post_meta($pid,'approve',$approve);
+        }
+        update_post_meta($pid,'sale_discount',$sale_discount);
+        update_post_meta($pid,'total',$total);
 
-            $idCustomer = $_POST['idCustomer'];
-            $cusId_post = $_POST['cusId_post'];
-            update_post_meta($cusId_post, 'idcustomer', $idCustomer);
 
-            $status = $_POST['status'];
-            $methodPay = $_POST['methodPay'];
-            $infoPay = $_POST['infoPayment'];
-            $statusPay = $_POST['statusPay'];
-            $deposit = $_POST['deposit'];
-            $payDetail ='
-            <strong>Phương thức thanh toán:</strong>'.$methodPay.'<br>';
-            if($_POST['deposit']!='') {
-                $payDetail .='
-                Số tiền cọc:'.$_POST['deposit'].'<br>
-                ';
-            }
-            if($methodPay!='cash') {
-                $payDetail .='
-                <div>Phương thức thanh toán:</div>'.$infoPay;
-            }
-            update_post_meta($pid,'payment_status',$statusPay);
-            update_post_meta($pid,'payment_detail',$payDetail);
-            update_post_meta($pid,'status',$status);
+        $status = $_POST['status'];
+
+        $methodPay = $_POST['methodPay'];
+
+        $cash_money = $_POST['cash_money'];
+        $bank_money = $_POST['bank_money'];
+        $visa_money = $_POST['visa_money'];
+
+        $statusPay = $_POST['statusPay'];
+        $deposit = $_POST['deposit'];
+        $debt = $_POST['debt'];
+        $remain = $_POST['remain'];
+
+        update_post_meta($pid,'deposit',$deposit);
+        update_post_meta($pid,'debt',$debt);
+        update_post_meta($pid,'cash_money',$cash_money);
+        update_post_meta($pid,'bank_money',$bank_money);
+        update_post_meta($pid,'visa_money',$visa_money);
+
+
+        update_post_meta($pid,'remain',$remain);
+        update_post_meta($pid,'payment_status',$statusPay);
+        update_post_meta($pid,'status',$status);
+        $approve_cf = get_field('approve',$pid);
+        if($approve_cf!='') {
+            update_post_meta($pid,'process','yes');
+        }
     
         header('Location:'.APP_URL.'surgery');
     }
 
     if($_POST['action']=='edit_bsnk') {
         $status = $_POST['status'];
-        $bsnk = $_POST['bsnk'];
-        
-        update_post_meta($pid,'bsnk_name',$bsnk);
         update_post_meta($pid,'status',$status);
 
+
+        $idMedical = 'MED_'.get_the_title($pid);
+        update_post_meta($pid,'idmedical',$idMedical);
+        $medical_post = array(
+            'post_title'    => $idMedical,
+            'post_status'   => 'publish',
+            'post_type' => 'medical',
+        );
+        $pid_med = wp_insert_post($medical_post);
         //UPLOAD IMAGEIMAGE
-        // $numb_image = $_POST['numb_image'];
-        // for($i=0;$i<=$numb_image;$i++) {
-        //     ${'attach_id'.$i} = media_handle_upload('file'.$i, $pid);
-        //     update_option('option_image', ${'attach_id'.$i});
-        //     update_post_meta($pid, '_my_file_upload', ${'attach_id'.$i});
-        //     update_post_meta($pid,'image_before',${'attach_id'.$i});
-        //     ${'sub_field_name'.$i} = 'image_before'.'_'.$i.'_'.'img';
-        //     var_dump(${'attach_id'.$i});
-            
-        //     update_field($pid, ${'sub_field_name'.$i}, wp_get_attachment_image_src(${'attach_id'.$i}) , false);
-        // }
+        $numb_image = $_POST['numb_image'];
+        $imgBefore = array();
+        for($i=0;$i<=$numb_image;$i++) {
+            if($_FILES["file$i"]["name"]!="") {
+                $parts1=pathinfo($_FILES["file$i"]["name"]);
+                $ext1=".".strtolower($parts1["extension"]);	
+                $filename = strtolower($parts1["filename"]);
+                $img_name = get_the_title($pid).'_'.$i;
+                
+                $attach_file = $img_name.$ext1;
+                move_uploaded_file($_FILES["file$i"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".$attach_file);
+                ${'linkFile_'.$i}="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
+                $imgBefore[] = $attach_file;
+
+                add_post_meta($pid_med, 'image_before', $imgBefore);
+            }
+        }
+
+        $bsnk = $_POST['bsnk'];
+        update_post_meta($pid_med,'bsnk_name',$bsnk);
         header('Location:'.APP_URL.'surgery');
     }
 
@@ -103,7 +166,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         }
         if($doctor1 != "") $doctor1 = substr($doctor1,0,strlen($string)-2);
         
-        echo $doctor1;
         $room_post = array(
             'post_title'    => $idRoom,
             'post_status'   => 'publish',
@@ -120,7 +182,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         add_post_meta($pid_ekip, 'input', $input);
         add_post_meta($pid_ekip, 'room', $room);
         
-        //header('Location:'.APP_URL.'surgery');
+        header('Location:'.APP_URL.'surgery');
     }
 
     if($_POST['action']=='ekip_report') {

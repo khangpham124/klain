@@ -76,7 +76,7 @@ include(APP_PATH."admin/wp-load.php");
 			if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
 			?>
                 <tr>
-                    <td id="cus_id"><?php if(get_field('idcustomer')==''){ ?>Chưa có<?php } else { echo get_field('idcustomer'); } ?></td>
+                    <td id="cus_id"><?php the_ID(); ?></td>
                     <td id="cus_name"><?php the_title(); ?></td>
                     <td id="cus_mobile"><?php the_field('mobile') ?></td>
                     <td id="cus_add"><?php the_field('address') ?></td>
