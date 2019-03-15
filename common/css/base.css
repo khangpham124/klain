@@ -330,7 +330,7 @@ Body
             padding: 0;
             line-height: 1.6;
             letter-spacing: 0;
-            font-size: 14px;
+            font-size: 13px;
             color: #333;
             min-width: 320px;
         }
@@ -349,7 +349,7 @@ Body
         
         .maxW {
             margin: 50px auto !important;
-            max-width: 1020px;
+            max-width: 900px;
             padding-left: 10px;
             padding-right: 10px;
         }
@@ -383,6 +383,14 @@ Header
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 1px;
+            line-height: 1.1;
+            text-align: right;
+        }
+
+        .headerInfo__username span {
+            font-size: 10px;
+            font-style: italic;
+            font-weight: 500;
         }
         
         .headerInfo__ava img {
@@ -393,21 +401,16 @@ Header
         }
         
         .hideSide {
-            position: fixed;
-            padding: 40px 20px;
+            padding: 20px;
             background: #000;
             z-index: 900;
             top: 0;
             bottom: 0;
-            right: -100%;
-            width: 30%;
+            left: 0;
+            width: 20%;
             -webkit-box-shadow: -2px 0px 3px 0px rgba(194, 194, 194, 0.5);
             -moz-box-shadow: -2px 0px 3px 0px rgba(194, 194, 194, 0.5);
             box-shadow: -2px 0px 3px 0px rgba(194, 194, 194, 0.5);
-            -moz-transition: all 0.4s ease-out;
-            -o-transition: all 0.4s ease-out;
-            -webkit-transition: all 0.4s ease-out;
-            -ms-transition: all 0.4s ease-out;
             color: #fff;
             overflow-y: auto;
         }
@@ -423,14 +426,22 @@ Header
 
         .hideSide ul li i {
             margin-right: 5px;
+            -moz-transition: all 0.26s ease-out;
+            -o-transition: all 0.26s ease-out;
+            -webkit-transition: all 0.26s ease-out;
+            -ms-transition: all 0.26s ease-out;
+        }
+
+        .hideSide ul li:hover {
+            opacity: .7;
+        }
+
+        .hideSide ul li:hover i {
+            margin-right: 15px;
         }
         
         .hideSide .iconClose {
-            position: absolute;
-            top: 0px;
-            right: 20px;
-            font-size: 30px;
-            cursor: pointer;
+            display: none;
         }
         
         .lstSide {
@@ -440,7 +451,9 @@ Header
         /*-----------------------------------------------------------
 Container
 ------------------------------------------------------------*/
-        
+        #wrapper {
+            width: 80%;
+        }
         #container {
             clear: both;
             margin: 0 auto 50px;

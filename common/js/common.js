@@ -23,19 +23,6 @@ function initRollOverImages() {
 
 $(document).ready(initRollOverImages);
 
-// $(document).ready(function(){
-//     $("input[data-type='number']").keyup(function(event){
-//       // skip for arrow keys
-//       if(event.which >= 37 && event.which <= 40){
-//           event.preventDefault();
-//       }
-//       var $this = $(this);
-//       var num = $this.val().replace(/,/gi, "");
-//       var num2 = num.split(/(?=(?:\d{3})+$)/).join(",");
-//       // the following line has been simplified. Revision history contains original.
-//       $this.val(num2);
-//   });
-// });
 
 
 $(document).ready(function(){
@@ -68,9 +55,16 @@ function RemoveRougeChar(convertString){
 }
 
 
-$('.btnSubmit').click(function() {
-    $(this).addClass('disable');
-});
+// $('.btnSubmit').click(function() {
+//     $(this).addClass('disable');
+// });
+
+function numberWithCommas(number) {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
 
 $('#getData').click(function() {
     $(this).addClass('disable');

@@ -207,8 +207,6 @@
 
 .customerCard {
     width: 40%;
-    text-align: right;
-    font-style: italic;
 }
 
 .customerCard img {
@@ -241,7 +239,18 @@
 }
 
 .tblPage tr td a {
-    font-size: 25px;
+    font-size: 22px;
+}
+
+.tblPage tr td em {
+    font-style: italic;
+    font-size: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tblPage tr td.last a {
+    margin: 0 4px;
 }
 
 .tblPage tr td.text a  {
@@ -358,8 +367,8 @@
 }
 
 .textBox {
-    margin: 50px 0;
-    padding: 50px;
+    margin: 20px 0;
+    padding: 30px 20px;
 }
 
 .mt0 {
@@ -382,7 +391,7 @@ textarea.inputForm {
 
 /* HIDE */
 
-.blockAdvise, .blockSur, .form_services, .monneyDeposit {
+.blockAdvise, .blockSur, .form_services, .monneyDeposit, .monneyNo {
     display: none;
 }
 
@@ -414,6 +423,10 @@ textarea.inputForm {
 
 .note--tvv {
     background: #fc0410;
+}
+
+.note--pending {
+    background: #10befe;
 }
 
 .note--bsnk {
@@ -542,10 +555,13 @@ textarea.inputForm {
 
 .methodSearch {
     position: absolute;
-    right: 40px;
-    top: 0;
-    background: #000;
-    height: 40px;
+    right: 42px;
+    top: 3px;
+    background: #c6c6c6;
+    height: 34px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 18%;
 }
 
 .methodSearch::before {
@@ -573,14 +589,13 @@ textarea.inputForm {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: #fff;
     outline: none;
     font-size: 12px;
 }
 
 
 .inputNumber input {
-    color: #fff;
+    /* color: #fff; */
 }
 
 .inputNumber span {
@@ -622,15 +637,39 @@ textarea.inputForm {
     cursor: pointer;
 }
 
+.addServices--rmv {
+    display: none;
+    padding: 15px 20px;
+    margin: 20px 0 5px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
 .addServices:hover {
     opacity: .7;
 }
 
-#doctor .tblPage th {
+#doctor .tblPage th, #counter .tblPage th {
     width: 28%;
     padding: 15px;
     border-bottom: 1px solid #e6e6e6;
     font-weight: bold;
+}
+
+#print .tblPage th{
+    width: 28%;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: bold;
+}
+#print .tblPage tr td {
+    padding: 10px 15px;
+}
+
+#print #footer {
+    display: none;
 }
 
 .removeItem {
@@ -651,3 +690,135 @@ textarea.inputForm {
     font-size: 12px;
     margin-bottom: 25px;
 }
+
+.txtPrint p {
+    text-align: center;
+}
+
+.txtPrint strong {
+    font-weight: bold;
+    display: block;
+}
+
+.txtPrint em {
+    font-style: italic;
+    display: block;
+    margin-bottom: 100px;
+}
+
+.txtHead__print {
+    font-size: 10px;
+}
+
+.h2_page_print {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 30px 0 20px;
+}
+
+.hisAdivise li {
+    margin-bottom: 25px;
+}
+
+.hisAdivise li .date {
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #aaaaaa;
+}
+
+.hisAdivise li div {
+    border-radius: 4px;
+    background: #f1f1f1;
+    padding: 15px;
+}
+
+.checkStyle {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .checkStyle input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .checkStyle:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .checkStyle input:checked ~ .checkmark {
+    background-color: #000;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .checkStyle input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .checkStyle .checkmark:after {
+    left: 5px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .h4_page--services {
+      text-transform: uppercase;
+  }
+
+  .inputNumber__new {
+      position: relative;
+  }
+
+  .inputNumber__new span {
+      position: absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      line-height: 40px;
+      padding-left: 15px;
+  }
+  .inputNumber__new input {
+      color: #fff;
+  }

@@ -9,6 +9,7 @@ include(APP_PATH."admin/wp-load.php");
         $facebook = $_POST['facebook'];
         $address = $_POST['address'];
         $creator = $_POST['creator'];
+        $content = $_POST['advise_f'];
         $day = $_POST['day'];
         $month = $_POST['month'];
         $year = $_POST['year'];
@@ -27,6 +28,16 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'address', $address);
         add_post_meta($pid, 'birthday', $birth);
         add_post_meta($pid, 'creator', $creator);
+
+        add_post_meta($pid, 'timeline', 1, true);
+        $sub_field_name1 = 'timeline'.'_0_'.'date';
+        $sub_field_name2 = 'timeline'.'_0_'.'content';
+        $sub_field_name3 = 'timeline'.'_0_'.'adviser';
+        update_post_meta($pid, $sub_field_name1, 'test', true);
+        update_post_meta($pid, $sub_field_name2, $content, true);
+        update_post_meta($pid, $sub_field_name3, $creator, true);
+
+        
         header('Location:'.APP_URL.'customers');
     }
 ?>

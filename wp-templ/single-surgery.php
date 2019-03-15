@@ -30,12 +30,12 @@ include(APP_PATH."libs/head.php");
 
          <ul class="tabItem tabItem--5 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
-            <?php if(($_COOKIE['role_cookies']!='doctor')&&(get_field('status'!='pending'))) { ?>
+            
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
             <li><a href="javascript:void(0)"  data-id="tab4">Chi tiết ca phẫu thuật</a></li>
             <li><a href="javascript:void(0)"  data-id="tab5">Chăm sóc hậu phẫu</a></li>
-            <?php } ?>
+            
         </ul>
 
         <div class="tabContent">
@@ -132,10 +132,19 @@ include(APP_PATH."libs/head.php");
                 <div class="tabBox" id="tab2">
                     <h3 class="h3_page">Tình trạng thanh toán : <?php the_field('payment_status'); ?></h3>
                     <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
-                        <?php $services = get_field('services'); ?>
+                        <?php 
+                            $services = get_field('services');
+                            $services_2 = get_field('services_2');
+                            $services_3 = get_field('services_3');
+                        ?>
                         <p class="inputBlock">
                         <input type="text" class="inputForm" name="discount" readonly value="<?php echo $services; ?> (<?php echo number_format(get_field('price')); ?> Đ)" placeholder="" />
                         </p>
+
+                        <p class="inputBlock">
+                        <input type="text" class="inputForm" name="discount" readonly value="<?php echo $services; ?> (<?php echo number_format(get_field('price')); ?> Đ)" placeholder="" />
+                        </p>
+
                         <p class="inputBlock">
                         <input type="text" class="inputForm" name="discount" readonly  value= "Giá giảm: <?php echo number_format(get_field('sale_discount')); ?> Đ" placeholder="Giá giảm" />
                         </p>

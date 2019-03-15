@@ -49,66 +49,64 @@ include(APP_PATH."libs/head.php");
 
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <h3 class="h3_page">Bệnh Án</h3>
-                <h4 class="h4_page">Dịch vụ yêu cầu : <?php the_field('services'); ?>
-                <?php if(get_field('services_2')!='') { ?>,<?php echo get_field('services_2'); ?><?php } ?>
-                <?php if(get_field('services_3')!='') { ?>,<?php echo get_field('services_3'); ?><?php } ?></h4>
+                <h4 class="h4_page">Dịch vụ yêu cầu :</h4>
                     <h4 class="h4_page">Hỏi bệnh</h4>
                     <table class="tblPage">
                         <tr>
                             <th>Quá trình bệnh lý</th>
-                            <td><textarea class="inputForm" name="howto" placeholder=""></textarea></td>
+                            <td><textarea class="inputForm" name="f_1" placeholder=""></textarea></td>
                         </tr>
                         <tr>
                             <th>Dị ứng thuốc</th>
                             <td>
-                                <p class="inputBlock borderBox" id="radHis">
-                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                <p class="inputBlock borderBox">
+                                    <input type="radio" class="radioForm" id="f_2" name="hasSur" value="Có" /><label class="labelReg" for="f_2">Có</label>
+                                    <input type="radio" class="radioForm" id="f_3" name="hasSur" value="Không" /><label class="labelReg" for="f_3">Không</label>
                                 </p>
                             </td>
                         </tr>
                         <tr>
                             <th>Dị ứng thức ăn</th>
                             <td>
-                                <p class="inputBlock borderBox" id="radHis">
-                                    <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                    <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                <p class="inputBlock borderBox">
+                                    <input type="radio" class="radioForm" id="f_4" name="hasSur" value="Có" /><label class="labelReg" for="f_4">Có</label>
+                                    <input type="radio" class="radioForm" id="f_5" name="hasSur" value="Không" /><label class="labelReg" for="f_5">Không</label>
                                 </p>
                             </td>
                         </tr>
                         <tr>
                             <th>Tiền căn nội khoa</th>
                             <td>
-                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            <textarea class="inputForm" name="f_6" placeholder=""></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>Tiền căn ngoại khoa</th>
                             <td>
-                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            <textarea class="inputForm" name="f_7" placeholder=""></textarea>
                             </td>
                         </tr>  
                         <tr>
                             <th>Kinh nguyệt</th>
                             <td>
-                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            <textarea class="inputForm" name="f_8" placeholder=""></textarea>
                             </td>
                         </tr>   
                         <tr>
                             <th>Di truyền</th>
                             <td>
-                            <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                            <textarea class="inputForm" name="f_9" placeholder=""></textarea>
                             </td>
                         </tr>   
                         <tr>
                             <th>Đặc điểm liên quan bệnh</th>
                             <td>
-                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Dị ứng</label>
-                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Ma tuý</label>
-                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Rượu bia</label>
-                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Thuốc lá</label>
-                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Thuốc lào</label>
-                                <input type="checkbox" class="inputForm" name="" id="" value="" /><label>Khác</label>
+                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_1" value="Dị ứng" /><label for="f_10_1">Dị ứng</label>
+                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_2" value="Ma tuý" /><label for="f_10_2">Ma tuý</label>
+                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_3" value="Rượu bia" /><label for="f_10_3">Rượu bia</label>
+                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_4" value="Thuốc lá" /><label for="f_10_4" >Thuốc lá</label>
+                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_5" value="Thuốc lào" /><label for="f_10_5">Thuốc lào</label>
+                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_6" value="Khác" /><label for="f_10_6">Khác</label>
                             </td>
                         </tr>                
                     </table>                
@@ -116,17 +114,17 @@ include(APP_PATH."libs/head.php");
                     <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                         <div class="inputBlock">
                             <label class="smallLabel">Mạch</label>
-                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
-                            <label class="smallLabel">Nhiệt đõ</label>
-                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <input type="text" class="inputForm" name="f_11" value="" placeholder="Mạch" />
+                            <label class="smallLabel">Nhiệt độ</label>
+                            <input type="text" class="inputForm" name="f_12" value="" placeholder="Nhiệt độ" />
                             <label class="smallLabel">Huyết áp</label>
-                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <input type="text" class="inputForm" name="f_13" value="" placeholder="Huyết áp" />
                         </div>
                         <div class="inputBlock">
                             <label class="smallLabel">Nhịp thở</label>
-                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <input type="text" class="inputForm" name="f_14" value="" placeholder="Nhịp thở" />
                             <label class="smallLabel">Cân nặng</label>
-                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Giá giảm" />
+                            <input type="text" class="inputForm" name="f_15" value="" placeholder="Cân nặng" />
                         </div>
                     </div>
 
@@ -134,11 +132,11 @@ include(APP_PATH."libs/head.php");
                     <table class="tblPage">
                         <tr>
                             <th>Toàn thân</th>
-                            <td><textarea class="inputForm" name="howto" placeholder=""></textarea></td>
+                            <td><textarea class="inputForm" name="f_16" placeholder=""></textarea></td>
                         </tr>
                         <tr>
                             <th>Bệnh ngoại khoa</th>
-                            <td><textarea class="inputForm" name="howto" placeholder=""></textarea></td>
+                            <td><textarea class="inputForm" name="f_17" placeholder=""></textarea></td>
                         </tr>
                     </table>    
                     <div class="inputBlock">
@@ -157,7 +155,7 @@ include(APP_PATH."libs/head.php");
                                         <th>Số lần phẫu thuật mũi</th>
                                         <td>
                                         <p class="inputBlock customSelect">
-                                            <select>
+                                            <select name="f_18">
                                                 <option value="">Số lần</option>
                                                 <?php for($i=0;$i<=10;$i++) { ?>
                                                 <option value="<?php echo $i ?>"><?php echo $i ?></option>
@@ -171,12 +169,12 @@ include(APP_PATH."libs/head.php");
                                         <th>Mũi hiện tại</th>
                                         <td>
                                         <p class="mb10">
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Mũi silastic</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Mũi bọc sụn</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Mũi cấu trúc</label>
+                                            <input type="radio" class="radioForm" id="f_19_1" name="f_19" value="Mũi silastic" /><label class="labelReg" for="f_19_1">Mũi silastic</label>
+                                            <input type="radio" class="radioForm" id="f_19_2" name="f_19" value="Mũi bọc sụn" /><label class="labelReg" for="f_19_2">Mũi bọc sụn</label>
+                                            <input type="radio" class="radioForm" id="f_19_3" name="f_19" value="Mũi cấu trúc" /><label class="labelReg" for="f_19_3">Mũi cấu trúc</label>
                                         </p>
-                                        <input type="text" class="inputForm mb10" name="" id="" value="" placeholder="Hình dạng tổng quát" />
-                                        <input type="text" class="inputForm" name="" id="" value="" placeholder="Sẹo vùng mũi" />
+                                        <input type="text" class="inputForm mb10" name="f_20" value="" placeholder="Hình dạng tổng quát" />
+                                        <input type="text" class="inputForm" name="f_21" value="" placeholder="Sẹo vùng mũi" />
                                         </td>
                                     </tr>
 
@@ -186,22 +184,22 @@ include(APP_PATH."libs/head.php");
                                         <td>
                                         <div class="mb10">
                                         <label class="smallLabel">Xượng mũi (gồ)</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                        <input type="radio" class="radioForm" id="f_22_1" name="f_22" value="Có" /><label class="labelReg" for="f_22_1">Có</label>
+                                        <input type="radio" class="radioForm" id="f_22_2" name="f_22" value="Không" /><label class="labelReg" for="f_22_2">Không</label>
                                         <label class="smallLabel">Lệch</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                        <input type="radio" class="radioForm" id="f_23_1" name="f_23" value="Có" /><label class="labelReg" for="f_23_1">Có</label>
+                                        <input type="radio" class="radioForm" id="f_23_2" name="f_23" value="Không" /><label class="labelReg" for="f_23_2">Không</label>
 
                                         <label class="smallLabel">Bè</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                        <input type="radio" class="radioForm" id="f_24_1" name="f_24" value="Có" /><label class="labelReg" for="f_24_1">Có</label>
+                                        <input type="radio" class="radioForm" id="f_24_2" name="f_24" value="Không" /><label class="labelReg" for="f_24_2">Không</label>
 
                                         <label class="smallLabel">Đục xương</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                        <input type="radio" class="radioForm" id="f_25_1" name="f_25" value="Có" /><label class="labelReg" for="f_25_1">Có</label>
+                                        <input type="radio" class="radioForm" id="f_25_2" name="f_25" value="Không" /><label class="labelReg" for="f_25_2">Không</label>
                                         </div>
                                 
-                                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Vi tri Radix" />
+                                        <input type="text" class="inputForm" name="f_26" value="" placeholder="Vị trí Radix" />
                                         </td>
                                     </tr>
 
@@ -210,52 +208,52 @@ include(APP_PATH."libs/head.php");
                                         <th>Đầu mũi</th>
                                         <td>
                                         <label class="smallLabel">To</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Co</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                        <input type="radio" class="radioForm" id="f_27_1" name="f_27" value="Có" /><label class="labelReg" for="f_27_1">Có</label>
+                                        <input type="radio" class="radioForm" id="f_27_2" name="f_27" value="Không" /><label class="labelReg" for="f_27_2">Không</label>
                                         <label class="smallLabel">Mô mềm đầu mũi</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nhiều</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Ít</label>
+                                        <input type="radio" class="radioForm" id="f_28_1" name="f_28" value="Nhiều" /><label class="labelReg" for="f_28_1">Nhiều</label>
+                                        <input type="radio" class="radioForm" id="f_28_2" name="f_28" value="Ít" /><label class="labelReg" for="f_28_2">Ít</label>
                                         <label class="smallLabel">Đầu mũi ngắn</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nhiều</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Ít</label>
+                                        <input type="radio" class="radioForm" id="f_29_1" name="f_29" value="Nhiều" /><label class="labelReg" for="f_29_1">Nhiều</label>
+                                        <input type="radio" class="radioForm" id="f_29_2" name="f_29" value="Ít" /><label class="labelReg" for="f_29_2">Ít</label>
 
                                         <label class="smallLabel">Góc mũi môi</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Hech</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khong hech</label>
+                                        <input type="radio" class="radioForm" id="f_30_1" name="f_30" value="Hếch" /><label class="labelReg" for="f_30_1">Hếch</label>
+                                        <input type="radio" class="radioForm" id="f_30_2" name="f_30" value="Không hếch" /><label class="labelReg" for="f_30_2">Không hếch</label>
 
                                         <label class="smallLabel">Da mũi</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Day</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Mong</label>
+                                        <input type="radio" class="radioForm" id="f_31_1" name="f_31" value="Dày" /><label class="labelReg" for="f_31_1">Dày</label>
+                                        <input type="radio" class="radioForm" id="f_31_2" name="f_31" value="Mỏng" /><label class="labelReg" for="f_31_2">Mỏng</label>
 
                                         <label class="smallLabel">Độ nảy đầu mũi</label>
                                         
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">1</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">2</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">3</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">4</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">5</label>
+                                        <input type="radio" class="radioForm" id="f_32_1" name="f_32" value="no" /><label class="labelReg" for="f_32_1">1</label>
+                                        <input type="radio" class="radioForm" id="f_32_2" name="f_32" value="no" /><label class="labelReg" for="f_32_2">2</label>
+                                        <input type="radio" class="radioForm" id="f_32_3" name="f_32" value="no" /><label class="labelReg" for="f_32_3">3</label>
+                                        <input type="radio" class="radioForm" id="f_32_4" name="f_32" value="no" /><label class="labelReg" for="f_32_4">4</label>
+                                        <input type="radio" class="radioForm" id="f_32_5" name="f_32" value="no" /><label class="labelReg" for="f_32_5">5</label>
                                         
 
                                         <label class="smallLabel">Đánh giá vách ngăn</label>
                                         <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
                                             <div class="inputBlock borderBox">
                                                 <label class="smallLabel">Vẹo</label>
-                                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                                <input type="radio" class="radioForm" id="f_33_1" name="f_33" value="Có" /><label class="labelReg" for="f_33_1">Có</label>
+                                                <input type="radio" class="radioForm" id="f_33_2" name="f_33" value="Không" /><label class="labelReg" for="f_33_2">Không</label>
                                             </div>
                                             <div class="inputBlock borderBox">
                                                 <label class="smallLabel">Cong Lõm</label>
-                                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Trái</label>
-                                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Phải</label>
+                                                <input type="radio" class="radioForm" id="f_34_1" name="f_34" value="Trái" /><label class="labelReg" for="f_34_1">Trái</label>
+                                                <input type="radio" class="radioForm" id="f_34_2" name="f_34" value="Phải" /><label class="labelReg" for="f_34_2">Phải</label>
                                             </div>
                                         </div>
-                                        <input type="text" class="inputForm mb10" name="discount" id="discount" value="" placeholder="Vật liệu sử dụng" />
-                                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Cách dựng trụ" />
+                                        <input type="text" class="inputForm mb10" name="f_35" value="" placeholder="Vật liệu sử dụng" />
+                                        <input type="text" class="inputForm" name="f_36" value="" placeholder="Cách dựng trụ" />
 
                                         <label class="smallLabel">Tien dinh mui</label>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Không khuyết</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Khuyết</label>
-                                        <input type="text" class="inputForm mb10" name="discount" id="discount" value="" placeholder="Cần ghép chỗ khuyết" />
+                                        <input type="radio" class="radioForm" id="f_37_1" name="f_37" value="Không khuyết" /><label class="labelReg" for="f_37_1">Không khuyết</label>
+                                        <input type="radio" class="radioForm" id="f_37_2" name="f_37" value="Khuyết" /><label class="labelReg" for="f_37_2">Khuyết</label>
+                                        <input type="text" class="inputForm mb10" name="f_38" value="" placeholder="Cần ghép chỗ khuyết" />
                                         </td>
                                     </tr>
 
@@ -263,13 +261,13 @@ include(APP_PATH."libs/head.php");
                                     <tr>
                                         <th>Cánh mũi</th>
                                         <td>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Mỏng</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Dày</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Cong nhìều</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Cong ít</label>
+                                            <input type="radio" class="radioForm" id="f_39_1" name="f_39" value="Mỏng" /><label class="labelReg" for="f_39_1">Mỏng</label>
+                                            <input type="radio" class="radioForm" id="f_39_2" name="f_39" value="Dày" /><label class="labelReg" for="f_39_2">Dày</label>
+                                            <input type="radio" class="radioForm" id="f_39_3" name="f_39" value="Cong nhìều" /><label class="labelReg" for="f_39_3">Cong nhìều</label>
+                                            <input type="radio" class="radioForm" id="f_39_4" name="f_39" value="Cong ít" /><label class="labelReg" for="f_39_4">Cong ít</label>
                                             <div class="mt10">
-                                                <input type="text" class="inputForm mb10" name="discount" id="discount" value="" placeholder="Cắt cánh mũi?" />
-                                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Treo cánh mũi?" />
+                                                <input type="text" class="inputForm mb10" name="f_40" value="" placeholder="Cắt cánh mũi?" />
+                                                <input type="text" class="inputForm" name="f_41" value="" placeholder="Treo cánh mũi?" />
                                             </div>
                                         </td>
                                     </tr>
@@ -277,17 +275,17 @@ include(APP_PATH."libs/head.php");
 
                                     <tr>
                                         <th>Nền mũi</th>
-                                        <td>
+                                        <td>when the browser window is resized,
                                             <p class="mb10">
-                                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Cao</label>
-                                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Thấp</label>
-                                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Rãnh mũi nông sâu?" />
+                                                <input type="radio" class="radioForm" id="f_42_1" name="f_42" value="Cao" /><label class="labelReg" for="f_42_1">Cao</label>
+                                                <input type="radio" class="radioForm" id="f_42_2" name="f_42" value="Thấp" /><label class="labelReg" for="f_42_2">Thấp</label>
+                                                <input type="text" class="inputForm" name="f_43" value="" placeholder="Rãnh mũi nông sâu?" />
                                             </p>
                                             <label class="smallLabel">Đường khính nền mũi / khoảng cách 2 khoé mắt</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Rộng</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Bằng</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Nhỏ</label>
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Thu nền mũi ?" /> 
+                                            <input type="radio" class="radioForm" id="f_44_1" name="f_44" value="Rộng" /><label class="labelReg" for="f_44_1">Rộng</label>
+                                            <input type="radio" class="radioForm" id="f_44_2" name="f_44" value="Bằng" /><label class="labelReg" for="f_44_2">Bằng</label>
+                                            <input type="radio" class="radioForm" id="f_44_3" name="f_44" value="Nhỏ" /><label class="labelReg" for="f_44_3">Nhỏ</label>
+                                            <input type="text" class="inputForm" name="f_45" value="" placeholder="Thu nền mũi ?" /> 
                                         </td>
                                     </tr>
 
@@ -296,10 +294,10 @@ include(APP_PATH."libs/head.php");
                                         <th>Sụn cánh mũi</th>
                                         <td>
                                         <p class="mb10">
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nho</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">To</label>
+                                            <input type="radio" class="radioForm" id="f_46_1" name="f_46" value="Nhỏ" /><label class="labelReg" for="f_46_1">Nhỏ</label>
+                                            <input type="radio" class="radioForm" id="f_46_2" name="f_46" value="To" /><label class="labelReg" for="f_46_2">To</label>
                                         </p>
-                                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bi bien dang?" />
+                                        <input type="text" class="inputForm" name="f_47" value="" placeholder="Bị biến dạng?" />
                                         </td>
                                     </tr>
 
@@ -307,8 +305,8 @@ include(APP_PATH."libs/head.php");
                                     <tr>
                                         <th>Mũi khi cười bị kéo dài</th>
                                         <td>
-                                        <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                        <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                        <input type="radio" class="radioForm" id="f_48_1" name="f_48" value="Có" /><label class="labelReg" for="f_48_1">Có</label>
+                                        <input type="radio" class="radioForm" id="f_48_2" name="f_48" value="Không" /><label class="labelReg" for="f_48_2">Không</label>
                                         </td>
                                     </tr>
 
@@ -321,7 +319,7 @@ include(APP_PATH."libs/head.php");
                                         <th>Số lần phẫu thuật mũi</th>
                                         <td>
                                         <p class="inputBlock customSelect">
-                                            <select>
+                                            <select name="f_49">
                                                 <option value="">Số lần</option>
                                                 <?php for($i=0;$i<=10;$i++) { ?>
                                                 <option value="<?php echo $i ?>"><?php echo $i ?></option>
@@ -329,8 +327,8 @@ include(APP_PATH."libs/head.php");
                                             </select>
                                         </p>
                                         <p class="mb10">
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nhấn mí</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Cắt mí</label>
+                                            <input type="radio" class="radioForm" id="f_50_1" name="f_50" value="Nhấn mí" /><label class="labelReg" for="f_50_1">Nhấn mí</label>
+                                            <input type="radio" class="radioForm" id="f_50_2" name="f_50" value="Cắt mí" /><label class="labelReg" for="f_50_2">Cắt mí</label>
                                         </p>
                                         
                                         </td>
@@ -340,21 +338,21 @@ include(APP_PATH."libs/head.php");
                                         <td>
                                             <p class="mb10">
                                                 <label class="smallLabel">Có mí </label>
-                                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                                <input type="radio" class="radioForm" id="f_51_1" name="f_51" value="Có" /><label class="labelReg" for="f_51_1">Có</label>
+                                                <input type="radio" class="radioForm" id="f_51_2" name="f_51" value="Không" /><label class="labelReg" for="f_51_2">Không</label>
                                             </p>
                                             
                                             <p class="mb10">
                                                 <label class="smallLabel">Độ dư da 2 bên</label>
-                                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Đều</label>
-                                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không Đều</label>
+                                                <input type="radio" class="radioForm" id="f_52_1" name="f_52" value="Đều" /><label class="labelReg" for="f_52_1">Đều</label>
+                                                <input type="radio" class="radioForm" id="f_52_2" name="f_52" value="Không Đều" /><label class="labelReg" for="f_52_2">Không Đều</label>
                                             </p>
                                             <p class="mb10">
                                                 <label class="smallLabel">Da dư làm nhở mắt</label>
-                                                <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                                <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                                <input type="radio" class="radioForm" id="f_53_1" name="f_53" value="Có" /><label class="labelReg" for="f_53_1">Có</label>
+                                                <input type="radio" class="radioForm" id="f_53_2" name="f_53" value="Không" /><label class="labelReg" for="f_53_2">Không</label>
                                             </p>
-                                            <textarea class="inputForm" name="bsk" id="bsk" placeholder="Ghi chú khác"></textarea>
+                                            <textarea class="inputForm" name="f_54" placeholder="Ghi chú khác"></textarea>
                                         </td>
                                     </tr>
                                     
@@ -363,68 +361,68 @@ include(APP_PATH."libs/head.php");
                                         <td>
                                         <p class="mb10">
                                             <label class="smallLabel">Có yếu cơ nâng mi hay chênh lệch?</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                            <input type="radio" class="radioForm" id="f_55_1" name="f_55" value="yes" /><label class="labelReg" for="f_55_1">Có</label>
+                                            <input type="radio" class="radioForm" id="f_55_2" name="f_55" value="no" /><label class="labelReg" for="f_55_2">Không</label>
                                         </p>
                                         <p class="mb10">
                                             <label class="smallLabel">Có sự hỗ trợ mở mắt của các cơ lân cận ?</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                            <input type="radio" class="radioForm" id="f_56_1" name="f_56" value="yes" /><label class="labelReg" for="f_56_1">Có</label>
+                                            <input type="radio" class="radioForm" id="f_56_2" name="f_56" value="no" /><label class="labelReg" for="f_56_2">Không</label>
                                         </p>
                                         </td>
                                     </tr>  
 
                                     <tr>
                                         <th>Góc mắt trong</th>
-                                        <td><input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Mô tả" /> </td>
+                                        <td><input type="text" class="inputForm" name="f_57" value="" placeholder="Mô tả" /> </td>
                                     </tr>
                                     
                                     <tr>
                                         <th>Góc mắt ngoài</th>
-                                        <td><input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Mô tả" /> </td>
+                                        <td><input type="text" class="inputForm" name="f_58" value="" placeholder="Mô tả" /> </td>
                                     </tr>
 
 
                                     <tr>
                                         <th>Mỡ mắt</th>
                                         <td>
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Mỡ góc trong" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Mỡ góc ngoài" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="thiếu vùng nào" />
+                                            <input type="text" class="inputForm" name="f_59"  value="" placeholder="Mỡ góc trong" />
+                                            <input type="text" class="inputForm" name="f_60"  value="" placeholder="Mỡ góc ngoài" />
+                                            <input type="text" class="inputForm" name="f_61"  value="" placeholder="thiếu vùng nào" />
                                         </td>
                                     </tr>  
 
                                     <tr>
                                         <th>Mô duới mắt</th>
                                         <td>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nhão</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Căng</label>
+                                            <input type="radio" class="radioForm" id="f_62_1" name="f_62" value="Nhão" /><label class="labelReg" for="f_62_1">Nhão</label>
+                                            <input type="radio" class="radioForm" id="f_62_2" name="f_62" value="Căng" /><label class="labelReg" for="f_62_2">Căng</label>
                                         </td>
                                     </tr>  
                                     <tr>
                                         <th>Mô dưới da</th>
                                         <td>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nhiều</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Ít</label>
+                                            <input type="radio" class="radioForm" id="f_63_1" name="f_63" value="Nhiều" /><label class="labelReg" for="f_63_1">Nhiều</label>
+                                            <input type="radio" class="radioForm" id="f_63_2" name="f_63" value="Ít" /><label class="labelReg" for="f_63_2">Ít</label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Sa tuyến lệ</th>
                                         <td>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                            <input type="radio" class="radioForm" id="f_64_1" name="f_64" value="Có" /><label class="labelReg" for="f_64_1">Có</label>
+                                            <input type="radio" class="radioForm" id="f_64_2" name="f_64" value="Không" /><label class="labelReg" for="f_64_2">Không</label>
                                         </td>
                                     </tr> 
                                     
                                     <tr>
                                         <th>Lông mi</th>
                                         <td>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Ngắn</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Dài</label>
+                                            <input type="radio" class="radioForm" id="f_65_1" name="f_65" value="Ngắn" /><label class="labelReg" for="f_65_1">Ngắn</label>
+                                            <input type="radio" class="radioForm" id="f_65_2" name="f_65" value="Dài" /><label class="labelReg" for="f_65_2">Dài</label>
                                             <p class="mb10">
                                             <label class="smallLabel">Độ vểnh lông mi</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Nhiều</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Ít</label>
+                                            <input type="radio" class="radioForm" id="f_66_1" name="f_66" value="Nhiều" /><label class="labelReg" for="f_66_1">Nhiều</label>
+                                            <input type="radio" class="radioForm" id="f_66_2" name="f_66" value="Ít" /><label class="labelReg" for="f_66_2">Ít</label>
                                             </p>
                                         </td>
                                     </tr>
@@ -432,19 +430,19 @@ include(APP_PATH."libs/head.php");
                                     <tr>
                                         <th>Cung mày</th>
                                         <td>
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Vị trí cung mày so vớ gờ xương ổ mắt" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Khoảng cách cung mày và nếp mí" />
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Đều</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không Đều</label>
+                                            <input type="text" class="inputForm" name="f_67"  value="" placeholder="Vị trí cung mày so vớ gờ xương ổ mắt" />
+                                            <input type="text" class="inputForm" name="f_68"  value="" placeholder="Khoảng cách cung mày và nếp mí" />
+                                            <input type="radio" class="radioForm" id="f_69_1" name="f_69" value="Đều" /><label class="labelReg" for="f_69_1">Đều</label>
+                                            <input type="radio" class="radioForm" id="f_69_2" name="f_69" value="Không Đều" /><label class="labelReg" for="f_69_2">Không Đều</label>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th>Lưu ý</th>
                                         <td>
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Khi khách nhắm mở mắt" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Khi khách cười" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Nếp nhăn đuội mắt" />
+                                            <input type="text" class="inputForm" name="f_70"  value="" placeholder="Khi khách nhắm mở mắt" />
+                                            <input type="text" class="inputForm" name="f_71"  value="" placeholder="Khi khách cười" />
+                                            <input type="text" class="inputForm" name="f_72"  value="" placeholder="Nếp nhăn đuội mắt" />
                                         </td>
                                     </tr> 
                                 </table> 
@@ -455,7 +453,7 @@ include(APP_PATH."libs/head.php");
                                         <th>Số lần phẫu thuật mũi</th>
                                         <td>
                                         <p class="inputBlock customSelect">
-                                            <select>
+                                            <select name="f_73">
                                                 <option value="">Số lần</option>
                                                 <?php for($i=0;$i<=10;$i++) { ?>
                                                 <option value="<?php echo $i ?>"><?php echo $i ?></option>
@@ -467,18 +465,18 @@ include(APP_PATH."libs/head.php");
                                     <tr>
                                         <th>Đánh giá</th>
                                         <td>
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Tình trạng sa trễ , yếu mi dưới" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Tình trạng khi khách cười" />
+                                            <input type="text" class="inputForm" name="f_74"  value="" placeholder="Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới" />
+                                            <input type="text" class="inputForm" name="f_75"  value="" placeholder="Tình trạng sa trễ , yếu mi dưới" />
+                                            <input type="text" class="inputForm" name="f_76"  value="" placeholder="Tình trạng khi khách cười" />
                                             <p class="mb10">
                                             <label class="smallLabel">Bờ mi có tiền tuyến đồng tử</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có </label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                            <input type="radio" class="radioForm" id="f_77_1" name="f_77" value="Có" /><label class="labelReg" for="f_77_1">Có </label>
+                                            <input type="radio" class="radioForm" id="f_77_2" name="f_77" value="Không" /><label class="labelReg" for="f_77_2">Không</label>
                                             </p>
                                             <p class="mb10">
                                             <label class="smallLabel">Có hở tròng trắng</label>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Có </label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không</label>
+                                            <input type="radio" class="radioForm" id="f_78_1" name="f_78" value="Có" /><label class="labelReg" for="f_78_1">Có </label>
+                                            <input type="radio" class="radioForm" id="f_78_2" name="f_78" value="Không" /><label class="labelReg" for="f_78_2">Không</label>
                                             </p>
                                         </td>
                                     </tr>     
@@ -490,24 +488,24 @@ include(APP_PATH."libs/head.php");
                                     <tr>
                                         <th>Số lần phẫu thuật</th>
                                         <td>
-                                            <input type="radio" class="radioForm" id="rad3" name="hasSur" value="yes" /><label class="labelReg" for="rad3">Đều</label>
-                                            <input type="radio" class="radioForm" id="rad4" name="hasSur" value="no" /><label class="labelReg" for="rad4">Không đều</label>
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bên nào nhô nhiều?" />
-                                            <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Thiếu cằm chiều nào?" />
+                                            <input type="radio" class="radioForm" id="f_79_1" name="f_79" value="yes" /><label class="labelReg" for="f_79_1">Đều</label>
+                                            <input type="radio" class="radioForm" id="f_79_2" name="f_79" value="no" /><label class="labelReg" for="f_79_2">Không đều</label>
+                                            <input type="text" class="inputForm" name="f_80"  value="" placeholder="Bên nào nhô nhiều?" />
+                                            <input type="text" class="inputForm" name="f_81"  value="" placeholder="Thiếu cằm chiều nào?" />
                                         </td>
                                     </tr>
                                     </table>
                             </div>
                             <div class="tabBox" id="tab4">
                                 <div class="inputBlock">
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Tuần hoàn" />
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Răng hàm mặt" />
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Hô hấp" />
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Thân tiết niệu, sinh dục">
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Thần kinh" />
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Nội tiết,dinh dưỡng, các bệnh lý khác" />
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Tiêu hoá" />
-                                <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Cơ Xương khớp" />
+                                <input type="text" class="inputForm" name="f_82"  value="" placeholder="Tuần hoàn" />
+                                <input type="text" class="inputForm" name="f_83"  value="" placeholder="Răng hàm mặt" />
+                                <input type="text" class="inputForm" name="f_84"  value="" placeholder="Hô hấp" />
+                                <input type="text" class="inputForm" name="f_85"  value="" placeholder="Thân tiết niệu, sinh dục">
+                                <input type="text" class="inputForm" name="f_86"  value="" placeholder="Thần kinh" />
+                                <input type="text" class="inputForm" name="f_87"  value="" placeholder="Nội tiết,dinh dưỡng, các bệnh lý khác" />
+                                <input type="text" class="inputForm" name="f_88"  value="" placeholder="Tiêu hoá" />
+                                <input type="text" class="inputForm" name="f_89"  value="" placeholder="Cơ Xương khớp" />
                                 </div>
                             </div>
                         </div>
@@ -515,26 +513,26 @@ include(APP_PATH."libs/head.php");
 
                     <h4 class="h4_page">Các xét nghiệm cận lâm sàng cần thực hiện</h4>
                     <div class="inputBlock">
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                        <textarea class="inputForm" name="f_90" placeholder=""></textarea>
                     </div>
                     <h4 class="h4_page">Tóm tắt bệnh án</h4>
                     <div class="inputBlock">
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                        <textarea class="inputForm" name="f_91" placeholder=""></textarea>
                     </div>
 
                     <h3 class="h3_page">Chuẩn đoán khi vào khoa</h3>
                         <div class="inputBlock">
-                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bệnh chính" />
-                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bệnh kèm theo" />
-                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Phân biệt" />
+                        <input type="text" class="inputForm" name="f_92"  value="" placeholder="Bệnh chính" />
+                        <input type="text" class="inputForm" name="f_93"  value="" placeholder="Bệnh kèm theo" />
+                        <input type="text" class="inputForm" name="f_94"  value="" placeholder="Phân biệt" />
                         </div>
                     <h3 class="h3_page">Tiên lượng</h3>   
                         <div class="inputBlock">
-                        <input type="text" class="inputForm" name="discount" id="discount" value="" placeholder="Bệnh chính" /> 
+                        <input type="text" class="inputForm" name="f_95"  value="" placeholder="Bệnh chính" /> 
                         </div>
                     <h3 class="h3_page">Hướng điều trị</h3>   
                     <div class="inputBlock">
-                        <textarea class="inputForm" name="howto" placeholder=""></textarea>
+                        <textarea class="inputForm" name="f_96" placeholder=""></textarea>
                     </div>  
 
 
@@ -559,6 +557,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="numb_image" value="<?php echo $numb_image; ?>" >
                     <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                     <input type="hidden" name="action" value="edit_bsnk" >
+                    <a href="javascript:void(0)" class=" callPopup btnSubmit">Trả quầy</a>
                 <?php } else {  ?>
                     <input type="hidden" name="status" value="bsk" >
                     <input class="btnSubmit" type="submit" name="submit" value="Tạo">
@@ -587,8 +586,27 @@ include(APP_PATH."libs/head.php");
         var tabId = $(this).find('a').attr('data-id');
         $('.tabBox').fadeOut(200);
         $('#'+tabId).fadeIn(200);
-    });        
+    });       
+    
+    $('.callPopup').click(function() {
+        $('.overlay').fadeIn(200);
+        $('.popUp').fadeIn(200);
+    });
+
+    $('.overlay').click(function() {
+        $(this).fadeOut(200);
+        $('.popUp').fadeOut(200);
+    });
 </script>
+
+<div class="overlay"></div>
+<div class="popUp">
+    <h3 class="h3_page">Huỷ dịch vụ</h3>
+    <p class="inputBlock">
+        <input type="text" class="inputForm" name="problem" id="problem" placeholder="Lý do huỷ" />
+    </p>
+    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+</div>
 
 </body>
 </html>	

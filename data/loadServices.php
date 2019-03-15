@@ -1,7 +1,6 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 include(APP_PATH."admin/wp-load.php");
-$services = $_GET['services'];
 $count = $_GET['count'];
 ?>
 
@@ -16,12 +15,6 @@ $count = $_GET['count'];
                     'post_type' => 'services',
                     'post_status' => 'publish',
                     'order' => 'DESC',
-                    'meta_query' => array(
-                        array(
-                        'key' => 'main',
-                        'value' => $services,
-                        'compare' => '='
-                        ))
                 );
                 $wp_query->query($param);
                 if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();

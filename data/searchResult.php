@@ -74,6 +74,7 @@ include(APP_PATH."admin/wp-load.php");
             
 			$wp_query->query($param);
 			if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+			$cusId = $post->ID;
 			?>
                 <tr>
                     <td id="cus_id"><?php the_ID(); ?></td>
@@ -81,7 +82,10 @@ include(APP_PATH."admin/wp-load.php");
                     <td id="cus_mobile"><?php the_field('mobile') ?></td>
                     <td id="cus_add"><?php the_field('address') ?></td>
                     <td id="cus_idcard"><?php the_field('idcard') ?></td>
-                    <td class="last text"><a href="javascript:void(0)" id="getData">Sử dụng</i></a></td>
+                    <td class="last text">
+					<a href="<?php the_permalink(); ?>" target="_blank">Sửa</i></a>
+					<a href="javascript:void(0)" id="getData">Sử dụng</i></a>
+					</td>
                 </tr>
         <?php endwhile; endif; ?>
     </tbody>
