@@ -162,17 +162,18 @@ include(APP_PATH."libs/head.php");
                     </div>
                     <?php endwhile;endif; ?>
                     <?php endforeach; ?>
+                    <h4 class="h4_page h4_page--services">Giảm giá</h4>
+                    <p class="inputBlock inputNumber">
+                        <input type="text" class="inputForm" name="sale_discount" id="discount" value="0" />
+                    </p>
+
+
                     <h4 class="h4_page h4_page--services">Tổng tiền tạm tính</h4>
                     <p class="inputBlock inputNumber__new">
                         <input type="text" class="inputForm" name="total_templ" id="total_templ" value="0"/>
+                        <input type="hidden" name="total_hide" id="total_hide" value="0"/>
                         <span id="tt_mask"></span>
                     </p>
-                    <h4 class="h4_page h4_page--services">Giảm giá</h4>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="sale_discount" id="discount" value="0" />
-                        <span></span>
-                    </p>
-
                 <!-- ADD SERVICES -->
 
                 <!-- DATE -->
@@ -377,12 +378,30 @@ include(APP_PATH."libs/head.php");
 
 
     $('.servName').on('change', function() {
-        var price = $(this).attr('data-price');
-        var tt_templ = $('#total_templ').val();
-        var total_templ = parseInt(price) + parseInt(tt_templ);
-        $('#total_templ').val(total_templ);
-        console.log(total_templ);
-        $('#tt_mask').text(numberWithCommas(total_templ));
+        if ($(this).is(':checked')) {
+            var price = $(this).attr('data-price');
+            var tt_templ = $('#total_templ').val();
+            var total_templ = parseInt(price) + parseInt(tt_templ);
+            $('#total_templ').val(total_templ);
+            $('#total_hide').val(total_templ);
+            $('#tt_mask').text(numberWithCommas(total_templ));
+        } else {
+            var price = $(this).attr('data-price');
+            var tt_templ = $('#total_templ').val();
+            var total_templ =  parseInt(tt_templ) - parseInt(price);
+            $('#total_templ').val(total_templ);
+            $('#total_hide').val(total_templ);
+            $('#tt_mask').text(numberWithCommas(total_templ));
+        }
+    });
+
+    $('#discount').live('focusout', function(){
+        var tt_templ = $('#total_hide').val();
+        var discount = $(this).val();
+        var remain = parseInt(tt_templ) - parseInt(discount);
+        console.log(tt_templ);
+        $('#total_templ').val(remain);
+        $('#tt_mask').text(numberWithCommas(remain));
     });
     
 
