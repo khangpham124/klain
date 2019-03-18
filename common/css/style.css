@@ -317,8 +317,19 @@
     margin-left: 10px;
 }
 
-.buttonBar a:hover {
+.buttonBar a:hover, .btnPage:hover  {
     opacity: .7;
+}
+
+.btnPage {
+    display: inline-block;
+    background: #000;
+    color: #fff !important;
+    padding: 8px 15px;
+    margin-right: 10px;
+}
+
+.btnPage--ref:hover {
 }
 
 .listMange {
@@ -488,6 +499,7 @@ textarea.inputForm {
     background: #f1f1f1;
     padding: 15px 0;
     text-decoration: underline;
+    font-weight: bold;
 }
 
 .tabItem li.active {
@@ -651,7 +663,7 @@ textarea.inputForm {
     opacity: .7;
 }
 
-#doctor .tblPage th, #counter .tblPage th {
+#doctor .tblPage th, #counter .tblPage th, #sugery_detail .tblPage th {
     width: 28%;
     padding: 15px;
     border-bottom: 1px solid #e6e6e6;
@@ -821,4 +833,12 @@ textarea.inputForm {
   }
   .inputNumber__new input {
       color: #fff;
+  }
+
+  .tabItem {
+      margin-top: 25px;
+  }
+
+  #listBank {
+      display: none;
   }

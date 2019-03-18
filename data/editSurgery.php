@@ -66,7 +66,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $accept = $_POST['accept'];
         $approve = $_POST['approve'];
         $sale_discount = $_POST['sale_discount'];
-        $total = $_POST['totalFee'];
         
 
         update_post_meta($pid,'accept',$accept);
@@ -74,11 +73,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             update_post_meta($pid,'approve',$approve);
         }
         update_post_meta($pid,'sale_discount',$sale_discount);
-        update_post_meta($pid,'total',$total);
 
 
         $status = $_POST['status'];
-
         $methodPay = $_POST['methodPay'];
 
         $cash_money = $_POST['cash_money'];

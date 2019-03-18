@@ -9,6 +9,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="users">
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <!--===================================================-->
 <div id="wrapper">
 <!--===================================================-->
@@ -32,8 +34,6 @@ include(APP_PATH."libs/head.php");
                 <option value="<?php echo APP_URL ?>users/?position=customer-care">CSKH</option>
             </select>
         </p>
-        <a href="<?php echo APP_URL ?>add-user/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo tài khoản mới</a>
-        <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
     </div>
     <h2 class="h2_page">Danh sách tài khoản</h2>
         <table class="tblPage">
@@ -100,8 +100,9 @@ include(APP_PATH."libs/head.php");
 <!--/Footer-->
 <!--===================================================-->
 </div>
-<!--/wrapper-->
-<!--===================================================-->
+</div>
+
+
 <script>
     $(function(){
       // bind change event to select

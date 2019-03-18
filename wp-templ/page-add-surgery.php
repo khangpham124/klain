@@ -212,17 +212,64 @@ include(APP_PATH."libs/head.php");
                             </p>
                         </div>
                     </div>
+                    <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
+                            <li><a href="javascript:void(0)"  data-id="tab1">MŨI</a></li>
+                            <li><a href="javascript:void(0)"  data-id="tab2">MÔNG</a></li>
+                            <li><a href="javascript:void(0)"  data-id="tab3">HÚT MỠ</a></li>
+                            <li><a href="javascript:void(0)"  data-id="tab4">NGỰC</a></li>
+                        </ul>
 
-                    <div class="typeService" id="bodySurery" >    
-                        <h4 class="h4_page">Tình trạng hiện tại</h4>
-                            <input type="checkbox" class="chkForm" id="chk1" name="self_status" value="Ngực nhỏ" /><label class="labelReg" for="chk1">Ngực nhỏ</label><br class="sp">
-                            <input type="checkbox" class="chkForm" id="chk2" name="self_status" value="Ngực chảy xệ" /><label class="labelReg" for="chk2">Ngực chảy xệ</label><br class="sp">
-                            <input type="checkbox" class="chkForm" id="chk3" name="self_status" value="Ngực quá to" /><label class="labelReg" for="chk3">Ngực quá to</label><br class="sp">
-                            <input type="checkbox" class="chkForm" id="chk4" name="self_status" value="Dư mỡ" /><label class="labelReg" for="chk4">Dư mỡ</label><br class="sp">
-                            <input type="checkbox" class="chkForm" id="chk5" name="self_status" value="Mông nhỏ" /><label class="labelReg" for="chk5">Mông nhỏ</label>
+                        <div class="tabContent">
+                            <div class="tabBox" id="tab1">
+                            <h4 class="h4_page">Cấu trúc nguyên thuỷ</h4>
+                                <textarea class="inputForm" name="origin" id="origin"></textarea>
+                            <h4 class="h4_page">Mong muốn của khách hàng</h4>
+                            <p class="inputBlock">
+                                <textarea class="inputForm" name="target_text"></textarea>
+                            </p>
+                            </div>
 
-                        <h4 class="h4_page">Mong muốn của khách hàng</h4>
-                            <div class="form_services" id="form_nguc">
+                            <div class="tabBox" id="tab2">
+                                <h5 class="h5_page">Dịch vụ mông</h5>
+                                <div class="innerService">
+                                    <p class="inputBlock">
+                                        <input type="text" class="inputForm" name="size_mong" placeholder="Kích thước" />
+                                    </p>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="tabBox" id="tab3">
+                                <h5 class="h5_page">Dịch vụ hút mỡ</h5>
+                                    <div class="innerService">
+                                        <label class="labelBlock">Bụng</label>
+                                            <p class="inputBlock">
+                                            <input type="checkbox" class="chkForm" id="stomach1" name="stomach" value="Trên" /><label class="labelReg" for="stomach1">Trên</label><br class="sp">
+                                            <input type="checkbox" class="chkForm" id="stomach2" name="stomach" value="Dưới" /><label class="labelReg" for="stomach2">Dưới</label><br class="sp">
+                                            <input type="checkbox" class="chkForm" id="stomach3" name="stomach" value="Eo" /><label class="labelReg" for="stomach3">Eo</label><br class="sp">
+                                            <input type="checkbox" class="chkForm" id="stomach4" name="stomach" value="Lưng" /><label class="labelReg" for="stomach4">Lưng</label><br class="sp">
+                                            <input type="checkbox" class="chkForm" id="stomach5" name="stomach" value="Cải thiện toàn bộ" /><label class="labelReg" for="stomach5">Cải thiện toàn bộ</label>
+                                            </p>
+                                        <label class="labelBlock">Tạo hình bụng</label>
+                                            <p class="inputBlock">
+                                                <input type="radio" class="radioForm" id="shape3" name="shape_hm" value="Yes" /><label class="labelReg" for="shape3">Có</label>
+                                                <input type="radio" class="radioForm" id="shape4" name="shape_hm" value="No" /><label for="shape4">Không</label>
+                                            </p>
+                                        <label class="labelBlock">Bắp tay</label>
+                                        <textarea class="inputForm" name="arm"></textarea>
+                                        <label class="labelBlock">Đùi</label>
+                                        <textarea class="inputForm" name="thighs"></textarea>
+                                    </div>
+                            </div>
+
+                            <div class="tabBox" id="tab4">
+                                <h4 class="h4_page">Tình trạng hiện tại</h4>
+                                <input type="checkbox" class="chkForm" id="chk1" name="self_status" value="Ngực nhỏ" /><label class="labelReg" for="chk1">Ngực nhỏ</label><br class="sp">
+                                <input type="checkbox" class="chkForm" id="chk2" name="self_status" value="Ngực chảy xệ" /><label class="labelReg" for="chk2">Ngực chảy xệ</label><br class="sp">
+                                <input type="checkbox" class="chkForm" id="chk3" name="self_status" value="Ngực quá to" /><label class="labelReg" for="chk3">Ngực quá to</label><br class="sp">
+                                <input type="checkbox" class="chkForm" id="chk4" name="self_status" value="Dư mỡ" /><label class="labelReg" for="chk4">Dư mỡ</label><br class="sp">
+                                <input type="checkbox" class="chkForm" id="chk5" name="self_status" value="Mông nhỏ" /><label class="labelReg" for="chk5">Mông nhỏ</label>
+                                <h4 class="h4_page">Mong muốn của khách hàng</h4>
                                 <h5 class="h5_page">Dịch vụ ngực</h5>
                                 <div class="innerService">
                                     <p class="inputBlock">
@@ -235,51 +282,8 @@ include(APP_PATH."libs/head.php");
                                     </p>
                                 </div>
                             </div>
-
-                            <div class="form_services" id="form_mong">
-                                <h5 class="h5_page">Dịch vụ mông</h5>
-                                <div class="innerService">
-                                    <p class="inputBlock">
-                                        <input type="text" class="inputForm" name="size_mong" placeholder="Kích thước" />
-                                    </p>
-                                    
-                                </div>
-                            </div>
-                            
-                            <div class="form_services" id="form_hm">
-                                <h5 class="h5_page">Dịch vụ hút mỡ</h5>
-                                <div class="innerService">
-                                    <label class="labelBlock">Bụng</label>
-                                        <p class="inputBlock">
-                                        <input type="checkbox" class="chkForm" id="stomach1" name="stomach" value="Trên" /><label class="labelReg" for="stomach1">Trên</label><br class="sp">
-                                        <input type="checkbox" class="chkForm" id="stomach2" name="stomach" value="Dưới" /><label class="labelReg" for="stomach2">Dưới</label><br class="sp">
-                                        <input type="checkbox" class="chkForm" id="stomach3" name="stomach" value="Eo" /><label class="labelReg" for="stomach3">Eo</label><br class="sp">
-                                        <input type="checkbox" class="chkForm" id="stomach4" name="stomach" value="Lưng" /><label class="labelReg" for="stomach4">Lưng</label><br class="sp">
-                                        <input type="checkbox" class="chkForm" id="stomach5" name="stomach" value="Cải thiện toàn bộ" /><label class="labelReg" for="stomach5">Cải thiện toàn bộ</label>
-                                        </p>
-                                    <label class="labelBlock">Tạo hình bụng</label>
-                                        <p class="inputBlock">
-                                            <input type="radio" class="radioForm" id="shape3" name="shape_hm" value="Yes" /><label class="labelReg" for="shape3">Có</label>
-                                            <input type="radio" class="radioForm" id="shape4" name="shape_hm" value="No" /><label for="shape4">Không</label>
-                                        </p>
-                                    <label class="labelBlock">Bắp tay</label>
-                                    <textarea class="inputForm" name="arm"></textarea>
-                                    <label class="labelBlock">Đùi</label>
-                                    <textarea class="inputForm" name="thighs"></textarea>
-                                </div>
-                            </div>
-                    </div>
-
-                    <div class="typeService" id="faceSurery" >
-                        <h4 class="h4_page">Cấu trúc nguyên thuỷ</h4>
-                            <textarea class="inputForm" name="origin" id="origin"></textarea>
-                        <h4 class="h4_page">Mong muốn của khách hàng</h4>
-                        <p class="inputBlock">
-                            <!-- <input type="radio" class="radioForm" id="wish1" name="target" value="Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên" /><label class="labelReg" for="wish1">Tuỳ thuộc vào tư vấn của bác sĩ và tư vấn viên</label>
-                            <input type="radio" class="radioForm" id="wish2" name="target" value="Theo nhu cầu của khách" /><label class="labelReg" for="wish2">Theo nhu cầu của khách</label> -->
-                            <textarea class="inputForm" name="target_text"></textarea>
-                        </p>    
-                    </div>
+                        </div>    
+                
                     <?php } ?>
 
                     <h4 class="h4_page">Tư vấn của người tư vấn</h4>
@@ -293,7 +297,7 @@ include(APP_PATH."libs/head.php");
 
                 <input type="hidden" name="action" value="create" >
                 <input type="hidden" name="status" value="tvv" >
-                <input type="hidden" name="numb_image" id="numb_image" value="" >
+                <!-- <input type="hidden" name="numb_image" id="numb_image" value="" > -->
                 <div class="flexBox flexBox--arround flexBox__form flexBox__form--3">
                     <input class="btnSubmit" type="submit" name="submit" value="Tạo">
                     <input class="btnSubmit btnSubmit--dr" type="submit" name="pending" value="Chờ khám">
@@ -399,7 +403,6 @@ include(APP_PATH."libs/head.php");
         var tt_templ = $('#total_hide').val();
         var discount = $(this).val();
         var remain = parseInt(tt_templ) - parseInt(discount);
-        console.log(tt_templ);
         $('#total_templ').val(remain);
         $('#tt_mask').text(numberWithCommas(remain));
     });
@@ -416,6 +419,26 @@ include(APP_PATH."libs/head.php");
         $("#mobile").val(cus_mobile);
         $("#address").val(cus_add);
         $("#idcard").val(cus_idcard);
+    });
+
+    $('#tab1').show();
+    $('.tabItem li:nth-child(1)').addClass('active');
+    $('.tabItem li').click(function() {
+        $('.tabItem li').removeClass('active');
+        $(this).toggleClass('active');
+        var tabId = $(this).find('a').attr('data-id');
+        $('.tabBox').fadeOut(200);
+        $('#'+tabId).fadeIn(200);
+    });       
+    
+    $('.callPopup').click(function() {
+        $('.overlay').fadeIn(200);
+        $('.popUp').fadeIn(200);
+    });
+
+    $('.overlay').click(function() {
+        $(this).fadeOut(200);
+        $('.popUp').fadeOut(200);
     });
 });
 </script>

@@ -16,7 +16,9 @@ include(APP_PATH."libs/head.php");
 </style>
 </head>
 
-<body id="top">
+<body id="sugery_detail">
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <!--===================================================-->
 <div id="wrapper">
 <!--===================================================-->
@@ -30,7 +32,6 @@ include(APP_PATH."libs/head.php");
 
          <ul class="tabItem tabItem--5 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
-            
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
             <li><a href="javascript:void(0)"  data-id="tab4">Chi tiết ca phẫu thuật</a></li>
@@ -131,36 +132,111 @@ include(APP_PATH."libs/head.php");
                 <!-- het tabl1 -->
                 <div class="tabBox" id="tab2">
                     <h3 class="h3_page">Tình trạng thanh toán : <?php the_field('payment_status'); ?></h3>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
-                        <?php 
-                            $services = get_field('services');
-                            $services_2 = get_field('services_2');
-                            $services_3 = get_field('services_3');
-                        ?>
-                        <p class="inputBlock">
-                        <input type="text" class="inputForm" name="discount" readonly value="<?php echo $services; ?> (<?php echo number_format(get_field('price')); ?> Đ)" placeholder="" />
-                        </p>
+                    <h4 class="h4_page">Thông tin dịch vụ</h4>
+                        <table class="tblPage">
+                            <tr>
+                                <th>
+                                    Tóm tắt dịch vụ
+                                </th>
+                                    <td>
+                                    <?php
+                                        $listService = get_field('services');
+                                        $listServices = explode('<br>',$listService);
+                                    ?>
+                                    <h5 class="h5_page">Dịch vụ yêu cầu</h5>
+                                    <?php foreach($listServices as $serv) {
+                                        echo $serv.'<br>';
+                                    }    
+                                    ?>
+                                    <h5 class="h5_page">Tổng tiền</h5>
+                                    <input type="text" class="inputForm" name="show_total" id="show_total" value="<?php echo number_format(get_field('total')); ?>" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Giảm giá</th>
+                                <td><input type="text" class="inputForm" name="sale_discount" id="sale_discount" readonly value="<?php echo number_format(get_field('sale_discount')); ?>" /></td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">
+                                <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
+                                    <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" />
+                                    <label class="labelReg" for="accept">Giảm giá được chấp nhận</label>
+                                </p>
+                                
+                                <?php if(get_field('accept')=='yes') { ?>
+                                Duyệt bởi : <?php echo get_field('approve'); ?>
+                                <?php } ?>
+                                
+                                </th>
+                            </tr>
+                            <tr>
+                            <th>Tổng tiền sau điều chỉnh</th>
+                                <td>
+                                    <p class="inputBlock">
+                                    <input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo number_format(get_field('remain')); ?>" />
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
 
-                        <p class="inputBlock">
-                        <input type="text" class="inputForm" name="discount" readonly value="<?php echo $services; ?> (<?php echo number_format(get_field('price')); ?> Đ)" placeholder="" />
-                        </p>
+            
+                        <h4 class="h4_page">Phương thức thanh toán</h4>
+                        <table class="tblPage">
+                            <tr>
+                                <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
+                                <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
+                                <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
+                                <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
+                                <span></span>
+                                </p>
+                                </td>
+                                <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
+                                <p class="inputBlock inputNumber monneyNo" <?php if(get_field('debt')!='') { ?> style="display:block;" <?php } ?>>
+                                <input type="text" data-type="number" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo number_format(get_field('debt')); ?>" <?php } ?> />
+                                </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="inputBlock" id="radstatusPay">
+                            
+                            
+                        </div>
 
-                        <p class="inputBlock">
-                        <input type="text" class="inputForm" name="discount" readonly  value= "Giá giảm: <?php echo number_format(get_field('sale_discount')); ?> Đ" placeholder="Giá giảm" />
-                        </p>
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+                            <div class="inputBlock">    
+                                <label class="labelReg" for="rad1">Tiền mặt</label>
+                                <p class="inputNumber">
+                                    <input type="text" data-type="number" class="inputForm" name="cash_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="cash_money" placeholder="Số tiền mặt" value="<?php echo number_format(get_field('cash_money')); ?>" />
+                                </p>
+                            </div>
 
-                        <p class="inputBlock">
-                        <input type="text" class="inputForm" id="price_real" readonly value="Còn lại: <?php echo get_field('total'); ?>" />
-                        </p>
-                        
+                            <div class="inputBlock">
+                                <label class="labelReg" for="rad2">Chuyển khoản</label>
+                                <p class="inputNumber">
+                                    <input type="text" data-type="number" class="inputForm" name="bank_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="bank_money" placeholder="Số chuyển khoản" value="<?php echo number_format(get_field('bank_money')); ?>" />
+                                </p>
+                            </div>
+                            <div class="inputBlock">
+                                <label class="labelReg" for="rad3">Visa/Master</label>
+                                <p class="inputNumber">
+                                    <input type="text" data-type="number" class="inputForm" name="visa_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="visa_money" placeholder="Thanh toán visa" value="<?php echo number_format(get_field('visa_money')); ?>" />
 
-                        <p class="inputBlock">
-                        <input type="text" class="inputForm" name="discount" readonly  value= "Duyệt bởi : <?php echo get_field('approve'); ?>" />
-                        </p>
-                    </div>
+                                </p>
+                            </div>
+                        </div> 
 
-                    <h4 class="h4_page">Thông tin thanh toán</h4>
-                    <div><?php the_field('payment_detail'); ?></div>
+                        <div id="listBank">
+                            <input type="radio" class="radioForm" id="rad_bank1" name="nameBank" value="Vietcombank" /><label class="labelReg" for="rad_bank1">Vietcombank</label>
+                            <input type="radio" class="radioForm" id="rad_bank2" name="nameBank" value="VietinBank" /><label class="labelReg" for="rad_bank2">VietinBank</label>
+                            <input type="radio" class="radioForm" id="rad_bank3" name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
+                        </div>
+
+                    <table class="tblPage">
+                        <tr>
+                            <th>Số tiền đã thanh toán</th>
+                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echonumber_format(get_field('remain')); ?><?php } ?>" /></p></td>
+                        </tr>
+                    </table>    
                     
                 </div>
                 <div class="tabBox" id="tab3">
@@ -370,10 +446,11 @@ include(APP_PATH."libs/head.php");
 <!--Footer-->
 <?php include(APP_PATH."libs/footer.php"); ?>
 <!--/Footer-->
-<!--===================================================-->
+
+
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 
  <script type="text/javascript">
     $('#tab1').show();

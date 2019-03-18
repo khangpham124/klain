@@ -127,16 +127,17 @@ include(APP_PATH."admin/wp-load.php");
 
 
         $services = $_POST['services'];
-        $service_2 = $_POST['services_2'];
-        $service_3 = $_POST['services_3'];
-        
-        $price=(int)$_POST['price'];
-        $price_2=(int)$_POST['price_2'];
-        $price_3=(int)$_POST['price_3'];
+        $listService = "";
+        for($i=0; $i < count($services); $i++)
+        {
+            $listService .= $services[$i]."<br>";
+        }
+        // if($listService != "") $listService = substr($listService,0,strlen($string)-2);
 
-        $discount=$_POST['sale_discount'];
-        $discount_2=$_POST['sale_discount_2'];
-        $discount_3=$_POST['sale_discount_3'];
+        
+        
+        $total_hide = $_POST['total_hide']; 
+        $discount = $_POST['sale_discount'];
 
 
         
@@ -159,9 +160,7 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'advise', $advise);
         add_post_meta($pid, 'adviser', $adviser);
         add_post_meta($pid, 'channel', $channel);
-        add_post_meta($pid, 'services', $services);
-        add_post_meta($pid, 'services_2', $service_2);
-        add_post_meta($pid, 'services_3', $services_3);
+        add_post_meta($pid, 'services', $listService);
         add_post_meta($pid, 'date', $date);
         add_post_meta($pid, 'time', $time);
         add_post_meta($pid, 'hasSur', $hasSur);
@@ -169,18 +168,14 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'self_status', $self_status);
         add_post_meta($pid, 'caution', $caution);
         add_post_meta($pid, 'target', $target);
-        add_post_meta($pid, 'target', $target);
         add_post_meta($pid, 'doctor_advise', $doctor_advise);
         add_post_meta($pid, 'cus_note', $cus_note);
         add_post_meta($pid, 'status', $status);
         add_post_meta($pid, 'price', $price);
-        add_post_meta($pid, 'price', $price);
-        add_post_meta($pid, 'price_2', $price_2);
-        add_post_meta($pid, 'price_3', $price_3);
         add_post_meta($pid, 'sale_discount', $discount);
-        add_post_meta($pid, 'sale_discount_2', $discount_2);
-        add_post_meta($pid, 'sale_discount_3', $discount_3);
-        add_post_meta($pid, 'numb_image', $numb_image);
+        add_post_meta($pid, 'total', $total_hide);
+
+        // add_post_meta($pid, 'numb_image', $numb_image);
 
         header('Location:'.APP_URL.'surgery');
     }

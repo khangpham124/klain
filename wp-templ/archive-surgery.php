@@ -8,7 +8,9 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="surgery">
-<!--===================================================-->
+
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <div id="wrapper">
 <!--===================================================-->
 <!--Header-->
@@ -17,13 +19,6 @@ include(APP_PATH."libs/head.php");
 
 
 <div class="blockPage blockPage--full maxW">
-            <div class="buttonBar">
-                
-                <a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
-                <a href="<?php echo APP_URL ?>add-surgery/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
-                
-                <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
-            </div>
             <h2 class="h2_page">Danh sách khách hàng chờ xử lý</h2>
             <table class="tblPage">
             <thead>
@@ -42,24 +37,6 @@ include(APP_PATH."libs/head.php");
                     'post_type'=>'surgery',
                     'order' => 'DESC',
                     'posts_per_page' => '-1',
-                    // 'meta_query'	=> array(
-                    //     'relation'		=> 'OR',
-                    //     array(
-                    //         'key'	 	=> 'status',
-                    //         'value'	  	=> 'tvv',
-                    //         'compare' 	=> '=',
-                    //     ),
-                    //     array(
-                    //         'key'	  	=> 'status',
-                    //         'value'	  	=> 'bsnk',
-                    //         'compare' 	=> '=',
-                    //     ),
-                    //     array(
-                    //         'key'	  	=> 'status',
-                    //         'value'	  	=> 'bsk',
-                    //         'compare' 	=> '=',
-                    //     ),
-                    // )
                     );    
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
@@ -98,7 +75,7 @@ include(APP_PATH."libs/head.php");
                         ?>
                         <span class="noteColor note--<?php echo $stt ?>"></span>
                         <em><?php echo $stt_text ?></em>
-                        <?php if(get_field('debt'!='')) { ?>
+                        <?php if(get_field('debt')!='') { ?>
                         <span class="noteRemind noteRemind--1">Còn nợ</span>
                         <?php } ?>
                     </td>
@@ -147,10 +124,10 @@ include(APP_PATH."libs/head.php");
 <!--Footer-->
 <?php include(APP_PATH."libs/footer.php"); ?>
 <!--/Footer-->
-<!--===================================================-->
+
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 
 </body>
 </html>	

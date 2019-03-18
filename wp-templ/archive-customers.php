@@ -38,7 +38,7 @@ include(APP_PATH."libs/head.php");
 			<tbody>
 				<?php
 				$wp_query = new WP_Query();
-				if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) {
+				
 					if($_POST['search']=='') {
 						$param = array (
 						'posts_per_page' => '20',
@@ -60,21 +60,7 @@ include(APP_PATH."libs/head.php");
 							'compare' => '='
 							))
 						);
-					}
-				} else {
-					$param = array (
-						'posts_per_page' => '20',
-						'post_type' => 'customers',
-						'post_status' => 'publish',
-						'order' => 'DESC',
-						'meta_query' => array(
-						array(
-						'key' => 'creator',
-						'value' =>  $_COOKIE['name_cookies'],
-						'compare' => '='
-						))	
-					);
-				}	
+					}	
 				$wp_query->query($param);
 				if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
 				?>
