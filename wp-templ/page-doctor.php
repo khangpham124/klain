@@ -10,7 +10,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="doctor">
-<!--===================================================-->
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <div id="wrapper">
 <!--===================================================-->
 <!--Header-->
@@ -60,8 +61,8 @@ include(APP_PATH."libs/head.php");
                             <th>Dị ứng thuốc</th>
                             <td>
                                 <p class="inputBlock borderBox">
-                                    <input type="radio" class="radioForm" id="f_2" name="hasSur" value="Có" /><label class="labelReg" for="f_2">Có</label>
-                                    <input type="radio" class="radioForm" id="f_3" name="hasSur" value="Không" /><label class="labelReg" for="f_3">Không</label>
+                                    <input type="radio" class="radioForm" id="f_2" name="f_3" value="Có" /><label class="labelReg" for="f_2">Có</label>
+                                    <input type="radio" class="radioForm" id="f_3" name="f_3" value="Không" /><label class="labelReg" for="f_3">Không</label>
                                 </p>
                             </td>
                         </tr>
@@ -69,8 +70,8 @@ include(APP_PATH."libs/head.php");
                             <th>Dị ứng thức ăn</th>
                             <td>
                                 <p class="inputBlock borderBox">
-                                    <input type="radio" class="radioForm" id="f_4" name="hasSur" value="Có" /><label class="labelReg" for="f_4">Có</label>
-                                    <input type="radio" class="radioForm" id="f_5" name="hasSur" value="Không" /><label class="labelReg" for="f_5">Không</label>
+                                    <input type="radio" class="radioForm" id="f_4" name="f_5" value="Có" /><label class="labelReg" for="f_4">Có</label>
+                                    <input type="radio" class="radioForm" id="f_5" name="f_5" value="Không" /><label class="labelReg" for="f_5">Không</label>
                                 </p>
                             </td>
                         </tr>
@@ -554,16 +555,26 @@ include(APP_PATH."libs/head.php");
                 <?php if($_COOKIE['role_cookies']=='doctor') { ?>
                     <input type="hidden" name="status" value="bsnk" >
                     <input type="hidden" name="bsnk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                    <input type="hidden" name="numb_image" value="<?php echo $numb_image; ?>" >
-                    <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                    <!-- <input type="hidden" name="numb_image" value="<?php echo $numb_image; ?>" > -->
                     <input type="hidden" name="action" value="edit_bsnk" >
-                    <a href="javascript:void(0)" class=" callPopup btnSubmit">Trả quầy</a>
+                    <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
+                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                        <a href="javascript:void(0)" class=" callPopup btnSubmit">Trả quầy</a>
+                    </div>
                 <?php } else {  ?>
                     <input type="hidden" name="status" value="bsk" >
-                    <input class="btnSubmit" type="submit" name="submit" value="Tạo">
+                    <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                     <input type="hidden" name="bsk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="action" value="edit_bsk" >
-                <?php } ?>    
+                <?php } ?>
+
+                <div class="popUp">
+                    <h3 class="h3_page">Huỷ dịch vụ</h3>
+                    <p class="inputBlock">
+                        <input type="text" class="inputForm" name="reason" id="reason" placeholder="Lý do huỷ" />
+                    </p>
+                    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+                </div> 
             </form>
         <?php endwhile;endif; ?>    
     </div>
@@ -576,7 +587,7 @@ include(APP_PATH."libs/head.php");
 <!--===================================================-->
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 <script type="text/javascript">
     $('#tab1').show();
     $('.tabItem li:nth-child(1)').addClass('active');
@@ -600,13 +611,7 @@ include(APP_PATH."libs/head.php");
 </script>
 
 <div class="overlay"></div>
-<div class="popUp">
-    <h3 class="h3_page">Huỷ dịch vụ</h3>
-    <p class="inputBlock">
-        <input type="text" class="inputForm" name="problem" id="problem" placeholder="Lý do huỷ" />
-    </p>
-    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
-</div>
+
 
 </body>
 </html>	

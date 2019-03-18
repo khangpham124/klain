@@ -108,533 +108,486 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
 // DOCTOR PART    
     if($_POST['action']=='edit_bsnk') {
-        $status = $_POST['status'];
-        update_post_meta($pid,'status',$status);
+        $reason = $_POST['reason'];
+        if($reason!='') {
+            $status = 'huy';    
+        } else {
+            $status = $_POST['status'];
+            $idMedical = 'MED_'.get_the_title($pid);
+            update_post_meta($pid,'idmedical',$idMedical );
+            $medical_post = array(
+                'post_title'    => $idMedical,
+                'post_status'   => 'publish',
+                'post_type' => 'medical',
+            );
+            $pid_med = wp_insert_post($medical_post);
 
+            //UPLOAD IMAGEIMAGE
+            $numb_image = $_POST['numb_image'];
 
-        $idMedical = 'MED_'.get_the_title($pid);
-        update_post_meta($pid,'idmedical',$idMedical );
-        $medical_post = array(
-            'post_title'    => $idMedical,
-            'post_status'   => 'publish',
-            'post_type' => 'medical',
-        );
-        $pid_med = wp_insert_post($medical_post);
+            $imgBefore = array();
+            for($i=0;$i<=$numb_image;$i++) {
+                if($_FILES["file$i"]["name"]!="") {
+                    $parts1=pathinfo($_FILES["file$i"]["name"]);
+                    $ext1=".".strtolower($parts1["extension"]);	
+                    $filename = strtolower($parts1["filename"]);
+                    $img_name = get_the_title($pid).'_'.$i;
+                    
+                    $attach_file = $img_name.$ext1;
+                    move_uploaded_file($_FILES["file$i"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".$attach_file);
+                    ${'linkFile_'.$i}="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
+                    $imgBefore[] = $attach_file;
 
-
-
-
-        //UPLOAD IMAGEIMAGE
-        $numb_image = $_POST['numb_image'];
-        $imgBefore = array();
-        for($i=0;$i<=$numb_image;$i++) {
-            if($_FILES["file$i"]["name"]!="") {
-                $parts1=pathinfo($_FILES["file$i"]["name"]);
-                $ext1=".".strtolower($parts1["extension"]);	
-                $filename = strtolower($parts1["filename"]);
-                $img_name = get_the_title($pid).'_'.$i;
-                
-                $attach_file = $img_name.$ext1;
-                move_uploaded_file($_FILES["file$i"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".$attach_file);
-                ${'linkFile_'.$i}="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
-                $imgBefore[] = $attach_file;
-
-                add_post_meta($pid_med, 'image_before', $imgBefore);
+                    add_post_meta($pid_med, 'image_before', $imgBefore);
+                }
             }
-        }
 
-        $bsnk = $_POST['bsnk'];
-        add_post_meta($pid_med,'bsnk_name',$bsnk);
+            $bsnk = $_POST['bsnk'];
+            add_post_meta($pid_med,'bsnk_name',$bsnk);
 
-        for($i=0;$i<=96;$i++) {
-            ${'f_'.$i} = $_POST["f_$i"];
-        }
-        $detail_med = '
-        <table class="tblPage">
-                        <tr>
-                            <th>Quá trình bệnh lý</th>
-                            <td><textarea class="inputForm" name="f_1" placeholder=""></textarea></td>
-                        </tr>
-                        <tr>
-                            <th>Dị ứng thuốc</th>
-                            <td>
-                                <p class="inputBlock borderBox">
-                                    <input type="radio" class="radioForm" id="f_2" name="hasSur" value="Có" /><label class="labelReg" for="f_2">Có</label>
-                                    <input type="radio" class="radioForm" id="f_3" name="hasSur" value="Không" /><label class="labelReg" for="f_3">Không</label>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Dị ứng thức ăn</th>
-                            <td>
-                                <p class="inputBlock borderBox">
-                                    <input type="radio" class="radioForm" id="f_4" name="hasSur" value="Có" /><label class="labelReg" for="f_4">Có</label>
-                                    <input type="radio" class="radioForm" id="f_5" name="hasSur" value="Không" /><label class="labelReg" for="f_5">Không</label>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Tiền căn nội khoa</th>
-                            <td>
-                            <textarea class="inputForm" name="f_6" placeholder=""></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Tiền căn ngoại khoa</th>
-                            <td>
-                            <textarea class="inputForm" name="f_7" placeholder=""></textarea>
-                            </td>
-                        </tr>  
-                        <tr>
-                            <th>Kinh nguyệt</th>
-                            <td>
-                            <textarea class="inputForm" name="f_8" placeholder=""></textarea>
-                            </td>
-                        </tr>   
-                        <tr>
-                            <th>Di truyền</th>
-                            <td>
-                            <textarea class="inputForm" name="f_9" placeholder=""></textarea>
-                            </td>
-                        </tr>   
-                        <tr>
-                            <th>Đặc điểm liên quan bệnh</th>
-                            <td>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_1" value="Dị ứng" /><label for="f_10_1">Dị ứng</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_2" value="Ma tuý" /><label for="f_10_2">Ma tuý</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_3" value="Rượu bia" /><label for="f_10_3">Rượu bia</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_4" value="Thuốc lá" /><label for="f_10_4" >Thuốc lá</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_5" value="Thuốc lào" /><label for="f_10_5">Thuốc lào</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_6" value="Khác" /><label for="f_10_6">Khác</label>
-                            </td>
-                        </tr>                
-                    </table>                
-                
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                            <label class="smallLabel">Mạch</label>
-                            <input type="text" class="inputForm" name="f_11" value="" placeholder="Mạch" />
-                            <label class="smallLabel">Nhiệt độ</label>
-                            <input type="text" class="inputForm" name="f_12" value="" placeholder="Nhiệt độ" />
-                            <label class="smallLabel">Huyết áp</label>
-                            <input type="text" class="inputForm" name="f_13" value="" placeholder="Huyết áp" />
-                        </div>
-                        <div class="inputBlock">
-                            <label class="smallLabel">Nhịp thở</label>
-                            <input type="text" class="inputForm" name="f_14" value="" placeholder="Nhịp thở" />
-                            <label class="smallLabel">Cân nặng</label>
-                            <input type="text" class="inputForm" name="f_15" value="" placeholder="Cân nặng" />
-                        </div>
-                    </div>
-
-                    <h4 class="h4_page">Khám bệnh</h4>
-                    <table class="tblPage">
-                        <tr>
-                            <th>Toàn thân</th>
-                            <td><textarea class="inputForm" name="f_16" placeholder=""></textarea></td>
-                        </tr>
-                        <tr>
-                            <th>Bệnh ngoại khoa</th>
-                            <td><textarea class="inputForm" name="f_17" placeholder=""></textarea></td>
-                        </tr>
-                    </table>    
-                    <div class="inputBlock">
-                        <h4 class="h4_page">Các cơ quan</h4>
-                        <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
-                            <li><a href="javascript:void(0)"  data-id="tab1">MŨI</a></li>
-                            <li><a href="javascript:void(0)"  data-id="tab2">MẶT</a></li>
-                            <li><a href="javascript:void(0)"  data-id="tab3">CẰM</a></li>
-                            <li><a href="javascript:void(0)"  data-id="tab4">KHÁC</a></li>
-                        </ul>
-
-                        <div class="tabContent">
-                            <div class="tabBox" id="tab1">
-                                <table class="tblPage">
-                                    <tr>
-                                        <th>Số lần phẫu thuật mũi</th>
-                                        <td>
-                                        <p class="inputBlock customSelect">
-                                            <select name="f_18">
-                                                <option value="">Số lần</option>
-                                                <?php for($i=0;$i<=10;$i++) { ?>
-                                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </p>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Mũi hiện tại</th>
-                                        <td>
-                                        <p class="mb10">
-                                            <input type="radio" class="radioForm" id="f_19_1" name="f_19" value="Mũi silastic" /><label class="labelReg" for="f_19_1">Mũi silastic</label>
-                                            <input type="radio" class="radioForm" id="f_19_2" name="f_19" value="Mũi bọc sụn" /><label class="labelReg" for="f_19_2">Mũi bọc sụn</label>
-                                            <input type="radio" class="radioForm" id="f_19_3" name="f_19" value="Mũi cấu trúc" /><label class="labelReg" for="f_19_3">Mũi cấu trúc</label>
-                                        </p>
-                                        <input type="text" class="inputForm mb10" name="f_20" value="" placeholder="Hình dạng tổng quát" />
-                                        <input type="text" class="inputForm" name="f_21" value="" placeholder="Sẹo vùng mũi" />
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <th>Sóng mũi</th>
-                                        <td>
-                                        <div class="mb10">
-                                        <label class="smallLabel">Xượng mũi (gồ)</label>
-                                        <input type="radio" class="radioForm" id="f_22_1" name="f_22" value="Có" /><label class="labelReg" for="f_22_1">Có</label>
-                                        <input type="radio" class="radioForm" id="f_22_2" name="f_22" value="Không" /><label class="labelReg" for="f_22_2">Không</label>
-                                        <label class="smallLabel">Lệch</label>
-                                        <input type="radio" class="radioForm" id="f_23_1" name="f_23" value="Có" /><label class="labelReg" for="f_23_1">Có</label>
-                                        <input type="radio" class="radioForm" id="f_23_2" name="f_23" value="Không" /><label class="labelReg" for="f_23_2">Không</label>
-
-                                        <label class="smallLabel">Bè</label>
-                                        <input type="radio" class="radioForm" id="f_24_1" name="f_24" value="Có" /><label class="labelReg" for="f_24_1">Có</label>
-                                        <input type="radio" class="radioForm" id="f_24_2" name="f_24" value="Không" /><label class="labelReg" for="f_24_2">Không</label>
-
-                                        <label class="smallLabel">Đục xương</label>
-                                        <input type="radio" class="radioForm" id="f_25_1" name="f_25" value="Có" /><label class="labelReg" for="f_25_1">Có</label>
-                                        <input type="radio" class="radioForm" id="f_25_2" name="f_25" value="Không" /><label class="labelReg" for="f_25_2">Không</label>
-                                        </div>
-                                
-                                        <input type="text" class="inputForm" name="f_26" value="" placeholder="Vị trí Radix" />
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <th>Đầu mũi</th>
-                                        <td>
-                                        <label class="smallLabel">To</label>
-                                        <input type="radio" class="radioForm" id="f_27_1" name="f_27" value="Có" /><label class="labelReg" for="f_27_1">Có</label>
-                                        <input type="radio" class="radioForm" id="f_27_2" name="f_27" value="Không" /><label class="labelReg" for="f_27_2">Không</label>
-                                        <label class="smallLabel">Mô mềm đầu mũi</label>
-                                        <input type="radio" class="radioForm" id="f_28_1" name="f_28" value="Nhiều" /><label class="labelReg" for="f_28_1">Nhiều</label>
-                                        <input type="radio" class="radioForm" id="f_28_2" name="f_28" value="Ít" /><label class="labelReg" for="f_28_2">Ít</label>
-                                        <label class="smallLabel">Đầu mũi ngắn</label>
-                                        <input type="radio" class="radioForm" id="f_29_1" name="f_29" value="Nhiều" /><label class="labelReg" for="f_29_1">Nhiều</label>
-                                        <input type="radio" class="radioForm" id="f_29_2" name="f_29" value="Ít" /><label class="labelReg" for="f_29_2">Ít</label>
-
-                                        <label class="smallLabel">Góc mũi môi</label>
-                                        <input type="radio" class="radioForm" id="f_30_1" name="f_30" value="Hếch" /><label class="labelReg" for="f_30_1">Hếch</label>
-                                        <input type="radio" class="radioForm" id="f_30_2" name="f_30" value="Không hếch" /><label class="labelReg" for="f_30_2">Không hếch</label>
-
-                                        <label class="smallLabel">Da mũi</label>
-                                        <input type="radio" class="radioForm" id="f_31_1" name="f_31" value="Dày" /><label class="labelReg" for="f_31_1">Dày</label>
-                                        <input type="radio" class="radioForm" id="f_31_2" name="f_31" value="Mỏng" /><label class="labelReg" for="f_31_2">Mỏng</label>
-
-                                        <label class="smallLabel">Độ nảy đầu mũi</label>
-                                        
-                                        <input type="radio" class="radioForm" id="f_32_1" name="f_32" value="no" /><label class="labelReg" for="f_32_1">1</label>
-                                        <input type="radio" class="radioForm" id="f_32_2" name="f_32" value="no" /><label class="labelReg" for="f_32_2">2</label>
-                                        <input type="radio" class="radioForm" id="f_32_3" name="f_32" value="no" /><label class="labelReg" for="f_32_3">3</label>
-                                        <input type="radio" class="radioForm" id="f_32_4" name="f_32" value="no" /><label class="labelReg" for="f_32_4">4</label>
-                                        <input type="radio" class="radioForm" id="f_32_5" name="f_32" value="no" /><label class="labelReg" for="f_32_5">5</label>
-                                        
-
-                                        <label class="smallLabel">Đánh giá vách ngăn</label>
-                                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
-                                            <div class="inputBlock borderBox">
-                                                <label class="smallLabel">Vẹo</label>
-                                                <input type="radio" class="radioForm" id="f_33_1" name="f_33" value="Có" /><label class="labelReg" for="f_33_1">Có</label>
-                                                <input type="radio" class="radioForm" id="f_33_2" name="f_33" value="Không" /><label class="labelReg" for="f_33_2">Không</label>
-                                            </div>
-                                            <div class="inputBlock borderBox">
-                                                <label class="smallLabel">Cong Lõm</label>
-                                                <input type="radio" class="radioForm" id="f_34_1" name="f_34" value="Trái" /><label class="labelReg" for="f_34_1">Trái</label>
-                                                <input type="radio" class="radioForm" id="f_34_2" name="f_34" value="Phải" /><label class="labelReg" for="f_34_2">Phải</label>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="inputForm mb10" name="f_35" value="" placeholder="Vật liệu sử dụng" />
-                                        <input type="text" class="inputForm" name="f_36" value="" placeholder="Cách dựng trụ" />
-
-                                        <label class="smallLabel">Tien dinh mui</label>
-                                        <input type="radio" class="radioForm" id="f_37_1" name="f_37" value="Không khuyết" /><label class="labelReg" for="f_37_1">Không khuyết</label>
-                                        <input type="radio" class="radioForm" id="f_37_2" name="f_37" value="Khuyết" /><label class="labelReg" for="f_37_2">Khuyết</label>
-                                        <input type="text" class="inputForm mb10" name="f_38" value="" placeholder="Cần ghép chỗ khuyết" />
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <th>Cánh mũi</th>
-                                        <td>
-                                            <input type="radio" class="radioForm" id="f_39_1" name="f_39" value="Mỏng" /><label class="labelReg" for="f_39_1">Mỏng</label>
-                                            <input type="radio" class="radioForm" id="f_39_2" name="f_39" value="Dày" /><label class="labelReg" for="f_39_2">Dày</label>
-                                            <input type="radio" class="radioForm" id="f_39_3" name="f_39" value="Cong nhìều" /><label class="labelReg" for="f_39_3">Cong nhìều</label>
-                                            <input type="radio" class="radioForm" id="f_39_4" name="f_39" value="Cong ít" /><label class="labelReg" for="f_39_4">Cong ít</label>
-                                            <div class="mt10">
-                                                <input type="text" class="inputForm mb10" name="f_40" value="" placeholder="Cắt cánh mũi?" />
-                                                <input type="text" class="inputForm" name="f_41" value="" placeholder="Treo cánh mũi?" />
-                                            </div>
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <th>Nền mũi</th>
-                                        <td>when the browser window is resized,
-                                            <p class="mb10">
-                                                <input type="radio" class="radioForm" id="f_42_1" name="f_42" value="Cao" /><label class="labelReg" for="f_42_1">Cao</label>
-                                                <input type="radio" class="radioForm" id="f_42_2" name="f_42" value="Thấp" /><label class="labelReg" for="f_42_2">Thấp</label>
-                                                <input type="text" class="inputForm" name="f_43" value="" placeholder="Rãnh mũi nông sâu?" />
-                                            </p>
-                                            <label class="smallLabel">Đường khính nền mũi / khoảng cách 2 khoé mắt</label>
-                                            <input type="radio" class="radioForm" id="f_44_1" name="f_44" value="Rộng" /><label class="labelReg" for="f_44_1">Rộng</label>
-                                            <input type="radio" class="radioForm" id="f_44_2" name="f_44" value="Bằng" /><label class="labelReg" for="f_44_2">Bằng</label>
-                                            <input type="radio" class="radioForm" id="f_44_3" name="f_44" value="Nhỏ" /><label class="labelReg" for="f_44_3">Nhỏ</label>
-                                            <input type="text" class="inputForm" name="f_45" value="" placeholder="Thu nền mũi ?" /> 
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <th>Sụn cánh mũi</th>
-                                        <td>
-                                        <p class="mb10">
-                                            <input type="radio" class="radioForm" id="f_46_1" name="f_46" value="Nhỏ" /><label class="labelReg" for="f_46_1">Nhỏ</label>
-                                            <input type="radio" class="radioForm" id="f_46_2" name="f_46" value="To" /><label class="labelReg" for="f_46_2">To</label>
-                                        </p>
-                                        <input type="text" class="inputForm" name="f_47" value="" placeholder="Bị biến dạng?" />
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <th>Mũi khi cười bị kéo dài</th>
-                                        <td>
-                                        <input type="radio" class="radioForm" id="f_48_1" name="f_48" value="Có" /><label class="labelReg" for="f_48_1">Có</label>
-                                        <input type="radio" class="radioForm" id="f_48_2" name="f_48" value="Không" /><label class="labelReg" for="f_48_2">Không</label>
-                                        </td>
-                                    </tr>
-
-                                </table>
+            for($i=0;$i<=96;$i++) {
+                ${'f_'.$i} = $_POST["f_$i"];
+            }
+            $detail_med = '
+            <table class="tblPage">
+                            <tr>
+                                <th>Quá trình bệnh lý</th>
+                                <td><textarea class="inputForm" name="f_1" placeholder="">'.$_POST["f_1"].'</textarea></td>
+                            </tr>
+                            <tr>
+                                <th>Dị ứng thuốc</th>
+                                <td>
+                                    <p class="inputBlock borderBox">'.$_POST["f_3"].'</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Dị ứng thức ăn</th>
+                                <td>
+                                    <p class="inputBlock borderBox">'.$_POST["f_5"].'</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tiền căn nội khoa</th>
+                                <td>
+                                <textarea class="inputForm" name="f_6" placeholder="">'.$_POST["f_6"].'</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tiền căn ngoại khoa</th>
+                                <td>
+                                <textarea class="inputForm" name="f_7" placeholder="">'.$_POST["f_7"].'</textarea>
+                                </td>
+                            </tr>  
+                            <tr>
+                                <th>Kinh nguyệt</th>
+                                <td>
+                                <textarea class="inputForm" name="f_8" placeholder="">'.$_POST["f_8"].'</textarea>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <th>Di truyền</th>
+                                <td>
+                                <textarea class="inputForm" name="f_9" placeholder="">'.$_POST["f_9"].'</textarea>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <th>Đặc điểm liên quan bệnh</th>
+                                <td>
+                                '.$_POST["f_10"].'
+                                </td>
+                            </tr>                
+                        </table>                
+                    
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="inputBlock">
+                                <label class="smallLabel">Mạch</label>
+                                <input type="text" class="inputForm" name="f_11" value="'.$_POST["f_11"].'" placeholder="Mạch" />
+                                <label class="smallLabel">Nhiệt độ</label>
+                                <input type="text" class="inputForm" name="f_12" value="'.$_POST["f_12"].'" placeholder="Nhiệt độ" />
+                                <label class="smallLabel">Huyết áp</label>
+                                <input type="text" class="inputForm" name="f_13" value="'.$_POST["f_13"].'" placeholder="Huyết áp" />
                             </div>
-                            <div class="tabBox" id="tab2">
-                                <h4 class="h4_page">MÍ TRÊN</h4>
-                                <table class="tblPage">
-                                    <tr>
-                                        <th>Số lần phẫu thuật mũi</th>
-                                        <td>
-                                        <p class="inputBlock customSelect">
-                                            <select name="f_49">
-                                                <option value="">Số lần</option>
-                                                <?php for($i=0;$i<=10;$i++) { ?>
-                                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </p>
-                                        <p class="mb10">
-                                            <input type="radio" class="radioForm" id="f_50_1" name="f_50" value="Nhấn mí" /><label class="labelReg" for="f_50_1">Nhấn mí</label>
-                                            <input type="radio" class="radioForm" id="f_50_2" name="f_50" value="Cắt mí" /><label class="labelReg" for="f_50_2">Cắt mí</label>
-                                        </p>
-                                        
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Mô tả mí hiện tại</th>
-                                        <td>
+                            <div class="inputBlock">
+                                <label class="smallLabel">Nhịp thở</label>
+                                <input type="text" class="inputForm" name="f_14" value="'.$_POST["f_14"].'" placeholder="Nhịp thở" />
+                                <label class="smallLabel">Cân nặng</label>
+                                <input type="text" class="inputForm" name="f_15" value="'.$_POST["f_15"].'" placeholder="Cân nặng" />
+                            </div>
+                        </div>
+
+                        <h4 class="h4_page">Khám bệnh</h4>
+                        <table class="tblPage">
+                            <tr>
+                                <th>Toàn thân</th>
+                                <td><textarea class="inputForm" name="f_16" placeholder="">'.$_POST["f_16"].'</textarea></td>
+                            </tr>
+                            <tr>
+                                <th>Bệnh ngoại khoa</th>
+                                <td><textarea class="inputForm" name="f_17" placeholder="">'.$_POST["f_17"].'</textarea></td>
+                            </tr>
+                        </table>    
+                        <div class="inputBlock">
+                            <h4 class="h4_page">Các cơ quan</h4>
+                            <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
+                                <li><a href="javascript:void(0)"  data-id="tab1">MŨI</a></li>
+                                <li><a href="javascript:void(0)"  data-id="tab2">MẶT</a></li>
+                                <li><a href="javascript:void(0)"  data-id="tab3">CẰM</a></li>
+                                <li><a href="javascript:void(0)"  data-id="tab4">KHÁC</a></li>
+                            </ul>
+
+                            <div class="tabContent">
+                                <div class="tabBox" id="tab1">
+                                    <table class="tblPage">
+                                        <tr>
+                                            <th>Số lần phẫu thuật mũi</th>
+                                            <td>
+                                            '.$_POST["f_18"].'
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Mũi hiện tại</th>
+                                            <td>
                                             <p class="mb10">
-                                                <label class="smallLabel">Có mí </label>
-                                                <input type="radio" class="radioForm" id="f_51_1" name="f_51" value="Có" /><label class="labelReg" for="f_51_1">Có</label>
-                                                <input type="radio" class="radioForm" id="f_51_2" name="f_51" value="Không" /><label class="labelReg" for="f_51_2">Không</label>
+                                            '.$_POST["f_19"].'
                                             </p>
+                                            <label class="smallLabel">Hình dạng tổng quát</label>
+                                            <input type="text" class="inputForm mb10" name="f_20" value="'.$_POST["f_20"].'" />
+                                            <label class="smallLabel">Sẹo vùng mũi</label>
+                                            <input type="text" class="inputForm" name="f_21" value="'.$_POST["f_21"].'" placeholder="" />
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th>Sóng mũi</th>
+                                            <td>
+                                            <div class="mb10">
+                                            <label class="smallLabel">Xượng mũi (gồ)</label>
+                                            <p>'.$_POST["f_22"].'</p>
+                                            <label class="smallLabel">Lệch</label>
+                                            <p>'.$_POST["f_23"].'</p>
+                                            <label class="smallLabel">Bè</label>
+                                            <p>'.$_POST["f_24"].'</p>
+                                            <label class="smallLabel">Đục xương</label>
+                                            <p>'.$_POST["f_25"].'</p>
+                                            </div>
+                                            <label class="smallLabel">Vị trí Radix</label>
+                                            <input type="text" class="inputForm" name="f_26" value="'.$_POST["f_26"].'" placeholder="" />
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th>Đầu mũi</th>
+                                            <td>
+                                            <label class="smallLabel">To</label>
+                                            <p>'.$_POST["f_27"].'</p>
+                                            <label class="smallLabel">Mô mềm đầu mũi</label>
+                                            <p>'.$_POST["f_28"].'</p>
+                                            <label class="smallLabel">Đầu mũi ngắn</label>
+                                            <p>'.$_POST["f_29"].'</p>
+                                            <label class="smallLabel">Góc mũi môi</label>
+                                            <p>'.$_POST["f_30"].'</p>
+                                            <label class="smallLabel">Da mũi</label>
+                                            <p>'.$_POST["f_31"].'</p>
+                                            <label class="smallLabel">Độ nảy đầu mũi</label>
+                                            <p>'.$_POST["f_32"].'</p>
                                             
+                                            <label class="smallLabel">Đánh giá vách ngăn</label>
+                                            <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
+                                                <div class="inputBlock borderBox">
+                                                    <label class="smallLabel">Vẹo</label>
+                                                    <p>'.$_POST["f_33"].'</p>
+                                                </div>
+                                                <div class="inputBlock borderBox">
+                                                    <label class="smallLabel">Cong Lõm</label>
+                                                    <p>'.$_POST["f_34"].'</p>
+                                                </div>
+                                            </div>
+                                            <label class="smallLabel">Vật liệu sử dụng</label>
+                                            <input type="text" class="inputForm mb10" name="f_35" value="'.$_POST["f_35"].'" placeholder="" />
+                                            <label class="smallLabel">Cách dựng trụ</label>
+                                            <input type="text" class="inputForm" name="f_36" value="'.$_POST["f_36"].'" placeholder="" />
+
+                                            <label class="smallLabel">Tiền đình mũi</label>
+                                            <p>'.$_POST["f_37"].'</p>
+                                            <label class="smallLabel">Cần ghép chỗ khuyết</label>
+                                            <input type="text" class="inputForm mb10" name="f_38" value="'.$_POST["f_38"].'" placeholder="" />
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th>Cánh mũi</th>
+                                            <td>
+                                            <p>'.$_POST["f_39"].'</p>
+                                                <div class="mt10">
+                                                    <label class="smallLabel">Cắt cánh mũi?</label>
+                                                    <input type="text" class="inputForm mb10" name="f_40" value="'.$_POST["f_40"].'" placeholder="" />
+                                                    <label class="smallLabel">Treo cánh mũi?</label>
+                                                    <input type="text" class="inputForm" name="f_41" value="'.$_POST["f_41"].'" placeholder="" />
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th>Nền mũi</th>
+                                            <td>
+                                                <p class="mb10">
+                                                    <p>'.$_POST["f_42"].'</p>
+                                                    <label class="smallLabel">Rãnh mũi nông sâu?</label>
+                                                    <input type="text" class="inputForm" name="f_43" value="'.$_POST["f_43"].'" placeholder="" />
+                                                </p>
+                                                <label class="smallLabel">Đường khính nền mũi / khoảng cách 2 khoé mắt</label>
+                                                <p>'.$_POST["f_44"].'</p>
+                                                <label class="smallLabel">Thu nền mũi ?</label>
+                                                <input type="text" class="inputForm" name="f_45" value="'.$_POST["f_45"].'" placeholder="" /> 
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th>Sụn cánh mũi</th>
+                                            <td>
                                             <p class="mb10">
-                                                <label class="smallLabel">Độ dư da 2 bên</label>
-                                                <input type="radio" class="radioForm" id="f_52_1" name="f_52" value="Đều" /><label class="labelReg" for="f_52_1">Đều</label>
-                                                <input type="radio" class="radioForm" id="f_52_2" name="f_52" value="Không Đều" /><label class="labelReg" for="f_52_2">Không Đều</label>
+                                            <p>'.$_POST["f_46"].'</p>
                                             </p>
-                                            <p class="mb10">
-                                                <label class="smallLabel">Da dư làm nhở mắt</label>
-                                                <input type="radio" class="radioForm" id="f_53_1" name="f_53" value="Có" /><label class="labelReg" for="f_53_1">Có</label>
-                                                <input type="radio" class="radioForm" id="f_53_2" name="f_53" value="Không" /><label class="labelReg" for="f_53_2">Không</label>
-                                            </p>
-                                            <textarea class="inputForm" name="f_54" placeholder="Ghi chú khác"></textarea>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <th>Khe mí hai bên</th>
-                                        <td>
-                                        <p class="mb10">
-                                            <label class="smallLabel">Có yếu cơ nâng mi hay chênh lệch?</label>
-                                            <input type="radio" class="radioForm" id="f_55_1" name="f_55" value="yes" /><label class="labelReg" for="f_55_1">Có</label>
-                                            <input type="radio" class="radioForm" id="f_55_2" name="f_55" value="no" /><label class="labelReg" for="f_55_2">Không</label>
-                                        </p>
-                                        <p class="mb10">
-                                            <label class="smallLabel">Có sự hỗ trợ mở mắt của các cơ lân cận ?</label>
-                                            <input type="radio" class="radioForm" id="f_56_1" name="f_56" value="yes" /><label class="labelReg" for="f_56_1">Có</label>
-                                            <input type="radio" class="radioForm" id="f_56_2" name="f_56" value="no" /><label class="labelReg" for="f_56_2">Không</label>
-                                        </p>
-                                        </td>
-                                    </tr>  
-
-                                    <tr>
-                                        <th>Góc mắt trong</th>
-                                        <td><input type="text" class="inputForm" name="f_57" value="" placeholder="Mô tả" /> </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <th>Góc mắt ngoài</th>
-                                        <td><input type="text" class="inputForm" name="f_58" value="" placeholder="Mô tả" /> </td>
-                                    </tr>
+                                            <label class="smallLabel">Bị biến dạng?</label>
+                                            <input type="text" class="inputForm" name="f_47" value="'.$_POST["f_47"].'" placeholder="" />
+                                            </td>
+                                        </tr>
 
 
-                                    <tr>
-                                        <th>Mỡ mắt</th>
-                                        <td>
-                                            <input type="text" class="inputForm" name="f_59"  value="" placeholder="Mỡ góc trong" />
-                                            <input type="text" class="inputForm" name="f_60"  value="" placeholder="Mỡ góc ngoài" />
-                                            <input type="text" class="inputForm" name="f_61"  value="" placeholder="thiếu vùng nào" />
-                                        </td>
-                                    </tr>  
+                                        <tr>
+                                            <th>Mũi khi cười bị kéo dài</th>
+                                            <td>
+                                            <p>'.$_POST["f_48"].'</p>
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th>Mô duới mắt</th>
-                                        <td>
-                                            <input type="radio" class="radioForm" id="f_62_1" name="f_62" value="Nhão" /><label class="labelReg" for="f_62_1">Nhão</label>
-                                            <input type="radio" class="radioForm" id="f_62_2" name="f_62" value="Căng" /><label class="labelReg" for="f_62_2">Căng</label>
-                                        </td>
-                                    </tr>  
-                                    <tr>
-                                        <th>Mô dưới da</th>
-                                        <td>
-                                            <input type="radio" class="radioForm" id="f_63_1" name="f_63" value="Nhiều" /><label class="labelReg" for="f_63_1">Nhiều</label>
-                                            <input type="radio" class="radioForm" id="f_63_2" name="f_63" value="Ít" /><label class="labelReg" for="f_63_2">Ít</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sa tuyến lệ</th>
-                                        <td>
-                                            <input type="radio" class="radioForm" id="f_64_1" name="f_64" value="Có" /><label class="labelReg" for="f_64_1">Có</label>
-                                            <input type="radio" class="radioForm" id="f_64_2" name="f_64" value="Không" /><label class="labelReg" for="f_64_2">Không</label>
-                                        </td>
-                                    </tr> 
-                                    
-                                    <tr>
-                                        <th>Lông mi</th>
-                                        <td>
-                                            <input type="radio" class="radioForm" id="f_65_1" name="f_65" value="Ngắn" /><label class="labelReg" for="f_65_1">Ngắn</label>
-                                            <input type="radio" class="radioForm" id="f_65_2" name="f_65" value="Dài" /><label class="labelReg" for="f_65_2">Dài</label>
-                                            <p class="mb10">
-                                            <label class="smallLabel">Độ vểnh lông mi</label>
-                                            <input type="radio" class="radioForm" id="f_66_1" name="f_66" value="Nhiều" /><label class="labelReg" for="f_66_1">Nhiều</label>
-                                            <input type="radio" class="radioForm" id="f_66_2" name="f_66" value="Ít" /><label class="labelReg" for="f_66_2">Ít</label>
-                                            </p>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Cung mày</th>
-                                        <td>
-                                            <input type="text" class="inputForm" name="f_67"  value="" placeholder="Vị trí cung mày so vớ gờ xương ổ mắt" />
-                                            <input type="text" class="inputForm" name="f_68"  value="" placeholder="Khoảng cách cung mày và nếp mí" />
-                                            <input type="radio" class="radioForm" id="f_69_1" name="f_69" value="Đều" /><label class="labelReg" for="f_69_1">Đều</label>
-                                            <input type="radio" class="radioForm" id="f_69_2" name="f_69" value="Không Đều" /><label class="labelReg" for="f_69_2">Không Đều</label>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Lưu ý</th>
-                                        <td>
-                                            <input type="text" class="inputForm" name="f_70"  value="" placeholder="Khi khách nhắm mở mắt" />
-                                            <input type="text" class="inputForm" name="f_71"  value="" placeholder="Khi khách cười" />
-                                            <input type="text" class="inputForm" name="f_72"  value="" placeholder="Nếp nhăn đuội mắt" />
-                                        </td>
-                                    </tr> 
-                                </table> 
-                                
-                                <h4 class="h4_page">MÍ DƯỚI</h4>
-                                <table class="tblPage">
-                                    <tr>
-                                        <th>Số lần phẫu thuật mũi</th>
-                                        <td>
-                                        <p class="inputBlock customSelect">
-                                            <select name="f_73">
-                                                <option value="">Số lần</option>
-                                                <?php for($i=0;$i<=10;$i++) { ?>
-                                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Đánh giá</th>
-                                        <td>
-                                            <input type="text" class="inputForm" name="f_74"  value="" placeholder="Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới" />
-                                            <input type="text" class="inputForm" name="f_75"  value="" placeholder="Tình trạng sa trễ , yếu mi dưới" />
-                                            <input type="text" class="inputForm" name="f_76"  value="" placeholder="Tình trạng khi khách cười" />
-                                            <p class="mb10">
-                                            <label class="smallLabel">Bờ mi có tiền tuyến đồng tử</label>
-                                            <input type="radio" class="radioForm" id="f_77_1" name="f_77" value="Có" /><label class="labelReg" for="f_77_1">Có </label>
-                                            <input type="radio" class="radioForm" id="f_77_2" name="f_77" value="Không" /><label class="labelReg" for="f_77_2">Không</label>
-                                            </p>
-                                            <p class="mb10">
-                                            <label class="smallLabel">Có hở tròng trắng</label>
-                                            <input type="radio" class="radioForm" id="f_78_1" name="f_78" value="Có" /><label class="labelReg" for="f_78_1">Có </label>
-                                            <input type="radio" class="radioForm" id="f_78_2" name="f_78" value="Không" /><label class="labelReg" for="f_78_2">Không</label>
-                                            </p>
-                                        </td>
-                                    </tr>     
-
-                                </table>     
-                            </div>
-                            <div class="tabBox" id="tab3">
-                                <table class="tblPage">
-                                    <tr>
-                                        <th>Số lần phẫu thuật</th>
-                                        <td>
-                                            <input type="radio" class="radioForm" id="f_79_1" name="f_79" value="yes" /><label class="labelReg" for="f_79_1">Đều</label>
-                                            <input type="radio" class="radioForm" id="f_79_2" name="f_79" value="no" /><label class="labelReg" for="f_79_2">Không đều</label>
-                                            <input type="text" class="inputForm" name="f_80"  value="" placeholder="Bên nào nhô nhiều?" />
-                                            <input type="text" class="inputForm" name="f_81"  value="" placeholder="Thiếu cằm chiều nào?" />
-                                        </td>
-                                    </tr>
                                     </table>
-                            </div>
-                            <div class="tabBox" id="tab4">
-                                <div class="inputBlock">
-                                <input type="text" class="inputForm" name="f_82"  value="" placeholder="Tuần hoàn" />
-                                <input type="text" class="inputForm" name="f_83"  value="" placeholder="Răng hàm mặt" />
-                                <input type="text" class="inputForm" name="f_84"  value="" placeholder="Hô hấp" />
-                                <input type="text" class="inputForm" name="f_85"  value="" placeholder="Thân tiết niệu, sinh dục">
-                                <input type="text" class="inputForm" name="f_86"  value="" placeholder="Thần kinh" />
-                                <input type="text" class="inputForm" name="f_87"  value="" placeholder="Nội tiết,dinh dưỡng, các bệnh lý khác" />
-                                <input type="text" class="inputForm" name="f_88"  value="" placeholder="Tiêu hoá" />
-                                <input type="text" class="inputForm" name="f_89"  value="" placeholder="Cơ Xương khớp" />
+                                </div>
+                                <div class="tabBox" id="tab2">
+                                    <h4 class="h4_page">MÍ TRÊN</h4>
+                                    <table class="tblPage">
+                                        <tr>
+                                            <th>Số lần phẫu thuật mũi</th>
+                                            <td>
+                                            <p>'.$_POST["f_49"].'</p>
+                                            <p>'.$_POST["f_50"].'</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mô tả mí hiện tại</th>
+                                            <td>
+                                                <p class="mb10">
+                                                    <label class="smallLabel">Có mí </label>
+                                                    <p>'.$_POST["f_51"].'</p>
+                                                </p>
+                                                
+                                                <p class="mb10">
+                                                    <label class="smallLabel">Độ dư da 2 bên</label>
+                                                    <p>'.$_POST["f_52"].'</p>
+                                                </p>
+                                                <p class="mb10">
+                                                    <label class="smallLabel">Da dư làm nhở mắt</label>
+                                                    <p>'.$_POST["f_53"].'</p>
+                                                </p>
+                                                <label class="smallLabel">Ghi chú khác</label>
+                                                <textarea class="inputForm" name="f_54" placeholder="">'.$_POST["f_54"].'</textarea>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <th>Khe mí hai bên</th>
+                                            <td>
+                                            <p class="mb10">
+                                                <label class="smallLabel">Có yếu cơ nâng mi hay chênh lệch?</label>
+                                                <p>'.$_POST["f_55"].'</p>
+                                            </p>
+                                            <p class="mb10">
+                                                <label class="smallLabel">Có sự hỗ trợ mở mắt của các cơ lân cận ?</label>
+                                                <p>'.$_POST["f_56"].'</p>
+                                            </p>
+                                            </td>
+                                        </tr>  
+
+                                        <tr>
+                                            <th>Góc mắt trong</th>
+                                            <td><input type="text" class="inputForm" name="f_57" value="'.$_POST["f_57"].'" placeholder="Mô tả" /></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <th>Góc mắt ngoài</th>
+                                            <td><input type="text" class="inputForm" name="f_58" value="'.$_POST["f_58"].'" placeholder="Mô tả" /></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th>Mỡ mắt</th>
+                                            <td>
+                                                <label class="smallLabel">Mỡ góc trong</label>
+                                                <input type="text" class="inputForm" name="f_59"  value="'.$_POST["f_59"].'" placeholder="" />
+                                                <label class="smallLabel">Mỡ góc ngoài</label>
+                                                <input type="text" class="inputForm" name="f_60"  value="'.$_POST["f_60"].'" placeholder="" />
+                                                <label class="smallLabel">thiếu vùng nào</label>
+                                                <input type="text" class="inputForm" name="f_61"  value="'.$_POST["f_61"].'" placeholder="" />
+                                            </td>
+                                        </tr>  
+
+                                        <tr>
+                                            <th>Mô duới mắt</th>
+                                            <td>
+                                            <p>'.$_POST["f_62"].'</p>
+                                            </td>
+                                        </tr>  
+                                        <tr>
+                                            <th>Mô dưới da</th>
+                                            <td>
+                                            <p>'.$_POST["f_63"].'</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sa tuyến lệ</th>
+                                            <td>
+                                            <p>'.$_POST["f_64"].'</p>
+                                            </td>
+                                        </tr> 
+                                        
+                                        <tr>
+                                            <th>Lông mi</th>
+                                            <td>
+                                                <p>'.$_POST["f_65"].'</p>
+                                                <p class="mb10">
+                                                <label class="smallLabel">Độ vểnh lông mi</label>
+                                                <p>'.$_POST["f_66"].'</p>
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Cung mày</th>
+                                            <td>
+                                                <label class="smallLabel">Vị trí cung mày so vớ gờ xương ổ mắt</label>
+                                                <input type="text" class="inputForm" name="f_67"  value='.$_POST["f_67"].'"" placeholder="" />
+                                                <label class="smallLabel">Khoảng cách cung mày và nếp mí</label>
+                                                <input type="text" class="inputForm" name="f_68"  value="'.$_POST["f_68"].'" placeholder="" />
+                                                <p>'.$_POST["f_69"].'</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Lưu ý</th>
+                                            <td>
+                                                <label class="smallLabel">Khi khách nhắm mở mắt</label>
+                                                <input type="text" class="inputForm" name="f_70"  value="'.$_POST["f_70"].'" placeholder="" />
+                                                <label class="smallLabel">Khi khách cười</label>
+                                                <input type="text" class="inputForm" name="f_71"  value="'.$_POST["f_71"].'" placeholder="" />
+                                                <label class="smallLabel">Nếp nhăn đuội mắt</label>
+                                                <input type="text" class="inputForm" name="f_72"  value="'.$_POST["f_72"].'" placeholder="" />
+                                            </td>
+                                        </tr> 
+                                    </table> 
+                                    
+                                    <h4 class="h4_page">MÍ DƯỚI</h4>
+                                    <table class="tblPage">
+                                        <tr>
+                                            <th>Số lần phẫu thuật mũi</th>
+                                            <td>
+                                            <p>'.$_POST["f_73"].'</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Đánh giá</th>
+                                            <td>
+                                                <label class="smallLabel">Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới</label>
+                                                <input type="text" class="inputForm" name="f_74"  value="'.$_POST["f_74"].'" placeholder="Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới" />
+                                                <label class="smallLabel">Tình trạng sa trễ , yếu mi dưới</label>
+                                                <input type="text" class="inputForm" name="f_75"  value="'.$_POST["f_75"].'" placeholder="Tình trạng sa trễ , yếu mi dưới" />
+                                                <label class="smallLabel">Tình trạng khi khách cười</label>
+                                                <input type="text" class="inputForm" name="f_76"  value="'.$_POST["f_76"].'" placeholder="Tình trạng khi khách cười" />
+                                                <p class="mb10">
+                                                <label class="smallLabel">Bờ mi có tiền tuyến đồng tử</label>
+                                                '.$_POST["f_77"].'
+                                                </p>
+                                                <p class="mb10">
+                                                <label class="smallLabel">Có hở tròng trắng</label>
+                                                '.$_POST["f_78"].'
+                                                </p>
+                                            </td>
+                                        </tr>     
+
+                                    </table>     
+                                </div>
+                                <div class="tabBox" id="tab3">
+                                    <table class="tblPage">
+                                        <tr>
+                                            <th>Số lần phẫu thuật</th>
+                                            <td>
+                                                <p>'.$_POST["f_79"].'</p>
+                                                <label class="smallLabel">Bên nào nhô nhiều?</label>
+                                                <input type="text" class="inputForm" name="f_80"  value="'.$_POST["f_80"].'" placeholder="Bên nào nhô nhiều?" />
+                                                <label class="smallLabel">Thiếu cằm chiều nào?</label>
+                                                <input type="text" class="inputForm" name="f_81"  value="'.$_POST["f_81"].'" placeholder="Thiếu cằm chiều nào?" />
+                                            </td>
+                                        </tr>
+                                        </table>
+                                </div>
+                                <div class="tabBox" id="tab4">
+                                    <div class="inputBlock">
+                                    <label class="smallLabel">Tuần hoàn</label>
+                                    <input type="text" class="inputForm" name="f_82"  value="'.$_POST["f_82"].'" placeholder="Tuần hoàn" />
+                                    <label class="smallLabel">Răng hàm mặt</label>
+                                    <input type="text" class="inputForm" name="f_83"  value="'.$_POST["f_83"].'" placeholder="Răng hàm mặt" />
+                                    <label class="smallLabel">Hô hấp</label>
+                                    <input type="text" class="inputForm" name="f_84"  value="'.$_POST["f_84"].'" placeholder="Hô hấp" />
+                                    <label class="smallLabel">Thân tiết niệu, sinh dục</label>
+                                    <input type="text" class="inputForm" name="f_85"  value="'.$_POST["f_85"].'" placeholder="Thân tiết niệu, sinh dục">
+                                    <label class="smallLabel">Thần kinh</label>
+                                    <input type="text" class="inputForm" name="f_86"  value="'.$_POST["f_86"].'" placeholder="Thần kinh" />
+                                    <label class="smallLabel">Nội tiết,dinh dưỡng, các bệnh lý khác</label>
+                                    <input type="text" class="inputForm" name="f_87"  value="'.$_POST["f_87"].'" placeholder="Nội tiết,dinh dưỡng, các bệnh lý khác" />
+                                    <label class="smallLabel">Tiêu hoá</label>
+                                    <input type="text" class="inputForm" name="f_88"  value="'.$_POST["f_88"].'" placeholder="Tiêu hoá" />
+                                    <label class="smallLabel">Cơ Xương khớp</label>
+                                    <input type="text" class="inputForm" name="f_89"  value="'.$_POST["f_89"].'" placeholder="Cơ Xương khớp" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <h4 class="h4_page">Các xét nghiệm cận lâm sàng cần thực hiện</h4>
-                    <div class="inputBlock">
-                        <textarea class="inputForm" name="f_90" placeholder=""></textarea>
-                    </div>
-                    <h4 class="h4_page">Tóm tắt bệnh án</h4>
-                    <div class="inputBlock">
-                        <textarea class="inputForm" name="f_91" placeholder=""></textarea>
-                    </div>
+                        <h4 class="h4_page">Các xét nghiệm cận lâm sàng cần thực hiện</h4>
+                        <div class="inputBlock">
+                            <textarea class="inputForm" name="f_90" placeholder="">'.$_POST["f_90"].'</textarea>
+                        </div>
+                        <h4 class="h4_page">Tóm tắt bệnh án</h4>
+                        <div class="inputBlock">
+                            <textarea class="inputForm" name="f_91" placeholder="">'.$_POST["f_91"].'</textarea>
+                        </div>
 
-                    <h3 class="h3_page">Chuẩn đoán khi vào khoa</h3>
+                        <h3 class="h3_page">Chuẩn đoán khi vào khoa</h3>
+                            <div class="inputBlock">
+                            <label class="smallLabel">Bệnh chính</label>
+                            <input type="text" class="inputForm" name="f_92"  value="'.$_POST["f_92"].'" placeholder="Bệnh chính" />
+                            <label class="smallLabel">Bệnh kèm theo</label>
+                            <input type="text" class="inputForm" name="f_93"  value="'.$_POST["f_93"].'" placeholder="" />
+                            <label class="smallLabel">Phân biệt</label>
+                            <input type="text" class="inputForm" name="f_94"  value="'.$_POST["f_94"].'" placeholder="" />
+                            </div>
+                        <h3 class="h3_page">Tiên lượng</h3>   
+                            <div class="inputBlock">
+                            <input type="text" class="inputForm" name="f_95"  value="'.$_POST["f_95"].'" placeholder="Bệnh chính" /> 
+                            </div>
+                        <h3 class="h3_page">Hướng điều trị</h3>   
                         <div class="inputBlock">
-                        <input type="text" class="inputForm" name="f_92"  value="" placeholder="Bệnh chính" />
-                        <input type="text" class="inputForm" name="f_93"  value="" placeholder="Bệnh kèm theo" />
-                        <input type="text" class="inputForm" name="f_94"  value="" placeholder="Phân biệt" />
-                        </div>
-                    <h3 class="h3_page">Tiên lượng</h3>   
-                        <div class="inputBlock">
-                        <input type="text" class="inputForm" name="f_95"  value="" placeholder="Bệnh chính" /> 
-                        </div>
-                    <h3 class="h3_page">Hướng điều trị</h3>   
-                    <div class="inputBlock">
-                        <textarea class="inputForm" name="f_96" placeholder=""></textarea>
-                    </div> 
-        ';
-        add_post_meta($pid_med,'detail_med',$detail_med);
+                            <textarea class="inputForm" name="f_96" placeholder="">'.$_POST["f_96"].'</textarea>
+                        </div> 
+                    ';
+                add_post_meta($pid_med,'bsnk_advise',$detail_med);
+        }
+        update_post_meta($pid,'status',$status);
         header('Location:'.APP_URL.'surgery');
     }
 

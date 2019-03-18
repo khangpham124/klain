@@ -234,12 +234,26 @@ include(APP_PATH."libs/head.php");
                     <table class="tblPage">
                         <tr>
                             <th>Số tiền đã thanh toán</th>
-                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echonumber_format(get_field('remain')); ?><?php } ?>" /></p></td>
+                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo number_format(get_field('remain')); ?><?php } ?>" /></p></td>
                         </tr>
-                    </table>    
-                    
+                    </table>
                 </div>
+
+
+
                 <div class="tabBox" id="tab3">
+                    <?php $id_med = get_field('idmedical');
+                    $wp_query = new WP_Query();
+                    $param = array (
+                        'posts_per_page' => '1',
+                        'post_type' => 'medical',
+                        'post_status' => 'publish',
+                        'order' => 'DESC',
+                        'p'=>$id_med
+                    );
+                    $wp_query->query($param);
+			        if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                    ?>
                     <h3 class="h3_page">Bác sĩ:<?php the_field('bsnk_name'); ?></h3>
                     <h4 class="h4_page">Bệnh án ngoại khoa</h4>
                     <div>
@@ -252,7 +266,10 @@ include(APP_PATH."libs/head.php");
                     <div>
                         <?php the_field('bsk'); ?>
                     </div>
+                <?php endwhile;endif; ?>
                 </div>
+
+
                 <div class="tabBox" id="tab4">
                     <?php
                     $room_name = get_field('ekip');

@@ -80,7 +80,7 @@ include(APP_PATH."libs/head.php");
                                     }    
                                     ?>
                                     <h5 class="h5_page">Tổng tiền</h5>
-                                    <input type="text" class="inputForm" name="show_total" id="show_total" value="<?php echo number_format(get_field('total')); ?>" />
+                                    <input type="text" class="inputForm" readonly name="show_total" id="show_total" value="<?php echo number_format(get_field('total')); ?>" />
                                     <input type="hidden" class="inputForm" name="hide_total" id="hide_total" value="<?php echo get_field('total'); ?>" />
                                 </td>
                             </tr>
@@ -207,6 +207,39 @@ include(APP_PATH."libs/head.php");
                             <input type="radio" class="radioForm" id="rad_bank3" name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
                         </div>
 
+                        <div id="listGuy">
+                            <p class="inputBlock customSelect">
+                                <select name="guy" id="guy">
+                                    <option value="">Người bảo lãnh</option>
+                                    <?php
+                                        $wp_query = new WP_Query();
+                                        $param=array(
+                                        'post_type'=>'users',
+                                        'order' => 'DESC',
+                                        'posts_per_page' => '-1',
+                                        'tax_query' => array(
+                                            'relation' => 'OR',
+                                            array(
+                                            'taxonomy' => 'userscat',
+                                            'field' => 'slug',
+                                            'terms' => 'sale'
+                                            ),
+                                            array(
+                                                'taxonomy' => 'userscat',
+                                                'field' => 'slug',
+                                                'terms' => 'adviser'
+                                            ),
+                                        )
+                                        );
+                                        $wp_query->query($param);
+                                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                                    ?>
+                                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
+                                    <?php endwhile;endif; ?>
+                                </select>
+                            </p>
+                        </div>
+
                     <table class="tblPage">
                         <tr>
                             <th>Số tiền thanh toán</th>
@@ -222,11 +255,18 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="action" value="edit" >
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) { ?>
                         <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
-                            <input class="btnSubmit <?php if((get_field('accept')!='yes')||(get_field('process')=='yes')) { ?><?php } ?>"  type="submit" name="submit" value="Cập nhật">
+                            <a href="javascript:void(0)" class="btnSubmit callPopup">Cập nhật</a>
                             <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
                             <a href="<?php echo APP_URL; ?>data/editSurgery?action=cancel&idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">Huỷ</a>
                         </div>
-                    <?php } ?>    
+                    <?php } ?>   
+                    <div class="popUp">
+                        <p class="txtNote">Vui lòng kiểm tra lại thông tin chính xác,vì thông tin khi nhập vào sẽ ko thể thay đổi được nữa</p>
+                        <div class="flexBox flexBox--arround flexBox__form--2">
+                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                        <a href="javascript:void(0)" class="btnSubmit cancel">Quay lại</a>
+                        </div>
+                    </div> 
                 </form>
             <?php endwhile;endif; ?>    
         </div>
@@ -299,8 +339,25 @@ $( function() {
             $('#listBank').slideUp(200);
         }
     });
+    $('.callPopup').click(function() {
+        $('.overlay').fadeIn(200);
+        $('.popUp').fadeIn(200);
+    });
+
+    $('.overlay').click(function() {
+        $(this).fadeOut(200);
+        $('.popUp').fadeOut(200);
+    });
+
+    $('.cancel').click(function() {
+        $('.overlay').fadeOut(200);
+        $('.popUp').fadeOut(200);
+    });
 });
-</script>      
+</script>     
+
+<div class="overlay"></div>
+
 
 </body>
 </html>	

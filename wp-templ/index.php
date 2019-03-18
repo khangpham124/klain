@@ -20,17 +20,9 @@ include(APP_PATH."libs/head.php");
 
         <div class="textBox">
                 <?php include(APP_PATH."libs/searchBlock.php"); ?>
-                <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
-                <div class="buttonBar">
-                    <a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
-                    <a href="<?php echo APP_URL ?>add-surgery/"><i class="fa fa-file-text-o" aria-hidden="true"></i>Tạo hồ sơ</a>
-                    <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
-                </div>
-                <?php } ?>
 
                 <div class="blockPage blockPage--full mt40">
-                    <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||$_COOKIE['role_cookies']=='customer-care') { ?>
-                        <h2 class="h2_page">Danh sách khách hàng đến lịch</h2>
+                        <h2 class="h2_page">Danh sách khách hàng còn nợ</h2>
                         <table class="tblPage">
                             <thead>
                             <tr>
@@ -43,17 +35,6 @@ include(APP_PATH."libs/head.php");
                             </tr>
                         </thead>
                         <?php
-                            
-                            $now = strtotime($curr_date);
-                            $app_1days = 86400;
-                            $app_3days = 172800;
-                            $app_5days = 345600;
-                            $app_10ays = 777600;
-                            $remind_1days = $now - $app_1days;
-                            $remind_3days = $now - $app_3days;
-                            $remind_5days = $now - $app_5days;
-                            $remind_10days = $now - $app_3days;
-
                             $wp_query = new WP_Query();
                             $remind_3days;
                             $param = array (
@@ -62,26 +43,10 @@ include(APP_PATH."libs/head.php");
                             'post_status' => 'publish',
                             'order' => 'DESC',
                             'meta_query'	=> array(
-                                'relation' => 'OR',
                                 array(
-                                    'key' => 'time',
-                                    'value' => $remind_1days,
-                                    'compare' => '>='
-                                ),
-                                array(
-                                    'key' => 'time',
-                                    'value' => $remind_3days,
-                                    'compare' => '>='
-                                ),
-                                array(
-                                    'key' => 'time',
-                                    'value' => $remind_5days,
-                                    'compare' => '>='
-                                ),
-                                array(
-                                    'key' => 'time',
-                                    'value' => $remind_10ays,
-                                    'compare' => '>='
+                                    'key' => 'debt',
+                                    'value' => '',
+                                    'compare' => '!='
                                 ),
                             )
                             );
@@ -90,16 +55,118 @@ include(APP_PATH."libs/head.php");
                         ?>
                         <tr>
                             <td>
-                                <?php if(get_field('time') > $remind_1days ) { ?>
-                                    <span class="noteRemind noteRemind--1">Sau 1 ngày</span>
-                                <?php } else if(get_field('time') > $remind_3days ) { ?>
-                                    <span class="noteRemind noteRemind--3">Sau 3 ngày</span>
-                                <?php } else if(get_field('time') > $remind_5days ) {  ?>
-                                    <span class="noteRemind noteRemind--5">Sau 5 ngày</span>
-                                <?php } else if(get_field('time') > $remind_10ays ) { ?>
-                                    <span class="noteRemind noteRemind--10">Sau 10 ngày</span>
-                                <?php } ?>
-                                </span>
+                            <?php
+                            $stt = get_field('status');
+                            switch ($stt) {
+                            case "tvv":
+                                $stt_text = "Tư vấn viên";
+                            break;
+                            case "pending":
+                                $stt_text = "Chờ khám";
+                            break;
+                            case "quay":
+                                $stt_text = "Quầy";
+                            break;
+                            case "bsnk":
+                                $stt_text = "Bác sĩ ngoại khoa";
+                            break;
+                            case "bsk":
+                                $stt_text = "Bác sĩ Khải";
+                            break;
+                            case "phauthuat":
+                                $stt_text = "Phẫu thuật";
+                            break;
+                            case "hauphau":
+                                $stt_text = "Hậu phẫu";
+                            break;
+                            case "cskh":
+                                $stt_text = "CSKH";
+                            break;
+                        }
+                        ?>
+                        <span class="noteColor note--<?php echo $stt ?>"></span>
+                        <em><?php echo $stt_text ?></em>
+                        <?php if(get_field('debt')!='') { ?>
+                        <span class="noteRemind noteRemind--1">Còn nợ</span>
+                        <?php } ?>
+                            </td>
+                            <td><?php the_field('date'); ?></td>
+                            <td><?php the_title(); ?></td>
+                            <td><?php the_field('fullname'); ?></td>
+                            <td><?php the_field('mobile'); ?></td>
+                            <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
+                        </tr>
+                        <?php endwhile;endif; ?>
+                        </table>
+
+
+                        <h2 class="h2_page">Danh sách khách hàng đã đặt cọc</h2>
+                        <table class="tblPage">
+                            <thead>
+                            <tr>
+                                <td>Kì chăm sóc tiếp theo</td>
+                                <td>Ngày phẫu thuật</td>
+                                <td>Ca</td>
+                                <td>Họ tên</td>
+                                <td>Số điện thoại</td>
+                                <td>Chi tiết</td>
+                            </tr>
+                        </thead>
+                        <?php
+                            $wp_query = new WP_Query();
+                            $remind_3days;
+                            $param = array (
+                            'posts_per_page' => '-1',
+                            'post_type' => 'surgery',
+                            'post_status' => 'publish',
+                            'order' => 'DESC',
+                            'meta_query'	=> array(
+                                array(
+                                    'key' => 'deposit',
+                                    'value' => '',
+                                    'compare' => '!='
+                                ),
+                            )
+                            );
+                            $wp_query->query($param);
+                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                        ?>
+                        <tr>
+                            <td>
+                            <?php
+                            $stt = get_field('status');
+                            switch ($stt) {
+                            case "tvv":
+                                $stt_text = "Tư vấn viên";
+                            break;
+                            case "pending":
+                                $stt_text = "Chờ khám";
+                            break;
+                            case "quay":
+                                $stt_text = "Quầy";
+                            break;
+                            case "bsnk":
+                                $stt_text = "Bác sĩ ngoại khoa";
+                            break;
+                            case "bsk":
+                                $stt_text = "Bác sĩ Khải";
+                            break;
+                            case "phauthuat":
+                                $stt_text = "Phẫu thuật";
+                            break;
+                            case "hauphau":
+                                $stt_text = "Hậu phẫu";
+                            break;
+                            case "cskh":
+                                $stt_text = "CSKH";
+                            break;
+                        }
+                        ?>
+                        <span class="noteColor note--<?php echo $stt ?>"></span>
+                        <em><?php echo $stt_text ?></em>
+                        <?php if(get_field('debt')!='') { ?>
+                        <span class="noteRemind noteRemind--1">Còn nợ</span>
+                        <?php } ?>
                             </td>
                             <td><?php the_field('date'); ?></td>
                             <td><?php the_title(); ?></td>
@@ -110,26 +177,8 @@ include(APP_PATH."libs/head.php");
                         <?php endwhile;endif; ?>
                         </table>
                         
-                    <?php } ?>
 
-                    <?php if(($_COOKIE['role_cookies']=='adviser')) { ?>
-                        <div class="buttonBar">
-                            <a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
-                            <a href="<?php echo APP_URL ?>add-surgery/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
-                            <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
-                        </div>
-                        <div class="blockPage blockPage--half mt0">
-                            <h2 class="h2_page">Mục Quản lý Cá nhân</h2>
-                            <ul class="listMange flexBox flexBox--between">
-                                <li><a href="<?php echo APP_URL; ?>customers"><i class="fa fa-users" aria-hidden="true"></i>Quản lý Khách hàng</a></li>
-                            </ul>
-                            <ul class="listMange flexBox flexBox--between">   
-                                <li><a href="<?php echo APP_URL; ?>surgery"><i class="fa fa-medkit" aria-hidden="true"></i>Quản lý Ca Phẫu thuật</a></li>
-                            </ul>
-                        </div>  
-                    <?php } else { ?>
 
-                    
                         <h2 class="h2_page">Danh sách khách hàng</h2>
                         <table class="tblPage">
                             <thead>
@@ -398,7 +447,6 @@ include(APP_PATH."libs/head.php");
                     </tbody>
                 </table>
                 </div>
-                <?php } ?>
         </div>
 
 
