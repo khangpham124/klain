@@ -11,7 +11,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="top">
-<!--===================================================-->
+<div class="flexBox flexBox--between flexBox--wrap">
+    <?php include(APP_PATH."libs/sidebar.php"); ?>
 <div id="wrapper">
 <!--===================================================-->
 <!--Header-->
@@ -24,7 +25,8 @@ include(APP_PATH."libs/head.php");
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
             <h3 class="h3_page">Tường trình phẫu thuật</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
-            <textarea class="inputForm" name="report" id="report"></textarea>
+                <textarea class="inputForm" name="report" id="report"></textarea>
+            </div>
 
             <h3 class="h3_page">Vật tư sử dụng</h3>
             <table class="tblPage">
@@ -69,13 +71,6 @@ include(APP_PATH."libs/head.php");
             <input type="hidden" name="status" value="hauphau" >
             <input class="btnSubmit" type="submit" name="submit" value="Hoàn tất">
         </form>
-        <?php 
-            $list_supplies = get_posts(array(
-                'numberposts' => -1,
-                'post_type' => 'supplies',
-                ));
-            echo $numb_supplies = count($list_supplies);
-        ?>
     </div>
 </div>
 
@@ -86,7 +81,7 @@ include(APP_PATH."libs/head.php");
 <!--===================================================-->
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>

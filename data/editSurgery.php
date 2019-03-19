@@ -22,6 +22,25 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         header('Location:'.APP_URL);
     }
 
+    // $numb_image = $_POST['numb_image'];
+
+    //         $imgBefore = array();
+    //         for($i=0;$i<=$numb_image;$i++) {
+    //             if($_FILES["file$i"]["name"]!="") {
+    //                 $parts1=pathinfo($_FILES["file$i"]["name"]);
+    //                 $ext1=".".strtolower($parts1["extension"]);	
+    //                 $filename = strtolower($parts1["filename"]);
+    //                 $img_name = get_the_title($pid).'_'.$i;
+                    
+    //                 $attach_file = $img_name.$ext1;
+    //                 move_uploaded_file($_FILES["file$i"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".$attach_file);
+    //                 ${'linkFile_'.$i}="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
+    //                 $imgBefore[] = $attach_file;
+
+    //                 add_post_meta($pid_med, 'image_before', $imgBefore);
+    //             }
+    //         }
+
     // TEMP EKIP
 
     if($_POST['action']=='edit_info') {
@@ -146,24 +165,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             $pid_med = wp_insert_post($medical_post);
 
             //UPLOAD IMAGEIMAGE
-            $numb_image = $_POST['numb_image'];
-
-            $imgBefore = array();
-            for($i=0;$i<=$numb_image;$i++) {
-                if($_FILES["file$i"]["name"]!="") {
-                    $parts1=pathinfo($_FILES["file$i"]["name"]);
-                    $ext1=".".strtolower($parts1["extension"]);	
-                    $filename = strtolower($parts1["filename"]);
-                    $img_name = get_the_title($pid).'_'.$i;
-                    
-                    $attach_file = $img_name.$ext1;
-                    move_uploaded_file($_FILES["file$i"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".$attach_file);
-                    ${'linkFile_'.$i}="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
-                    $imgBefore[] = $attach_file;
-
-                    add_post_meta($pid_med, 'image_before', $imgBefore);
-                }
-            }
+            
 
             $bsnk = $_POST['bsnk'];
             add_post_meta($pid_med,'bsnk_name',$bsnk);

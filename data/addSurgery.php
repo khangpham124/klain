@@ -23,7 +23,6 @@ include(APP_PATH."admin/wp-load.php");
         $time = strtotime($_POST['datechose']);
         $hasSur = $_POST['hasSur'];
 
-
         if($hasSur=='yes') {
             $detail_history = '
             Chi tiết ca phẫu thuật trước<br>

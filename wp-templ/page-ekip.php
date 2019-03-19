@@ -31,7 +31,6 @@ include(APP_PATH."libs/head.php");
         <h2 class="h2_page">Thông tin Ekip mổ</h2>
         <?php
                 $id_sur = $_GET['idSurgery'];
-                $change_stt = $_GET['change'];
                 $wp_query = new WP_Query();
                 $param = array (
                 'posts_per_page' => '-1',

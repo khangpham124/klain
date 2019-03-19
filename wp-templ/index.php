@@ -182,7 +182,7 @@ include(APP_PATH."libs/head.php");
                         
 
 
-                        <h2 class="h2_page">Danh sách khách hàng</h2>
+                        <h2 class="h2_page">Danh sách nhắc</h2>
                         <table class="tblPage">
                             <thead>
                             <tr>
@@ -201,10 +201,12 @@ include(APP_PATH."libs/head.php");
                             $app_3days = 172800;
                             $app_5days = 345600;
                             $app_10ays = 777600;
+                            $app_1month = 2678400;
                             $remind_1days = $now - $app_1days;
                             $remind_3days = $now - $app_3days;
                             $remind_5days = $now - $app_5days;
                             $remind_10days = $now - $app_3days;
+                            $remind_1month = $now - $app_1month;
 
                             $wp_query = new WP_Query();
                             $remind_3days;
@@ -235,6 +237,17 @@ include(APP_PATH."libs/head.php");
                                     'value' => $remind_10ays,
                                     'compare' => '>='
                                 ),
+                                array(
+                                    'key' => 'time',
+                                    'value' => $remind_1month,
+                                    'compare' => '>='
+                                ),
+                                'relation' => 'AND',
+                                array(
+                                    'key' => 'status',
+                                    'value' => 'cshp',
+                                    'compare' => 'LIKE'
+                                ),
                             )
                             );
                             $wp_query->query($param);
@@ -250,6 +263,8 @@ include(APP_PATH."libs/head.php");
                                     <span class="noteRemind noteRemind--5">Sau 5 ngày</span>
                                 <?php } else if(get_field('time') > $remind_10ays ) { ?>
                                     <span class="noteRemind noteRemind--10">Sau 10 ngày</span>
+                                <?php } else if(get_field('time') > $remind_1month ) { ?>
+                                    <span class="noteRemind noteRemind--10">Sau 1 tháng</span>
                                 <?php } ?>
                                 </span>
                             </td>
@@ -401,7 +416,7 @@ include(APP_PATH."libs/head.php");
                                     case "hauphau":
                                         $stt_text = "Hậu phẫu";
                                     break;
-                                    case "cskh":
+                                    case "cshp":
                                         $stt_text = "CSKH";
                                     break;
                                 }
@@ -438,10 +453,10 @@ include(APP_PATH."libs/head.php");
 
                             <?php if($_COOKIE['role_cookies']=='room') { 
                             ?>
-                            <?php if(($stt=='bsk')||($stt=='bsnk')) { ?>
+                            <?php if(($stt=='bsk')||($stt=='bsnk')||($stt=='batdau')) { ?>
                                 <td class="last">
                                     <?php if($stt=='batdau') { ?>
-                                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&change=phauthuat"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                        <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=phauthuat" title="Hoàn tất"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
                                         <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                     <?php } else { ?>
                                         <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
