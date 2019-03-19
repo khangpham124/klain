@@ -16,8 +16,97 @@ include(APP_PATH."libs/head.php");
 <!--Header-->
 <?php include(APP_PATH."libs/header.php"); ?>
 <!--/Header-->
+<div class="maxW__print">
+<?php
+$form = $_GET['form'];
+$idSurgery = $_GET['idSurgery'];
+if($form=='tvv') {
+?>
+<h2 class="h2_page_print">Phiếu thông tin khách hàng</h2>
+<h3 class="h3_page">Thông tin cơ bản</h3>
+<div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+<p class="inputBlock">
+<input type="text" class="inputForm" name="fullname" id="fullname" value="<?php echo get_field('fullname',$idSurgery); ?>" placeholder="Họ tên" />
+</p>
+<?php if($_COOKIE['role_cookies']!='doctor') { ?>
+<p class="inputBlock">
+<input type="number" class="inputForm" name="mobile" id="mobile" id="mobile" value="<?php echo get_field('mobile',$idSurgery); ?>" placeholder="Số điện thoại" />
+</p>
+<?php } ?>
+</div>    
+<!-- phuong thu tu van -->
+<h3 class="h3_page">Thông tin tư vấn</h3>
+<p class="inputBlock">
+<input type="text" class="inputForm" readonly value="<?php if(get_field('advise',$idSurgery)=='yes') {echo "Đã được tư vấn";} else {echo "Chưa được tư vấn";} ?>">
+</p>
+<div class="blockAdvise">
+<h3 class="h5_page">Nhân viên tư vấn</h3>
+<div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+<p class="inputBlock">
+<input type="text" class="inputForm" readonly value="<?php echo get_field('adviser',$idSurgery); ?>">
+</p>
+<?php if(get_field('channel')!="") { ?>
+<p class="inputBlock">
+    <input type="text" class="inputForm" readonly value="<?php echo get_field('channel',$idSurgery); ?>">
+</p>  
+<?php } ?>
+</div>
+</div>
+<!-- phuong thu tu van -->
 
-<div class="flexBox flexBox--between textBox flexBox--wrap maxW">
+<h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
+<?php
+$listService = get_field('services',$idSurgery);
+$listServices = explode('<br>',$listService);
+?>
+<?php foreach($listServices as $serv) {
+echo $serv.'<br>';
+}    
+?>
+<h4 class="h4_page h4_page--services">Giảm giá</h4>
+<p class="inputBlock inputNumber">
+<input type="text" class="inputForm" readonly value="<?php echo number_format(get_field('sale_discount',$idSurgery)); ?>">
+</p>
+<!-- ADD SERVICES -->
+
+<!-- DATE -->
+<h3 class="h3_page">ngày phẫu thuật</h3>
+<div class="flexBox flexBox--between flexBox__form flexBox__form--2 mt10">
+<div class="inputBlock">
+<input type="text" class="inputForm" value="<?php echo get_field('date',$idSurgery); ?>" placeholder="Chọn ngày phẫu thuật">
+
+</div>
+</div>
+<!-- DATE -->          
+
+<h4 class="h4_page">Lịch sử phẫu thuật : <?php if(get_field('hassurgery',$idSurgery)=="yes") { echo "Đã từng phẫu thuật"; } else { echo "Chưa từng phẫu thuật";} ?></h4>
+
+<?php if(get_field('detail_history',$idSurgery)!="") { ?>
+<div class="inputBlock">
+<h3 class="h5_page">Chi tiết ca phẫu thuật trước</h3>
+<div><?php echo get_field('detail_history',$idSurgery); ?></div>
+</div>
+<?php } ?>
+
+<h4 class="h4_page">Tình trạng hiện tại</h4>
+<div><?php echo get_field('self_status',$idSurgery); ?></div>
+<h4 class="h4_page">Mong muốn của khách hàng</h4>
+<div><?php echo get_field('target',$idSurgery); ?></div>
+
+
+<h4 class="h4_page">Tư vấn</h4>
+<div><?php echo get_field('doctor_advise',$idSurgery); ?></div>
+
+<h4 class="h4_page">Ý kiến của khách hàng</h4>
+<div><?php echo get_field('cus_note',$idSurgery); ?></div>
+
+<input type="hidden" name="action" value="edit_info" >
+</div>
+<?php } ?>
+
+
+<?php if($form=='counter') { ?>
+
     
     <div class="blockPage blockPage--full">
         <div class="flexBox flexBox--between">
@@ -137,14 +226,12 @@ include(APP_PATH."libs/head.php");
         <div class="flexBox flexBox--between flexBox__form flexBox__form--3 txtPrint">
             <p class="inputBlock inputNumber"><strong>Giám đốc</strong><em>(Ký ,họ tên, đóng dấu)</em></p>
             <p class="inputBlock inputNumber"><strong>Người nộp tiền</strong><em>(Ký ,họ tên)</em></p>
-            <p class="inputBlock inputNumber"><strong>Người lãp phiếu</strong><em>(Ký ,họ tên, đóng dấu)</em></p>
-        </div>
-        
-        
+            <p class="inputBlock inputNumber"><strong>Người lập phiếu</strong><em>(Ký ,họ tên, đóng dấu)</em></p>
+        </div>        
     </div>
+
+<?php } ?>
 </div>
-
-
 <!--Footer-->
 <?php include(APP_PATH."libs/footer.php"); ?>
 <!--/Footer-->

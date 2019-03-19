@@ -30,7 +30,7 @@ include(APP_PATH."libs/head.php");
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin Ca phẫu thuật</h2>
 
-         <ul class="tabItem tabItem--5 flexBox flexBox--center flexBox--wrap">
+         <ul class="tabItem tabItem--6 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
@@ -104,27 +104,29 @@ include(APP_PATH."libs/head.php");
                 <?php if(get_field('detail_history')!="") { ?>
                 <div class="inputBlock">
                     <h3 class="h5_page">Chi tiết ca phẫu thuật trước</h3>
-                    <textarea class="inputForm" readonly name="howto" placeholder="phương pháp thực hiện"><?php echo get_field('detail_history'); ?></textarea>
+                    <div><?php echo get_field('detail_history'); ?></div>
                 </div>
                 <?php } ?>
 
                 <h4 class="h4_page">Tình trạng hiện tại</h4>
-                <textarea class="inputForm"><?php echo nl2br(get_field('self_status')); ?></textarea>
+                <div><?php echo get_field('self_status'); ?></div>
                 <h4 class="h4_page">Mong muốn của khách hàng</h4>
-                <textarea class="inputForm"><?php echo nl2br(get_field('target')); ?></textarea>
+                <div><?php echo get_field('target'); ?></div>
 
                 
                 <h4 class="h4_page">Tư vấn</h4>
-                <textarea class="inputForm" name="doctor_advise"></textarea>
+                <div><?php echo get_field('doctor_advise'); ?></div>
 
                 <h4 class="h4_page">Ý kiến của khách hàng</h4>
-                <textarea class="inputForm" name="cus_note"></textarea>
+                <div><?php echo get_field('cus_note'); ?></div>
 
                 <input type="hidden" name="action" value="edit_info" >
-                <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+                <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In</a>
                     </form>
                 </div>
                 <!-- het tabl1 -->
+
+
                 <div class="tabBox" id="tab2">
                     <h3 class="h3_page">Tình trạng thanh toán : <?php the_field('payment_status'); ?></h3>
                     <h4 class="h4_page">Thông tin dịch vụ</h4>
@@ -192,10 +194,6 @@ include(APP_PATH."libs/head.php");
                                 </td>
                             </tr>
                         </table>
-                        <div class="inputBlock" id="radstatusPay">
-                            
-                            
-                        </div>
 
                         <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                             <div class="inputBlock">    

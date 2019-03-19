@@ -23,8 +23,26 @@ include(APP_PATH."libs/head.php");
 
         <div class="textBox">
                 <?php include(APP_PATH."libs/searchBlock.php"); ?>
-
                 <div class="blockPage blockPage--full mt40">
+                    <?php
+                    $wp_query = new WP_Query();
+                    $remind_3days;
+                    $param = array (
+                    'posts_per_page' => '-1',
+                    'post_type' => 'surgery',
+                    'post_status' => 'publish',
+                    'order' => 'DESC',
+                    'meta_query'	=> array(
+                        array(
+                            'key' => 'debt',
+                            'value' => '',
+                            'compare' => '!='
+                        ),
+                    )
+                    );
+                    $wp_query->query($param);
+                    if($wp_query->have_posts()):
+                    ?>
                         <h2 class="h2_page">Danh sách khách hàng còn nợ</h2>
                         <table class="tblPage">
                             <thead>
@@ -37,24 +55,8 @@ include(APP_PATH."libs/head.php");
                                 <td>Chi tiết</td>
                             </tr>
                         </thead>
-                        <?php
-                            $wp_query = new WP_Query();
-                            $remind_3days;
-                            $param = array (
-                            'posts_per_page' => '-1',
-                            'post_type' => 'surgery',
-                            'post_status' => 'publish',
-                            'order' => 'DESC',
-                            'meta_query'	=> array(
-                                array(
-                                    'key' => 'debt',
-                                    'value' => '',
-                                    'compare' => '!='
-                                ),
-                            )
-                            );
-                            $wp_query->query($param);
-                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                        <?php 
+                            while($wp_query->have_posts()) :$wp_query->the_post();
                         ?>
                         <tr>
                             <td>
@@ -99,10 +101,29 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_field('mobile'); ?></td>
                             <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
                         </tr>
-                        <?php endwhile;endif; ?>
+                        <?php endwhile; ?>
                         </table>
+                        <?php endif; ?>
 
-
+                        <?php
+                        $wp_query = new WP_Query();
+                        $remind_3days;
+                        $param = array (
+                        'posts_per_page' => '-1',
+                        'post_type' => 'surgery',
+                        'post_status' => 'publish',
+                        'order' => 'DESC',
+                        'meta_query'	=> array(
+                            array(
+                                'key' => 'deposit',
+                                'value' => '',
+                                'compare' => '!='
+                            ),
+                        )
+                        );
+                        $wp_query->query($param);
+                        if($wp_query->have_posts()):
+                        ?>
                         <h2 class="h2_page">Danh sách khách hàng đã đặt cọc</h2>
                         <table class="tblPage">
                             <thead>
@@ -116,23 +137,7 @@ include(APP_PATH."libs/head.php");
                             </tr>
                         </thead>
                         <?php
-                            $wp_query = new WP_Query();
-                            $remind_3days;
-                            $param = array (
-                            'posts_per_page' => '-1',
-                            'post_type' => 'surgery',
-                            'post_status' => 'publish',
-                            'order' => 'DESC',
-                            'meta_query'	=> array(
-                                array(
-                                    'key' => 'deposit',
-                                    'value' => '',
-                                    'compare' => '!='
-                                ),
-                            )
-                            );
-                            $wp_query->query($param);
-                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                            while($wp_query->have_posts()) :$wp_query->the_post();
                         ?>
                         <tr>
                             <td>
@@ -177,10 +182,9 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_field('mobile'); ?></td>
                             <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
                         </tr>
-                        <?php endwhile;endif; ?>
+                        <?php endwhile; ?>
                         </table>
-                        
-
+                        <?php endif; ?>
 
                         <h2 class="h2_page">Danh sách nhắc</h2>
                         <table class="tblPage">
@@ -293,11 +297,60 @@ include(APP_PATH."libs/head.php");
                     <tbody>
                         <?php
                             $wp_query = new WP_Query();
-                            if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='counter')) {
+                            if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) {
                                 $param=array(
                                 'post_type'=>'surgery',
                                 'order' => 'DESC',
                                 'posts_per_page' => '-1',
+                                'meta_query'	=> array(
+                                    array(
+                                        'key'	  	=> 'status',
+                                        'value'	  	=> 'huy',
+                                        'compare' 	=> '!=',
+                                    ),
+                                    )
+                                );
+                            }
+                            
+                            if(($_COOKIE['role_cookies']=='tvv')||($_COOKIE['role_cookies']=='sale')) {
+                                $param=array(
+                                'post_type'=>'surgery',
+                                'order' => 'DESC',
+                                'posts_per_page' => '-1',
+                                'meta_query'	=> array(
+                                    'relation'		=> 'OR',
+                                    array(
+                                        'key'	  	=> 'status',
+                                        'value'	  	=> 'tvv',
+                                        'compare' 	=> '=',
+                                    ),
+                                    array(
+                                        'key' => 'status',
+                                        'value' => 'pending',
+                                        'compare' => '='
+                                    ),
+                                    )
+                                );
+                            }
+
+                            if($_COOKIE['role_cookies']=='counter') {
+                                $param=array(
+                                'post_type'=>'surgery',
+                                'order' => 'DESC',
+                                'posts_per_page' => '-1',
+                                'meta_query'	=> array(
+                                    'relation'		=> 'OR',
+                                    array(
+                                        'key'	  	=> 'status',
+                                        'value'	  	=> 'tvv',
+                                        'compare' 	=> '=',
+                                    ),
+                                    array(
+                                        'key' => 'status',
+                                        'value' => 'pending',
+                                        'compare' => '='
+                                    ),
+                                    )
                                 );
                             }
                             
@@ -419,6 +472,9 @@ include(APP_PATH."libs/head.php");
                                     case "cshp":
                                         $stt_text = "CSKH";
                                     break;
+                                    case "huy":
+                                        $stt_text = "Đã Huỷ";
+                                    break;
                                 }
                                 ?>
                                 <?php if($stt=='batdau') { ?>
@@ -440,7 +496,16 @@ include(APP_PATH."libs/head.php");
                             <?php } ?>
 
                             <?php if($_COOKIE['role_cookies']=='counter') { ?>
-                            <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-print" aria-hidden="true"></i></a></td>
+                                <td class="last">
+                                    <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>&form=counter" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
+                                </td>
+                            <?php } ?>
+
+                            <?php if(($_COOKIE['role_cookies']=='tvv')||($_COOKIE['role_cookies']=='sale')) { ?>
+                            <td class="last">
+                                <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=tvv"><i class="fa fa-print" aria-hidden="true"></i></a>
+                            </td>
                             <?php } ?>
                             
                             <?php if($_COOKIE['role_cookies']=='doctor') { ?>

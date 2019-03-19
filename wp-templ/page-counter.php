@@ -261,8 +261,7 @@ include(APP_PATH."libs/head.php");
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) { ?>
                         <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
                             <a href="javascript:void(0)" class="btnSubmit callPopup">Cập nhật</a>
-                            <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
-                            <a href="<?php echo APP_URL; ?>data/editSurgery?action=cancel&idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">Huỷ</a>
+                            <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
                         </div>
                     <?php } ?>   
                     <div class="popUp">

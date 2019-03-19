@@ -120,7 +120,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $debt = $_POST['debt'];
         $debter = $_POST['debter'];
         $guy = $_POST['guy'];
-        $remain = $_POST['remain'];
+        $remain = str_replace(array(',','.'),array('',''),$_POST['remain']);
         $nameBank = $_POST['nameBank'];
 
         if((get_field('approve2',$pid)=='')&&($debter=='yes')) {
@@ -227,17 +227,17 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                     
                         <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                             <div class="inputBlock">
-                                <label class="smallLabel">Mạch</label>
+                                <h5 class="h5_page">Mạch</h5>
                                 <input type="text" class="inputForm" name="f_11" value="'.$_POST["f_11"].'" placeholder="Mạch" />
-                                <label class="smallLabel">Nhiệt độ</label>
+                                <h5 class="h5_page">Nhiệt độ</h5>
                                 <input type="text" class="inputForm" name="f_12" value="'.$_POST["f_12"].'" placeholder="Nhiệt độ" />
-                                <label class="smallLabel">Huyết áp</label>
+                                <h5 class="h5_page">Huyết áp</h5>
                                 <input type="text" class="inputForm" name="f_13" value="'.$_POST["f_13"].'" placeholder="Huyết áp" />
                             </div>
                             <div class="inputBlock">
-                                <label class="smallLabel">Nhịp thở</label>
+                                <h5 class="h5_page">Nhịp thở</h5>
                                 <input type="text" class="inputForm" name="f_14" value="'.$_POST["f_14"].'" placeholder="Nhịp thở" />
-                                <label class="smallLabel">Cân nặng</label>
+                                <h5 class="h5_page">Cân nặng</h5>
                                 <input type="text" class="inputForm" name="f_15" value="'.$_POST["f_15"].'" placeholder="Cân nặng" />
                             </div>
                         </div>
@@ -274,9 +274,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <p class="mb10">
                                             '.$_POST["f_19"].'
                                             </p>
-                                            <label class="smallLabel">Hình dạng tổng quát</label>
+                                            <h5 class="h5_page">Hình dạng tổng quát</h5>
                                             <input type="text" class="inputForm mb10" name="f_20" value="'.$_POST["f_20"].'" />
-                                            <label class="smallLabel">Sẹo vùng mũi</label>
+                                            <h5 class="h5_page">Sẹo vùng mũi</h5>
                                             <input type="text" class="inputForm" name="f_21" value="'.$_POST["f_21"].'" placeholder="" />
                                             </td>
                                         </tr>
@@ -286,16 +286,16 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <th>Sóng mũi</th>
                                             <td>
                                             <div class="mb10">
-                                            <label class="smallLabel">Xượng mũi (gồ)</label>
+                                            <h5 class="h5_page">Xượng mũi (gồ)</h5>
                                             <p>'.$_POST["f_22"].'</p>
-                                            <label class="smallLabel">Lệch</label>
+                                            <h5 class="h5_page">Lệch</h5>
                                             <p>'.$_POST["f_23"].'</p>
-                                            <label class="smallLabel">Bè</label>
+                                            <h5 class="h5_page">Bè</h5>
                                             <p>'.$_POST["f_24"].'</p>
-                                            <label class="smallLabel">Đục xương</label>
+                                            <h5 class="h5_page">Đục xương</h5>
                                             <p>'.$_POST["f_25"].'</p>
                                             </div>
-                                            <label class="smallLabel">Vị trí Radix</label>
+                                            <h5 class="h5_page">Vị trí Radix</h5>
                                             <input type="text" class="inputForm" name="f_26" value="'.$_POST["f_26"].'" placeholder="" />
                                             </td>
                                         </tr>
@@ -304,38 +304,38 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                         <tr>
                                             <th>Đầu mũi</th>
                                             <td>
-                                            <label class="smallLabel">To</label>
+                                            <h5 class="h5_page">To</h5>
                                             <p>'.$_POST["f_27"].'</p>
-                                            <label class="smallLabel">Mô mềm đầu mũi</label>
+                                            <h5 class="h5_page">Mô mềm đầu mũi</h5>
                                             <p>'.$_POST["f_28"].'</p>
-                                            <label class="smallLabel">Đầu mũi ngắn</label>
+                                            <h5 class="h5_page">Đầu mũi ngắn</h5>
                                             <p>'.$_POST["f_29"].'</p>
-                                            <label class="smallLabel">Góc mũi môi</label>
+                                            <h5 class="h5_page">Góc mũi môi</h5>
                                             <p>'.$_POST["f_30"].'</p>
-                                            <label class="smallLabel">Da mũi</label>
+                                            <h5 class="h5_page">Da mũi</h5>
                                             <p>'.$_POST["f_31"].'</p>
-                                            <label class="smallLabel">Độ nảy đầu mũi</label>
+                                            <h5 class="h5_page">Độ nảy đầu mũi</h5>
                                             <p>'.$_POST["f_32"].'</p>
                                             
-                                            <label class="smallLabel">Đánh giá vách ngăn</label>
+                                            <h5 class="h5_page">Đánh giá vách ngăn</h5>
                                             <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
                                                 <div class="inputBlock borderBox">
-                                                    <label class="smallLabel">Vẹo</label>
+                                                    <h5 class="h5_page">Vẹo</h5>
                                                     <p>'.$_POST["f_33"].'</p>
                                                 </div>
                                                 <div class="inputBlock borderBox">
-                                                    <label class="smallLabel">Cong Lõm</label>
+                                                    <h5 class="h5_page">Cong Lõm</h5>
                                                     <p>'.$_POST["f_34"].'</p>
                                                 </div>
                                             </div>
-                                            <label class="smallLabel">Vật liệu sử dụng</label>
+                                            <h5 class="h5_page">Vật liệu sử dụng</h5>
                                             <input type="text" class="inputForm mb10" name="f_35" value="'.$_POST["f_35"].'" placeholder="" />
-                                            <label class="smallLabel">Cách dựng trụ</label>
+                                            <h5 class="h5_page">Cách dựng trụ</h5>
                                             <input type="text" class="inputForm" name="f_36" value="'.$_POST["f_36"].'" placeholder="" />
 
-                                            <label class="smallLabel">Tiền đình mũi</label>
+                                            <h5 class="h5_page">Tiền đình mũi</h5>
                                             <p>'.$_POST["f_37"].'</p>
-                                            <label class="smallLabel">Cần ghép chỗ khuyết</label>
+                                            <h5 class="h5_page">Cần ghép chỗ khuyết</h5>
                                             <input type="text" class="inputForm mb10" name="f_38" value="'.$_POST["f_38"].'" placeholder="" />
                                             </td>
                                         </tr>
@@ -346,9 +346,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <td>
                                             <p>'.$_POST["f_39"].'</p>
                                                 <div class="mt10">
-                                                    <label class="smallLabel">Cắt cánh mũi?</label>
+                                                    <h5 class="h5_page">Cắt cánh mũi?</h5>
                                                     <input type="text" class="inputForm mb10" name="f_40" value="'.$_POST["f_40"].'" placeholder="" />
-                                                    <label class="smallLabel">Treo cánh mũi?</label>
+                                                    <h5 class="h5_page">Treo cánh mũi?</h5>
                                                     <input type="text" class="inputForm" name="f_41" value="'.$_POST["f_41"].'" placeholder="" />
                                                 </div>
                                             </td>
@@ -360,12 +360,12 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <td>
                                                 <p class="mb10">
                                                     <p>'.$_POST["f_42"].'</p>
-                                                    <label class="smallLabel">Rãnh mũi nông sâu?</label>
+                                                    <h5 class="h5_page">Rãnh mũi nông sâu?</h5>
                                                     <input type="text" class="inputForm" name="f_43" value="'.$_POST["f_43"].'" placeholder="" />
                                                 </p>
-                                                <label class="smallLabel">Đường khính nền mũi / khoảng cách 2 khoé mắt</label>
+                                                <h5 class="h5_page">Đường khính nền mũi / khoảng cách 2 khoé mắt</h5>
                                                 <p>'.$_POST["f_44"].'</p>
-                                                <label class="smallLabel">Thu nền mũi ?</label>
+                                                <h5 class="h5_page">Thu nền mũi ?</h5>
                                                 <input type="text" class="inputForm" name="f_45" value="'.$_POST["f_45"].'" placeholder="" /> 
                                             </td>
                                         </tr>
@@ -377,7 +377,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <p class="mb10">
                                             <p>'.$_POST["f_46"].'</p>
                                             </p>
-                                            <label class="smallLabel">Bị biến dạng?</label>
+                                            <h5 class="h5_page">Bị biến dạng?</h5>
                                             <input type="text" class="inputForm" name="f_47" value="'.$_POST["f_47"].'" placeholder="" />
                                             </td>
                                         </tr>
@@ -410,19 +410,19 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <th>Mô tả mí hiện tại</th>
                                             <td>
                                                 <p class="mb10">
-                                                    <label class="smallLabel">Có mí </label>
+                                                    <h5 class="h5_page">Có mí </h5>
                                                     <p>'.$_POST["f_51"].'</p>
                                                 </p>
                                                 
                                                 <p class="mb10">
-                                                    <label class="smallLabel">Độ dư da 2 bên</label>
+                                                    <h5 class="h5_page">Độ dư da 2 bên</h5>
                                                     <p>'.$_POST["f_52"].'</p>
                                                 </p>
                                                 <p class="mb10">
-                                                    <label class="smallLabel">Da dư làm nhở mắt</label>
+                                                    <h5 class="h5_page">Da dư làm nhở mắt</h5>
                                                     <p>'.$_POST["f_53"].'</p>
                                                 </p>
-                                                <label class="smallLabel">Ghi chú khác</label>
+                                                <h5 class="h5_page">Ghi chú khác</h5>
                                                 <textarea class="inputForm" name="f_54" placeholder="">'.$_POST["f_54"].'</textarea>
                                             </td>
                                         </tr>
@@ -431,11 +431,11 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <th>Khe mí hai bên</th>
                                             <td>
                                             <p class="mb10">
-                                                <label class="smallLabel">Có yếu cơ nâng mi hay chênh lệch?</label>
+                                                <h5 class="h5_page">Có yếu cơ nâng mi hay chênh lệch?</h5>
                                                 <p>'.$_POST["f_55"].'</p>
                                             </p>
                                             <p class="mb10">
-                                                <label class="smallLabel">Có sự hỗ trợ mở mắt của các cơ lân cận ?</label>
+                                                <h5 class="h5_page">Có sự hỗ trợ mở mắt của các cơ lân cận ?</h5>
                                                 <p>'.$_POST["f_56"].'</p>
                                             </p>
                                             </td>
@@ -455,11 +455,11 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                         <tr>
                                             <th>Mỡ mắt</th>
                                             <td>
-                                                <label class="smallLabel">Mỡ góc trong</label>
+                                                <h5 class="h5_page">Mỡ góc trong</h5>
                                                 <input type="text" class="inputForm" name="f_59"  value="'.$_POST["f_59"].'" placeholder="" />
-                                                <label class="smallLabel">Mỡ góc ngoài</label>
+                                                <h5 class="h5_page">Mỡ góc ngoài</h5>
                                                 <input type="text" class="inputForm" name="f_60"  value="'.$_POST["f_60"].'" placeholder="" />
-                                                <label class="smallLabel">thiếu vùng nào</label>
+                                                <h5 class="h5_page">thiếu vùng nào</h5>
                                                 <input type="text" class="inputForm" name="f_61"  value="'.$_POST["f_61"].'" placeholder="" />
                                             </td>
                                         </tr>  
@@ -488,7 +488,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <td>
                                                 <p>'.$_POST["f_65"].'</p>
                                                 <p class="mb10">
-                                                <label class="smallLabel">Độ vểnh lông mi</label>
+                                                <h5 class="h5_page">Độ vểnh lông mi</h5>
                                                 <p>'.$_POST["f_66"].'</p>
                                                 </p>
                                             </td>
@@ -497,9 +497,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                         <tr>
                                             <th>Cung mày</th>
                                             <td>
-                                                <label class="smallLabel">Vị trí cung mày so vớ gờ xương ổ mắt</label>
+                                                <h5 class="h5_page">Vị trí cung mày so vớ gờ xương ổ mắt</h5>
                                                 <input type="text" class="inputForm" name="f_67"  value='.$_POST["f_67"].'"" placeholder="" />
-                                                <label class="smallLabel">Khoảng cách cung mày và nếp mí</label>
+                                                <h5 class="h5_page">Khoảng cách cung mày và nếp mí</h5>
                                                 <input type="text" class="inputForm" name="f_68"  value="'.$_POST["f_68"].'" placeholder="" />
                                                 <p>'.$_POST["f_69"].'</p>
                                             </td>
@@ -508,11 +508,11 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                         <tr>
                                             <th>Lưu ý</th>
                                             <td>
-                                                <label class="smallLabel">Khi khách nhắm mở mắt</label>
+                                                <h5 class="h5_page">Khi khách nhắm mở mắt</h5>
                                                 <input type="text" class="inputForm" name="f_70"  value="'.$_POST["f_70"].'" placeholder="" />
-                                                <label class="smallLabel">Khi khách cười</label>
+                                                <h5 class="h5_page">Khi khách cười</h5>
                                                 <input type="text" class="inputForm" name="f_71"  value="'.$_POST["f_71"].'" placeholder="" />
-                                                <label class="smallLabel">Nếp nhăn đuội mắt</label>
+                                                <h5 class="h5_page">Nếp nhăn đuội mắt</h5>
                                                 <input type="text" class="inputForm" name="f_72"  value="'.$_POST["f_72"].'" placeholder="" />
                                             </td>
                                         </tr> 
@@ -529,18 +529,18 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                         <tr>
                                             <th>Đánh giá</th>
                                             <td>
-                                                <label class="smallLabel">Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới</label>
+                                                <h5 class="h5_page">Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới</h5>
                                                 <input type="text" class="inputForm" name="f_74"  value="'.$_POST["f_74"].'" placeholder="Đánh giá vùng thừa, vùng thiếu mỡ, mô mi dưới" />
-                                                <label class="smallLabel">Tình trạng sa trễ , yếu mi dưới</label>
+                                                <h5 class="h5_page">Tình trạng sa trễ , yếu mi dưới</h5>
                                                 <input type="text" class="inputForm" name="f_75"  value="'.$_POST["f_75"].'" placeholder="Tình trạng sa trễ , yếu mi dưới" />
-                                                <label class="smallLabel">Tình trạng khi khách cười</label>
+                                                <h5 class="h5_page">Tình trạng khi khách cười</h5>
                                                 <input type="text" class="inputForm" name="f_76"  value="'.$_POST["f_76"].'" placeholder="Tình trạng khi khách cười" />
                                                 <p class="mb10">
-                                                <label class="smallLabel">Bờ mi có tiền tuyến đồng tử</label>
+                                                <h5 class="h5_page">Bờ mi có tiền tuyến đồng tử</h5>
                                                 '.$_POST["f_77"].'
                                                 </p>
                                                 <p class="mb10">
-                                                <label class="smallLabel">Có hở tròng trắng</label>
+                                                <h5 class="h5_page">Có hở tròng trắng</h5>
                                                 '.$_POST["f_78"].'
                                                 </p>
                                             </td>
@@ -557,9 +557,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                             <th>Số lần phẫu thuật</th>
                                             <td>
                                                 <p>'.$_POST["f_79"].'</p>
-                                                <label class="smallLabel">Bên nào nhô nhiều?</label>
+                                                <h5 class="h5_page">Bên nào nhô nhiều?</h5>
                                                 <input type="text" class="inputForm" name="f_80"  value="'.$_POST["f_80"].'" placeholder="Bên nào nhô nhiều?" />
-                                                <label class="smallLabel">Thiếu cằm chiều nào?</label>
+                                                <h5 class="h5_page">Thiếu cằm chiều nào?</h5>
                                                 <input type="text" class="inputForm" name="f_81"  value="'.$_POST["f_81"].'" placeholder="Thiếu cằm chiều nào?" />
                                             </td>
                                         </tr>
@@ -570,21 +570,21 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                 </ul>
                                 <div class="tabBox" id="tab4">
                                     <div class="inputBlock">
-                                    <label class="smallLabel">Tuần hoàn</label>
+                                    <h5 class="h5_page">Tuần hoàn</h5>
                                     <input type="text" class="inputForm" name="f_82"  value="'.$_POST["f_82"].'" placeholder="Tuần hoàn" />
-                                    <label class="smallLabel">Răng hàm mặt</label>
+                                    <h5 class="h5_page">Răng hàm mặt</h5>
                                     <input type="text" class="inputForm" name="f_83"  value="'.$_POST["f_83"].'" placeholder="Răng hàm mặt" />
-                                    <label class="smallLabel">Hô hấp</label>
+                                    <h5 class="h5_page">Hô hấp</h5>
                                     <input type="text" class="inputForm" name="f_84"  value="'.$_POST["f_84"].'" placeholder="Hô hấp" />
-                                    <label class="smallLabel">Thân tiết niệu, sinh dục</label>
+                                    <h5 class="h5_page">Thân tiết niệu, sinh dục</h5>
                                     <input type="text" class="inputForm" name="f_85"  value="'.$_POST["f_85"].'" placeholder="Thân tiết niệu, sinh dục">
-                                    <label class="smallLabel">Thần kinh</label>
+                                    <h5 class="h5_page">Thần kinh</h5>
                                     <input type="text" class="inputForm" name="f_86"  value="'.$_POST["f_86"].'" placeholder="Thần kinh" />
-                                    <label class="smallLabel">Nội tiết,dinh dưỡng, các bệnh lý khác</label>
+                                    <h5 class="h5_page">Nội tiết,dinh dưỡng, các bệnh lý khác</h5>
                                     <input type="text" class="inputForm" name="f_87"  value="'.$_POST["f_87"].'" placeholder="Nội tiết,dinh dưỡng, các bệnh lý khác" />
-                                    <label class="smallLabel">Tiêu hoá</label>
+                                    <h5 class="h5_page">Tiêu hoá</h5>
                                     <input type="text" class="inputForm" name="f_88"  value="'.$_POST["f_88"].'" placeholder="Tiêu hoá" />
-                                    <label class="smallLabel">Cơ Xương khớp</label>
+                                    <h5 class="h5_page">Cơ Xương khớp</h5>
                                     <input type="text" class="inputForm" name="f_89"  value="'.$_POST["f_89"].'" placeholder="Cơ Xương khớp" />
                                     </div>
                                 </div>
@@ -602,11 +602,11 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
                         <h3 class="h3_page">Chuẩn đoán khi vào khoa</h3>
                             <div class="inputBlock">
-                            <label class="smallLabel">Bệnh chính</label>
+                            <h5 class="h5_page">Bệnh chính</h5>
                             <input type="text" class="inputForm" name="f_92"  value="'.$_POST["f_92"].'" placeholder="Bệnh chính" />
-                            <label class="smallLabel">Bệnh kèm theo</label>
+                            <h5 class="h5_page">Bệnh kèm theo</h5>
                             <input type="text" class="inputForm" name="f_93"  value="'.$_POST["f_93"].'" placeholder="" />
-                            <label class="smallLabel">Phân biệt</label>
+                            <h5 class="h5_page">Phân biệt</h5>
                             <input type="text" class="inputForm" name="f_94"  value="'.$_POST["f_94"].'" placeholder="" />
                             </div>
                         <h3 class="h3_page">Tiên lượng</h3>   

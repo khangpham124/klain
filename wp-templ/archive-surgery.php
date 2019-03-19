@@ -37,6 +37,13 @@ include(APP_PATH."libs/head.php");
                     'post_type'=>'surgery',
                     'order' => 'DESC',
                     'posts_per_page' => '-1',
+                    'meta_query'	=> array(
+                        array(
+                            'key'	  	=> 'status',
+                            'value'	  	=> 'huy',
+                            'compare' 	=> '!=',
+                        ),
+                        )
                     );    
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();

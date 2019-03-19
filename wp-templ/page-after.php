@@ -23,10 +23,25 @@ include(APP_PATH."libs/head.php");
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin hậu phẫu</h2>
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
+            <?php
+                $id_sur = $_GET['idSurgery'];
+                if($id_sur!='') {
+                    $wp_query = new WP_Query();
+                    $param = array (
+                        'posts_per_page' => '1',
+                        'post_type' => 'surgery',
+                        'post_status' => 'publish',
+                        'order' => 'DESC',
+                        'p'=>$id_sur
+                    );
+                    $wp_query->query($param);
+			        if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+            ?>
             <h3 class="h3_page">Tường trình phẫu thuật</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
-                <textarea class="inputForm" name="report" id="report"></textarea>
+                <textarea class="inputForm" name="report" id="report"><?php the_field('report'); ?></textarea>
             </div>
+            <?php endwhile;endif; } ?>
 
             <h3 class="h3_page">Vật tư sử dụng</h3>
             <table class="tblPage">
