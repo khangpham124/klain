@@ -17,6 +17,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="top">
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <!--===================================================-->
 <div id="wrapper">
 <!--===================================================-->
@@ -29,8 +31,7 @@ include(APP_PATH."libs/head.php");
         <h2 class="h2_page">Thông tin Ekip mổ</h2>
         <?php
                 $id_sur = $_GET['idSurgery'];
-                
-                $idCustomer = 'KLAIN_19';
+                $change_stt = $_GET['change'];
                 $wp_query = new WP_Query();
                 $param = array (
                 'posts_per_page' => '-1',
@@ -41,6 +42,7 @@ include(APP_PATH."libs/head.php");
                 );
                 $wp_query->query($param);
                 if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                $stt_surgery = get_field('status');
             ?>
             <h3 class="h3_page">Thông tin khách hàng</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
@@ -56,12 +58,16 @@ include(APP_PATH."libs/head.php");
             </div>
 
             <h4 class="h4_page">Dịch vụ yêu cầu</h4>
-                <p class="inputBlock">
-                    <input type="text" class="inputForm" readonly value="<?php the_field('services'); ?>" />
-                </p>
-            
-            <h4 class="h4_page">Hồ sơ bệnh án và tư vấn của bác sĩ</h4>        
-
+                <?php
+                    $listService = get_field('services');
+                    $listServices = explode('<br>',$listService);
+                ?>
+                <?php foreach($listServices as $serv) { ?>
+                    <p class="inputBlock">
+                    <input type="checkbox" value="<?php echo $serv; ?>"><label><?php echo $serv; ?></label>
+                    </p>
+                <?php }  ?>
+            <h4 class="h4_page">Hồ sơ bệnh án và tư vấn của bác sĩ</h4>
 
             <?php endwhile;endif; ?>
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
@@ -235,12 +241,21 @@ include(APP_PATH."libs/head.php");
             </select>
             </p>
 
+
             <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
             <input type="hidden" name="action" value="ekip_create" >
-            <input type="hidden" name="status" value="phauthuat" >
-            <input class="btnSubmit" type="submit" name="submit" value="Hoàn tất">
+            <input type="hidden" name="status" value="batdau" >
+            <a href="javascript:void(0)" class="btnSubmit callPopup">Bắt đầu</a>
+            <div class="popUp">
+                <p class="txtNote">Vui lòng kiểm tra lại thông tin chính xác,vì thông tin khi nhập vào sẽ ko thể thay đổi được nữa</p>
+                <div class="flexBox flexBox--arround flexBox__form--2">
+                <input class="btnSubmit" type="submit" name="submit" value="Bắt đầu">
+                <a href="javascript:void(0)" class="btnSubmit cancel">Quay lại</a>
+                </div>
+            </div>         
         </form>
     </div>
+</div>
 </div>
 
 
@@ -249,8 +264,6 @@ include(APP_PATH."libs/head.php");
 <!--/Footer-->
 <!--===================================================-->
 </div>
-<!--/wrapper-->
-<!--===================================================-->
 
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
@@ -272,7 +285,22 @@ include(APP_PATH."libs/head.php");
 	    errHoverHide: true
 	  });
     });
-</script>
 
+    $('.callPopup').click(function() {
+        $('.overlay').fadeIn(200);
+        $('.popUp').fadeIn(200);
+    });
+
+    $('.overlay').click(function() {
+        $(this).fadeOut(200);
+        $('.popUp').fadeOut(200);
+    });
+
+    $('.cancel').click(function() {
+        $('.overlay').fadeOut(200);
+        $('.popUp').fadeOut(200);
+    });
+</script>
+<div class="overlay"></div>
 </body>
 </html>	

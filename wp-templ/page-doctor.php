@@ -23,6 +23,7 @@ include(APP_PATH."libs/head.php");
         <h2 class="h2_page">Thông tin bệnh án</h2>
             <?php
                 $id_sur = $_GET['idSurgery'];
+                if($id_sur) {
                 $wp_query = new WP_Query();
                 $param = array (
                 'posts_per_page' => '-1',
@@ -49,6 +50,21 @@ include(APP_PATH."libs/head.php");
 
 
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+                <?php 
+                    $id_med = get_field('idmedical');
+                    if($id_med!='') {
+                    $param = array (
+                        'posts_per_page' => '1',
+                        'post_type' => 'medical',
+                        'post_status' => 'publish',
+                        'order' => 'DESC',
+                        'p'=>$id_med
+                    );
+                    $posts_array = get_posts( $param );
+                    foreach ($posts_array as $medical ) {
+                ?>
+                <?php echo get_field('bsnk_advise',$medical->ID); } ?>
+                <?php } else { ?>
                 <h3 class="h3_page">Bệnh Án</h3>
                 <h4 class="h4_page">Dịch vụ yêu cầu :</h4>
                     <h4 class="h4_page">Hỏi bệnh</h4>
@@ -64,6 +80,7 @@ include(APP_PATH."libs/head.php");
                                     <input type="radio" class="radioForm" id="f_2" name="f_3" value="Có" /><label class="labelReg" for="f_2">Có</label>
                                     <input type="radio" class="radioForm" id="f_3" name="f_3" value="Không" /><label class="labelReg" for="f_3">Không</label>
                                 </p>
+                                <textarea class="inputForm" name="f_2" placeholder="Thuốc dị ứng"></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -73,6 +90,7 @@ include(APP_PATH."libs/head.php");
                                     <input type="radio" class="radioForm" id="f_4" name="f_5" value="Có" /><label class="labelReg" for="f_4">Có</label>
                                     <input type="radio" class="radioForm" id="f_5" name="f_5" value="Không" /><label class="labelReg" for="f_5">Không</label>
                                 </p>
+                                <textarea class="inputForm" name="f_4" placeholder="Thức ăn dị ứng"></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -102,12 +120,12 @@ include(APP_PATH."libs/head.php");
                         <tr>
                             <th>Đặc điểm liên quan bệnh</th>
                             <td>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_1" value="Dị ứng" /><label for="f_10_1">Dị ứng</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_2" value="Ma tuý" /><label for="f_10_2">Ma tuý</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_3" value="Rượu bia" /><label for="f_10_3">Rượu bia</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_4" value="Thuốc lá" /><label for="f_10_4" >Thuốc lá</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_5" value="Thuốc lào" /><label for="f_10_5">Thuốc lào</label>
-                                <input type="checkbox" class="inputForm" name="f_10" id="f_10_6" value="Khác" /><label for="f_10_6">Khác</label>
+                                <input type="checkbox"  name="f_10" id="f_10_1" value="Dị ứng" /><label for="f_10_1">Dị ứng</label>
+                                <input type="checkbox"  name="f_10" id="f_10_2" value="Ma tuý" /><label for="f_10_2">Ma tuý</label>
+                                <input type="checkbox"  name="f_10" id="f_10_3" value="Rượu bia" /><label for="f_10_3">Rượu bia</label>
+                                <input type="checkbox"  name="f_10" id="f_10_4" value="Thuốc lá" /><label for="f_10_4" >Thuốc lá</label>
+                                <input type="checkbox"  name="f_10" id="f_10_5" value="Thuốc lào" /><label for="f_10_5">Thuốc lào</label>
+                                <input type="checkbox"  name="f_10" id="f_10_6" value="Khác" /><label for="f_10_6">Khác</label>
                             </td>
                         </tr>                
                     </table>                
@@ -276,7 +294,7 @@ include(APP_PATH."libs/head.php");
 
                                     <tr>
                                         <th>Nền mũi</th>
-                                        <td>when the browser window is resized,
+                                        <td>
                                             <p class="mb10">
                                                 <input type="radio" class="radioForm" id="f_42_1" name="f_42" value="Cao" /><label class="labelReg" for="f_42_1">Cao</label>
                                                 <input type="radio" class="radioForm" id="f_42_2" name="f_42" value="Thấp" /><label class="labelReg" for="f_42_2">Thấp</label>
@@ -547,7 +565,8 @@ include(APP_PATH."libs/head.php");
                         <span class="file-custom"></span>
                     </label>
                     <?php } ?>
-                
+                <?php } ?>
+
                 <h3 class="h3_page">Dành riêng cho BSK</h3>    
                 <textarea class="inputForm" <?php if($_COOKIE['role_cookies']!='boss') { ?>readonly<?php } ?> name="bsk" id="bsk"></textarea>
                 
@@ -576,7 +595,8 @@ include(APP_PATH."libs/head.php");
                     <input class="btnSubmit" type="submit" name="submit" value="Lưu">
                 </div> 
             </form>
-        <?php endwhile;endif; ?>    
+        <?php endwhile;endif; ?>
+        <?php } ?>
     </div>
 </div>
 

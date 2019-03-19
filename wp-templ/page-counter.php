@@ -27,7 +27,7 @@ include(APP_PATH."libs/head.php");
 
                     $wp_query = new WP_Query();
                     $param = array (
-                    'posts_per_page' => '-1',
+                    'posts_per_page' => '1',
                     'post_type' => 'surgery',
                     'post_status' => 'publish',
                     'order' => 'DESC',
@@ -36,7 +36,7 @@ include(APP_PATH."libs/head.php");
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                     $cusId_post = get_field('cusid_post');
-        
+
                 ?>
                 <h3 class="h3_page">Thông tin khách hàng</h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
@@ -202,17 +202,17 @@ include(APP_PATH."libs/head.php");
                         </div> 
 
                         <div id="listBank">
-                            <input type="radio" class="radioForm" id="rad_bank1" name="nameBank" value="Vietcombank" /><label class="labelReg" for="rad_bank1">Vietcombank</label>
-                            <input type="radio" class="radioForm" id="rad_bank2" name="nameBank" value="VietinBank" /><label class="labelReg" for="rad_bank2">VietinBank</label>
-                            <input type="radio" class="radioForm" id="rad_bank3" name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
+                            <input type="radio" class="radioForm" id="rad_bank1" <?php if(get_field('chose_bank')=='Vietcombank') { ?>checked <?php } ?> name="nameBank" value="Vietcombank" /><label class="labelReg" for="rad_bank1">Vietcombank</label>
+                            <input type="radio" class="radioForm" id="rad_bank2" <?php if(get_field('chose_bank')=='VietinBank') { ?>checked <?php } ?> name="nameBank" value="VietinBank" /><label class="labelReg" for="rad_bank2">VietinBank</label>
+                            <input type="radio" class="radioForm" id="rad_bank3" <?php if(get_field('chose_bank')=='Eximbank') { ?>checked <?php } ?> name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
                         </div>
-
+                        
+                        
                         <div id="listGuy">
                             <p class="inputBlock customSelect">
                                 <select name="guy" id="guy">
                                     <option value="">Người bảo lãnh</option>
                                     <?php
-                                        $wp_query = new WP_Query();
                                         $param=array(
                                         'post_type'=>'users',
                                         'order' => 'DESC',
@@ -231,13 +231,18 @@ include(APP_PATH."libs/head.php");
                                             ),
                                         )
                                         );
-                                        $wp_query->query($param);
-                                        if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                                        $posts_array = get_posts( $param );
+                                        foreach ($posts_array as $sale ) {
                                     ?>
-                                        <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                                    <?php endwhile;endif; ?>
+                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                    <?php } ?>
                                 </select>
                             </p>
+                            <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readOnly <?php } ?>">
+                            <input type="checkbox" class="chkForm" <?php if(get_field('debter')=='yes') { ?> checked <?php } ?> id="debter" name="debter" value="yes" />
+                            <label class="labelReg" for="debter">Người bảo lãnh được chấp nhận</label>
+                            </p>
+                            <?php if(get_field('debter')=='yes') { ?>Duyệt bởi : <?php echo get_field('approve2'); ?><?php } ?>
                         </div>
 
                     <table class="tblPage">
@@ -328,6 +333,7 @@ $( function() {
         if (this.value == 'Nợ') {
             $('.monneyDeposit').slideUp(200);
             $('.monneyNo').slideDown(200);
+            $('#listGuy').slideDown(200);
             $('#deposit').val('');
         }
     });
@@ -339,6 +345,8 @@ $( function() {
             $('#listBank').slideUp(200);
         }
     });
+
+    
     $('.callPopup').click(function() {
         $('.overlay').fadeIn(200);
         $('.popUp').fadeIn(200);

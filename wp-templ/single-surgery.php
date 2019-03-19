@@ -81,7 +81,15 @@ include(APP_PATH."libs/head.php");
                 <!-- phuong thu tu van -->
 
                 <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
-
+                    <?php
+                        $listService = get_field('services');
+                        $listServices = explode('<br>',$listService);
+                    ?>
+                    <h5 class="h5_page">Dịch vụ yêu cầu</h5>
+                    <?php foreach($listServices as $serv) {
+                        echo $serv.'<br>';
+                    }    
+                    ?>
                     <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                         <div class="inputBlock">
                             <input type="text" class="inputForm" id="datechose" readonly name="datechose" value="<?php echo get_field('date'); ?>" placeholder="Chọn ngày phẫu thuật">
@@ -92,7 +100,6 @@ include(APP_PATH."libs/head.php");
                     <h4 class="h4_page">Lịch sử phẫu thuật (trước kia)</h4>
                     <div class="inputBlock">
                         <div><?php the_field('detail_history'); ?></div>
-
                         <h4 class="h4_page">Tình trạng hiện tại</h4>
                         <input type="text" class="inputForm" readonly  value="<?php echo get_field('self_status'); ?>" >
 
@@ -231,6 +238,17 @@ include(APP_PATH."libs/head.php");
                             <input type="radio" class="radioForm" id="rad_bank3" name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
                         </div>
 
+                        <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')) { ?>            
+                        <p class="inputBlock">
+                            <label class="labelReg" for="rad3">Người bảo lãnh</label>
+                            <input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo get_field('guy'); ?>" />
+                        </p>
+                        <p class="inputBlock">
+                            <label class="labelReg" for="rad3">Duyệt bảo lãnh</label>
+                            <input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo get_field('approve2'); ?>" />
+                        </p>
+                        <?php } ?>
+
                     <table class="tblPage">
                         <tr>
                             <th>Số tiền đã thanh toán</th>
@@ -241,8 +259,10 @@ include(APP_PATH."libs/head.php");
 
 
 
-                <div class="tabBox" id="tab3">
-                    <?php $id_med = get_field('idmedical');
+                <div class="tabBox doctorPart" id="tab3">
+                    <?php 
+                    $id_med = get_field('idmedical');
+                    if($id_med!='') {
                     $wp_query = new WP_Query();
                     $param = array (
                         'posts_per_page' => '1',
@@ -266,7 +286,8 @@ include(APP_PATH."libs/head.php");
                     <div>
                         <?php the_field('bsk'); ?>
                     </div>
-                <?php endwhile;endif; ?>
+                    <?php endwhile;endif; ?>
+                    <?php } ?>
                 </div>
 
 

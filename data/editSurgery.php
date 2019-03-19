@@ -22,6 +22,20 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         header('Location:'.APP_URL);
     }
 
+    // TEMP EKIP
+
+    if($_POST['action']=='edit_info') {
+        $doctor_advise = $_POST['doctor_advise'];
+        $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
+    
+        if($_POST['status']) {
+            $status = $_POST['status'];
+            update_post_meta($pid,'status',$status);
+        }
+        update_post_meta($pid,'doctor_advise',$doctor_advise);
+        header('Location:'.APP_URL);
+    }
+
 
     // COUNTER PART
     if($_POST['action']=='edit') {
@@ -85,15 +99,24 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $statusPay = $_POST['statusPay'];
         $deposit = $_POST['deposit'];
         $debt = $_POST['debt'];
+        $debter = $_POST['debter'];
+        $guy = $_POST['guy'];
         $remain = $_POST['remain'];
+        $nameBank = $_POST['nameBank'];
+
+        if((get_field('approve2',$pid)=='')&&($debter=='yes')) {
+            update_post_meta($pid,'approve2',$approve);
+            update_post_meta($pid,'guy',$guy);
+            update_post_meta($pid,'debt',$debt);
+            update_post_meta($pid,'debter',$debter);
+        }
 
         update_post_meta($pid,'deposit',$deposit);
-        update_post_meta($pid,'debt',$debt);
         update_post_meta($pid,'cash_money',$cash_money);
         update_post_meta($pid,'bank_money',$bank_money);
         update_post_meta($pid,'visa_money',$visa_money);
 
-
+        update_post_meta($pid,'chose_bank',$nameBank);
         update_post_meta($pid,'remain',$remain);
         update_post_meta($pid,'payment_status',$statusPay);
         update_post_meta($pid,'status',$status);
@@ -158,12 +181,14 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                 <th>Dị ứng thuốc</th>
                                 <td>
                                     <p class="inputBlock borderBox">'.$_POST["f_3"].'</p>
+                                    <div class="inputBlock borderBox">'.$_POST["f_2"].'</dib>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Dị ứng thức ăn</th>
                                 <td>
                                     <p class="inputBlock borderBox">'.$_POST["f_5"].'</p>
+                                    <div class="inputBlock borderBox">'.$_POST["f_4"].'</dib>
                                 </td>
                             </tr>
                             <tr>
@@ -228,14 +253,10 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                         </table>    
                         <div class="inputBlock">
                             <h4 class="h4_page">Các cơ quan</h4>
+                            <div class="tabContent">
                             <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
                                 <li><a href="javascript:void(0)"  data-id="tab1">MŨI</a></li>
-                                <li><a href="javascript:void(0)"  data-id="tab2">MẶT</a></li>
-                                <li><a href="javascript:void(0)"  data-id="tab3">CẰM</a></li>
-                                <li><a href="javascript:void(0)"  data-id="tab4">KHÁC</a></li>
                             </ul>
-
-                            <div class="tabContent">
                                 <div class="tabBox" id="tab1">
                                     <table class="tblPage">
                                         <tr>
@@ -369,6 +390,10 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
                                     </table>
                                 </div>
+
+                                <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
+                                <li><a href="javascript:void(0)"  data-id="tab2">MẶT</a></li>
+                            </ul>
                                 <div class="tabBox" id="tab2">
                                     <h4 class="h4_page">MÍ TRÊN</h4>
                                     <table class="tblPage">
@@ -521,6 +546,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
                                     </table>     
                                 </div>
+                                <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
+                                    <li><a href="javascript:void(0)"  data-id="tab3">CẰM</a></li>
+                                </ul>
                                 <div class="tabBox" id="tab3">
                                     <table class="tblPage">
                                         <tr>
@@ -535,6 +563,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                                         </tr>
                                         </table>
                                 </div>
+                                <ul class="tabItem tabItem--4 flexBox flexBox--center flexBox--wrap">
+                                    <li><a href="javascript:void(0)"  data-id="tab4">KHÁC</a></li>
+                                </ul>
                                 <div class="tabBox" id="tab4">
                                     <div class="inputBlock">
                                     <label class="smallLabel">Tuần hoàn</label>
@@ -611,18 +642,39 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         update_post_meta($pid,'status',$status);
         update_post_meta($pid,'ekip',$idRoom);
 
-
+    
         $reg_dr = $_POST['check01'];
         $reg_mc = $_POST['check02'];
         $reg_pm = $_POST['check03'];
         $reg_ktv = $_POST['check04'];
+        $input = $_POST['input'];
 
         $doctor1 = "";
         for($i=0; $i < count($reg_dr); $i++)
         {
             $doctor1 .= $reg_dr[$i]."<br>";
         }
-        if($doctor1 != "") $doctor1 = substr($doctor1,0,strlen($string)-2);
+
+        $doctor2 = "";
+        for($i=0; $i < count($reg_mc); $i++)
+        {
+            $doctor2 .= $reg_mc[$i]."<br>";
+        }
+        
+
+        $pm = "";
+        for($i=0; $i < count($reg_pm); $i++)
+        {
+            $pm .= $reg_pm[$i]."<br>";
+        }
+        
+
+        $ktv_list = "";
+        for($i=0; $i < count($reg_ktv); $i++)
+        {
+            $ktv_list .= $reg_ktv[$i]."<br>";
+        }
+    
         
         $room_post = array(
             'post_title'    => $idRoom,
@@ -631,12 +683,10 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         );
         $pid_ekip = wp_insert_post($room_post);
         add_post_meta($pid_ekip, 'doctor1', $doctor1);
-        add_post_meta($pid_ekip, 'nursing1', $nursing1);
-        add_post_meta($pid_ekip, 'nursing2', $nursing2);
-        add_post_meta($pid_ekip, 'nursing3', $nursing3);
-        add_post_meta($pid_ekip, 'nursing4', $nursing4);
-        add_post_meta($pid_ekip, 'nursing5', $nursing5);
-        add_post_meta($pid_ekip, 'ktv', $ktv);
+        add_post_meta($pid_ekip, 'doctor2', $doctor2);
+        add_post_meta($pid_ekip, 'nursing_team', $pm);
+        
+        add_post_meta($pid_ekip, 'ktv', $ktv_list);
         add_post_meta($pid_ekip, 'input', $input);
         add_post_meta($pid_ekip, 'room', $room);
         

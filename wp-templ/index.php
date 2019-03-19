@@ -4,6 +4,9 @@ include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
+if($_COOKIE['role_cookies']=='room') {
+    echo '<meta http-equiv="refresh" content="10" >';
+}
 include(APP_PATH."libs/head.php"); 
 ?>
 </head>
@@ -280,13 +283,6 @@ include(APP_PATH."libs/head.php");
                                 'post_type'=>'surgery',
                                 'order' => 'DESC',
                                 'posts_per_page' => '-1',
-                                // 'meta_query'	=> array(
-                                //     array(
-                                //         'key' => 'date',
-                                //         'value' => $curr_date,
-                                //         'compare' => 'LIKE'
-                                //     ),
-                                // )
                                 );
                             }
                             
@@ -343,6 +339,11 @@ include(APP_PATH."libs/head.php");
                                             'value'	  	=> 'phauthuat',
                                             'compare' 	=> '=',
                                         ),
+                                        array(
+                                            'key'	  	=> 'status',
+                                            'value'	  	=> 'batdau',
+                                            'compare' 	=> '=',
+                                        ),
                                     )
                                 );
                             }    
@@ -371,7 +372,7 @@ include(APP_PATH."libs/head.php");
                             if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                             $stt = get_field('status');
                         ?>
-                        <tr>
+                        <tr >
                             <td>
                                 <?php
                                 $stt = get_field('status');
@@ -391,6 +392,9 @@ include(APP_PATH."libs/head.php");
                                     case "bsk":
                                         $stt_text = "Bác sĩ Khải";
                                     break;
+                                    case "batdau":
+                                        $stt_text = "Đang mổ";
+                                    break;
                                     case "phauthuat":
                                         $stt_text = "Phẫu thuật";
                                     break;
@@ -402,6 +406,9 @@ include(APP_PATH."libs/head.php");
                                     break;
                                 }
                                 ?>
+                                <?php if($stt=='batdau') { ?>
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                <?php } ?>
                                 <span class="noteColor note--<?php echo $stt ?>"></span>
                                 <em><?php echo $stt_text ?></em>
                             </td>
@@ -432,7 +439,14 @@ include(APP_PATH."libs/head.php");
                             <?php if($_COOKIE['role_cookies']=='room') { 
                             ?>
                             <?php if(($stt=='bsk')||($stt=='bsnk')) { ?>
-                                <td class="last"><a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a></td>
+                                <td class="last">
+                                    <?php if($stt=='batdau') { ?>
+                                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&change=phauthuat"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                        <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                    <?php } else { ?>
+                                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                                    <?php } ?>    
+                                </td>
                             <?php } else { ?>
                                 <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                             <?php } ?>

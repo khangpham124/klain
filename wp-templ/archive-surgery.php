@@ -42,7 +42,7 @@ include(APP_PATH."libs/head.php");
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                     $stt = get_field('status');
                 ?>
-                <tr>
+                <tr <?php if($stt=='batdau') { ?> class="lock"<?php } ?> >
                 <td>
                         <?php
                         $stt = get_field('status');
@@ -62,6 +62,9 @@ include(APP_PATH."libs/head.php");
                             case "bsk":
                                 $stt_text = "Bác sĩ Khải";
                             break;
+                            case "batdau":
+                                $stt_text = "Đang mổ";
+                            break;
                             case "phauthuat":
                                 $stt_text = "Phẫu thuật";
                             break;
@@ -73,11 +76,15 @@ include(APP_PATH."libs/head.php");
                             break;
                         }
                         ?>
+                        <?php if($stt=='batdau') { ?>
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        <?php } ?>
                         <span class="noteColor note--<?php echo $stt ?>"></span>
                         <em><?php echo $stt_text ?></em>
                         <?php if(get_field('debt')!='') { ?>
                         <span class="noteRemind noteRemind--1">Còn nợ</span>
                         <?php } ?>
+                        
                     </td>
                     <td><?php the_title(); ?></td>
                     <td><?php the_field('fullname'); ?></td>
