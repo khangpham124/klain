@@ -342,16 +342,14 @@ include(APP_PATH."libs/head.php");
                     </div>
                     <textarea class="inputForm" <?php if(get_field('message_1')!='') { ?>readonly<?php } ?>    name="message_1" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
                     <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="custommer_voice_1" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <p class="inputBlock customSelect mt0">
-                            <select name="rating_1" id="rating_1">
-                            <option>Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
-                            </select>
-                        </p>
-                    </div>
+                    
+                    <select name="rating_1" id="rating_1">
+                    <option>Đánh giá của khách</option>
+                    <option <?php if(get_field('rating_1')=="Hài lòng") { ?>selected<?php } ?> value="Hài lòng">Hài lòng</option>
+                    <option <?php if(get_field('rating_1')=="Bình thường") { ?>selected<?php } ?> value="Bình thường">Bình thường</option>
+                    <option <?php if(get_field('rating_1')=="Không hài lòng") { ?>selected<?php } ?> value="Không hài lòng">Không hài lòng</option>
+                    </select>
+                    
 
                     <h3 class="h3_page">Vệ sinh sau 1 ngày</h3>
                     <div class="inputBlock">
@@ -621,8 +619,8 @@ include(APP_PATH."libs/head.php");
                     <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
 
                     <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                    <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
-                    <input type="hidden" name="status" value="cshp" >
+                    <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
+                    <input type="hidden" name="status" value="cskh" >
                     <input type="hidden" name="action" value="cskh_edit" >
                     <input class="btnSubmit" type="submit" name="submit" value="Lưu">
                 </form>

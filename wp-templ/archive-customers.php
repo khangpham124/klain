@@ -19,13 +19,9 @@ include(APP_PATH."libs/head.php");
 	
 	<div class="blockPage blockPage--full maxW">
 	<?php include(APP_PATH."libs/searchBlock.php"); ?>
-			<div class="buttonBar">
-				<a href="<?php echo APP_URL ?>add-customer/"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
-				<a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
-			</div>
+			
 			<h2 class="h2_page">Danh sách khách hàng</h2>
 			<table class="tblPage">
-				
 			<thead>
 				<tr>
 					<td>ID</td>
@@ -38,29 +34,30 @@ include(APP_PATH."libs/head.php");
 			<tbody>
 				<?php
 				$wp_query = new WP_Query();
-				
-					if($_POST['search']=='') {
-						$param = array (
+				if(($_COOKIE['role_cookies']=='sale')||($_COOKIE['role_cookies']=='tvv')) {
+					$param = array (
+						'posts_per_page' => '20',
+						'post_type' => 'customers',
+						'post_status' => 'publish',
+						'order' => 'DESC',
+						'paged' => $paged,
+						'meta_query'	=> array(
+							array(
+								'key' => 'creator',
+								'value' => $_COOKIE['name_cookies'],
+								'compare' => 'LIKE'
+							),
+						)
+						);
+				} else {
+					$param = array (
 						'posts_per_page' => '20',
 						'post_type' => 'customers',
 						'post_status' => 'publish',
 						'order' => 'DESC',
 						'paged' => $paged,
 						);
-					} else {
-						$param = array (
-							'posts_per_page' => '-1',
-							'post_type' => 'customers',
-							'post_status' => 'publish',
-							'order' => 'DESC',
-							'meta_query' => array(
-							array(
-							'key' => 'mobile',
-							'value' => $_POST['search'],
-							'compare' => '='
-							))
-						);
-					}	
+				}		
 				$wp_query->query($param);
 				if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
 				?>
@@ -74,6 +71,7 @@ include(APP_PATH."libs/head.php");
 				<?php endwhile;endif;  ?>
 			</tbody>
 		</table>
+		<?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?>
 	</div>
 
 

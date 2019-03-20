@@ -746,6 +746,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         update_post_meta($pid,'message_2',$message2);
         update_post_meta($pid,'custommer_voice_2',$voice2);
         update_post_meta($pid,'rating_2',$rate2);
+        
 
         $stt3 = $_POST['after_5day'];
         $message3 = $_POST['message_3'];
@@ -773,7 +774,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         update_post_meta($pid,'message_5',$message5);
         update_post_meta($pid,'custommer_voice_5',$voice5);
         update_post_meta($pid,'rating_5',$rate5);
-        // header('Location:'.APP_URL.'surgery');
+        header('Location:'.APP_URL.'surgery');
     }
 
 ?>

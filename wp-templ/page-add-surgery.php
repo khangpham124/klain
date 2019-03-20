@@ -28,18 +28,13 @@ include(APP_PATH."libs/head.php");
     <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
         <div class="blockPage blockPage--full">
             <h2 class="h2_page">Thông tin Khởi tạo dịch vụ</h2>
-            <div class="buttonBar">
-				<a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
-			</div>
             <h3 class="h3_page">Tra cứu thông tin khách hàng</h3>
-            
             <?php include(APP_PATH."libs/searchBlock_2.php"); ?>
             <?php 
             if($_POST['search']) {
                 include(APP_PATH."data/searchResult.php");
             }
             ?>
-
             <form action="<?php echo APP_URL; ?>data/addSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
                 <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='adviser')||($_COOKIE['role_cookies']=='sale')) { ?>
                 <h3 class="h3_page">Thông tin cơ bản</h3>
@@ -163,7 +158,7 @@ include(APP_PATH."libs/head.php");
                         $wp_query->query($param);
                         if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                     ?>
-                    <div class="flexBox flexBox--between flexBox--center flexBox__form flexBox__form--2">
+                    <div class="flexBox flexBox--between flexBox--center flexBox__form flexBox__form--2" id="listServices">
                         <label class="checkStyle">
                             <?php the_title(); ?>
                             <input type="checkbox" class="servName" data-price="<?php echo get_field('price'); ?>" name="services[]" value="<?php the_title(); ?>">
@@ -300,21 +295,21 @@ include(APP_PATH."libs/head.php");
                     <?php } ?>
 
                     <h4 class="h4_page">Tư vấn của người tư vấn</h4>
-                    <textarea class="inputForm" name="doctor_advise"></textarea>
+                    <textarea class="inputForm" name="doctor_advise" id="doctor_advise"></textarea>
 
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='adviser')||($_COOKIE['role_cookies']=='sale')) { ?>
                     <h4 class="h4_page">Ý kiến của khách hàng</h4>
-                    <textarea class="inputForm" name="cus_note"></textarea>
+                    <textarea class="inputForm" name="cus_note" id="cus_note"></textarea>
                     <?php } ?>
 
 
                 <input type="hidden" name="action" value="create" >
                 <input type="hidden" name="status" value="tvv" >
                 <!-- <input type="hidden" name="numb_image" id="numb_image" value="" > -->
-                <div class="flexBox flexBox--arround flexBox__form flexBox__form--3">
+                <div class="flexBox flexBox--arround flexBox__form--2">
                     <input class="btnSubmit" type="submit" name="submit" value="Tạo">
                     <input class="btnSubmit btnSubmit--dr" type="submit" name="pending" value="Chờ khám">
-                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>"><i class="fa fa-print" aria-hidden="true"></i> In</a>
+                    <!-- <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>"><i class="fa fa-print" aria-hidden="true"></i> In</a> -->
                 </div>
             </form>
         </div>
@@ -370,7 +365,11 @@ include(APP_PATH."libs/head.php");
 	    rules: {
             fullname: "chkrequired",
             address: "chkrequired",
-			mobile: "chkrequired",
+            mobile: "chkrequired",
+            doctor_advise: "chkrequired",
+            cus_note: "chkrequired",
+            datechose: "chkrequired",
+            listServices:"chkcheckbox"
 	    },
 	    stepValidation: true,
 	    scrollToErr: true,

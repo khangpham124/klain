@@ -22,9 +22,14 @@ include(APP_PATH."libs/head.php");
         <!--/Header-->
 
         <div class="textBox">
-                <?php include(APP_PATH."libs/searchBlock.php"); ?>
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <?php include(APP_PATH."libs/searchBlock.php"); ?>
+                    <?php include(APP_PATH."libs/searchSur.php"); ?>
+                </div>
                 <div class="blockPage blockPage--full mt40">
+                    
                     <?php
+                    if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='counter')) {
                     $wp_query = new WP_Query();
                     $remind_3days;
                     $param = array (
@@ -47,7 +52,6 @@ include(APP_PATH."libs/head.php");
                         <table class="tblPage">
                             <thead>
                             <tr>
-                                <td>Kì chăm sóc tiếp theo</td>
                                 <td>Ngày phẫu thuật</td>
                                 <td>Ca</td>
                                 <td>Họ tên</td>
@@ -99,7 +103,7 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_title(); ?></td>
                             <td><?php the_field('fullname'); ?></td>
                             <td><?php the_field('mobile'); ?></td>
-                            <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
+                            <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
                         </tr>
                         <?php endwhile; ?>
                         </table>
@@ -128,7 +132,7 @@ include(APP_PATH."libs/head.php");
                         <table class="tblPage">
                             <thead>
                             <tr>
-                                <td>Kì chăm sóc tiếp theo</td>
+                                <td>Trạng thái</td>
                                 <td>Ngày phẫu thuật</td>
                                 <td>Ca</td>
                                 <td>Họ tên</td>
@@ -172,28 +176,23 @@ include(APP_PATH."libs/head.php");
                         ?>
                         <span class="noteColor note--<?php echo $stt ?>"></span>
                         <em><?php echo $stt_text ?></em>
-                        <?php if(get_field('debt')!='') { ?>
-                        <span class="noteRemind noteRemind--1">Còn nợ</span>
-                        <?php } ?>
                             </td>
                             <td><?php the_field('date'); ?></td>
                             <td><?php the_title(); ?></td>
                             <td><?php the_field('fullname'); ?></td>
                             <td><?php the_field('mobile'); ?></td>
                             <td class="last">
-                            <?php if($_COOKIE['role_cookies']=='counter') { ?>
-                                    <?php if($stt=='quay') { ?>
-                                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter&type=deposit" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu cọc</a>
-                                    <?php } ?>
-                            <?php } ?>    
-                            <a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                            <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
                              </td>        
                         </tr>
                         <?php endwhile; ?>
                         </table>
                         <?php endif; ?>
-
-                        <h2 class="h2_page">Danh sách nhắc</h2>
+                        
+                    <?php } ?>
+                <!-- CSKH   -->
+                    <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='customer-care')) { ?>            
+                        <h2 class="h2_page">Danh sách khách đến lịch</h2>
                         <table class="tblPage">
                             <thead>
                             <tr>
@@ -283,13 +282,13 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_title(); ?></td>
                             <td><?php the_field('fullname'); ?></td>
                             <td><?php the_field('mobile'); ?></td>
-                            <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
+                            <td class="last"><a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>        
                         </tr>
                         <?php endwhile;endif; ?>
                         </table>
-                        
+                    <?php } ?>        
                     
-
+                    <?php  if($_COOKIE['role_cookies']!='customer-care') { ?>
                     <h2 class="h2_page">Danh sách khách hàng trong ngày</h2> 
                     <table class="tblPage">
                     <thead>
@@ -508,18 +507,20 @@ include(APP_PATH."libs/head.php");
                                     <?php if($stt=='quay') { ?>
                                     <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>&form=counter" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
                                     <?php } ?>
+                                    <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                                 </td>
                             <?php } ?>
 
                             <?php if(($_COOKIE['role_cookies']=='tvv')||($_COOKIE['role_cookies']=='sale')) { ?>
                             <td class="last">
                                 <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=tvv"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                             </td>
                             <?php } ?>
                             
                             <?php if($_COOKIE['role_cookies']=='doctor') { ?>
                                 <?php if($stt=='pending') { ?>
-                                <td class="last"><a href="<?php the_permalink();?>"><i class="fa fa-stethoscope" aria-hidden="true"></i></a></td>
+                                <td class="last"><a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td></td>
                                 <?php } else { ?>
                                 <td class="last"><a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-stethoscope" aria-hidden="true"></i></a></td>
                                 <?php } ?>
@@ -543,12 +544,13 @@ include(APP_PATH."libs/head.php");
                             <?php } ?>
 
                             <?php if($_COOKIE['role_cookies']=='customer-care') { ?>
-                            <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-phone-square" aria-hidden="true"></i></a></td>
+                                <td class="last"> <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td></td>
                             <?php } ?>
                         </tr>
                         <?php endwhile;endif; ?>
                     </tbody>
                 </table>
+                <?php } ?>
                 </div>
         </div>
 
