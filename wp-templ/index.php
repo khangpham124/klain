@@ -180,7 +180,14 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_title(); ?></td>
                             <td><?php the_field('fullname'); ?></td>
                             <td><?php the_field('mobile'); ?></td>
-                            <td class="last"><a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
+                            <td class="last">
+                            <?php if($_COOKIE['role_cookies']=='counter') { ?>
+                                    <?php if($stt=='quay') { ?>
+                                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter&type=deposit" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu cọc</a>
+                                    <?php } ?>
+                            <?php } ?>    
+                            <a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                             </td>        
                         </tr>
                         <?php endwhile; ?>
                         </table>
@@ -498,7 +505,9 @@ include(APP_PATH."libs/head.php");
                             <?php if($_COOKIE['role_cookies']=='counter') { ?>
                                 <td class="last">
                                     <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-print" aria-hidden="true"></i></a>
-                                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>&form=counter" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
+                                    <?php if($stt=='quay') { ?>
+                                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>&form=counter" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
+                                    <?php } ?>
                                 </td>
                             <?php } ?>
 

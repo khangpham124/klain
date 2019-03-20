@@ -59,7 +59,7 @@ include(APP_PATH."libs/head.php");
                         <p class="inputBlock customSelect">    
                             <select id="month" name="month">
                                 <option value="">Tháng</option>
-                                <?php for($i=1;$i<=31;$i++) { ?>
+                                <?php for($i=1;$i<=12;$i++) { ?>
                                 <option value="<?php echo $i ?>"><?php echo $i ?></option>
                                 <?php } ?>
                             </select>

@@ -19,7 +19,25 @@ include(APP_PATH."libs/head.php");
 
 
 <div class="blockPage blockPage--full maxW">
-            <h2 class="h2_page">Danh sách khách hàng chờ xử lý</h2>
+            <h2 class="h2_page">Danh sách hồ sơ khách hàng</h2>
+            <div class="buttonBar">
+            <p class="inputBlock customSelect">
+                <select id="selectBox">
+                    <option value="">Tình trạng Hồ sơ</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=tvv">Khâu Tư vấn viên</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=pending">Khâu Chờ khám</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=quay">Khâu Quầy</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=bsnk">Khâu Bác sĩ ngoại khoa</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=bsk">Khâu Bác sĩ Khải</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=batdau">Khâu Đang mổ</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=phauthuat">Khâu Phẫu thuật Xong</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=hauphau">Khâu Hậu phẫu</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=cshp">Khâu Đang CSHP</option>
+                    <option value="<?php echo APP_URL ?>surgery?stt=huy">Đã huỷ</option>
+                    <option value="<?php echo APP_URL ?>surgery/">Tất cả</option>
+                </select>
+            </p>
+        </div>
             <table class="tblPage">
             <thead>
                 <tr>
@@ -36,7 +54,7 @@ include(APP_PATH."libs/head.php");
                     $param=array(
                     'post_type'=>'surgery',
                     'order' => 'DESC',
-                    'posts_per_page' => '-1',
+                    'posts_per_page' => '20',
                     'meta_query'	=> array(
                         array(
                             'key'	  	=> 'status',
@@ -78,8 +96,11 @@ include(APP_PATH."libs/head.php");
                             case "hauphau":
                                 $stt_text = "Hậu phẫu";
                             break;
-                            case "cskh":
-                                $stt_text = "CSKH";
+                            case "cshp":
+                                $stt_text = "CSHP";
+                            break;
+                            case "huy":
+                                $stt_text = "Đã Huỷ";
                             break;
                         }
                         ?>
@@ -132,6 +153,7 @@ include(APP_PATH."libs/head.php");
                 <?php endwhile;endif; ?>
             </tbody>
         </table>
+        <?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?>
     </div>
 
 

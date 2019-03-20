@@ -137,8 +137,10 @@ include(APP_PATH."libs/head.php");
                                 ?>
                             <li>
                                 <p class="date"><?php echo get_sub_field('date'); ?></p>
-                                <div><?php echo get_sub_field('content'); ?></div>
-                                <p>Nhân viên tư vấn:<?php echo get_sub_field('adviser'); ?></p>
+                                <div><?php echo get_sub_field('content'); ?>
+                                <p class="adviser">Nhân viên tư vấn:<?php echo get_sub_field('adviser'); ?></p>
+                                </div>
+                                
                             </li>
                             <?php endwhile;endif; ?>
                         </ul>

@@ -9,7 +9,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="users">
-<!--===================================================-->
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <div id="wrapper">
 <!--===================================================-->
 <!--Header-->
@@ -20,7 +21,6 @@ include(APP_PATH."libs/head.php");
 <div class="blockPage blockPage--full maxW">
     <div class="buttonBar">
         <a href="<?php echo APP_URL ?>add-supplies/"><i class="fa fa-user-plus" aria-hidden="true"></i>Thêm vật tư</a>
-        <a href="javascript:void(0)" onClick="window.location.href=window.location.href"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
     </div>
     <h2 class="h2_page">Danh sách vật tư</h2>
         <table class="tblPage">
@@ -58,7 +58,7 @@ include(APP_PATH."libs/head.php");
 <!--===================================================-->
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 <script>
     $(function(){
       // bind change event to select

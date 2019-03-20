@@ -11,6 +11,22 @@ if($_POST['action']=='edit') {
     $idcard = $_POST['idcard'];
     $mobile = $_POST['mobile'];
     $address = $_POST['address'];
+
+
+    $advise_f = $_POST['advise_f'];
+    if($advise_f!='') {
+        $timeline_now = get_field('timeline',$idPost);
+        $date_adv = date('d-m-Y');
+        $adviser = $_COOKIE['name_cookies'];
+        $content = $_POST['advise_f'];
+
+        $timeline_now[] = array(
+            'date' => $date_adv,
+            'content' => $content,
+            'adviser' => $adviser,
+        );
+        update_field('timeline', $timeline_now, $idPost);
+    }
     
     $cus_update = array(
         'post_title'    => $fullname,

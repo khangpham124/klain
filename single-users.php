@@ -24,29 +24,28 @@ include(APP_PATH."libs/head.php");
             <div class="flexBox flexBox--wrap flexBox--between">
                 <div class="customerInfo">
                     <h4 class="h4_page">ID: <strong><?php the_field('id_user'); ?></strong></h4>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <div class="flexBox flexBox--between flexBox__form ">
                         <p class="inputBlock">
                         <input type="text" class="inputForm" name="fullname" id="fullname" value="<?php the_field('fullname'); ?>" placeholder="username" />
                         </p>
+                    </div>
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                         <p class="inputBlock">
                         <input type="text" readonly class="inputForm" name="username" id="username" value="<?php the_title(); ?>" placeholder="username" />
                         </p>
-                    </div>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                         <p class="inputBlock">
                         <input type="text" class="inputForm" name="mobile" id="mobile" placeholder="Điện thoại" value="<?php the_field('mobile'); ?>" />
                         </p>
                     </div>
 
-                    
-                    <h3 class="h4_page">Thay đổi mật khẩu</h3>
-                    <p class="inputBlock">
-                        <input type="password" class="inputForm" name="password" value="" placeholder="Đặt lại password" />
-                    </p>
-                    
-                    <input type="hidden" name="postid" value="<?php echo $post->ID; ?>" >
-                    <input type="hidden" name="action" value="update" >
-                    <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                        <p class="inputBlock">
+                            <input type="password" class="inputForm" name="password" value="" placeholder="Đặt lại password" />
+                        </p>
+                        <input type="hidden" name="postid" value="<?php echo $post->ID; ?>" >
+                        <input type="hidden" name="action" value="update" >
+                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                    </div>
                 </div>
                 <div class="customerCard">
                     <?
@@ -54,7 +53,7 @@ include(APP_PATH."libs/head.php");
                     $thumb_url = wp_get_attachment_image_src($thumb,'full');
                     ?>
                     <img src="<?php echo thumbCrop($thumb_url[0],500,500); ?>">
-                    <h3 class="h4_page">Thay đổi hình đại diện</h3>
+                    <h3 class="h3_page">Thay đổi hình đại diệm</h3>
                     <input type="file" name="file" id="file" aria-label="File browser example">
                 </div>
             </div>

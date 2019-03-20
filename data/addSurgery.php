@@ -14,10 +14,22 @@ include(APP_PATH."admin/wp-load.php");
         $fullname = $_POST['fullname'];
         $mobile = $_POST['mobile'];
         $cusId_post = $_POST['cusid_post'];
+    
+        $timeline_now = get_field('timeline',$cusId_post);
+        $date_adv = date('d-m-Y');
+        $adviser = $_POST['adviser'];
+        $content = $_POST['advise_f'];
+
+        $timeline_now[] = array(
+            'date' => $date_adv,
+            'content' => $content,
+            'adviser' => $adviser,
+        );
+        update_field('timeline', $timeline_now, $cusId_post);
 
 
         $advise = $_POST['advise'];
-        $adviser = $_POST['adviser'];
+        
         $channel = $_POST['channel'];
         $date = $_POST['datechose'];
         $time = strtotime($_POST['datechose']);
@@ -173,8 +185,6 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'price', $price);
         add_post_meta($pid, 'sale_discount', $discount);
         add_post_meta($pid, 'total', $total_hide);
-
-        // add_post_meta($pid, 'numb_image', $numb_image);
 
         header('Location:'.APP_URL.'surgery');
     }

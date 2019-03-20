@@ -120,8 +120,8 @@ include(APP_PATH."libs/head.php");
                 <h4 class="h4_page">Ý kiến của khách hàng</h4>
                 <div><?php echo get_field('cus_note'); ?></div>
 
-                <input type="hidden" name="action" value="edit_info" >
-                <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In</a>
+                    <input type="hidden" name="action" value="edit_info" >
+                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In</a>
                     </form>
                 </div>
                 <!-- het tabl1 -->
@@ -265,13 +265,12 @@ include(APP_PATH."libs/head.php");
                     <div>
                         <?php the_field('bsnk_advise'); ?>
                     </div>
-                    <h4 class="h4_page">Hình ảnh trước khi phẫu thuật</h4>
-                    <ul></ul>
-
-                    <h4 class="h4_page">Bác sỉ Khải</h4>
-                    <div>
-                        <?php the_field('bsk'); ?>
-                    </div>
+                    <?php if(get_field('bks')!='') { ?>    
+                        <h4 class="h4_page">Bác sĩ Khải</h4>
+                        <div>
+                            <?php the_field('bsk'); ?>
+                        </div>
+                    <?php } ?>
                     <?php endwhile;endif; ?>
                     <?php } ?>
                     <?php wp_reset_query(); ?>
@@ -326,7 +325,7 @@ include(APP_PATH."libs/head.php");
                     <?php } ?>
                     <?php wp_reset_query(); ?>
                     <h3 class="h3_page">Tường trình ca mổ</h3>
-                    <div class="inputBlock">
+                    <div class="inputBlock mb30">
                         <?php echo get_field('report'); ?>
                     </div>
                     <h3 class="h3_page">Vật tư sử dụng</h3>
@@ -622,8 +621,8 @@ include(APP_PATH."libs/head.php");
                     <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
 
                     <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                    <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
-                    <input type="hidden" name="status" value="cskh" >
+                    <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                    <input type="hidden" name="status" value="cshp" >
                     <input type="hidden" name="action" value="cskh_edit" >
                     <input class="btnSubmit" type="submit" name="submit" value="Lưu">
                 </form>
@@ -645,9 +644,11 @@ include(APP_PATH."libs/head.php");
                         <?php
                         $numb_image = get_field('numb_image',$ids);
                         for($i=0;$i<$numb_image;$i++) { ?>
-                        <input type="file" name="file<?php echo $i ?>" id="file<?php $i; ?>" >
+                        <input type="file" name="file_<?php echo $ids; ?>_<?php echo $i ?>" id="file_<?php echo $ids; ?>_<?php echo $i ?>" >
                         <?php } ?>
                     <?php } ?>
+                    <input type="hidden" name="action" value="edit_info" >
+                    <input class="btnSubmit" type="submit" name="submit" value="Tải lên">
                 </form>
             </div>
             <!-- <button onclick="window.print();return false;" class="btnSubmit">In</button> -->

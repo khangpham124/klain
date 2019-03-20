@@ -9,7 +9,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="users">
-<!--===================================================-->
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <div id="wrapper">
 <!--===================================================-->
 <!--Header-->
@@ -72,7 +73,7 @@ include(APP_PATH."libs/head.php");
 <!--===================================================-->
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 <script>
     $(function(){
       // bind change event to select

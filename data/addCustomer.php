@@ -14,6 +14,8 @@ include(APP_PATH."admin/wp-load.php");
         $month = $_POST['month'];
         $year = $_POST['year'];
         $birth = $day.'-'.$month.'-'.$day;
+
+        $date_adv = date('d-m-Y');
         
         $customer_post = array(
             'post_title'    => $fullname,
@@ -29,15 +31,15 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'birthday', $birth);
         add_post_meta($pid, 'creator', $creator);
 
-        add_post_meta($pid, 'timeline', 1, true);
-        $sub_field_name1 = 'timeline'.'_0_'.'date';
-        $sub_field_name2 = 'timeline'.'_0_'.'content';
-        $sub_field_name3 = 'timeline'.'_0_'.'adviser';
-        update_post_meta($pid, $sub_field_name1, 'test', true);
-        update_post_meta($pid, $sub_field_name2, $content, true);
-        update_post_meta($pid, $sub_field_name3, $creator, true);
 
-        
+        $timeline = array();
+        $timeline[] = array(
+            'date' => $date_adv,
+            'content' => $content,
+            'adviser' => $creator,
+        );
+        update_field('timeline', $timeline, $pid);
+
         header('Location:'.APP_URL.'customers');
     }
 ?>

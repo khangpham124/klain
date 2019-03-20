@@ -112,8 +112,21 @@ include(APP_PATH."libs/head.php");
                     </div>
                     <p class="inputBlock blockFacebook">
                         <input type="text" class="inputForm" name="facebook" id="facebook" placeholder="Facebook của khách" />
-                    </p>  
-                    <textarea class="inputForm" name="advise_f" readonly placeholder=""><?php echo $cusId; ?></textarea>
+                    </p>
+                    <h4 class="h4_page h4_page--services">Tư vấn mới nhất</h4>
+                    <div class="adviserBox">
+                        <?php
+                        $rows = get_field('timeline',$cusId);
+                        $lastCount = count($rows);
+                        $last_adv = $lastCount - 1;
+                        $first_row = $rows[$last_adv];
+                        ?>
+                        <p class="date"><?php echo $first_row['date' ] ?></p>
+                        <div class="content">Nội dung:<?php echo $first_row['content' ] ?></div>
+                        <p class="adviser">Tư vấn viên:<?php echo $first_row['adviser' ] ?></p>
+                    </div>
+                    
+                    <textarea class="inputForm" name="advise_f" placeholder=""></textarea>
                 </div>
                 <!-- phuong thu tu van -->
 

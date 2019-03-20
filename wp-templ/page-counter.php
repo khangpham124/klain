@@ -90,7 +90,7 @@ include(APP_PATH."libs/head.php");
                             </tr>
                             <tr>
                                 <th colspan="3">
-                                <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
+                                <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readOnly <?php } ?>">
                                 <?php
                                 $discount = get_field('sale_discount');
                                 $total_price = get_field('total');
@@ -162,8 +162,7 @@ include(APP_PATH."libs/head.php");
                                 <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
                                 <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
                                 <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
-                                <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
-                                <span></span>
+                                    <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
                                 </p>
                                 </td>
                                 <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
@@ -287,13 +286,14 @@ include(APP_PATH."libs/head.php");
 
 <script>
 $( function() {
-    $('input[type=checkbox][name=accept]').change(function() {
-        if($(this).val()=='yes') {
-            $('.btnSubmit').removeClass('disable');
-        } else {
-            $('.btnSubmit').addClass('disable');
-        }    
-    });
+    // $('.callPopup').addClass('disable');
+    // $('input[type=checkbox][name=accept]').change(function() {
+    //     if($(this).val()=='yes') {
+    //         $('.callPopup').removeClass('disable');
+    //     } else {
+    //         $('.callPopup').addClass('disable');
+    //     }    
+    // });
 
     $('#sale_discount').live('focusout', function(){
         var tt_templ = $('#hide_total').val();
@@ -303,37 +303,60 @@ $( function() {
         $('#totalFee').val(numberWithCommas(remain));
     });
 
-    if($('input[name="accept"]').is(':checked')) {
-        var totalPrice = $('#hide_tt_final').val();
-        $('#deposit').on('keyup', function(e){
-                var deposit = $('#deposit').val();
-                $('#remain').val(deposit);
+    if($('#accept').is(':checked')) {
+            var totalPrice = $('#hide_tt_final').val();
             
-        });
-        $('#debt').on('keyup', function(e){
-                var debt = $('#debt').val();
-                var reMain = totalPrice - debt;
-                $('#remain').val(reMain);
-        });
-        $('input[type=radio][name=statusPay]').change(function() {
-            if (this.value == 'Thu đủ') {
-                var totalPrice = $('#totalFee').val();
-                $('#remain').val(totalPrice);
-            }
-        });
-    }
+            $('input[type=radio][name=statusPay]').change(function() {
+                    var totalPrice = $('#totalFee').val();
+                    $('#remain').val(totalPrice);
+            });
+            
+            $('#deposit').on('keyup', function(e){
+                    var deposit = $('#deposit').val();
+                    $('#remain').val(numberWithCommas(deposit));
+                
+            });
+            $('#debt').live('focusout', function(){
+                    var debt = $('#debt').val();
+                    var reMain = totalPrice - debt;
+                    $('#remain').val(numberWithCommas(reMain));
+            });
+        }
+
+    $('input[type=checkbox][name=accept]').change(function() {
+        if($('#accept').is(':checked')) {
+            var totalPrice = $('#hide_tt_final').val();
+            
+            $('input[type=radio][name=statusPay]').change(function() {
+                    var totalPrice = $('#totalFee').val();
+                    $('#remain').val(totalPrice);
+            });
+            
+            $('#deposit').on('keyup', function(e){
+                    var deposit = $('#deposit').val();
+                    $('#remain').val(deposit);
+                
+            });
+            $('#debt').live('focusout', function(){
+                    var debt = $('#debt').val();
+                    var reMain = totalPrice - debt;
+                    $('#remain').val(numberWithCommas(reMain));
+            });
+        }
+    });
 
     $('input[type=radio][name=statusPay]').change(function() {
         if (this.value == 'Đặt cọc') {
             $('.monneyDeposit').slideDown(200);
             $('.monneyNo').slideUp(200);
-            $('#debt').val('');
+            $('#listGuy').slideUp(200);
+            $('#debt').text('');
         }
         if (this.value == 'Nợ') {
             $('.monneyDeposit').slideUp(200);
             $('.monneyNo').slideDown(200);
             $('#listGuy').slideDown(200);
-            $('#deposit').val('');
+            $('#deposit').text('');
         }
     });
 
