@@ -1,5 +1,6 @@
 <?php
 add_theme_support('post-thumbnails');
+include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 //login logo
 function custom_login_logo() {
         echo '<style type="text/css">h1 a { background: url('.get_bloginfo('template_directory').'/images/logo.png) 50% 50% no-repeat !important; }</style>';
@@ -470,4 +471,21 @@ function my_custom_medical()
   register_post_type('Medical',$args);
 }
 
-  
+
+// Delete post
+function delete_post(){
+  global $post;
+  $deletepostlink= add_query_arg( 'frontend', 'true', get_delete_post_link( get_the_ID() ) );
+  // if (current_user_can('edit_post', $post->ID)) {
+      echo       '<span><a onclick="return confirm(\'Xoá dịch vụ?\')" href="'.$deletepostlink.'"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>';
+  // }
+}
+
+//Redirect after delete post in frontend
+add_action('trashed_post','trash_redirection_frontend');
+function trash_redirection_frontend($post_id) {
+  if ( filter_input( INPUT_GET, 'frontend', FILTER_VALIDATE_BOOLEAN ) ) {
+      wp_redirect( APP_URL.'/services' );
+      exit;
+  }
+}

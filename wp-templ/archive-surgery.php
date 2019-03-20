@@ -3,6 +3,10 @@ include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
+if(($_COOKIE['role_cookies']=='doctor')) {
+    header('Location:'.APP_URL);
+}
+
 include(APP_PATH."libs/head.php"); 
 ?>
 </head>

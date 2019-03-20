@@ -4,6 +4,9 @@ include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
+if(($_COOKIE['role_cookies']!='manager')) {
+    header('Location:'.APP_URL);
+}
 include(APP_PATH."libs/head.php"); 
 ?>
 </head>
@@ -21,6 +24,8 @@ include(APP_PATH."libs/head.php");
 
 <div class="blockPage blockPage--full maxW">
     <div class="buttonBar">
+        <a href="<?php echo APP_URL ?>add-user/" class="btnPage"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo người dùng mới</a>
+        <a href="javascript:void(0)" class="showIcon"><i class="fa fa-minus-square" aria-hidden="true"></i>Xoá người dùng</a>
         <p class="inputBlock customSelect">
             <select id="selectBox">
                 <option value="">Lọc tài khoản</option>
@@ -87,7 +92,9 @@ include(APP_PATH."libs/head.php");
                     <td><?php the_field('fullname') ?></td>
                     <td><?php echo $name_user; ?></td>
                     <td><?php the_field('mobile') ?></td>
-                    <td class="last"><a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                    <td class="last">
+                    <?php echo delete_post(); ?>    
+                    <a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                 </tr>
                 <?php endwhile;endif;?>
             </tbody>
@@ -113,6 +120,9 @@ include(APP_PATH."libs/head.php");
           }
           return false;
       });
+      $('.showIcon').click(function() {
+          $('.removeItem').toggleClass('fade');
+        });
     });
 </script>
 </body>

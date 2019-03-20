@@ -12,6 +12,8 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="top">
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <!--===================================================-->
 <div id="wrapper">
 <!--===================================================-->
@@ -46,7 +48,7 @@ include(APP_PATH."libs/head.php");
 <!--===================================================-->
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>

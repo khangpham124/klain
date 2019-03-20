@@ -22,10 +22,14 @@ include(APP_PATH."libs/head.php");
         <!--/Header-->
 
         <div class="textBox">
+                <?php
+                    if(($_COOKIE['role_cookies']!='doctor')) {
+                ?>        
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <?php include(APP_PATH."libs/searchBlock.php"); ?>
                     <?php include(APP_PATH."libs/searchSur.php"); ?>
                 </div>
+                <?php } ?>
                 <div class="blockPage blockPage--full mt40">
                     
                     <?php

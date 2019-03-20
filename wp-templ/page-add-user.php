@@ -4,12 +4,17 @@ include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
+if(($_COOKIE['role_cookies']!='manager')) {
+    header('Location:'.APP_URL);
+}
 include(APP_PATH."libs/head.php"); 
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
 </head>
 
 <body id="top">
+<div class="flexBox flexBox--between flexBox--wrap">
+<?php include(APP_PATH."libs/sidebar.php"); ?>
 <!--===================================================-->
 <div id="wrapper">
 <!--===================================================-->
@@ -69,7 +74,7 @@ include(APP_PATH."libs/head.php");
 <!--===================================================-->
 </div>
 <!--/wrapper-->
-<!--===================================================-->
+</div>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
 <script type="text/javascript">

@@ -7,6 +7,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
+if(($_COOKIE['role_cookies']!='manager')) {
+    header('Location:'.APP_URL);
+}
 include(APP_PATH."libs/head.php"); 
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
@@ -30,8 +33,7 @@ include(APP_PATH."libs/head.php");
                     <input type="text" class="inputForm" id="name" name="name" placeholder="Tên dịch vụ" />
                     </p>
                     <p class="inputBlock inputNumber">
-                        <input type="text" id="price" data-type="number" class="inputForm" name="price" placeholder="Giá" />
-                        <span></span>
+                        <input type="text" id="price" data-type="number" class="inputForm formatNumb" name="price" placeholder="Giá" />
                     </p>
                     <p class="inputBlock">
                     <input type="number" class="inputForm" id="numb_img" name="numb_img" placeholder="Só lượng ảnh cần chụp" />
