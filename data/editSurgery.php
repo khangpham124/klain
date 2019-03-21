@@ -146,7 +146,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             update_post_meta($pid,'process','yes');
         }
     
-        header('Location:'.APP_URL.'surgery');
+        header('Location:'.APP_URL);
     }
 
 
@@ -636,17 +636,16 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         header('Location:'.APP_URL.'surgery');
     }
 
-
 // EKIP PART
     if($_POST['action']=='ekip_create') {
+        // CREAT EKIP
         $room = $_POST['room'];
         $status = $_POST['status'];
         $time_room = date('Ymd_Hi');
         $idRoom = 'RM_'.$room.'_'.$time_room;
         update_post_meta($pid,'status',$status);
-        update_post_meta($pid,'ekip',$idRoom);
+        
 
-    
         $reg_dr = $_POST['check01'];
         $reg_mc = $_POST['check02'];
         $reg_pm = $_POST['check03'];
@@ -693,6 +692,24 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         add_post_meta($pid_ekip, 'ktv', $ktv_list);
         add_post_meta($pid_ekip, 'input', $input);
         add_post_meta($pid_ekip, 'room', $room);
+        // CREAT EKIP
+
+        // UPDATE SERVICES
+        $startSur = $_POST['startSur'];
+        $getServ_surgery = get_field('services_list',$pid);
+
+        $name_list = array();
+        for($i=0; $i < count($getServ_surgery); $i++){
+            $name_list[]=$getServ_surgery[$i]['name'];
+        }
+
+        foreach($startSur as $s) {
+            $key = array_search($s,$name_list);
+            add_post_meta($pid, 'services_list'.'_'.$key.'_'.'do' ,'yes', false);
+            add_post_meta($pid, 'services_list'.'_'.$key.'_'.'ekip' ,$idRoom, false);
+        }
+        
+        // UPDATE SERVICES
         
         header('Location:'.APP_URL.'surgery');
     }

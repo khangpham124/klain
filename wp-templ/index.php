@@ -450,7 +450,7 @@ include(APP_PATH."libs/head.php");
                             if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                             $stt = get_field('status');
                         ?>
-                        <tr >
+                        <tr>
                             <td>
                                 <?php
                                 $stt = get_field('status');
@@ -496,9 +496,11 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_field('mobile'); ?></td>
                             <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
                                 <td class="last">
-                                <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
-                                <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
-                                <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                                <?php if($stt!='batdau') { ?>
+                                    <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                    <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                                    <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                                <?php } ?>
                                 <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                                 </td>        
                             <?php } ?>
@@ -528,12 +530,13 @@ include(APP_PATH."libs/head.php");
                                 <?php } ?>
                             <?php } ?>
 
-                            <?php if($_COOKIE['role_cookies']=='room') { 
-                            ?>
+                            <?php if($_COOKIE['role_cookies']=='room') { ?>
                             <?php if(($stt=='bsk')||($stt=='bsnk')||($stt=='batdau')) { ?>
                                 <td class="last">
                                     <?php if($stt=='batdau') { ?>
+                                        <?php if($_COOKIE['role_cookies']=='room') { ?>
                                         <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=phauthuat" title="Hoàn tất"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                        <?php } ?>
                                         <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                     <?php } else { ?>
                                         <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>

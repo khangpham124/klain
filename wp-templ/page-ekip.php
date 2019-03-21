@@ -64,10 +64,12 @@ include(APP_PATH."libs/head.php");
                         $listService = get_field('services_list',$id_sur);
                     ?>
                     <?php 
+                    $u = 0;
                     foreach($listService as $serv) {
+                    $u++;
                     ?>
-                    <p class="inputBlock">
-                    <input type="checkbox" name="startSur[]" value="<?php echo $serv['name']; ?>"><label><?php echo $serv['name']; ?></label>
+                    <p class="inputBlock <?php if($serv['do']=='yes') { ?>lockCheck<?php } ?>">
+                    <input type="checkbox" <?php if($serv['do']=='yes') { ?>checked<?php } ?> id="do_<?php echo $u; ?>" name="startSur[]" value="<?php echo $serv['name']; ?>"><label for="do_<?php echo $u; ?>"><?php echo $serv['name']; ?><?php if($serv['do']=='yes') { ?>đã xong<?php } ?></label>
                     </p>
             <?php }  ?>
 
@@ -100,7 +102,11 @@ include(APP_PATH."libs/head.php");
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                 ?>
-                    <input type="checkbox" name="check01[]" value="<?php the_field('fullname') ?>" id="dr_<?php echo $post->ID ?>"><label for="dr_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                    <label class="checkStyle">
+                            <?php the_field('fullname'); ?>
+                            <input type="checkbox" name="check01[]" value="<?php the_field('fullname') ?>" id="dr_<?php echo $post->ID ?>">
+                            <span class="checkmark"></span>
+                    </label>        
                 <?php endwhile;endif; ?>
             </p>
             <?php wp_reset_query(); ?>

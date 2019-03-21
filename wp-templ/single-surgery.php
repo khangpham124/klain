@@ -256,6 +256,8 @@ include(APP_PATH."libs/head.php");
 
                 <div class="tabBox doctorPart" id="tab3">
                     <?php 
+                    $listService = get_field('services_list');
+
                     $id_med = get_field('idmedical');
                     if($id_med!='') {
                     $wp_query = new WP_Query();
@@ -288,59 +290,62 @@ include(APP_PATH."libs/head.php");
 
                 <div class="tabBox" id="tab6">
                     <?php 
-                    $id_ekip = get_field('ekip');
-                    if($id_ekip!='') {
-                    $wp_query = new WP_Query();
-                    $param = array (
-                        'posts_per_page' => '1',
-                        'post_type' => 'ekip',
-                        'post_status' => 'publish',
-                        'order' => 'DESC',
-                        'p'=>$id_ekip
-                    );
-                    $wp_query->query($param);
-			        if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
-                    ?>
-                    <h3 class="h3_page">Thông tin phòng mổ : Phòng số <?php echo get_field('room'); ?></h3>
-                    <table class="tblPage">
-                        <tr>
-                            <th>Bác sĩ 1</th>
-                            <td><?php the_field('doctor1'); ?></td>
-                        </tr>
+                    foreach($listService as $serv) {
+                        $ekip = $serv['ekip'];
+                        
+                        if($ekip!='') {
+                            $wp_query = new WP_Query();
+                            $param = array (
+                                'posts_per_page' => '1',
+                                'post_type' => 'ekip',
+                                'post_status' => 'publish',
+                                'order' => 'DESC',
+                                's'=>$id_ekip
+                            );
+                            $wp_query->query($param);
+                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                            ?>
+                            <h3 class="h3_page"><?php echo $serv['name']; ?></h3>
+                            <table class="tblPage">
+                                <tr>
+                                    <th>Phòng mổ</th>
+                                    <td><?php echo get_field('room'); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Bác sĩ 1</th>
+                                    <td><?php the_field('doctor1'); ?></td>
+                                </tr>
 
-                        <tr>
-                            <th>Bác sĩ 1</th>
-                            <td><?php the_field('doctor2'); ?></td>
-                        </tr>
+                                <tr>
+                                    <th>Bác sĩ 1</th>
+                                    <td><?php the_field('doctor2'); ?></td>
+                                </tr>
 
-                        <tr>
-                            <th>Danh sách điều dưỡng</th>
-                            <td>
-                                <?php the_field('nursing_team'); ?>
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>Danh sách điều dưỡng</th>
+                                    <td>
+                                        <?php the_field('nursing_team'); ?>
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <th>Gây mê</th>
-                            <td><?php the_field('ktv'); ?></td>
-                        </tr>
+                                <tr>
+                                    <th>Gây mê</th>
+                                    <td><?php the_field('ktv'); ?></td>
+                                </tr>
 
-                        <tr>
-                            <th>Nhập thông tin</th>
-                            <td><strong><?php the_field('input'); ?></strong></td>
-                        </tr>
-                    </table>
-                    <?php endwhile;endif; ?>
+                                <tr>
+                                    <th>Nhập thông tin</th>
+                                    <td><strong><?php the_field('input'); ?></strong></td>
+                                </tr>
+                            </table>
+                            <?php endwhile;endif; ?>
+                            <?php } ?>
+                            <?php wp_reset_query(); ?>
+                            <h3 class="h3_page">Tường trình ca mổ</h3>
+                            <div class="inputBlock mb30">
+                                <?php echo $serv['report']; ?>
+                            </div>
                     <?php } ?>
-                    <?php wp_reset_query(); ?>
-                    <h3 class="h3_page">Tường trình ca mổ</h3>
-                    <div class="inputBlock mb30">
-                        <?php echo get_field('report'); ?>
-                    </div>
-                    <h3 class="h3_page">Vật tư sử dụng</h3>
-                    <div class="inputBlock">
-                        <?php echo get_field('supplies'); ?>
-                    </div>
                 </div>
             <div class="tabBox" id="tab5">
                 <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
