@@ -487,9 +487,7 @@ include(APP_PATH."libs/head.php");
                                     break;
                                 }
                                 ?>
-                                <?php if($stt=='batdau') { ?>
-                                    <i class="fa fa-lock" aria-hidden="true"></i>
-                                <?php } ?>
+                                <?php if($stt=='batdau') { ?><i class="fa fa-lock" aria-hidden="true"></i><?php } ?>
                                 <span class="noteColor note--<?php echo $stt ?>"></span>
                                 <em><?php echo $stt_text ?></em>
                             </td>

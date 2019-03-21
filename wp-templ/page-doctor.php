@@ -65,13 +65,13 @@ include(APP_PATH."libs/head.php");
                 <h3 class="h3_page">Bệnh Án</h3>
                 <h4 class="h4_page">Dịch vụ yêu cầu</h4>
                 <?php
-                    $listService = get_field('services');
-                    $listServices = explode('<br>',$listService);
-                ?>
-                <?php foreach($listServices as $serv) {
-                    echo $serv.'<br>';
-                }    
-                ?>
+                        $listService = get_field('services_list');
+                    ?>
+                    <?php 
+                    foreach($listService as $serv) {
+                        echo '<p>'.$serv['name'].'</p>';
+                    }
+                    ?>
                 <h4 class="h4_page">Hỏi bệnh</h4>
                     <table class="tblPage">
                         <tr>

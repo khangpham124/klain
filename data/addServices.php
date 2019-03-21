@@ -3,7 +3,7 @@ include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 include(APP_PATH."admin/wp-load.php");
 if($_POST['action']!='') {
     $name = $_POST['name'];
-    $price = $_POST['price'];
+    $price = str_replace(array(',','.'),array('',''),$_POST['price']);
     $numb_img = $_POST['numb_img'];
     $services = $_POST['services'];
     $main = $_POST['main'];
@@ -17,6 +17,7 @@ if($_POST['action']!='') {
     wp_set_object_terms( $pid, $services, 'servicescat' );
     wp_set_object_terms( $pid, $type, 'typecat' );
     add_post_meta($pid, 'price', $price);
+    add_post_meta($pid, 'numb_image', $numb_img);
     add_post_meta($pid, 'main', $main);
     header('Location:'.APP_URL.'services');
 }

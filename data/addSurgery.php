@@ -137,20 +137,11 @@ include(APP_PATH."admin/wp-load.php");
         $cus_note = $_POST['cus_note'];
 
 
-        $services = $_POST['services'];
-        $listService = "";
-        for($i=0; $i < count($services); $i++)
-        {
-            $listService .= $services[$i]."<br>";
-        }
-        // if($listService != "") $listService = substr($listService,0,strlen($string)-2);
+        
 
-        
-        
+
         $total_hide = $_POST['total_hide']; 
-        $discount = $_POST['sale_discount'];
-
-
+        $discount = str_replace(array(',','.'),array('',''),$_POST['sale_discount']);
         
         $numb_image = $_POST['numb_image'];
         if($_POST['submit']!='') {
@@ -171,7 +162,7 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'advise', $advise);
         add_post_meta($pid, 'adviser', $adviser);
         add_post_meta($pid, 'channel', $channel);
-        add_post_meta($pid, 'services', $listService);
+        // add_post_meta($pid, 'services', $listService);
         add_post_meta($pid, 'date', $date);
         add_post_meta($pid, 'time', $time);
         add_post_meta($pid, 'hasSur', $hasSur);
@@ -186,6 +177,16 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'sale_discount', $discount);
         add_post_meta($pid, 'total', $total_hide);
 
+        $services = $_POST['services'];
+        $listService = array();
+        for($i=0; $i < count($services); $i++)
+        {
+            $listService[] = array(
+                'name' => $services[$i],
+            );
+        }
+        update_field('services_list', $listService, $pid);
+        
         header('Location:'.APP_URL.'surgery');
     }
 ?>

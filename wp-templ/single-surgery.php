@@ -32,7 +32,9 @@ include(APP_PATH."libs/head.php");
 
          <ul class="tabItem tabItem--6 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
+            <?php if(($_COOKIE['role_cookies']!='doctor')&&($_COOKIE['role_cookies']!='room')) { ?>
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
+            <?php } ?>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
             <li><a href="javascript:void(0)"  data-id="tab6">Chi tiết ca phẫu thuật</a></li>
             <li><a href="javascript:void(0)"  data-id="tab5">Chăm sóc hậu phẫu</a></li>
@@ -76,17 +78,19 @@ include(APP_PATH."libs/head.php");
 
                 <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
                     <?php
-                        $listService = get_field('services');
-                        $listServices = explode('<br>',$listService);
+                        $listService = get_field('services_list');
                     ?>
-                    <?php foreach($listServices as $serv) {
-                        echo $serv.'<br>';
-                    }    
+                    <?php 
+                    foreach($listService as $serv) {
+                        echo '<p>'.$serv['name'].'</p>';
+                    }
                     ?>
+                    <?php if(($_COOKIE['role_cookies']!='doctor')&&($_COOKIE['role_cookies']!='room')) { ?>
                     <h4 class="h4_page h4_page--services">Giảm giá</h4>
                     <p class="inputBlock inputNumber">
                         <input type="text" class="inputForm" readonly value="<?php echo number_format(get_field('sale_discount')); ?>">
                     </p>
+                    <?php } ?>
                 <!-- ADD SERVICES -->
 
                 <!-- DATE -->
@@ -94,7 +98,6 @@ include(APP_PATH."libs/head.php");
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mt10">
                     <div class="inputBlock">
                         <input type="text" class="inputForm" value="<?php echo get_field('date'); ?>" placeholder="Chọn ngày phẫu thuật">
-                        
                     </div>
                 </div>
                 <!-- DATE -->          
@@ -115,15 +118,21 @@ include(APP_PATH."libs/head.php");
 
                 
                 <h4 class="h4_page">Tư vấn</h4>
-                <div><?php echo get_field('doctor_advise'); ?></div>
+                <div>
+                <textarea class="inputForm" name="doctor_advise" id="doctor_advise"><?php echo get_field('doctor_advise'); ?></textarea>
+                </div>
 
                 <h4 class="h4_page">Ý kiến của khách hàng</h4>
                 <div><?php echo get_field('cus_note'); ?></div>
 
                     <input type="hidden" name="action" value="edit_info" >
+                    <input type="hidden" name="name_edit" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                    <input type="hidden" name="status" value="tvv" >
+                    <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                    <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                     <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In</a>
-                    </form>
-                </div>
+                </form>
+            </div>
                 <!-- het tabl1 -->
 
 
@@ -137,13 +146,13 @@ include(APP_PATH."libs/head.php");
                                 </th>
                                     <td>
                                     <?php
-                                        $listService = get_field('services');
-                                        $listServices = explode('<br>',$listService);
+                                        $listService = get_field('services_list');
                                     ?>
                                     <h5 class="h5_page">Dịch vụ yêu cầu</h5>
-                                    <?php foreach($listServices as $serv) {
-                                        echo $serv.'<br>';
-                                    }    
+                                    <?php 
+                                    foreach($listService as $serv) {
+                                        echo '<p>'.$serv['name'].'</p>';
+                                    }
                                     ?>
                                     <h5 class="h5_page">Tổng tiền</h5>
                                     <input type="text" class="inputForm" name="show_total" id="show_total" value="<?php echo number_format(get_field('total')); ?>" />

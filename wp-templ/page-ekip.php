@@ -5,6 +5,7 @@ include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
+
 include(APP_PATH."libs/head.php"); 
 ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -44,34 +45,35 @@ include(APP_PATH."libs/head.php");
                 $stt_surgery = get_field('status');
             ?>
             <h3 class="h3_page">Thông tin khách hàng</h3>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" readonly value="<?php the_field('fullname'); ?>" />
-                </p>
-                <p class="inputBlock">
-                <input type="text" class="inputForm" name="idcard" placeholder="Só CMND" readonly value="<?php the_field('idcard'); ?>" />
                 </p>
                 <p class="inputBlock">
                 <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php the_field('mobile'); ?>" />
                 </p>
             </div>
 
-            <h4 class="h4_page">Dịch vụ yêu cầu</h4>
-                <?php
-                    $listService = get_field('services');
-                    $listServices = explode('<br>',$listService);
-                ?>
-                <?php foreach($listServices as $serv) { ?>
-                    <p class="inputBlock">
-                    <input type="checkbox" value="<?php echo $serv; ?>"><label><?php echo $serv; ?></label>
-                    </p>
-                <?php }  ?>
-            <h4 class="h4_page">Hồ sơ bệnh án và tư vấn của bác sĩ</h4>
 
             <?php endwhile;endif; ?>
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
-            <!-- phuong thu tu van -->
+                
+            <!-- EKIP XU LY -->
+            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+            <h4 class="h4_page">Dịch vụ yêu cầu</h4>
+                <?php
+                        $listService = get_field('services_list',$id_sur);
+                    ?>
+                    <?php 
+                    foreach($listService as $serv) {
+                    ?>
+                    <p class="inputBlock">
+                    <input type="checkbox" name="startSur[]" value="<?php echo $serv['name']; ?>"><label><?php echo $serv['name']; ?></label>
+                    </p>
+            <?php }  ?>
 
+            <h4 class="h4_page flexBox flexBox--center flexBox--between">Hồ sơ bệnh án và tư vấn của bác sĩ
+            <a href="<?php the_permalink(); ?>" title="Chi tiết" class="btnPage" target="_blank">Xem hồ sơ</a>
+            </h4>
             <h3 class="h3_page">Bác sĩ phụ trách</h3>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
             <p class="inputBlock" >

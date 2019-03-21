@@ -74,13 +74,13 @@ include(APP_PATH."libs/head.php");
                                 </th>
                                     <td>
                                     <?php
-                                        $listService = get_field('services');
-                                        $listServices = explode('<br>',$listService);
+                                        $listService = get_field('services_list');
                                     ?>
                                     <h5 class="h5_page">Dịch vụ yêu cầu</h5>
-                                    <?php foreach($listServices as $serv) {
-                                        echo $serv.'<br>';
-                                    }    
+                                    <?php 
+                                    foreach($listService as $serv) {
+                                        echo '<p>'.$serv['name'].'</p>';
+                                    }
                                     ?>
                                     <h5 class="h5_page">Tổng tiền</h5>
                                     <input type="text" class="inputForm" readonly name="show_total" id="show_total" value="<?php echo number_format(get_field('total')); ?>" />
@@ -165,12 +165,12 @@ include(APP_PATH."libs/head.php");
                                 <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
                                 <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
                                 <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
-                                    <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
+                                    <input type="text" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
                                 </p>
                                 </td>
                                 <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
                                 <p class="inputBlock inputNumber monneyNo" <?php if(get_field('debt')!='') { ?> style="display:block;" <?php } ?>>
-                                <input type="text" data-type="number" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo get_field('debt'); ?>" <?php } ?> />
+                                <input type="text" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo get_field('debt'); ?>" <?php } ?> />
                                 </p>
                                 </td>
                             </tr>

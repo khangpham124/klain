@@ -9,15 +9,15 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
     // TEMP MEDICAL
 
-    if($_POST['action']=='edit_info') {
-        $doctor_advise = $_POST['doctor_advise'];
-        $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
+    // if($_POST['action']=='edit_info') {
+        // $doctor_advise = $_POST['doctor_advise'];
+        // $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
     
-        if($_POST['status']) {
-            $status = $_POST['status'];
-            update_post_meta($pid,'status',$status);
-        }
-        update_post_meta($pid,'doctor_advise',$doctor_advise);
+        // if($_POST['status']) {
+        //     $status = $_POST['status'];
+        //     update_post_meta($pid,'status',$status);
+        // }
+        // update_post_meta($pid,'doctor_advise',$doctor_advise);
 
 
         // mkdir('path/to/directory', 0777, true);
@@ -37,9 +37,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         //         add_post_meta($pid_med, 'image_before', $imgBefore);
         //     }
         // }
-
-        header('Location:'.APP_URL);
-    }
+    
+     //   header('Location:'.APP_URL);
+    // }
 
     
 
@@ -47,14 +47,14 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
     if($_POST['action']=='edit_info') {
         $doctor_advise = $_POST['doctor_advise'];
+        
         $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
-    
         if($_POST['status']) {
-            $status = $_POST['status'];
+            echo $status = $_POST['status'];
             update_post_meta($pid,'status',$status);
         }
         update_post_meta($pid,'doctor_advise',$doctor_advise);
-        header('Location:'.APP_URL);
+        // header('Location:'.APP_URL);
     }
 
 
