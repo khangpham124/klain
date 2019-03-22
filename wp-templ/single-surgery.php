@@ -671,7 +671,6 @@ include(APP_PATH."libs/head.php");
                                 $remain_img = $numb_image - $avai_img;
                                 for($i=0;$i<$remain_img;$i++) { 
                             ?>
-                            
                                 <input type="file" name="file<?php echo $i ?><?php echo $s; ?>_before" id="file<?php echo $i ?><?php echo $s; ?>_before" >
                                 <?php } ?>
                             
@@ -682,7 +681,30 @@ include(APP_PATH."libs/head.php");
                                 unset($listImage[count($listImage)-1]);
                                 foreach ($listImage as $img ) {
                                 ?>
-                                <li><a href="<?php echo APP_IMG; ?><?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?><?php echo $img; ?>"></a></li>
+                                <li><a href="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>"></a></li>
+                                <?php } ?>
+                            </ul> 
+
+                            <h4 class="h4_page">Sau</h4>
+                            <?php
+                                $listImage = explode(',',$serv['image_after']);
+                                unset($listImage[count($listImage)-1]);
+                                $avai_img = count($listImage);
+                                $numb_image = get_field('numb_image',$ids);
+                                $remain_img = $numb_image - $avai_img;
+                                for($i=0;$i<$remain_img;$i++) { 
+                            ?>
+                                <input type="file" name="file<?php echo $i ?><?php echo $s; ?>_after" id="file<?php echo $i ?><?php echo $s; ?>_after" >
+                                <?php } ?>
+                            
+                            <!-- Box IMAGE     -->
+                            <ul class="lstImge flexBox flexBox--wrap flexBox--start">
+                                <?php 
+                                $listImage = explode(',',$serv['image_after']);
+                                unset($listImage[count($listImage)-1]);
+                                foreach ($listImage as $img ) {
+                                ?>
+                                <li><a href="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>"></a></li>
                                 <?php } ?>
                             </ul> 
                             
