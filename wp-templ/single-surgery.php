@@ -292,7 +292,6 @@ include(APP_PATH."libs/head.php");
                     <?php 
                     foreach($listService as $serv) {
                         $ekip = $serv['ekip'];
-                        
                         if($ekip!='') {
                             $wp_query = new WP_Query();
                             $param = array (
@@ -300,7 +299,7 @@ include(APP_PATH."libs/head.php");
                                 'post_type' => 'ekip',
                                 'post_status' => 'publish',
                                 'order' => 'DESC',
-                                's'=>$id_ekip
+                                's'=>$ekip
                             );
                             $wp_query->query($param);
                             if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
@@ -311,40 +310,49 @@ include(APP_PATH."libs/head.php");
                                     <th>Phòng mổ</th>
                                     <td><?php echo get_field('room'); ?></td>
                                 </tr>
+                                <?php if(get_field('doctor1')!='') { ?>
                                 <tr>
                                     <th>Bác sĩ 1</th>
                                     <td><?php the_field('doctor1'); ?></td>
                                 </tr>
+                                <?php } ?>
 
+                                <?php if(get_field('doctor2')!=''){ ?>
                                 <tr>
                                     <th>Bác sĩ 1</th>
                                     <td><?php the_field('doctor2'); ?></td>
                                 </tr>
+                                <?php } ?>
 
+                                <?php if(get_field('nursing_team')!=''){ ?>
                                 <tr>
                                     <th>Danh sách điều dưỡng</th>
                                     <td>
                                         <?php the_field('nursing_team'); ?>
                                     </td>
                                 </tr>
-
+                                <?php } ?>
+                                <?php if(get_field('ktv')!=''){ ?>
                                 <tr>
                                     <th>Gây mê</th>
                                     <td><?php the_field('ktv'); ?></td>
                                 </tr>
-
+                                <?php } ?>
+                                <?php if(get_field('input')!=''){ ?>
                                 <tr>
                                     <th>Nhập thông tin</th>
                                     <td><strong><?php the_field('input'); ?></strong></td>
                                 </tr>
+                                <?php } ?>
                             </table>
                             <?php endwhile;endif; ?>
-                            <?php } ?>
+                            
                             <?php wp_reset_query(); ?>
-                            <h3 class="h3_page">Tường trình ca mổ</h3>
-                            <div class="inputBlock mb30">
+                            <h4 class="h4_page">Tường trình ca mổ</h4>
+                            <div class="inputBlock reportBlock mb30">
                                 <?php echo $serv['report']; ?>
                             </div>
+                        <?php } ?>    
                     <?php } ?>
                 </div>
             <div class="tabBox" id="tab5">
@@ -641,23 +649,27 @@ include(APP_PATH."libs/head.php");
             </div>
             <div class="tabBox" id="tab7">
                 <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
-                    <?php
-                        $listService = get_field('services');
-                        $listServices = explode('<br>',$listService);
-                    ?>
-                    <?php foreach($listServices as $serv) {
-                        $args = array("post_type" => "services", "s" => $serv);
+                    <?php 
+                        $s=0;
+                        foreach($listService as $serv) {
+                        $s++;
+                        $args = array("post_type" => "services", "s" => $serv['name']);
                         $query = get_posts( $args );
                         foreach ($query as $querys ) {
                             $ids = $querys->ID;
                         }
                         ?>
-                        <h3 class="h3_page"><?php echo $serv; ?></h3>
-                        <?php
-                        $numb_image = get_field('numb_image',$ids);
-                        for($i=0;$i<$numb_image;$i++) { ?>
-                        <input type="file" name="file_<?php echo $ids; ?>_<?php echo $i ?>" id="file_<?php echo $ids; ?>_<?php echo $i ?>" >
-                        <?php } ?>
+                        <div class="imgBox">
+                            <h3 class="h3_page"><?php echo $serv['name']; ?></h3>
+                            <?php
+                                if($serv['image_before']=='') {
+                                $numb_image = get_field('numb_image',$ids);
+                                for($i=0;$i<$numb_image;$i++) { 
+                            ?>
+                                <input type="file" name="file_<?php echo $i ?>_<?php echo $s; ?>" id="file_<?php echo $i ?>" >
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
                     <?php } ?>
                     <input type="hidden" name="action" value="edit_info" >
                     <input class="btnSubmit" type="submit" name="submit" value="Tải lên">

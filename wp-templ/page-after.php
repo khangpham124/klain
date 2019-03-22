@@ -83,7 +83,21 @@ include(APP_PATH."libs/head.php");
             </table>
             <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
             <input type="hidden" name="action" value="ekip_report" >
+            <?php
+            $surger_cf = get_field('services_list',$id_sur);
+            $surger_remain = array();
+            for($i=0; $i < count($surger_cf); $i++){
+                if($surger_cf[$i]['do']!='yes') {
+                    $surger_remain[]=$surger_cf[$i]['name'];
+                }
+            }
+            $remin_s = count($surger_remain);
+            if($remin_s==0) {
+            ?>
             <input type="hidden" name="status" value="hauphau" >
+            <?php } else { ?>
+            <input type="hidden" name="status" value="phauthuat" >
+            <?php } ?>
             <input class="btnSubmit" type="submit" name="submit" value="Hoàn tất">
         </form>
     </div>

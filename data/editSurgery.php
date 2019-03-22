@@ -699,19 +699,21 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $getServ_surgery = get_field('services_list',$pid);
 
         $name_list = array();
+        $cookies_do = "";
         for($i=0; $i < count($getServ_surgery); $i++){
             $name_list[]=$getServ_surgery[$i]['name'];
         }
 
         foreach($startSur as $s) {
             $key = array_search($s,$name_list);
-            add_post_meta($pid, 'services_list'.'_'.$key.'_'.'do' ,'yes', false);
-            add_post_meta($pid, 'services_list'.'_'.$key.'_'.'ekip' ,$idRoom, false);
+            update_post_meta($pid, 'services_list'.'_'.$key.'_'.'do' ,'yes', false);
+            update_post_meta($pid, 'services_list'.'_'.$key.'_'.'ekip' ,$idRoom, false);
+            $cookies_do .= $key.',';
         }
-        
+        setcookie('did_cookies', $cookies_do, time() + (86400 * 30), "/");
         // UPDATE SERVICES
         
-        header('Location:'.APP_URL.'surgery');
+        header('Location:'.APP_URL);
     }
 
 
@@ -723,17 +725,49 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             ));
         //$supplies = Array();    
         $numb_supplies = count($list_supplies);
+        $listSupp ="
+            <table>
+                <tr>
+                    <td>Vật tư</td>
+                    <td>Số lượng</td>
+                <tr>
+            </table>
+        ";
         for($u=0;$u<=$numb_supplies;$u++) {
             ${'supply_'.$u} = $_POST['supplies'.$u];
-            $supplies .= ${'supply_'.$u}.'<br>';
+            $supplies = explode('-',${'supply_'.$u});
+            if($supplies[1]!=0) {
+                $listSupp .='
+                <table>
+                    <tr>
+                        <td>'.$supplies[0].'</td>
+                        <td>'.$supplies[1].'</td>
+                    <tr>
+                </table>
+                ';
+            }
+            
         }
-        update_post_meta($pid,'supplies',$supplies);
-        $status = $_POST['status'];
         $report = $_POST['report'];
-        update_post_meta($pid,'status',$status);
-        update_post_meta($pid,'report',$report);
+        $report .= $listSupp;
         
-       header('Location:'.APP_URL.'surgery');
+        $date_end = date('d-m-Y');
+
+
+        $cookies_do = explode(',',$_COOKIE['did_cookies']);
+        
+        foreach($cookies_do as $did_k) {
+            // echo $did_k;
+            update_post_meta($pid, 'services_list'.'_'.$did_k.'_'.'report' ,$report, false);
+            update_post_meta($pid, 'services_list'.'_'.$did_k.'_'.'end' ,$date_end, false);
+        }
+
+        $status = $_POST['status'];
+        update_post_meta($pid,'status',$status);
+
+        setcookie('did_cookies','', time() + 86400, "/");
+
+        header('Location:'.APP_URL);
     }
 
 

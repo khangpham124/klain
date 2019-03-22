@@ -9,6 +9,7 @@ if($_COOKIE['role_cookies']=='room') {
 }
 include(APP_PATH."libs/head.php"); 
 ?>
+ <?php wp_head(); ?> 
 </head>
 
 <body id="top">
@@ -197,6 +198,9 @@ include(APP_PATH."libs/head.php");
                 <!-- CSKH   -->
                     <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='customer-care')) { ?>            
                         <h2 class="h2_page">Danh sách khách đến lịch</h2>
+                        <?php //do_shortcode('[tribe_events]'); 
+                            //dynamic_sidebar( 'home_right_1' ); 
+                        ?>
                         <table class="tblPage">
                             <thead>
                             <tr>
@@ -531,21 +535,45 @@ include(APP_PATH."libs/head.php");
                             <?php } ?>
 
                             <?php if($_COOKIE['role_cookies']=='room') { ?>
-                            <?php if(($stt=='bsk')||($stt=='bsnk')||($stt=='batdau')) { ?>
-                                <td class="last">
-                                    <?php if($stt=='batdau') { ?>
-                                        <?php if($_COOKIE['role_cookies']=='room') { ?>
-                                        <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=phauthuat" title="Hoàn tất"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                <?php if(($stt=='bsk')||($stt=='bsnk')||($stt=='batdau')) { ?>
+                                    <td class="last">
+                                        <?php if($stt=='batdau') { ?>
+                                            <?php if($_COOKIE['role_cookies']=='room') {
+                                                $surger_cf = get_field('services_list');
+                                                $surger_remain = array();
+                                                for($i=0; $i < count($surger_cf); $i++){
+                                                    if($surger_cf[$i]['do']!='yes') {
+                                                        $surger_remain[]=$surger_cf[$i]['name'];
+                                                    }
+                                                }
+                                                $remin_s = count($surger_remain);
+                                            ?>
+                                            <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=<?php if($remin_s==0) { ?>hauphau<?php } else { ?>phauthuat<?php } ?>" title="Hoàn tất"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                            <?php } ?>
+                                            <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                                        <?php } ?>    
+                                    </td>
+                                <?php } else { ?>
+                                    <td class="last">
+                                        <?php 
+                                        $surger_cf = get_field('services_list');
+                                        $surger_remain = array();
+                                        for($i=0; $i < count($surger_cf); $i++){
+                                            if($surger_cf[$i]['do']!='yes') {
+                                                $surger_remain[]=$surger_cf[$i]['name'];
+                                            }
+                                        }
+                                        $remin_s = count($surger_remain);
+                                        if(($remin_s==0)&&($stt=='phauthuat')) { 
+                                        ?>
+                                            <a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
                                         <?php } ?>
-                                        <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                                    <?php } else { ?>
-                                        <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
-                                    <?php } ?>    
-                                </td>
-                            <?php } else { ?>
-                                <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
-                            <?php } ?>
-
+                                    </td>
+                                <?php } ?>
                             <?php } ?>
 
                             <?php if($_COOKIE['role_cookies']=='customer-care') { ?>
@@ -561,7 +589,8 @@ include(APP_PATH."libs/head.php");
 
 
     <!--Footer-->
-    <?php include(APP_PATH."libs/footer.php"); ?>
+    <?php get_footer(); ?>
+    <?php //include(APP_PATH."libs/footer.php"); ?>
     <!--/Footer-->
     <!--===================================================-->
 </div>    

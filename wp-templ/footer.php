@@ -1,8 +1,9 @@
-footer	
-<?
-wp_footer();
-?>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="/common/js/common.js"></script>
-<script type="text/javascript" src="/common/js/smoothscroll.js"></script>
-</script>
+<footer id="footer">
+    
+    <p id="copyright">Develop by Teddycoder - 2018</p>
+</footer>
+
+<script src="<?php echo APP_URL; ?>common/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="<?php echo APP_URL; ?>common/js/smoothscroll.js"></script>
+<script type="text/javascript" src="<?php echo APP_URL; ?>common/js/common.js"></script>
+

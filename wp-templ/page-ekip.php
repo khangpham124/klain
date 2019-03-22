@@ -279,11 +279,6 @@ include(APP_PATH."libs/head.php");
 	  $("#addServices").exValidation({
 	    rules: {
             doctor1: "chkselect",
-            doctor2: "chkselect",
-            nursing1:"chkselect",
-            nursing2:"chkselect",
-            nursing3:"chkselect",
-            nursing4:"chkselect",
             ktv:"chkselect",
             room:"chkselect",
 	    },

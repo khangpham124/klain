@@ -490,6 +490,10 @@ function trash_redirection_frontend($post_id) {
   }
 }
 
+
+
+
+
 function arphabet_widgets_init() {
 
 	register_sidebar( array(
