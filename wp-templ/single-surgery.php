@@ -8,7 +8,7 @@ if(!$_COOKIE['login_cookies']) {
 include(APP_PATH."libs/head.php"); 
 ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>common/css/magnific-popup.css" />
 <style type="text/css">
     #datepicker {
         display: none;
@@ -652,26 +652,47 @@ include(APP_PATH."libs/head.php");
                     <?php 
                         $s=0;
                         foreach($listService as $serv) {
-                        $s++;
                         $args = array("post_type" => "services", "s" => $serv['name']);
                         $query = get_posts( $args );
                         foreach ($query as $querys ) {
                             $ids = $querys->ID;
                         }
+                        
                         ?>
                         <div class="imgBox">
                             <h3 class="h3_page"><?php echo $serv['name']; ?></h3>
+                            
+                            <h4 class="h4_page">Trước</h4>
                             <?php
-                                if($serv['image_before']=='') {
+                                $listImage = explode(',',$serv['image_before']);
+                                unset($listImage[count($listImage)-1]);
+                                $avai_img = count($listImage);
                                 $numb_image = get_field('numb_image',$ids);
-                                for($i=0;$i<$numb_image;$i++) { 
+                                $remain_img = $numb_image - $avai_img;
+                                for($i=0;$i<$remain_img;$i++) { 
                             ?>
-                                <input type="file" name="file_<?php echo $i ?>_<?php echo $s; ?>" id="file_<?php echo $i ?>" >
+                            
+                                <input type="file" name="file<?php echo $i ?><?php echo $s; ?>_before" id="file<?php echo $i ?><?php echo $s; ?>_before" >
                                 <?php } ?>
-                            <?php } ?>
+                            
+                            <!-- Box IMAGE     -->
+                            <ul class="lstImge flexBox flexBox--wrap flexBox--start">
+                                <?php 
+                                $listImage = explode(',',$serv['image_before']);
+                                unset($listImage[count($listImage)-1]);
+                                foreach ($listImage as $img ) {
+                                ?>
+                                <li><a href="<?php echo APP_IMG; ?><?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?><?php echo $img; ?>"></a></li>
+                                <?php } ?>
+                            </ul> 
+                            
+                        
                         </div>
+                        <?php $s++; ?>
                     <?php } ?>
                     <input type="hidden" name="action" value="edit_info" >
+                    <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                    <input type="hidden" name="upload" value="upload" >
                     <input class="btnSubmit" type="submit" name="submit" value="Tải lên">
                 </form>
             </div>
@@ -688,7 +709,7 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 </div>
-
+<script type="text/javascript" src="<?php echo APP_URL; ?>common/js/jquery.magnific-popup.js"></script>
  <script type="text/javascript">
     $('#tab1').show();
     $('.tabItem li:nth-child(1)').addClass('active');
@@ -698,7 +719,40 @@ include(APP_PATH."libs/head.php");
         var tabId = $(this).find('a').attr('data-id');
         $('.tabBox').fadeOut(200);
         $('#'+tabId).fadeIn(200);
-    });        
+    });
+
+	    $(function() {
+	    	$('.lstImge').magnificPopup({
+			  	delegate: 'a',
+				type: 'image',
+				tLoading: 'Loading image #%curr%...',
+				mainClass: 'mfp-img-mobile',
+				gallery: {
+					enabled: true,
+					navigateByImgClick: true,
+
+					preload: [0,1]
+
+				},
+                zoom: {
+				enabled: true, // By default it's false, so don't forget to enable it
+			 	duration: 300, // duration of the effect, in milliseconds
+
+                    easing: 'ease-in-out', // CSS transition easing function 
+                    opener: function(openerElement) {
+return openerElement.is('img') ? openerElement : openerElement.find('img');
+                    }
+                },
+
+				image: {
+					tError: '<a href="%url%">cannot load image</a>.',
+
+					titleSrc: 'title'
+
+				}
+
+			});
+	    });
 </script>
 
 </body>

@@ -7,41 +7,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
     $pid = $_POST['idSurgery'];
 
-    // TEMP MEDICAL
-
-    // if($_POST['action']=='edit_info') {
-        // $doctor_advise = $_POST['doctor_advise'];
-        // $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
-    
-        // if($_POST['status']) {
-        //     $status = $_POST['status'];
-        //     update_post_meta($pid,'status',$status);
-        // }
-        // update_post_meta($pid,'doctor_advise',$doctor_advise);
-
-
-        // mkdir('path/to/directory', 0777, true);
-        // $imgBefore = array();
-        // for($i=0;$i<=$numb_image;$i++) {
-        //     if($_FILES["file$i"]["name"]!="") {
-        //         $parts1=pathinfo($_FILES["file$i"]["name"]);
-        //         $ext1=".".strtolower($parts1["extension"]);	
-        //         $filename = strtolower($parts1["filename"]);
-        //         $img_name = get_the_title($pid).'_'.$i;
-                
-        //         $attach_file = $img_name.$ext1;
-        //         move_uploaded_file($_FILES["file$i"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".$attach_file);
-        //         ${'linkFile_'.$i}="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
-        //         $imgBefore[] = $attach_file;
-
-        //         add_post_meta($pid_med, 'image_before', $imgBefore);
-        //     }
-        // }
-    
-     //   header('Location:'.APP_URL);
-    // }
-
-    
 
     // TEMP EKIP
 
@@ -54,7 +19,44 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             update_post_meta($pid,'status',$status);
         }
         update_post_meta($pid,'doctor_advise',$doctor_advise);
-        // header('Location:'.APP_URL);
+
+
+        if($_POST['upload']) {
+            $s=0;
+            $listService = get_field('services_list',$pid);
+            if (!file_exists($_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid))) {
+               mkdir($_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid), 0777, true);
+            }
+            foreach($listService as $serv) {
+                
+                $imgBefore = $serv['image_before'];
+                
+                $args = array("post_type" => "services", "s" => $serv['name']);
+                $query = get_posts( $args );
+                foreach ($query as $querys ) {
+                    $ids = $querys->ID;
+                }
+                
+                $numb_image = get_field('numb_image',$ids);
+                    for($i=0;$i<$numb_image;$i++) { 
+                        if($_FILES["file{$i}{$s}_before"]["name"]!="") {
+                            $parts1=pathinfo($_FILES["file{$i}{$s}_before"]["name"]);
+                            $ext1=".".strtolower($parts1["extension"]);	
+                            $filename = strtolower($parts1["filename"]);
+                            $img_name = $filename.'_'.$i.'_'.$s.'_before';
+                            $attach_file = $img_name.$ext1;
+                            
+                            move_uploaded_file($_FILES["file{$i}{$s}_before"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid).$attach_file);
+                            
+                            ${'linkFile_'.$i.$s} = "http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/surgery/".$attach_file;
+                            $imgBefore .= $attach_file.',';
+                        }
+                    }
+                update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_before' ,$imgBefore, false);
+                $s++;
+            }
+        }
+        header('Location:'.APP_URL);
     }
 
 
