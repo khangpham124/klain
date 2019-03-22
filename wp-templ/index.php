@@ -9,7 +9,6 @@ if($_COOKIE['role_cookies']=='room') {
 }
 include(APP_PATH."libs/head.php"); 
 ?>
- <?php wp_head(); ?> 
 </head>
 
 <body id="top">

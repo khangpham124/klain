@@ -741,7 +741,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             'numberposts' => -1,
             'post_type' => 'supplies',
             ));
-        //$supplies = Array();    
         $numb_supplies = count($list_supplies);
         $listSupp ="
             <table>
@@ -775,14 +774,12 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $cookies_do = explode(',',$_COOKIE['did_cookies']);
         
         foreach($cookies_do as $did_k) {
-            // echo $did_k;
             update_post_meta($pid, 'services_list'.'_'.$did_k.'_'.'report' ,$report, false);
             update_post_meta($pid, 'services_list'.'_'.$did_k.'_'.'end' ,$date_end, false);
         }
 
         $status = $_POST['status'];
         update_post_meta($pid,'status',$status);
-
         setcookie('did_cookies','', time() + 86400, "/");
 
         header('Location:'.APP_URL);

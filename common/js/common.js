@@ -36,9 +36,9 @@ $(document).ready(function(){
       
       var num2 = RemoveRougeChar(num.replace(/(.{3})/g,"$1,").split("").reverse().join(""));
       
-      var mask = $(this).next('span');
+      $(this).val(num2);
       // the following line has been simplified. Revision history contains original.
-      mask.text(num2);
+    //   mask.text(num2);
   });
 });
 
@@ -64,6 +64,10 @@ function numberWithCommas(number) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
+
+$('.formatNumb').on('keyup', function(e){
+    
+});
 
 
 $('#getData').click(function() {

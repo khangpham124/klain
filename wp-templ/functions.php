@@ -439,7 +439,7 @@ function my_acf_pre_save_post($post_id) {
 
 
 
-  add_action('init', 'my_custom_medical');
+add_action('init', 'my_custom_medical');
 function my_custom_medical()
 {
   $labels = array(
@@ -469,6 +469,38 @@ function my_custom_medical()
     'has_archive' => true
   );
   register_post_type('Medical',$args);
+}
+
+add_action('init', 'my_custom_care');
+function my_custom_care()
+{
+  $labels = array(
+    'name' => _x('Care', 'post type general name'),
+    'singular_name' => _x('Care', 'post type singular name'),
+    'add_new' => _x('Add Care', 'news'),
+    'add_new_item' => __('Add new item'),
+    'edit_item' => __('Edit Care'),
+    'new_item' => __('New Item'),
+    'view_item' => __('View Item'),
+    'search_staff' => __('sample記事を探す'),
+    'not_found' =>  __('Not found'),
+    'not_found_in_trash' => __('Not found'),
+    'parent_item_colon' => ''
+  );
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true,
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'hierarchical' => false,
+    'menu_position' => 5,
+    'supports' => array('title'),
+    'has_archive' => true
+  );
+  register_post_type('care',$args);
 }
 
 

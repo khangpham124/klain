@@ -2,12 +2,23 @@
 
 /* Tablet */
 
-@media only screen and (min-width:768px) and (max-width:1024px) {}
+@media only screen and (min-width:768px) and (max-width:1024px) {
+    .tabItem--6 li {
+        border-bottom: 1px solid #e6e6e6;
+        width: 33.33%;
+    }
+}
 
 
 /* Smartphone */
 
 @media only screen and (max-width:767px) {
+    body::before {
+        display: none;
+    }
+    #wrapper {
+        width: 100%;
+    }
     .textBox {
         padding:10px 10px;
     }
@@ -37,6 +48,13 @@
     }
     .hideSide {
         width: 90%;
+        position: fixed;
+        right: -150%;
+        left: inherit;
+        -moz-transition: all 0.26s ease-out;
+            -o-transition: all 0.26s ease-out;
+            -webkit-transition: all 0.26s ease-out;
+            -ms-transition: all 0.26s ease-out;
     }
     .buttonBar {
         justify-content: space-between;
@@ -58,5 +76,17 @@
 
     .loginBlock .inputBlock {
         margin: 5px 0;
+    }
+    .tabItem--6 li {
+        border-bottom: 1px solid #e6e6e6;
+        width: 50%;
+        text-align: left;
+        padding-left: 15px;
+    }
+    .lstImge li {
+        width: 50%;
+    }
+    #header .btnPage {
+        display: none;
     }
 }

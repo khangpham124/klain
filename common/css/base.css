@@ -23,6 +23,24 @@
             -ms-text-size-adjust: none;
             word-wrap: break-word;
         }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 20%;
+            background: #000;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        #login::before {
+            display: none;
+        }
+
+        #print::before {
+            display: none;
+        }
         
         body,
         div,
@@ -542,6 +560,35 @@ Footer
             text-align: center;
         }
         
+        .wp-pagenavi {
+            clear: both;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .wp-pagenavi a,
+        .wp-pagenavi span {
+            text-decoration: none;
+            width: 36px;
+            height: 36px;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 36px;
+            margin: 0 5px;
+        }
+        
+        .wp-pagenavi a:hover,
+        .wp-pagenavi span.current {
+            background: #000;
+            color: #fff;
+        }
+        
+        .wp-pagenavi span.current {
+            font-weight: bold;
+            color: #fff;
+        }
+
+
         @media only screen and (max-width: 767px) {
             body {
                 font-size: 13px;
