@@ -234,53 +234,7 @@ include(APP_PATH."libs/head.php");
                         </tr>
                         <?php endwhile;endif; ?>
                         </table>
-
-                        <h2 class="h2_page">Danh sách khách hàng trong ngày</h2>
-                        <table class="tblPage">
-                            <thead>
-                                <tr>
-                                    <td>Trạng thái</td>
-                                    <td>Ca</td>
-                                    <td>Họ tên</td>
-                                    <td>Số điện thoại</td>
-                                    <td>Chi tiết</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    $param=array(
-                                        'post_type'=>'surgery',
-                                        'order' => 'DESC',
-                                        'posts_per_page' => '-1',
-                                        'meta_query'	=> array(
-                                            'relation'		=> 'OR',
-                                            array(
-                                                'key'	  	=> 'status',
-                                                'value'	  	=> 'hauphau',
-                                                'compare' 	=> '=',
-                                            ),
-                                            )
-                                    );
-
-                                $wp_query->query($param);
-                                if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                                $stt = get_field('status');
-                                ?>
-                                <tr>
-                                    <td></td>
-                                    <td><?php the_title(); ?></td>
-                                    <td><?php the_field('fullname'); ?></td>
-                                    <td><?php the_field('mobile'); ?></td>
-                                    
-                                        <td class="last">
-                                        <a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
-                                        </td>        
-                                    
-                                </tr> 
-                            <?php endwhile;endif; ?>
-                            </tbody>
-                            </table>
-                    <?php } ?>
+                    <?php } ?>        
                     
                     <?php  if($_COOKIE['role_cookies']!='customer-care') { ?>
                     <h2 class="h2_page">Danh sách khách hàng trong ngày</h2> 

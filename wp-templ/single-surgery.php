@@ -356,297 +356,29 @@ include(APP_PATH."libs/head.php");
                     <?php } ?>
                 </div>
             <div class="tabBox" id="tab5">
-                <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
-                    <!-- phuong thu tu van -->
-                    <h3 class="h3_page">Ngay sau phẫu thuật</h3>
-                    <div class="inputBlock">
-                        <textarea class="inputForm" name="after_surgery" id="after_surgery" <?php if(get_field('status_1')!='') { ?>readonly<?php } ?>  placeholder="TÌnh trạng"><?php the_field('status_1'); ?></textarea>
-                    </div>
-                    <textarea class="inputForm" <?php if(get_field('message_1')!='') { ?>readonly<?php } ?>    name="message_1" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
-                    <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="custommer_voice_1" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
-                    
-                    <select name="rating_1" id="rating_1">
-                    <option>Đánh giá của khách</option>
-                    <option <?php if(get_field('rating_1')=="Hài lòng") { ?>selected<?php } ?> value="Hài lòng">Hài lòng</option>
-                    <option <?php if(get_field('rating_1')=="Bình thường") { ?>selected<?php } ?> value="Bình thường">Bình thường</option>
-                    <option <?php if(get_field('rating_1')=="Không hài lòng") { ?>selected<?php } ?> value="Không hài lòng">Không hài lòng</option>
-                    </select>
-                    
+                <table class="tblPage">
+                    <tr>
+                        <td>Dịch vụ</td>
+                        <td>Tình trang</td>
+                        <td>Ngày phẫu thuật xong</td>
+                        <td>Số lần Chăm sóc</td>
+                        <td>Thao tác</td>
+                    </tr>
+                <?php 
+                    foreach($listService as $serv) {
+                ?>
 
-                    <h3 class="h3_page">Vệ sinh sau 1 ngày</h3>
-                    <div class="inputBlock">
-                        <textarea class="inputForm" <?php if(get_field('status_2')!='') { ?>readonly<?php } ?>  name="after_1day" id="after_1day" placeholder="TÌnh trạng"><?php the_field('status_2'); ?></textarea>
-                    </div>
-                    <textarea class="inputForm" <?php if(get_field('message_2')!='') { ?>readonly<?php } ?>  name="message_2" placeholder="Lời dặn"><?php the_field('message_2'); ?></textarea>
-                    <textarea class="inputForm" <?php if(get_field('custommer_voice_2')!='') { ?>readonly<?php } ?>  name="custommer_voice_2" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_2'); ?></textarea>
-                                            
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                        <label>Đánh giá của khách</label>
-                            <p class="customSelect mt0">
-                            <select name="rating_2" id="rating_2">
-                            <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
-                            </select>
-                        </p>
-                        </div>
-                        <p class="inputBlock">     
-                            <label>Nhân viên chăm sóc</label>
-                            <input type="text" class="inputForm" readonly value="<?php the_field('emp_1'); ?>" />
-                        </p>
-                    </div>
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                            <label>Bác sĩ khám</label>    
-                            <p class="customSelect mt0">
-                                <select name="guy" id="guy">
-                                    <option value="">Bác sĩ khám</option>
-                                    <?php
-                                        $param=array(
-                                            'post_type'=>'users',
-                                            'order' => 'DESC',
-                                            'posts_per_page' => '-1',
-                                            'tax_query' => array(
-                                                'relation' => 'OR',
-                                                array(
-                                                'taxonomy' => 'userscat',
-                                                'field' => 'slug',
-                                                'terms' => 'doctor'
-                                                ),
-                                                array(
-                                                    'taxonomy' => 'userscat',
-                                                    'field' => 'slug',
-                                                    'terms' => 'nursing primary'
-                                                ),
-                                            )
-                                            );
-                                        $posts_array = get_posts( $param );
-                                        foreach ($posts_array as $sale ) {
-                                    ?>
-                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
-                                    <?php } ?>
-                                </select>
-                            </p>
-                        </div>    
-                        <p class="inputBlock">     
-                            <label>Ngày Khám</label>
-                            <input type="text" class="inputForm" value="" />
-                        </p>
-                    </div>
-                    
-
-                    <h3 class="h3_page">Tái khám sau 5 ngày</h3>
-                    <div class="inputBlock">
-                    <textarea class="inputForm" name="after_5day" <?php if(get_field('status_3')!='') { ?>readonly<?php } ?> id="after_5day" placeholder="TÌnh trạng"><?php the_field('status_3'); ?></textarea>
-                    </div>
-                    <textarea class="inputForm" <?php if(get_field('message_3')!='') { ?>readonly<?php } ?>  name="message_3" placeholder="Lời dặn"><?php the_field('message_3'); ?></textarea>
-                    <textarea class="inputForm" <?php if(get_field('custommer_voice_3')!='') { ?>readonly<?php } ?>  name="custommer_voice_3" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_3'); ?></textarea>
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                        <label>Đánh giá của khách</label>
-                            <p class="customSelect mt0">
-                            <select name="rating_2" id="rating_2">
-                            <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
-                            </select>
-                        </p>
-                        </div>
-                        <p class="inputBlock">     
-                            <label>Nhân viên chăm sóc</label>
-                            <input type="text" class="inputForm" readonly value="<?php the_field('emp_1'); ?>" />
-                        </p>
-                    </div>
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                            <label>Bác sĩ khám</label>    
-                            <p class="customSelect mt0">
-                                <select name="guy" id="guy">
-                                    <option value="">Bác sĩ khám</option>
-                                    <?php
-                                        $param=array(
-                                            'post_type'=>'users',
-                                            'order' => 'DESC',
-                                            'posts_per_page' => '-1',
-                                            'tax_query' => array(
-                                                'relation' => 'OR',
-                                                array(
-                                                'taxonomy' => 'userscat',
-                                                'field' => 'slug',
-                                                'terms' => 'doctor'
-                                                ),
-                                                array(
-                                                    'taxonomy' => 'userscat',
-                                                    'field' => 'slug',
-                                                    'terms' => 'nursing primary'
-                                                ),
-                                            )
-                                            );
-                                        $posts_array = get_posts( $param );
-                                        foreach ($posts_array as $sale ) {
-                                    ?>
-                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
-                                    <?php } ?>
-                                </select>
-                            </p>
-                        </div>
-                        <p class="inputBlock">     
-                            <label>Ngày Khám</label>
-                            <input type="text" class="inputForm" value="" />
-                        </p>
-                    </div>    
-
-                    <h3 class="h3_page">Tái khám sau 10 ngày</h3>
-                    <div class="inputBlock">
-                        <textarea class="inputForm" <?php if(get_field('status_4')!='') { ?>readonly<?php } ?>  name="after_10day" id="after_10day" placeholder="TÌnh trạng"><?php the_field('status_4'); ?></textarea>
-                    </div>
-                    <textarea class="inputForm" <?php if(get_field('message_4')!='') { ?>readonly<?php } ?>  name="message_4" placeholder="Lời dặn"><?php the_field('message_4'); ?></textarea>
-                    <textarea class="inputForm" <?php if(get_field('custommer_voice_4')!='') { ?>readonly<?php } ?>  name="custommer_voice_4" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_4'); ?></textarea>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                        <label>Đánh giá của khách</label>
-                            <p class="customSelect mt0">
-                            <select name="rating_2" id="rating_2">
-                            <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
-                            </select>
-                        </p>
-                        </div>
-                        <p class="inputBlock">     
-                            <label>Nhân viên chăm sóc</label>
-                            <input type="text" class="inputForm" readonly value="<?php the_field('emp_1'); ?>" />
-                        </p>
-                    </div>
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                            <label>Bác sĩ khám</label>    
-                            <p class="customSelect mt0">
-                                <select name="guy" id="guy">
-                                    <option value="">Bác sĩ khám</option>
-                                    <?php
-                                        $param=array(
-                                            'post_type'=>'users',
-                                            'order' => 'DESC',
-                                            'posts_per_page' => '-1',
-                                            'tax_query' => array(
-                                                'relation' => 'OR',
-                                                array(
-                                                'taxonomy' => 'userscat',
-                                                'field' => 'slug',
-                                                'terms' => 'doctor'
-                                                ),
-                                                array(
-                                                    'taxonomy' => 'userscat',
-                                                    'field' => 'slug',
-                                                    'terms' => 'nursing primary'
-                                                ),
-                                            )
-                                            );
-                                        $posts_array = get_posts( $param );
-                                        foreach ($posts_array as $sale ) {
-                                    ?>
-                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
-                                    <?php } ?>
-                                </select>
-                            </p>
-                            </div>
-                            <p class="inputBlock">     
-                                <label>Ngày Khám</label>
-                                <input type="text" class="inputForm" value="" />
-                            </p>
-                    </div>
-
-                    <h3 class="h3_page">Tái khám sau 1 tháng</h3>
-                    <div class="inputBlock">
-                        <textarea class="inputForm" name="after_1month" <?php if(get_field('status_5')!='') { ?>readonly<?php } ?>  id="after_1month" placeholder="TÌnh trạng"><?php the_field('status_5'); ?></textarea>
-                    </div>
-                    <textarea class="inputForm" <?php if(get_field('message_5')!='') { ?>readonly<?php } ?>  name="message_5" placeholder="Lời dặn"><?php the_field('message_5'); ?></textarea>
-                    <textarea class="inputForm" <?php if(get_field('custommer_voice_5')!='') { ?>readonly<?php } ?>  name="custommer_voice_5" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_5'); ?></textarea>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                        <label>Đánh giá của khách</label>
-                            <p class="customSelect mt0">
-                            <select name="rating_2" id="rating_2">
-                            <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
-                            </select>
-                        </p>
-                        </div>
-                        <p class="inputBlock">     
-                            <label>Nhân viên chăm sóc</label>
-                            <input type="text" class="inputForm" readonly value="<?php the_field('emp_1'); ?>" />
-                        </p>
-                    </div>
-
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <div class="inputBlock">
-                            <label>Bác sĩ khám</label>    
-                            <p class="customSelect mt0">
-                                <select name="guy" id="guy">
-                                    <option value="">Bác sĩ khám</option>
-                                    <?php
-                                        $param=array(
-                                            'post_type'=>'users',
-                                            'order' => 'DESC',
-                                            'posts_per_page' => '-1',
-                                            'tax_query' => array(
-                                                'relation' => 'OR',
-                                                array(
-                                                'taxonomy' => 'userscat',
-                                                'field' => 'slug',
-                                                'terms' => 'doctor'
-                                                ),
-                                                array(
-                                                    'taxonomy' => 'userscat',
-                                                    'field' => 'slug',
-                                                    'terms' => 'nursing primary'
-                                                ),
-                                            )
-                                            );
-                                        $posts_array = get_posts( $param );
-                                        foreach ($posts_array as $sale ) {
-                                    ?>
-                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
-                                    <?php } ?>
-                                </select>
-                            </p>
-                        </div>
-                        <p class="inputBlock">     
-                            <label>Ngày Khám</label>
-                            <input type="text" class="inputForm" value="" />
-                        </p>
-                                        
-                    </div>
-
-                    <h3 class="h3_page">Tái khám khi có vấn đề</h3>
-                    <div class="inputBlock">
-                        <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
-                        <div id="datepicker"></div>
-                    </div>
-                    <p class="inputBlock">
-                        <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
-                    </p>
-                    <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
-
-                    <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                    <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
-                    <input type="hidden" name="status" value="cskh" >
-                    <input type="hidden" name="action" value="cskh_edit" >
-                    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
-                </form>
+                    <tr>
+                        <td><?php echo $serv['name'] ?></td>
+                        <td><?php if($serv['do']=='yes') { ?>Hoàn tất<?php } else { ?>Chưa hoàn tất<?php } ?></td>
+                        <td><?php echo $serv['end'] ?></td>
+                        <td></td>
+                        <td><a href="<?php echo APP_URL ?>care?id=<?php echo $serv['care']; ?>"><i class="fa fa-heart" aria-hidden="true"></i></a></td>
+                    </tr>
+                <?php } ?>
+                </table>
             </div>
+
             <div class="tabBox" id="tab7">
                 <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                     <?php 
@@ -657,8 +389,7 @@ include(APP_PATH."libs/head.php");
                         foreach ($query as $querys ) {
                             $ids = $querys->ID;
                         }
-                        
-                        ?>
+                    ?>
                         <div class="imgBox">
                             <h3 class="h3_page"><?php echo $serv['name']; ?></h3>
                             

@@ -504,6 +504,31 @@ function my_custom_care()
 }
 
 
+
+function get_keys_for_duplicate_values($my_arr, $clean = false) {
+  if ($clean) {
+      return array_unique($my_arr);
+  }
+
+  $dups = $new_arr = array();
+  foreach ($my_arr as $key => $val) {
+    if (!isset($new_arr[$val])) {
+       $new_arr[$val] = $key;
+    } else {
+      if (isset($dups[$val])) {
+         $dups[$val][] = $key;
+      } else {
+         $dups[$val] = array($key);
+         // Comment out the previous line, and uncomment the following line to
+         // include the initial key in the dups array.
+         // $dups[$val] = array($new_arr[$val], $key);
+      }
+    }
+  }
+  return $dups;
+}
+
+
 // Delete post
 function delete_post(){
   global $post;
