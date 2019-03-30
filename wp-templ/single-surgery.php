@@ -366,14 +366,25 @@ include(APP_PATH."libs/head.php");
                     </tr>
                 <?php 
                     foreach($listService as $serv) {
+                        $careId_arr = get_page_by_title( $serv['care'], '', 'care' );
+                        $careId = $careId_arr->ID;
+                        $listCare = get_field('listcare',$careId);
+                        $count_care = array();
+                        foreach($listCare as $care) {
+                            if($care['care']=='care') {
+                                $count_care[] = $care['care'];
+                            }
+                        }
+                        
+                        $numb_count_care = count($count_care);
                 ?>
 
                     <tr>
                         <td><?php echo $serv['name'] ?></td>
                         <td><?php if($serv['do']=='yes') { ?>Hoàn tất<?php } else { ?>Chưa hoàn tất<?php } ?></td>
                         <td><?php echo $serv['end'] ?></td>
-                        <td></td>
-                        <td><a href="<?php echo APP_URL ?>care?id=<?php echo $serv['care']; ?>"><i class="fa fa-heart" aria-hidden="true"></i></a></td>
+                        <td><?php echo $numb_count_care; ?></td>
+                        <td><a href="<?php echo APP_URL ?>detail-care?id=<?php echo $serv['care']; ?>"><i class="fa fa-heart" aria-hidden="true"></i></a></td>
                     </tr>
                 <?php } ?>
                 </table>

@@ -1,4 +1,4 @@
-<?php /* Template Name: Care */ ?>
+<?php /* Template Name: Detail Care */ ?>
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
 // include(APP_PATH."libs/checklog.php");
@@ -34,6 +34,7 @@ include(APP_PATH."libs/head.php");
         </div>
         <?php
             $id_sur = $_GET['idSurgery'];
+            $idCustomer = 'KLAIN_19';
             $wp_query = new WP_Query();
             $param = array (
             'posts_per_page' => '-1',
@@ -45,33 +46,7 @@ include(APP_PATH."libs/head.php");
             $wp_query->query($param);
             if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
         ?>
-        <h3 class="h3_page">Thông tin khách hàng</h3>
-        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-            <p class="inputBlock">
-            <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" readonly value="<?php the_field('fullname'); ?>" />
-            </p>
-            <p class="inputBlock">
-            <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php the_field('mobile'); ?>" />
-            </p>
-        </div>
-        <?php 
-            $listService = get_field('services_list');
-            $s=0;
-            foreach($listService as $serv) {
-            if($serv['end']!='') { $progress='<i class="fa fa-check-circle-o" aria-hidden="true"></i>'; } else { $progress='<i class="fa fa-stop-circle-o" aria-hidden="true"></i>'; }
-            $time_end = strtotime($serv['end']);
-            $search_key = array_search($time_end,$arr);
-            if($serv['care']=='') {
-        ?>
-        <h4 class="h4_page">
-            <em><?php echo $progress; ?></em>
-            <p><?php echo $serv['name']; ?></p>
-            <span><?php if($serv['end']===$listService[$s]['end']) { ?>
-            (chăm sóc chung)
-            <?php } ?></span>
-            <strong><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></h4>
-        <div class="servicesDone">
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+        <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Ngay sau phẫu thuật</h3>
                 <div class="inputBlock">
@@ -145,8 +120,33 @@ include(APP_PATH."libs/head.php");
                 <input type="hidden" name="action" value="edit_cshp" >
                 <input class="btnSubmit" type="submit" name="submit" value="Lưu">
             </form>
-        </div>
-        <?php } } ?>
+
+            <h3 class="h3_page">Vệ sinh sau 1 ngày</h3>
+            
+            <h3 class="h3_page">Tái khám sau 3 ngày</h3>
+
+            <h3 class="h3_page">Tái khám sau 5 ngày</h3>
+            
+            <h3 class="h3_page">Tái khám sau 10 ngày</h3>
+            
+            <h3 class="h3_page">Tái khám sau 1 tháng</h3>
+            
+            <h3 class="h3_page">Tái khám khi có vấn đề</h3>
+            <div class="inputBlock">
+                <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
+                <div id="datepicker"></div>
+            </div>
+            <p class="inputBlock">
+                <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
+            </p>
+            <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
+
+            <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+            <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
+            <input type="hidden" name="status" value="cskh" >
+            <input type="hidden" name="action" value="cskh_edit" >
+            <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+        
         <?php endwhile;endif; ?>
     </div>
 </div>
@@ -207,9 +207,20 @@ include(APP_PATH."libs/head.php");
 	    errHoverHide: true
 	  });
 
-    $('.h4_page').click(function() {
-        $('.servicesDone').slideUp(300);
-        $(this).next('.servicesDone').slideDown(300);
+    $('input[type=radio][name=advise]').change(function() {
+        if (this.value == 'yes') {
+            $('.blockAdvise').slideDown(200);
+        } else {
+            $('.blockAdvise').slideUp(200);    
+        }
+    });
+
+    $('input[type=radio][name=hasSur]').change(function() {
+        if (this.value == 'yes') {
+            $('.blockSur').slideDown(200);
+        } else {
+            $('.blockSur').slideUp(200);    
+        }
     });
 
     $('.callPopup').click(function() {

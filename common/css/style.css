@@ -969,3 +969,34 @@ textarea.inputForm {
     width: 25%;
     padding: 5px;
 }
+
+#care .h5_page {
+    margin-bottom: 20px;
+    display: block;
+}
+#care .customSelect::before {
+    top: 70%;
+}
+.h4_page em {
+    color: #36cf2a;
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.h4_page span, .h4_page p {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.h4_page span {
+    color: #36cf2a;
+}
+.servicesDone {
+    display: none;
+}
+
+.h4_page strong {
+    float: right;
+    font-size: 16px;
+}

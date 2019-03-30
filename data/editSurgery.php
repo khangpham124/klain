@@ -7,7 +7,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
     $pid = $_POST['idSurgery'];
 
-
     // TEMP EKIP
 
     if($_POST['action']=='edit_info') {
@@ -787,60 +786,72 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
 
 // CARE PART    
-    if($_POST['action']=='cskh_edit') {
+    if($_POST['action']=='edit_cshp') {
+        // INFO
         $status = $_POST['status'];
         $name_cskh = $_POST['name_cskh'];
+        $time_care = date('Ymd_Hi');
+        $careId = 'CARE_'.$time_care;
+        $time = $_POST['time'];
+        $time_end = $_POST['end'];
         
-        update_post_meta($pid,'status',$status);
+        $customer_mess = $_POST['customer_mess'];
+        $rating = $_POST['rating'];
+        $nurse_mess = $_POST['nurse_mess'];
+        $doctor = $_POST['doctor'];
 
-        $stt1 = $_POST['after_surgery'];
-        $message1 = $_POST['message_1'];
-        $voice1 = $_POST['custommer_voice_1'];
-        $rate1 = $_POST['rating_1'];
-        $rate1 = $_POST['rating_1'];
-        update_post_meta($pid,'status_1',$stt1);
-        update_post_meta($pid,'message_1',$message1);
-        update_post_meta($pid,'custommer_voice_1',$voice1);
-        update_post_meta($pid,'rating_1',$rate1);
-        
+        $numb_serv = $_POST['numb'];
 
-        $stt2 = $_POST['after_1day'];
-        $message2 = $_POST['message_2'];
-        $voice2 = $_POST['custommer_voice_2'];
-        $rate2 = $_POST['rating_2'];
-        update_post_meta($pid,'status_2',$stt2);
-        update_post_meta($pid,'message_2',$message2);
-        update_post_meta($pid,'custommer_voice_2',$voice2);
-        update_post_meta($pid,'rating_2',$rate2);
-        
+        // DEFINE
+        $after_day_1 = 86400 + $time_end;
+        $after_day_2 = 259200 + $time_end;
+        $after_day_3 = 432000 + $time_end;
+        $after_day_4 = 864000 + $time_end;
+        $after_day_5 = 2592000 + $time_end;
+        $after_day_6 = 7776000 + $time_end;
 
-        $stt3 = $_POST['after_5day'];
-        $message3 = $_POST['message_3'];
-        $voice3 = $_POST['custommer_voice_3'];
-        $rate3 = $_POST['rating_3'];
-        update_post_meta($pid,'status_3',$stt3);
-        update_post_meta($pid,'message_3',$message3);
-        update_post_meta($pid,'custommer_voice_3',$voice3);
-        update_post_meta($pid,'rating_3',$rate3);
+    
 
-        $stt4 = $_POST['after_10day'];
-        $message4 = $_POST['message_4'];
-        $voice4 = $_POST['custommer_voice_4'];
-        $rate4 = $_POST['rating_4'];
-        update_post_meta($pid,'status_4',$stt4);
-        update_post_meta($pid,'message_4',$message4);
-        update_post_meta($pid,'custommer_voice_4',$voice4);
-        update_post_meta($pid,'rating_4',$rate4);
+        if($time=="firsttime") {
+            update_post_meta($pid, 'services_list'.'_'.$numb_serv.'_'.'care' ,$careId, false);
+             $care_post = array(
+                'post_title'    => $careId,
+                'post_status'   => 'publish',
+                'post_type' => 'care',
+            );
+            $pid_care = wp_insert_post($care_post);
 
-        $stt5 = $_POST['after_1month'];
-        $message5 = $_POST['message_5'];
-        $voice5 = $_POST['custommer_voice_5'];
-        $rate5 = $_POST['rating_5'];
-        update_post_meta($pid,'status_5',$stt5);
-        update_post_meta($pid,'message_5',$message5);
-        update_post_meta($pid,'custommer_voice_5',$voice5);
-        update_post_meta($pid,'rating_5',$rate5);
-        header('Location:'.APP_URL.'surgery');
+            $listCare = array();
+            $listCare[] = array(
+                'expire' => $after_day_1,
+                'name' => $name_cskh,
+                'time' => $time_care,
+                'customer_mess' => $customer_mess,
+                'nurse_mess' => $nurse_mess,
+                'doctor' => $doctor,
+                'rating' => $rating,
+                'care' => 'care',
+            );
+            $listCare[] = array(
+                'expire' => $after_day_2,
+            );
+            $listCare[] = array(
+                'expire' => $after_day_3,
+            );
+            $listCare[] = array(
+                'expire' => $after_day_4,
+            );
+            $listCare[] = array(
+                'expire' => $after_day_5,
+            );
+            $listCare[] = array(
+                'expire' => $after_day_6,
+            );
+            update_field('listcare', $listCare, $pid_care);
+            update_post_meta($pid,'status',$status);
+        }
+        // TIME
+        header('Location:'.APP_URL);
     }
 
 ?>
