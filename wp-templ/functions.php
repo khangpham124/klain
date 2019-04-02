@@ -1,6 +1,6 @@
 <?php
 add_theme_support('post-thumbnails');
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 //login logo
 function custom_login_logo() {
         echo '<style type="text/css">h1 a { background: url('.get_bloginfo('template_directory').'/images/logo.png) 50% 50% no-repeat !important; }</style>';

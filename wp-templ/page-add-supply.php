@@ -1,6 +1,6 @@
 <?php /* Template Name: Add Supply */ ?>
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
 require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
 require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );

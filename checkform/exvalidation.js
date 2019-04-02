@@ -34,7 +34,7 @@
       customScrollAdjust : false,
       errPosition        : "absolute", // fixed
       errOpacity         : undefined,
-      errTipPos          : "right", // left
+      errTipPos          : "left", // left
       errTipCloseBtn     : true,
       errTipCloseLabel   : "×",
       errZIndex          : 500,

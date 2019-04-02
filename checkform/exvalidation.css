@@ -11,18 +11,17 @@
 .formError {
 	padding-bottom: 13px;
 	display: block;
-	left: 10% !important;
 }
 .fixed {
 	padding-bottom: 0px;
 }
 
 	.formError .formErrorClose {
-		display: none;
-		border: solid #f1e2e6 2px;
+		border: solid #252525 2px;
 		border-radius: 9px 9px 9px 9px;
 		-moz-border-radius: 9px 9px 9px 9px;
 		-webkit-border-radius: 9px 9px 9px 9px;
+		display: block;
 		width: 16px;
 		height: 16px;
 		position: absolute;
@@ -37,8 +36,8 @@
 		box-shadow: 1px -1px 3px #888;
 		-moz-box-shadow: 1px -1px 3px #888;
 		-webkit-box-shadow: 1px -1px 3px #888;
+    _z-index:2;
 	}
-	
 	.formError .formErrorClose:hover {
 		background: #666;
 	}
@@ -52,11 +51,16 @@
 		-webkit-border-radius: 3px;
 		padding: 6px 10px;
 		width: 180px;
-    	position:relative;
-		color: #000;
-		background: #f1e2e6;
+    position:relative;
+		color: #fff;
+		background: #252525;
+		font-family: "Lucida Sans Unicode","Lucida Grande",Arial,Helvetica,"ヒラギノ丸ゴ Pro W4",HiraMaruPro-W4,"ヒラギノ角ゴ Pro W3","メイリオ",Meiryo,Osaka,sans-serif;
 		font-size: 11px;
+		box-shadow: 0px 0px 6px #888;
+		-moz-box-shadow: 0px 0px 6px #888;
+		-webkit-box-shadow: 0px 0px 6px #888;
 		margin: 0 0 30px 0;
+    _z-index:1;
 	}
 	.fixed .formErrorContent {
 		margin-top: .5em;
@@ -98,9 +102,12 @@
 			margin: 0 auto;
 			display: block;
 			height: 1px;
-			background: #f1e2e6;
+			background: #252525;
 			line-height: 0px;
 			font-size: 0px;
+			box-shadow: 0px 2px 3px #888;
+			-moz-box-shadow: 0px 2px 3px #888;
+			-webkit-box-shadow: 0px 2px 3px #888;
 		}
 			.formError .formErrorArrowBottom div{
 				box-shadow: none;

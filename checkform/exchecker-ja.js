@@ -127,7 +127,7 @@
       }
     ],
     chkcheckbox: [
-      "選択してください",
+      "Vui lòng chọn",
       function(txt, t) {
         return $("input:checked",t).length>0;
       }

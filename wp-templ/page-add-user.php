@@ -1,6 +1,6 @@
 <?php /* Template Name: Add User */ ?>
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }

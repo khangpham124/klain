@@ -1,5 +1,5 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 // include(APP_PATH."libs/checklog.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
@@ -489,7 +489,9 @@ include(APP_PATH."libs/head.php");
                                 <?php if($stt!='batdau') { ?>
                                     <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
                                     <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                                    <?php if(($stt!='hauphau')&&($stt!='cshp')) { ?>
                                     <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                                    <?php } ?>
                                 <?php } ?>
                                 <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                                 </td>        

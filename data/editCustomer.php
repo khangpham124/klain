@@ -1,9 +1,6 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
-require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
 $idPost=$_POST['idPost'];
 if($_POST['action']=='edit') {
@@ -45,8 +42,8 @@ if($_POST['action']=='edit') {
         $custom_name = $customer_id.'_front';
         
         $attach_file = $custom_name.$ext1;
-        move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/customers/".$attach_file);
-        $linkFile_front="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/customers/".$attach_file;
+        move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
+        $linkFile_front="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
         update_post_meta($idPost, 'ic_front', $linkFile_front);
     }
     if($_FILES["file2"]["name"]!="") {
@@ -56,8 +53,8 @@ if($_POST['action']=='edit') {
         $custom_name = $customer_id.'_back';
         
         $attach_file = $custom_name.$ext1;
-        move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/customers/".$attach_file);
-        $linkFile_back="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/customers/".$attach_file;
+        move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
+        $linkFile_back="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
         update_post_meta($idPost, 'ic_back', $linkFile_back);
     }
 

@@ -1,5 +1,5 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
 require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
 require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
@@ -23,8 +23,8 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         if($_POST['upload']) {
             $s=0;
             $listService = get_field('services_list',$pid);
-            if (!file_exists($_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid))) {
-               mkdir($_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid), 0777, true);
+            if (!file_exists($_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid))) {
+               mkdir($_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid), 0777, true);
             }
             foreach($listService as $serv) {
                 
@@ -46,7 +46,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                             $img_name = $filename.'_'.$i.'_'.$s.'_before';
                             $attach_file = $img_name.$ext1;
                             
-                            move_uploaded_file($_FILES["file{$i}{$s}_before"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid).'/'.$attach_file);
+                            move_uploaded_file($_FILES["file{$i}{$s}_before"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid).'/'.$attach_file);
                             
                             $imgBefore .= $attach_file.',';
                         }
@@ -58,7 +58,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                             $img_name = $filename.'_'.$i.'_'.$s.'_after';
                             $attach_file = $img_name.$ext1;
                             
-                            move_uploaded_file($_FILES["file{$i}{$s}_after"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/surgery/".get_the_title($pid).'/'.$attach_file);
+                            move_uploaded_file($_FILES["file{$i}{$s}_after"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid).'/'.$attach_file);
                             
                             $imgAfter .= $attach_file.',';
                         }
@@ -96,8 +96,8 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             $custom_name = $customer_id.'_front';
             
             $attach_file = $custom_name.$ext1;
-            move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/customers/".$attach_file);
-            $linkFile_front="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/customers/".$attach_file;
+            move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
+            $linkFile_front="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
         }
         if($_FILES["file2"]["name"]!="") {
             $parts1=pathinfo($_FILES["file2"]["name"]);
@@ -106,8 +106,8 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             $custom_name = $customer_id.'_back';
             
             $attach_file = $custom_name.$ext1;
-            move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/projects/klain/data/uploads/customers/".$attach_file);
-            $linkFile_back="http://$_SERVER[HTTP_HOST]/projects/klain/data/uploads/customers/".$attach_file;
+            move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
+            $linkFile_back="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
         }
 
         update_post_meta($cusid_post, 'ic_front', $linkFile_front);

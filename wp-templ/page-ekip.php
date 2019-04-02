@@ -1,6 +1,6 @@
 <?php /* Template Name: Ekip Surgery */ ?>
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 // include(APP_PATH."libs/checklog.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
@@ -58,7 +58,7 @@ include(APP_PATH."libs/head.php");
             <?php endwhile;endif; ?>
                 
             <!-- EKIP XU LY -->
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="ekipForm">
             <h4 class="h4_page">Dịch vụ yêu cầu</h4>
                 <?php
                         $listService = get_field('services_list',$id_sur);
@@ -143,7 +143,11 @@ include(APP_PATH."libs/head.php");
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                 ?>
-                    <input type="checkbox" name="check02[]" value="<?php the_field('fullname') ?>" id="mo_<?php echo $post->ID ?>"><label for="mo_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                    <label class="checkStyle">
+                        <?php the_field('fullname'); ?>
+                        <input type="checkbox" name="check02[]" value="<?php the_field('fullname') ?>" id="mo_<?php echo $post->ID ?>">
+                        <span class="checkmark"></span>
+                    </label>   
                 <?php endwhile;endif; ?>
             </p>
             <?php wp_reset_query(); ?>
@@ -177,7 +181,11 @@ include(APP_PATH."libs/head.php");
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                 ?>
-                    <input type="checkbox" name="check03[]" value="<?php the_field('fullname') ?>" id="pm_<?php echo $post->ID ?>"><label for="pm_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                    <label class="checkStyle">
+                        <?php the_field('fullname'); ?>
+                        <input type="checkbox" name="check03[]" value="<?php the_field('fullname') ?>" id="pm_<?php echo $post->ID ?>">
+                        <span class="checkmark"></span>
+                    </label>
                 <?php endwhile;endif; ?>
             </p>
             </div>
@@ -202,11 +210,15 @@ include(APP_PATH."libs/head.php");
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                 ?>
-                    <input type="checkbox" name="check04[]" value="<?php the_field('fullname') ?>" id="ktv_<?php echo $post->ID ?>"><label for="ktv_<?php echo $post->ID ?>"><?php the_field('fullname') ?></label><br>
+                    <label class="checkStyle">
+                        <?php the_field('fullname'); ?>
+                        <input type="checkbox" name="check04[]" value="<?php the_field('fullname') ?>" id="ktv_<?php echo $post->ID ?>">
+                        <span class="checkmark"></span>
+                    </label>
                 <?php endwhile;endif; ?>
             </p>
             <h3 class="h3_page">Phòng mổ</h3>
-            <p class="inputBlock customSelect">
+            <p class="inputBlock customSelect mb30">
             <select name="room" id="room">
                     <option value="">Lựa chọn phòng mổ</option>
                     <option value="room_1">Phòng 1</option>
@@ -252,7 +264,8 @@ include(APP_PATH."libs/head.php");
             <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
             <input type="hidden" name="action" value="ekip_create" >
             <input type="hidden" name="status" value="batdau" >
-            <a href="javascript:void(0)" class="btnSubmit callPopup">Bắt đầu</a>
+            <!-- <a href="javascript:void(0)" class="btnSubmit callPopup">Bắt đầu</a> -->
+            <input class="btnSubmit" type="submit" name="submit" value="Bắt đầu">
             <div class="popUp">
                 <p class="txtNote">Vui lòng kiểm tra lại thông tin chính xác,vì thông tin khi nhập vào sẽ ko thể thay đổi được nữa</p>
                 <div class="flexBox flexBox--arround flexBox__form--2">
@@ -276,11 +289,12 @@ include(APP_PATH."libs/head.php");
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
 <script type="text/javascript">
 	$(function(){
-	  $("#addServices").exValidation({
+	  $("#ekipForm").exValidation({
 	    rules: {
             doctor1: "chkselect",
             ktv:"chkselect",
             room:"chkselect",
+            input:"chkselect",
 	    },
 	    stepValidation: true,
 	    scrollToErr: true,
@@ -288,20 +302,20 @@ include(APP_PATH."libs/head.php");
 	  });
     });
 
-    $('.callPopup').click(function() {
-        $('.overlay').fadeIn(200);
-        $('.popUp').fadeIn(200);
-    });
+    // $('.callPopup').click(function() {
+    //     $('.overlay').fadeIn(200);
+    //     $('.popUp').fadeIn(200);
+    // });
 
-    $('.overlay').click(function() {
-        $(this).fadeOut(200);
-        $('.popUp').fadeOut(200);
-    });
+    // $('.overlay').click(function() {
+    //     $(this).fadeOut(200);
+    //     $('.popUp').fadeOut(200);
+    // });
 
-    $('.cancel').click(function() {
-        $('.overlay').fadeOut(200);
-        $('.popUp').fadeOut(200);
-    });
+    // $('.cancel').click(function() {
+    //     $('.overlay').fadeOut(200);
+    //     $('.popUp').fadeOut(200);
+    // });
 </script>
 <div class="overlay"></div>
 </body>

@@ -1,0 +1,48 @@
+# BEGIN iThemes Security - Do not modify or remove this line
+# iThemes Security Config Details: 2
+	# Ban Hosts - Security > Settings > Banned Users
+	SetEnvIF REMOTE_ADDR "^5\.101\.40\.93$" DenyAccess
+	SetEnvIF X-FORWARDED-FOR "^5\.101\.40\.93$" DenyAccess
+	SetEnvIF X-CLUSTER-CLIENT-IP "^5\.101\.40\.93$" DenyAccess
+
+	SetEnvIF REMOTE_ADDR "^37\.115\.188\.53$" DenyAccess
+	SetEnvIF X-FORWARDED-FOR "^37\.115\.188\.53$" DenyAccess
+	SetEnvIF X-CLUSTER-CLIENT-IP "^37\.115\.188\.53$" DenyAccess
+
+	SetEnvIF REMOTE_ADDR "^185\.222\.211\.40$" DenyAccess
+	SetEnvIF X-FORWARDED-FOR "^185\.222\.211\.40$" DenyAccess
+	SetEnvIF X-CLUSTER-CLIENT-IP "^185\.222\.211\.40$" DenyAccess
+
+	<IfModule mod_authz_core.c>
+		<RequireAll>
+			Require all granted
+			Require not env DenyAccess
+			Require not ip 5.101.40.93
+			Require not ip 37.115.188.53
+			Require not ip 185.222.211.40
+		</RequireAll>
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Allow from all
+		Deny from env=DenyAccess
+		Deny from 5.101.40.93
+		Deny from 37.115.188.53
+		Deny from 185.222.211.40
+	</IfModule>
+# END iThemes Security - Do not modify or remove this line
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+RewriteBase /
+
+# END WordPress

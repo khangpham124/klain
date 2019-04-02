@@ -1,6 +1,6 @@
 <?php /* Template Name: Login */ ?>
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/projects/klain/app_config.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
@@ -77,15 +77,15 @@ include(APP_PATH."libs/head.php");
                             ?>
                             <?php if($image_front!='') { ?>
                             <p class="inputBlock"><img src="<?php echo $image_front; ?>"></p>
-                            <?php } else { ?>
-                            <input type="file" name="file1" id="file1" aria-label="Mặt trước chứng minh">
                             <?php } ?>
+                            <input type="file" name="file1" id="file1" aria-label="Mặt trước chứng minh">
+                            
 
                             <?php if($image_back!='') { ?>
                             <p class="inputBlock"><img src="<?php echo $image_back; ?>"></p>
-                            <?php } else { ?>
-                                <input type="file" name="file2" id="file2" aria-label="Mặt sau chứng minh">
                             <?php } ?>
+                            <input type="file" name="file2" id="file2" aria-label="Mặt sau chứng minh">
+                            
                         </div>
 
                         <h4 class="h4_page">Lịch sử Phẫu thuật</h4>
