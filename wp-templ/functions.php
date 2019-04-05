@@ -529,24 +529,6 @@ function get_keys_for_duplicate_values($my_arr, $clean = false) {
 }
 
 
-// Delete post
-function delete_post(){
-  global $post;
-  $deletepostlink= add_query_arg( 'frontend', 'true', get_delete_post_link( get_the_ID() ) );
-  // if (current_user_can('edit_post', $post->ID)) {
-      echo       '<span><a onclick="return confirm(\'Xoá dịch vụ?\')" href="'.$deletepostlink.'"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>';
-  // }
-}
-
-//Redirect after delete post in frontend
-add_action('trashed_post','trash_redirection_frontend');
-function trash_redirection_frontend($post_id) {
-  if ( filter_input( INPUT_GET, 'frontend', FILTER_VALIDATE_BOOLEAN ) ) {
-      wp_redirect( APP_URL.'/services' );
-      exit;
-  }
-}
-
 
 
 

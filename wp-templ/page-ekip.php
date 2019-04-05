@@ -69,7 +69,7 @@ include(APP_PATH."libs/head.php");
                     $u++;
                     ?>
                     <p class="inputBlock <?php if($serv['do']=='yes') { ?>lockCheck<?php } ?>">
-                    <input type="checkbox" <?php if($serv['do']=='yes') { ?>checked<?php } ?> id="do_<?php echo $u; ?>" name="startSur[]" value="<?php echo $serv['name']; ?>"><label for="do_<?php echo $u; ?>"><?php echo $serv['name']; ?><?php if($serv['do']=='yes') { ?>đã xong<?php } ?></label>
+                    <input type="checkbox" <?php if($serv['do']=='yes') { ?>checked<?php } ?> id="do_<?php echo $u; ?>"  <?php if($serv['do']!='yes') { ?>name="startSur[]"<?php } ?> value="<?php echo $serv['name']; ?>"><label for="do_<?php echo $u; ?>"><?php echo $serv['name']; ?><?php if($serv['do']=='yes') { ?>đã xong<?php } ?></label>
                     </p>
             <?php }  ?>
 
@@ -217,16 +217,6 @@ include(APP_PATH."libs/head.php");
                     </label>
                 <?php endwhile;endif; ?>
             </p>
-            <!-- <h3 class="h3_page">Phòng mổ</h3>
-            <p class="inputBlock customSelect mb30">
-            <select name="room" id="room">
-                    <option value="">Lựa chọn phòng mổ</option>
-                    <option value="room_1">Phòng 1</option>
-                    <option value="room_2">Phòng 2</option>
-                    <option value="room_3">Phòng 3</option>
-                    <option value="room_4">Phòng 4</option>
-            </select>
-            </p> -->
 
             <h3 class="h3_page">Nhập thông tin</h3>
             <p class="inputBlock customSelect">

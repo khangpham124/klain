@@ -748,12 +748,12 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             $cookies_do .= $key.',';
         }
         setcookie('did_cookies', $cookies_do, time() + (86400 * 30), "/");
+        setcookie('sur_cookies', $pid, time() + (86400 * 30), "/");
         // UPDATE SERVICES
         
         header('Location:'.APP_URL);
     }
-
-
+    
 // AFTER SURGERY
     if($_POST['action']=='ekip_report') {
         $list_supplies = get_posts(array(
@@ -786,22 +786,22 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         }
         $report = $_POST['report'];
         $report .= $listSupp;
-        
         $date_end = date('d-m-Y');
-
 
         $cookies_do = explode(',',$_COOKIE['did_cookies']);
         
+        var_dump($cookies_do);
         foreach($cookies_do as $did_k) {
-            update_post_meta($pid, 'services_list'.'_'.$did_k.'_'.'report' ,$report, false);
-            update_post_meta($pid, 'services_list'.'_'.$did_k.'_'.'end' ,$date_end, false);
+            update_post_meta($pid, 'services_list_'.$did_k.'_'.'report' ,$report, false);
+            update_post_meta($pid, 'services_list_'.$did_k.'_'.'end' ,$date_end, false);
         }
 
         $status = $_POST['status'];
         update_post_meta($pid,'status',$status);
         setcookie('did_cookies','', time() + 86400, "/");
+        setcookie('sur_cookies','', time() + 86400, "/");
 
-        header('Location:'.APP_URL);
+        // header('Location:'.APP_URL);
     }
 
 

@@ -93,7 +93,7 @@ include(APP_PATH."libs/head.php");
                     <td><?php echo $name_user; ?></td>
                     <td><?php the_field('mobile') ?></td>
                     <td class="last">
-                    <?php echo delete_post(); ?>    
+                    <span><a onclick="return confirm(\'Xoá dịch vụ?\')" href="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=users"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>
                     <a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                 </tr>
                 <?php endwhile;endif;?>

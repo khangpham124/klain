@@ -5,7 +5,7 @@ if(!$_COOKIE['login_cookies']) {
 	header('Location:'.APP_URL.'login');
 }
 if($_COOKIE['role_cookies']=='room') {
-    echo '<meta http-equiv="refresh" content="10" >';
+    // echo '<meta http-equiv="refresh" content="10" >';
 }
 include(APP_PATH."libs/head.php"); 
 ?>
@@ -281,6 +281,53 @@ include(APP_PATH."libs/head.php");
                             </tbody>
                             </table>
                     <?php } ?>
+
+                    <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='room')) { ?>            
+                        <h2 class="h2_page">Danh sách ca phẫu thuật đã hoàn thành</h2>
+                        <table class="tblPage">
+                            <thead>
+                            <tr>
+                                <td>Ngày phẫu thuật</td>
+                                <td>Ca</td>
+                                <td>Họ tên</td>
+                                <td>Chi tiết</td>
+                            </tr>
+                        </thead>
+                        <?php
+                            $wp_query = new WP_Query();
+                            $param=array(
+                                'post_type'=>'surgery',
+                                'order' => 'DESC',
+                                'posts_per_page' => '-1',
+                                'meta_query'	=> array(
+                                    'relation'		=> 'OR',
+                                    array(
+                                        'key'	  	=> 'status',
+                                        'value'	  	=> 'hauphau',
+                                        'compare' 	=> '=',
+                                    ),
+                                    )
+                            );
+                            $wp_query->query($param);
+                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                            $surger_cf = get_field('services_list');
+                            $surger_remain = array();
+                            for($i=0; $i < count($surger_cf); $i++){
+                                if($surger_cf[$i]['do']!='yes') {
+                                    $surger_remain[]=$surger_cf[$i]['name'];
+                                }
+                            }
+                            $remin_s = count($surger_remain);
+                        ?>
+                        <tr>
+                            <td><?php the_field('date'); ?></td>
+                            <td><?php the_title(); ?></td>
+                            <td><?php the_field('fullname'); ?></td>
+                            <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
+                        </tr>
+                        <?php endwhile;endif; ?>
+                        </table>
+                    <?php } ?>    
                     
                     <?php  if($_COOKIE['role_cookies']!='customer-care') { ?>
                     <h2 class="h2_page">Danh sách khách hàng trong ngày</h2> 
@@ -539,7 +586,7 @@ include(APP_PATH."libs/head.php");
                                                 }
                                                 $remin_s = count($surger_remain);
                                             ?>
-                                            <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=<?php if($remin_s==0) { ?>hauphau<?php } else { ?>phauthuat<?php } ?>" title="Hoàn tất"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                            <a href="javascript:void(0)" class="callPopup" data-id=<?php echo $post->ID; ?>><i class="fa fa-check-circle" aria-hidden="true"></i></a>
                                             <?php } ?>
                                             <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                         <?php } else { ?>
@@ -557,7 +604,7 @@ include(APP_PATH."libs/head.php");
                                             }
                                         }
                                         $remin_s = count($surger_remain);
-                                        if(($remin_s==0)&&($stt=='phauthuat')) { 
+                                        if(($remin_s==0)&&($stt=='phauthuat')) {
                                         ?>
                                             <a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
                                         <?php } else { ?>
@@ -587,6 +634,13 @@ include(APP_PATH."libs/head.php");
 </div>    
 <!--/wrapper-->
 <!--===================================================-->
+
+
+<div class="popUp">
+    <?php include(APP_PATH."data/popReport.php"); ?>
+</div>
+<div class="overlay"></div>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
   $(function() {
@@ -609,6 +663,19 @@ include(APP_PATH."libs/head.php");
     $( "#tags" ).autocomplete({
       source: availableTags
     });
+
+    $('.callPopup').click(function() {
+        $('.overlay').fadeIn(200);
+        $('.popUp').fadeIn(200);
+        var idSur = $(this).attr('data-id');
+        $('#idSurgery').val(idSur);
+    });
+
+    $('.overlay').click(function() {
+        $(this).fadeOut(200);
+        $('.popUp').fadeOut(200);
+    });
+
   });
 </script>
 
