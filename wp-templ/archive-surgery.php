@@ -21,7 +21,7 @@ include(APP_PATH."libs/head.php");
 <?php include(APP_PATH."libs/header.php"); ?>
 <!--/Header-->
 
-
+<div class="textBox">
 <div class="blockPage blockPage--full maxW">
             <h2 class="h2_page">Danh sách hồ sơ khách hàng</h2>
             <div class="buttonBar">
@@ -55,18 +55,28 @@ include(APP_PATH."libs/head.php");
             <tbody>
                 <?php
                     $wp_query = new WP_Query();
-                    $param=array(
-                    'post_type'=>'surgery',
-                    'order' => 'DESC',
-                    'posts_per_page' => '20',
-                    'meta_query'	=> array(
-                        array(
-                            'key'	  	=> 'status',
-                            'value'	  	=> 'huy',
-                            'compare' 	=> '!=',
-                        ),
-                        )
-                    );    
+                    $stt = $_GET['stt'];
+                    if($stt=='') {
+                        $param=array(
+                        'post_type'=>'surgery',
+                        'order' => 'DESC',
+                        'posts_per_page' => '20',
+                        );
+                    } else {
+                        $param=array(
+                            'post_type'=>'surgery',
+                            'order' => 'DESC',
+                            'posts_per_page' => '20',
+                            'meta_query'	=> array(
+                                array(
+                                    'key'	  	=> 'status',
+                                    'value'	  	=> $stt,
+                                    'compare' 	=> '=',
+                                ),
+                                )
+                        );
+                    }
+                        
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                     $stt = get_field('status');
@@ -181,7 +191,7 @@ include(APP_PATH."libs/head.php");
         </table>
         <?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?>
     </div>
-
+</div>
 
 <!--Footer-->
 <?php include(APP_PATH."libs/footer.php"); ?>
@@ -190,6 +200,19 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 </div>
+
+<script>
+    $(function(){
+      // bind change event to select
+      $('#selectBox').on('change', function () {
+          var url = $(this).val(); // get selected value
+          if (url) { // require a URL
+              window.location = url; // redirect
+          }
+          return false;
+      });
+    });
+</script>
 
 </body>
 </html>	

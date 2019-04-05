@@ -67,67 +67,27 @@ include(APP_PATH."libs/head.php");
                     <input type="radio" class="radioForm" id="rad2" name="advise" value="no" /><label class="labelReg" for="rad2">Chưa được tư vấn</label>
                 </p>
                 <div class="blockAdvise">
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <p class="inputBlock customSelect">
-                            <select name="adviser" id="adviser">
-                                <option value="">Lựa chọn tư vấn viên</option>
-                                <?php
-                                    $wp_query = new WP_Query();
-                                    $param=array(
-                                    'post_type'=>'users',
-                                    'order' => 'DESC',
-                                    'posts_per_page' => '-1',
-                                    'tax_query' => array(
-                                        'relation' => 'OR',
-                                        array(
-                                        'taxonomy' => 'userscat',
-                                        'field' => 'slug',
-                                        'terms' => 'sale'
-                                        ),
-                                        array(
-                                            'taxonomy' => 'userscat',
-                                            'field' => 'slug',
-                                            'terms' => 'adviser'
-                                        ),
-                                    )
-                                    );
-                                    $wp_query->query($param);
-                                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                                ?>
-                                    <option value="<?php the_field('fullname') ?>"><?php the_field('fullname') ?></option>
-                                <?php endwhile;endif; ?>
-                            </select>
-                        </p>
-                        <p class="inputBlock customSelect">
-                            <select name="channel">
-                                <option value="">Lựa chọn kệnh tư vấn</option>
-                                <option value="facebook">Qua facebook</option>
-                                <option value="mobile">Qua Điện thoại</option>
-                                <option value="tmv">Tại TMV</option>
-                            </select>
-                        </p>  
-                    </div>
-                    <p class="inputBlock blockFacebook">
-                        <input type="text" class="inputForm" name="facebook" id="facebook" placeholder="Facebook của khách" />
-                    </p>
-                    <h4 class="h4_page h4_page--services">Tư vấn mới nhất</h4>
+                    <h4 class="h4_page h4_page--services">Lịch sử tư vấn</h4>
                     <div class="adviserBox">
-                        <?php
-                        $rows = get_field('timeline',$cusId);
-                        $lastCount = count($rows);
-                        $last_adv = $lastCount - 1;
-                        $first_row = $rows[$last_adv];
-                        ?>
-                        <p class="date"><?php echo $first_row['date' ] ?></p>
-                        <div class="content">Nội dung:<?php echo $first_row['content' ] ?></div>
-                        <p class="adviser">Tư vấn viên:<?php echo $first_row['adviser' ] ?></p>
+                        <ul class="hisAdivise">
+                            <?php
+                                if(get_field('timeline',$cusId)): 
+                                while(has_sub_field('timeline',$cusId)):
+                                ?>
+                            <li>
+                                <p class="date"><?php echo get_sub_field('date'); ?></p>
+                                <div><?php echo get_sub_field('content'); ?>
+                                <p class="adviser">Nhân viên tư vấn: <?php echo get_sub_field('adviser'); ?></p>
+                                </div>
+                            </li>
+                            <?php endwhile;endif; ?>
+                        </ul>
                     </div>
-                    
-                    <textarea class="inputForm" name="advise_f" placeholder=""></textarea>
                 </div>
                 <!-- phuong thu tu van -->
 
                 <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
+                <div id="listServices">
                     <?php
                         $args=array(
                             'child_of' => 0,
@@ -160,7 +120,7 @@ include(APP_PATH."libs/head.php");
                         $wp_query->query($param);
                         if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                     ?>
-                    <div class="flexBox flexBox--between flexBox--center flexBox__form flexBox__form--2" id="listServices">
+                    <div class="flexBox flexBox--between flexBox--center flexBox__form flexBox__form--2">
                         <label class="checkStyle">
                             <?php the_title(); ?>
                             <input type="checkbox" class="servName" data-price="<?php echo get_field('price'); ?>" name="services[]" value="<?php the_title(); ?>">
@@ -172,6 +132,7 @@ include(APP_PATH."libs/head.php");
                     </div>
                     <?php endwhile;endif; ?>
                     <?php endforeach; ?>
+                </div>    
                     <h4 class="h4_page h4_page--services">Giảm giá</h4>
                     <p class="inputBlock inputNumber">
                         <input type="text" class="inputForm" name="sale_discount" id="discount" value="0" />
@@ -297,8 +258,8 @@ include(APP_PATH."libs/head.php");
                     <?php } ?>
 
                     <h4 class="h4_page">Tư vấn của người tư vấn</h4>
-                    <textarea class="inputForm" name="doctor_advise" id="doctor_advise"></textarea>
-
+                    <textarea class="inputForm" name="advise_f" placeholder="Dành cho tư vấn viên"></textarea>
+                    <textarea class="inputForm" name="doctor_advise" id="doctor_advise" placeholder="Dành cho bác sĩ"></textarea>
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='adviser')||($_COOKIE['role_cookies']=='sale')) { ?>
                     <h4 class="h4_page">Ý kiến của khách hàng</h4>
                     <textarea class="inputForm" name="cus_note" id="cus_note"></textarea>
@@ -307,6 +268,7 @@ include(APP_PATH."libs/head.php");
 
                 <input type="hidden" name="action" value="create" >
                 <input type="hidden" name="status" value="tvv" >
+                <input type="hidden" name="adviser" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                 <!-- <input type="hidden" name="numb_image" id="numb_image" value="" > -->
                 <div class="flexBox flexBox--arround flexBox__form--2">
                     <input class="btnSubmit" type="submit" name="submit" value="Tạo">
@@ -368,8 +330,7 @@ include(APP_PATH."libs/head.php");
             fullname: "chkrequired",
             address: "chkrequired",
             mobile: "chkrequired",
-            doctor_advise: "chkrequired",
-            cus_note: "chkrequired",
+            // cus_note: "chkrequired",
             datechose: "chkrequired",
             listServices:"chkcheckbox"
 	    },
@@ -422,12 +383,12 @@ include(APP_PATH."libs/head.php");
     });
     
 
-    $('#getData').click(function() {
-        var cus_id = $('#cus_id').text();
-        var cus_name = $('#cus_name').text();
-        var cus_mobile = $('#cus_mobile').text();
-        var cus_add = $('#cus_add').text();
-        var cus_idcard = $('#cus_idcard').text();
+    $('.getData').click(function() {
+        var cus_id = $(this).parent().parent().find('.cus_id').text();
+        var cus_name = $(this).parent().parent().find('.cus_name').text();
+        var cus_mobile = $(this).parent().parent().find('.cus_mobile').text();
+        var cus_add = $(this).parent().parent().find('.cus_add').text();
+        var cus_idcard = $(this).parent().parent().find('.cus_idcard').text();
         $("#cusid_post").val(cus_id);
         $("#fullname").val(cus_name);
         $("#mobile").val(cus_mobile);

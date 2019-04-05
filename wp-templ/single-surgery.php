@@ -57,40 +57,50 @@ include(APP_PATH."libs/head.php");
                 </div>    
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Thông tin tư vấn</h3>
+                <?php
+                    $rows = get_field('timeline',get_field('cusid_post'));
+                    $lastCount = count($rows);
+                    $last_adv = $lastCount - 1;
+                    $first_row = $rows[$last_adv];
+                ?>
+                <h3 class="h5_page">Nhân viên tư vấn</h3>
                 <p class="inputBlock">
-                    <input type="text" class="inputForm" readonly value="<?php if(get_field('advise')=='yes') {echo "Đã được tư vấn";} else {echo "Chưa được tư vấn";} ?>">
+                    <input type="text" class="inputForm" readonly value="<?php echo get_field('adviser'); ?>">
                 </p>
-                <div class="blockAdvise">
-                    <h3 class="h5_page">Nhân viên tư vấn</h3>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                <?php if(get_field('channel')!="") { ?>
                     <p class="inputBlock">
-                        <input type="text" class="inputForm" readonly value="<?php echo get_field('adviser'); ?>">
-                    </p>
-                    <?php if(get_field('channel')!="") { ?>
-                        <p class="inputBlock">
-                            <input type="text" class="inputForm" readonly value="<?php echo get_field('channel'); ?>">
-                        </p>  
-                    <?php } ?>
-                </div>
-                    <textarea class="inputForm" name="advise_f" readonly placeholder=""><?php echo $cusId; ?></textarea>
-                </div>
+                        <input type="text" class="inputForm" readonly value="<?php echo get_field('channel'); ?>">
+                    </p>  
+                <?php } ?>
+
+                <h3 class="h5_page mt30">Tư vấn của tư vấn viên</h3>
+                <textarea class="inputForm mb30" name="advise_f" readonly placeholder=""><?php echo $first_row['content']; ?></textarea>
+                <h3 class="h5_page">Tư vấn của Bác sĩ</h3>
+                <?php if(get_field('doctor_advise')!='') { ?>
+                <div class="mb30"><?php echo get_field('doctor_advise'); ?></div>
+                <?php } else { ?>
+                <textarea class="inputForm" name="doctor_advise" <?php if(($_COOKIE['role_cookies']!='doctor')&&($_COOKIE['role_cookies']!='bsk')) { ?>readonly<?php } ?>  id="doctor_advise"></textarea>
+                <?php } ?>
+
                 <!-- phuong thu tu van -->
 
                 <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
-                    <?php
-                        $listService = get_field('services_list');
-                    ?>
-                    <?php 
-                    foreach($listService as $serv) {
-                        echo '<p>'.$serv['name'].'</p>';
-                    }
-                    ?>
-                    <?php if(($_COOKIE['role_cookies']!='doctor')&&($_COOKIE['role_cookies']!='room')) { ?>
-                    <h4 class="h4_page h4_page--services">Giảm giá</h4>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" class="inputForm" readonly value="<?php echo number_format(get_field('sale_discount')); ?>">
-                    </p>
-                    <?php } ?>
+                    <div class="mb30">
+                        <?php
+                            $listService = get_field('services_list');
+                        ?>
+                        <?php 
+                        foreach($listService as $serv) {
+                            echo '<p>'.$serv['name'].'</p>';
+                        }
+                        ?>
+                        <?php if(($_COOKIE['role_cookies']!='doctor')&&($_COOKIE['role_cookies']!='room')) { ?>
+                        <h4 class="h4_page h4_page--services">Giảm giá</h4>
+                        <p class="inputBlock inputNumber">
+                            <input type="text" class="inputForm" readonly value="<?php echo number_format(get_field('sale_discount')); ?>">
+                        </p>
+                        <?php } ?>
+                    </div>
                 <!-- ADD SERVICES -->
 
                 <!-- DATE -->
@@ -116,21 +126,18 @@ include(APP_PATH."libs/head.php");
                 <h4 class="h4_page">Mong muốn của khách hàng</h4>
                 <div><?php echo get_field('target'); ?></div>
 
-                
-                <h4 class="h4_page">Tư vấn</h4>
-                <div>
-                <textarea class="inputForm" name="doctor_advise" id="doctor_advise"><?php echo get_field('doctor_advise'); ?></textarea>
-                </div>
 
                 <h4 class="h4_page">Ý kiến của khách hàng</h4>
                 <div><?php echo get_field('cus_note'); ?></div>
 
                     <input type="hidden" name="action" value="edit_info" >
                     <input type="hidden" name="name_edit" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                    <input type="hidden" name="status" value="tvv" >
                     <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
                     <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
-                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>" class="btnSubmit <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In</a>
+                    <?php if(($_COOKIE['role_cookies']=='doctor')||($_COOKIE['role_cookies']=='bsk')) { ?>
+                        <input type="hidden" name="status" value="tvv" >        
+                    <?php } ?>
+                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=tvv" class="btnSubmit">In</a>
                 </form>
             </div>
                 <!-- het tabl1 -->
@@ -250,6 +257,7 @@ include(APP_PATH."libs/head.php");
                             <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo number_format(get_field('remain')); ?><?php } ?>" /></p></td>
                         </tr>
                     </table>
+                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" class="btnSubmit">In</a>
                 </div>
 
 

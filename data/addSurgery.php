@@ -137,8 +137,6 @@ include(APP_PATH."admin/wp-load.php");
         $cus_note = $_POST['cus_note'];
 
 
-        
-
 
         $total_hide = $_POST['total_hide']; 
         $discount = str_replace(array(',','.'),array('',''),$_POST['sale_discount']);

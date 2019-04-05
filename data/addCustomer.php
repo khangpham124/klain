@@ -13,7 +13,8 @@ include(APP_PATH."admin/wp-load.php");
         $day = $_POST['day'];
         $month = $_POST['month'];
         $year = $_POST['year'];
-        $birth = $day.'-'.$month.'-'.$day;
+        $birth = $day.'-'.$month.'-'.$year;
+        $channel = $_POST['channel'];
 
         $date_adv = date('d-m-Y');
         
@@ -36,6 +37,7 @@ include(APP_PATH."admin/wp-load.php");
         $timeline[] = array(
             'date' => $date_adv,
             'content' => $content,
+            'channel' => $channel,
             'adviser' => $creator,
         );
         update_field('timeline', $timeline, $pid);

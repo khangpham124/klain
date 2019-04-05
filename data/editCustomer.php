@@ -16,15 +16,22 @@ if($_POST['action']=='edit') {
         $date_adv = date('d-m-Y');
         $adviser = $_COOKIE['name_cookies'];
         $content = $_POST['advise_f'];
+        $channel = $_POST['channel'];
 
         $timeline_now[] = array(
             'date' => $date_adv,
             'content' => $content,
+            'channel' => $channel,
             'adviser' => $adviser,
         );
         update_field('timeline', $timeline_now, $idPost);
     }
     
+    $day = $_POST['day'];
+    $month = $_POST['month'];
+    $year = $_POST['year'];
+    $birth = $day.'-'.$month.'-'.$year;
+
     $cus_update = array(
         'post_title'    => $fullname,
         'ID'         => $idPost,
@@ -33,6 +40,7 @@ if($_POST['action']=='edit') {
     update_post_meta($idPost,'idcard',$idcard);
     update_post_meta($idPost,'mobile',$mobile);
     update_post_meta($idPost,'address',$address);
+    update_post_meta($idPost, 'birthday', $birth);
 
     $customer_id = get_field('idcustomer',$idPost);
     if($_FILES["file1"]["name"]!="") {

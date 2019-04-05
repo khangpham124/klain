@@ -59,12 +59,10 @@ if($form=='tvv') {
 
 <h3 class="h3_page">Thông tin dịch vụ thực hiện</h3>
 <?php
-$listService = get_field('services',$idSurgery);
-$listServices = explode('<br>',$listService);
-?>
-<?php foreach($listServices as $serv) {
-echo $serv.'<br>';
-}    
+$listService = get_field('services_list',$idSurgery);
+foreach($listService as $serv) {
+    echo '<p>'.$serv['name'].'</p>';
+}   
 ?>
 <h4 class="h4_page h4_page--services">Giảm giá</h4>
 <p class="inputBlock inputNumber">

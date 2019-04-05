@@ -46,7 +46,7 @@ include(APP_PATH."libs/head.php");
                     <input type="number" class="inputForm" name="mobile" id="mobile" placeholder="Điện thoại" />
                     </p>
                 </div>
-
+            <h4 class="h4_page">Ngày tháng năm sinh</h4>
             <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                         <p class="inputBlock customSelect">
                             <select id="day" name="day">
@@ -85,6 +85,14 @@ include(APP_PATH."libs/head.php");
                 </div>
 
                 <h3 class="h3_page">Tư vấn cho khách hàng</h3>
+                <p class="inputBlock customSelect">
+                    <select name="channel">
+                        <option value="">Lựa chọn kệnh tư vấn</option>
+                        <option value="facebook">Qua facebook</option>
+                        <option value="mobile">Qua Điện thoại</option>
+                        <option value="tmv">Tại TMV</option>
+                    </select>
+                </p>
                 <textarea class="inputForm" name="advise_f" placeholder=""></textarea>
 
                 <input type="hidden" name="action" value="create" >

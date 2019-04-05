@@ -480,6 +480,9 @@ include(APP_PATH."libs/head.php");
                                 <?php if($stt=='batdau') { ?><i class="fa fa-lock" aria-hidden="true"></i><?php } ?>
                                 <span class="noteColor note--<?php echo $stt ?>"></span>
                                 <em><?php echo $stt_text ?></em>
+                                <?php if(get_field('doctor_advise')!='') { ?>
+                                (BS tư vấn xong)
+                                <?php } ?>
                             </td>
                             <td><?php the_title(); ?></td>
                             <td><?php the_field('fullname'); ?></td>

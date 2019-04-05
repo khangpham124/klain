@@ -191,7 +191,7 @@ include(APP_PATH."libs/head.php");
             </div>
             
             <h3 class="h3_page">KTV GM</h3>
-            <p class="inputBlock" >
+            <p class="inputBlock mb30">
                 <?php
                     $wp_query = new WP_Query();
                     $param=array(
@@ -217,7 +217,7 @@ include(APP_PATH."libs/head.php");
                     </label>
                 <?php endwhile;endif; ?>
             </p>
-            <h3 class="h3_page">Phòng mổ</h3>
+            <!-- <h3 class="h3_page">Phòng mổ</h3>
             <p class="inputBlock customSelect mb30">
             <select name="room" id="room">
                     <option value="">Lựa chọn phòng mổ</option>
@@ -226,7 +226,7 @@ include(APP_PATH."libs/head.php");
                     <option value="room_3">Phòng 3</option>
                     <option value="room_4">Phòng 4</option>
             </select>
-            </p>
+            </p> -->
 
             <h3 class="h3_page">Nhập thông tin</h3>
             <p class="inputBlock customSelect">

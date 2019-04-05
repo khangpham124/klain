@@ -118,19 +118,21 @@ include(APP_PATH."libs/head.php");
 	$(function(){
 	  $("#addServices").exValidation({
 	    rules: {
-            doctor1: "chkselect",
-            doctor2: "chkselect",
-            nursing1:"chkselect",
-            nursing2:"chkselect",
-            nursing3:"chkselect",
-            nursing4:"chkselect",
-            ktv:"chkselect",
-            room:"chkselect",
+            report:"chkrequired",
 	    },
 	    stepValidation: true,
 	    scrollToErr: true,
 	    errHoverHide: true
 	  });
+    });
+    $('.callPopup').click(function() {
+        $('.overlay').fadeIn(200);
+        $('.popUp').fadeIn(200);
+    });
+
+    $('.overlay').click(function() {
+        $(this).fadeOut(200);
+        $('.popUp').fadeOut(200);
     });
 </script>
 

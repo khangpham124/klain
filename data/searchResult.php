@@ -3,7 +3,7 @@ include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
 ?>
 
-<h2 class="h2_page">Kết quả tìm kiếm</h2>
+<h2 class="h2_page">Kết quả tìm kiếm test</h2>
 <table class="tblPage">
             <thead>
                 <tr>
@@ -77,16 +77,20 @@ include(APP_PATH."admin/wp-load.php");
 			$cusId = $post->ID;
 			?>
                 <tr>
-                    <td id="cus_id"><?php the_ID(); ?></td>
-                    <td id="cus_name"><?php the_title(); ?></td>
-                    <td id="cus_mobile"><?php the_field('mobile') ?></td>
-                    <td id="cus_add"><?php the_field('address') ?></td>
-                    <td id="cus_idcard"><?php the_field('idcard') ?></td>
+                    <td class="cus_id"><?php the_ID(); ?></td>
+                    <td class="cus_name"><?php the_title(); ?></td>
+                    <td class="cus_mobile"><?php the_field('mobile') ?></td>
+                    <td class="cus_add"><?php the_field('address') ?></td>
+                    <td class="cus_idcard"><?php the_field('idcard') ?></td>
                     <td class="last text">
 					<a href="<?php the_permalink(); ?>" target="_blank">Sửa</i></a>
-					<a href="javascript:void(0)" id="getData">Sử dụng</i></a>
+					<a href="javascript:void(0)" class="getData">Sử dụng</i></a>
 					</td>
                 </tr>
-        <?php endwhile; endif; ?>
+		<?php 
+		endwhile; endif;
+		
+		?>
     </tbody>
+	
 </table>

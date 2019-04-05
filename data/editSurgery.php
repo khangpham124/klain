@@ -98,6 +98,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             $attach_file = $custom_name.$ext1;
             move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
             $linkFile_front="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
+            update_post_meta($cusid_post, 'ic_front', $linkFile_front);
         }
         if($_FILES["file2"]["name"]!="") {
             $parts1=pathinfo($_FILES["file2"]["name"]);
@@ -108,10 +109,26 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             $attach_file = $custom_name.$ext1;
             move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
             $linkFile_back="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
+            update_post_meta($cusid_post, 'ic_back', $linkFile_back);
         }
 
-        update_post_meta($cusid_post, 'ic_front', $linkFile_front);
-        update_post_meta($cusid_post, 'ic_back', $linkFile_back);
+        $fullname = $_POST['fullname'];
+        $idcard = $_POST['idcard'];
+        $mobile = $_POST['mobile'];
+        $address = $_POST['address'];
+        $day = $_POST['day'];
+        $month = $_POST['month'];
+        $year = $_POST['year'];
+        $birth = $day.'-'.$month.'-'.$year;
+        $cus_update = array(
+            'post_title'    => $fullname,
+            'ID'         => $cusid_post,
+        );
+        wp_update_post( $cus_update );
+        update_post_meta($cusid_post,'idcard',$idcard);
+        update_post_meta($cusid_post,'mobile',$mobile);
+        update_post_meta($cusid_post,'address',$address);
+        update_post_meta($cusid_post, 'birthday', $birth);
             
         
 
@@ -140,6 +157,8 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $debter = $_POST['debter'];
         $guy = $_POST['guy'];
         $remain = str_replace(array(',','.'),array('',''),$_POST['remain']);
+        $remain_depo = str_replace(array(',','.'),array('',''),$_POST['remain_depo']);
+
         $nameBank = $_POST['nameBank'];
 
         if((get_field('approve2',$pid)=='')&&($debter=='yes')) {
@@ -156,6 +175,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
         update_post_meta($pid,'chose_bank',$nameBank);
         update_post_meta($pid,'remain',$remain);
+        update_post_meta($pid,'remain_depo',$remain_depo);
         update_post_meta($pid,'payment_status',$statusPay);
         update_post_meta($pid,'status',$status);
         $approve_cf = get_field('approve',$pid);

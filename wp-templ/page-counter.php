@@ -5,7 +5,7 @@ include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
-if(($_COOKIE['role_cookies']=='doctor')) {
+if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='boss')&&($_COOKIE['role_cookies']!='counter')) {
     header('Location:'.APP_URL);
 }
 include(APP_PATH."libs/head.php"); 
@@ -24,6 +24,7 @@ include(APP_PATH."libs/head.php");
     <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
         
         <div class="blockPage blockPage--full">
+        <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
             <h2 class="h2_page">Tạo phiếu thu</h2>
                 <?php
                     $id_sur = $_GET['idSurgery'];
@@ -44,26 +45,63 @@ include(APP_PATH."libs/head.php");
                 <h3 class="h3_page">Thông tin khách hàng</h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" readonly value="<?php the_field('fullname'); ?>" />
+                    <input type="text" class="inputForm" name="fullname" placeholder="Họ tên" value="<?php echo get_the_title($cusId_post); ?>" />
                     </p>
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" name="mobile" placeholder="Mobile" readonly value="<?php the_field('mobile'); ?>" />
+                    <input type="text" class="inputForm" name="mobile" placeholder="Mobile" value="<?php echo get_field('mobile',$cusId_post); ?>" />
                     </p>
                 </div>
-                <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
-                    <?php if(get_field('ic_front',$cusId_post)=='') { ?>
-                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                        <input type="file" name="file1" id="file1" aria-label="Mặt trước chứng minh">
-                        <input type="file" name="file2" id="file2" aria-label="Mặt sau chứng minh">
-                        
-                    </div>
-                    <?php } else { ?>
+
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <p class="inputBlock">
+                    <input type="text" class="inputForm" name="address" placeholder="Địa chỉ" value="<?php echo get_field('address',$cusId_post); ?>" />
+                    </p>
+                    <p class="inputBlock">
+                    <input type="text" class="inputForm" name="idcard" placeholder="CMND" value="<?php echo get_field('idcard',$cusId_post); ?>" />
+                    </p>
+                </div>
+
+                <h4 class="h4_page">Ngày tháng năm sinh</h4>
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--3 mb30">
+                    <?php
+                        $birth = explode('/',get_field('birthday',$cusId_post));
+                    ?>
+                    <p class="inputBlock customSelect">
+                        <select id="day" name="day">
+                            <option value="">Ngày</option>
+                            <?php for($i=1;$i<=31;$i++) { ?>
+                            <option <?php if($i==$birth[0]) { ?>selected<?php } ?> value="<?php echo $i ?>"><?php echo $i ?></option>
+                            <?php } ?>
+                        </select>
+                    </p>
+                    <p class="inputBlock customSelect">    
+                        <select id="month" name="month">
+                            <option value="">Tháng</option>
+                            <?php for($i=1;$i<=12;$i++) { ?>
+                            <option <?php if($i==$birth[1]) { ?>selected<?php } ?> value="<?php echo $i ?>"><?php echo $i ?></option>
+                            <?php } ?>
+                        </select>
+                        </p>
+                    <p class="inputBlock customSelect">    
+                        <select id="year" name="year">
+                            <option value="">Năm sinh</option>
+                            <?php for($i=1940;$i<=2019;$i++) { ?>
+                            <option <?php if($i==$birth[2]) { ?>selected<?php } ?> value="<?php echo $i ?>"><?php echo $i ?></option>
+                            <?php } ?>
+                        </select>
+                    </p>
+                </div>
+
                     <div class="flexBox flexBox--between flexBox__form flexBox__form--2 mb10">
                     <p class="inputBlock"><img src="<?php echo get_field('ic_front',$cusId_post); ?>"></p>
                     <p class="inputBlock"><img src="<?php echo get_field('ic_back',$cusId_post); ?>"></p>
                     </div>
-                    <?php } ?>
 
+                    <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                        <input type="file" name="file1" id="file1" aria-label="Mặt trước chứng minh">
+                        <input type="file" name="file2" id="file2" aria-label="Mặt sau chứng minh">
+                    </div>
+                    
                     <h3 class="h3_page">Thông tin thanh toán</h3>
 
                     <h4 class="h4_page">Thông tin dịch vụ</h4>
@@ -165,7 +203,7 @@ include(APP_PATH."libs/head.php");
                                 <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
                                 <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
                                 <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
-                                    <input type="text" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
+                                    <input type="text" class="inputForm" id="deposit" name="deposit" value="<?php echo get_field('deposit') ?>" placeholder="Số tiền cọc" />
                                 </p>
                                 </td>
                                 <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
@@ -204,9 +242,9 @@ include(APP_PATH."libs/head.php");
                         </div> 
 
                         <div id="listBank">
-                            <input type="radio" class="radioForm" id="rad_bank1" <?php if(get_field('chose_bank')=='Vietcombank') { ?>checked <?php } ?> name="nameBank" value="Vietcombank" /><label class="labelReg" for="rad_bank1">Vietcombank</label>
-                            <input type="radio" class="radioForm" id="rad_bank2" <?php if(get_field('chose_bank')=='VietinBank') { ?>checked <?php } ?> name="nameBank" value="VietinBank" /><label class="labelReg" for="rad_bank2">VietinBank</label>
-                            <input type="radio" class="radioForm" id="rad_bank3" <?php if(get_field('chose_bank')=='Eximbank') { ?>checked <?php } ?> name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
+                            <input type="radio" class="radioForm" id="rad_bank1" <?php if(get_field('chose_bank')=='Vietcombank') { ?>checked <?php } ?> name="nameBank" value="Vietcombank" /><label class="labelReg" for="rad_bank1">Vietcombank</label><br>
+                            <input type="radio" class="radioForm" id="rad_bank2" <?php if(get_field('chose_bank')=='VietinBank') { ?>checked <?php } ?> name="nameBank" value="VietinBank" /><label class="labelReg" for="rad_bank2">VietinBank</label><br>
+                            <input type="radio" class="radioForm" id="rad_bank3" <?php if(get_field('chose_bank')=='Eximbank') { ?>checked <?php } ?> name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label><br>
                         </div>
                         
                         
@@ -252,7 +290,14 @@ include(APP_PATH."libs/head.php");
                             <th>Số tiền thanh toán</th>
                             <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo get_field('remain'); ?><?php } ?>" /></p></td>
                         </tr>
-                    </table>    
+                    </table>
+
+                    <table class="tblPage">
+                        <tr>
+                            <th>Số tiền còn lại cần thanh toán</th>
+                            <td><p class="inputBlock"><input type="text" id="remain_depo" name="remain_depo" class="inputForm" readonly value="<?php if(get_field('remain_depo')!='') { ?><?php echo get_field('remain_depo'); ?><?php } ?>" /></p></td>
+                        </tr>
+                    </table>
                 
         
                     <input type="hidden" name="cusid_post" value="<?php echo get_field('cusid_post') ?>" >
@@ -289,15 +334,6 @@ include(APP_PATH."libs/head.php");
 
 <script>
 $( function() {
-    // $('.callPopup').addClass('disable');
-    // $('input[type=checkbox][name=accept]').change(function() {
-    //     if($(this).val()=='yes') {
-    //         $('.callPopup').removeClass('disable');
-    //     } else {
-    //         $('.callPopup').addClass('disable');
-    //     }    
-    // });
-
     $('#sale_discount').live('focusout', function(){
         var tt_templ = $('#hide_total').val();
         var discount = $(this).val();
@@ -316,13 +352,16 @@ $( function() {
             
             $('#deposit').on('keyup', function(e){
                     var deposit = $('#deposit').val();
+                    var remain_depo = totalPrice - deposit;
                     $('#remain').val(numberWithCommas(deposit));
+                    $('#remain_depo').val(numberWithCommas(remain_depo));
                 
             });
             $('#debt').live('focusout', function(){
                     var debt = $('#debt').val();
                     var reMain = totalPrice - debt;
                     $('#remain').val(numberWithCommas(reMain));
+                    $('#remain_depo').val(numberWithCommas(debt));
             });
         }
 
@@ -336,14 +375,17 @@ $( function() {
             });
             
             $('#deposit').on('keyup', function(e){
-                    var deposit = $('#deposit').val();
-                    $('#remain').val(deposit);
+                var deposit = $('#deposit').val();
+                var remain_depo = totalPrice - deposit;
+                $('#remain').val(numberWithCommas(deposit));
+                $('#remain_depo').val(numberWithCommas(remain_depo));
                 
             });
             $('#debt').live('focusout', function(){
                     var debt = $('#debt').val();
                     var reMain = totalPrice - debt;
                     $('#remain').val(numberWithCommas(reMain));
+                    $('#remain_depo').val(numberWithCommas(debt));
             });
         }
     });
@@ -353,13 +395,15 @@ $( function() {
             $('.monneyDeposit').slideDown(200);
             $('.monneyNo').slideUp(200);
             $('#listGuy').slideUp(200);
-            $('#debt').text('');
+            $('#debt').val(0);
+            $('#remain_depo').val(0);
         }
         if (this.value == 'Nợ') {
             $('.monneyDeposit').slideUp(200);
             $('.monneyNo').slideDown(200);
             $('#listGuy').slideDown(200);
-            $('#deposit').text('');
+            $('#deposit').val(0);
+            $('#remain_depo').val(0);
         }
     });
 
