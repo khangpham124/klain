@@ -33,42 +33,41 @@ include(APP_PATH."libs/head.php");
             <a href="javascript:void(0)" class="callPopup"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca khám trái lịch</a>
         </div>
         <?php
-            $id_sur = $_GET['idSurgery'];
-            $idCustomer = 'KLAIN_19';
+            $idCare = $_GET['id'];
             $wp_query = new WP_Query();
             $param = array (
-            'posts_per_page' => '-1',
-            'post_type' => 'surgery',
+            'posts_per_page' => '1',
+            'post_type' => 'care',
             'post_status' => 'publish',
             'order' => 'DESC',
-            'p'=> $id_sur
+            's'=> $id_sur
             );
             $wp_query->query($param);
             if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+            $listCare = get_field('listcare');
         ?>
         <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Ngay sau phẫu thuật</h3>
                 <div class="inputBlock">
-                    <textarea class="inputForm" name="info" id="info" <?php if(get_field('status_1')!='') { ?>readonly<?php } ?>  placeholder="TÌnh trạng"><?php the_field('status_1'); ?></textarea>
+                    <textarea class="inputForm" name="info" id="info" placeholder="Tình trạng"><?php echo $listCare[0]['nurse_mess']; ?></textarea>
                 </div>
-                <textarea class="inputForm" <?php if(get_field('message_1')!='') { ?>readonly<?php } ?>   name="nurse_mess" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
-                <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="customer_mess" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
+                <textarea class="inputForm"  name="customer_mess" placeholder="Ý kiến khách hàng"><?php echo $listCare[0]['customer_mess']; ?></textarea>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
                     <label class="h5_page">Đánh giá của khách</label>
                         <p class="customSelect mt0">
                         <select name="rating" id="rating">
                             <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
+                            <option <?php if($listCare[0]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                            <option <?php if($listCare[0]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                            <option <?php if($listCare[0]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
                         </select>
                         </p>
                     </div>
                     <p class="inputBlock">     
                         <label class="h5_page">Nhân viên chăm sóc</label>
-                        <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" />
+                        <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[0]['name']; ?>" />
                     </p>
                 </div>
 
@@ -107,7 +106,7 @@ include(APP_PATH."libs/head.php");
                     </div>
                     <p class="inputBlock">     
                         <label class="h5_page">Ngày Khám</label>
-                        <input type="text" class="inputForm" value="" />
+                        <input type="text" class="inputForm" value="<?php echo $listCare[0]['time'] ?>" />
                     </p>                
                 </div>
 
@@ -121,7 +120,7 @@ include(APP_PATH."libs/head.php");
                 <input class="btnSubmit" type="submit" name="submit" value="Lưu">
             </form>
 
-            <h3 class="h3_page">Vệ sinh sau 1 ngày</h3>
+            <h3 class="h3_page mt30">Vệ sinh sau 1 ngày</h3>
             
             <h3 class="h3_page">Tái khám sau 3 ngày</h3>
 

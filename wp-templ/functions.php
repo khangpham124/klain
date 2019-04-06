@@ -29,7 +29,7 @@ function thumbCrop($img='', $w=false, $h=false, $zc=1){
 
 }
 $image_cache = THEME_DIR . "/php/cache/";
-chmod($image_cache, 0777);
+// chmod($image_cache, 0777);
 
 // 管理画面サイドバーメニュー非表示
 function remove_menus () {
@@ -125,11 +125,11 @@ function my_get_archives_link( $link_html ) {
 }
 
 // paging
-$option_posts_per_page = get_option( 'posts_per_page' );
-add_action( 'init', 'my_modify_posts_per_page', 0);
-function my_modify_posts_per_page() {
-    add_filter( 'option_posts_per_page', 'my_option_posts_per_page' );
-}
+// $option_posts_per_page = get_option( 'posts_per_page' );
+// add_action( 'init', 'my_modify_posts_per_page', 0);
+// function my_modify_posts_per_page() {
+//     add_filter( 'option_posts_per_page', 'my_option_posts_per_page' );
+// }
 
 
 // Custom post

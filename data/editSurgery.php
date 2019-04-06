@@ -790,7 +790,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
         $cookies_do = explode(',',$_COOKIE['did_cookies']);
         
-        var_dump($cookies_do);
         foreach($cookies_do as $did_k) {
             update_post_meta($pid, 'services_list_'.$did_k.'_'.'report' ,$report, false);
             update_post_meta($pid, 'services_list_'.$did_k.'_'.'end' ,$date_end, false);
@@ -800,8 +799,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         update_post_meta($pid,'status',$status);
         setcookie('did_cookies','', time() + 86400, "/");
         setcookie('sur_cookies','', time() + 86400, "/");
-
-        // header('Location:'.APP_URL);
+        header('Location:'.APP_URL);
     }
 
 
@@ -810,28 +808,28 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         // INFO
         $status = $_POST['status'];
         $name_cskh = $_POST['name_cskh'];
-        $time_care = date('Ymd_Hi');
-        $careId = 'CARE_'.$time_care;
+        $time_care = date('d-m-Y');
         $time = $_POST['time'];
         $time_end = $_POST['end'];
+        
         
         $customer_mess = $_POST['customer_mess'];
         $rating = $_POST['rating'];
         $nurse_mess = $_POST['nurse_mess'];
         $doctor = $_POST['doctor'];
-
+        $url = $_POST['url'];
         $numb_serv = $_POST['numb'];
 
+        $careId = 'CARE_'.get_the_title($pid).'_'.$numb_serv ;
         // DEFINE
-        $after_day_1 = 86400 + $time_end;
-        $after_day_2 = 259200 + $time_end;
-        $after_day_3 = 432000 + $time_end;
-        $after_day_4 = 864000 + $time_end;
-        $after_day_5 = 2592000 + $time_end;
-        $after_day_6 = 7776000 + $time_end;
+        $after_day_1 = 86400 + 86400 + $time_end;
+        $after_day_2 = 259200 + 86400 + $time_end;
+        $after_day_3 = 432000 + 86400 + $time_end;
+        $after_day_4 = 864000 + 86400 + $time_end;
+        $after_day_5 = 2592000 + 86400 + $time_end;
+        $after_day_6 = 7776000 + 86400 + $time_end;
 
-    
-
+        
         if($time=="firsttime") {
             update_post_meta($pid, 'services_list'.'_'.$numb_serv.'_'.'care' ,$careId, false);
              $care_post = array(
@@ -870,8 +868,9 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             update_field('listcare', $listCare, $pid_care);
             update_post_meta($pid,'status',$status);
         }
+        
         // TIME
-        header('Location:'.APP_URL);
+        header('Location:'.$url);
     }
 
 ?>

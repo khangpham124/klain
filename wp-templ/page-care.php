@@ -29,9 +29,6 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Chăm sóc hậu phẫu</h2>
-        <div class="buttonBar">
-            <a href="javascript:void(0)" class="callPopup"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca khám trái lịch</a>
-        </div>
         <?php
             $id_sur = $_GET['idSurgery'];
             $wp_query = new WP_Query();
@@ -63,12 +60,16 @@ include(APP_PATH."libs/head.php");
             $search_key = array_search($time_end,$arr);
             if($serv['care']=='') {
         ?>
-        <h4 class="h4_page">
+        <h4 class="h4_page <?php if($serv['do']!="yes") { ?>lock<?php } ?>">
             <em><?php echo $progress; ?></em>
-            <p><?php echo $serv['name']; ?></p>
-            <span><?php if($serv['end']===$listService[$s]['end']) { ?>
-            (chăm sóc chung)
-            <?php } ?></span>
+            <p><?php echo $serv['name']; ?><?php if($serv['do']=="yes") { ?>(Ngày phẫu thuật xong: <?php echo $serv['end']; ?>)<?php } ?></p>
+            <?php if(count($listService)>1) { ?>
+                <span>
+                    <?php if($serv['end']===$listService[$s]['end']) { ?>
+                    (chăm sóc chung)
+                    <?php } ?>
+                </span>
+            <?php } ?>    
             <strong><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></h4>
         <div class="servicesDone">
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
@@ -78,25 +79,6 @@ include(APP_PATH."libs/head.php");
                     <textarea class="inputForm" name="info" id="info" <?php if(get_field('status_1')!='') { ?>readonly<?php } ?>  placeholder="TÌnh trạng"><?php the_field('status_1'); ?></textarea>
                 </div>
                 <textarea class="inputForm" <?php if(get_field('message_1')!='') { ?>readonly<?php } ?>   name="nurse_mess" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
-                <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="customer_mess" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <div class="inputBlock">
-                    <label class="h5_page">Đánh giá của khách</label>
-                        <p class="customSelect mt0">
-                        <select name="rating" id="rating">
-                            <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
-                        </select>
-                        </p>
-                    </div>
-                    <p class="inputBlock">     
-                        <label class="h5_page">Nhân viên chăm sóc</label>
-                        <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" />
-                    </p>
-                </div>
-
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
                         <label class="h5_page">Bác sĩ khám</label>    
@@ -132,18 +114,40 @@ include(APP_PATH."libs/head.php");
                     </div>
                     <p class="inputBlock">     
                         <label class="h5_page">Ngày Khám</label>
-                        <input type="text" class="inputForm" value="" />
+                        <input type="text" class="inputForm" value="<?php echo date('d-m-Y'); ?>" />
                     </p>                
                 </div>
+                <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="customer_mess" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
+                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                    <div class="inputBlock">
+                    <label class="h5_page">Đánh giá của khách</label>
+                        <p class="customSelect mt0">
+                        <select name="rating" id="rating">
+                            <option value="">Đánh giá của khách</option>
+                            <option value="Hài lòng">Hài lòng</option>
+                            <option value="Bình thường">Bình thường</option>
+                            <option value="Không hài lòng">Không hài lòng</option>
+                        </select>
+                        </p>
+                    </div>
+                    <p class="inputBlock">     
+                        <label class="h5_page">Nhân viên chăm sóc</label>
+                        <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" />
+                    </p>
+                </div>
 
+                                                      
                 <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                 <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
                 <input type="hidden" name="time" value="firsttime" >
                 <input type="hidden" name="end" value="<?php echo $time_end; ?>" >
-                <input type="hidden" name="status" value="cskh" >
-                <input type="hidden" name="numb" value="<?php echo $s; ?>" >
+                <input type="hidden" name="status" value="cshp" >
+                <input type="hidden" name="numb" value="<?php echo $serv['numb']; ?>" >
+                <?php $s++; ?>  
+                <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                 <input type="hidden" name="action" value="edit_cshp" >
-                <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+                <!-- <input class="btnSubmit" type="submit" name="submit" value="Lưu"> -->
+                <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>
             </form>
         </div>
         <?php } } ?>
@@ -160,39 +164,6 @@ include(APP_PATH."libs/head.php");
 <!--/wrapper-->
 <!--===================================================-->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    var currTime = new Date();  
-    var hour = currTime.getHours();
-    var hourText = hour.toString()
-    var minutes = currTime.getMinutes();
-    var minText = minutes.toString();
-    var timeCompText = hourText + minText;
-    var timeComp = parseInt(timeCompText);
-    var dateToday = new Date();  
-
-    $('#datepicker').datepicker({
-    dateFormat: 'd-m-yy',
-    minDate: dateToday,
-    maxDate: "+4w",
-    altField: '#datechose',
-    onSelect: function (date) {
-        var currTime = new Date();
-        var currDate =currTime.getDate()+"-"+(currTime.getMonth()+1)+"-"+currTime.getFullYear();
-        var choseDate = $(this).val();
-    }
-    });
-
-    $("#datechose").on('click', function () {
-        $('#datepicker').show(200);
-    });
-
-    $('#datechose').change(function(){
-        $('#datepicker').datepicker('setDate', $(this).val());
-    });
-      
-  });
-</script>
 
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
@@ -208,33 +179,11 @@ include(APP_PATH."libs/head.php");
 	  });
 
     $('.h4_page').click(function() {
-        $('.servicesDone').slideUp(300);
-        $(this).next('.servicesDone').slideDown(300);
-    });
-
-    $('.callPopup').click(function() {
-        $('.overlay').fadeIn(200);
-        $('.popUp').fadeIn(200);
-    });
-
-    $('.overlay').click(function() {
-        $(this).fadeOut(200);
-        $('.popUp').fadeOut(200);
+        $('.servicesDone').slideUp(500);
+        $(this).next('.servicesDone').slideDown(500);
     });
 });
 </script>
-<div class="overlay"></div>
-<div class="popUp">
-    <h3 class="h3_page">Tái khám khi có vấn đề</h3>
-    <div class="inputBlock">
-        <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
-        <div id="datepicker"></div>
-    </div>
-    <p class="inputBlock">
-        <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
-    </p>
-    <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
-    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
-</div>
+
 </body>
 </html>	

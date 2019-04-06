@@ -181,6 +181,7 @@ include(APP_PATH."admin/wp-load.php");
         {
             $listService[] = array(
                 'name' => $services[$i],
+                'numb' => $i,
             );
         }
         update_field('services_list', $listService, $pid);

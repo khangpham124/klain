@@ -133,11 +133,13 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="action" value="edit_info" >
                     <input type="hidden" name="name_edit" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
-                    <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
-                    <?php if(($_COOKIE['role_cookies']=='doctor')||($_COOKIE['role_cookies']=='bsk')) { ?>
-                        <input type="hidden" name="status" value="tvv" >        
-                    <?php } ?>
-                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=tvv" class="btnSubmit">In</a>
+                    <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
+                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                        <?php if(($_COOKIE['role_cookies']=='doctor')||($_COOKIE['role_cookies']=='bsk')) { ?>
+                            <input type="hidden" name="status" value="tvv" >        
+                        <?php } ?>
+                        <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=tvv" class="btnSubmit">In</a>
+                    </div>
                 </form>
             </div>
                 <!-- het tabl1 -->
@@ -392,7 +394,7 @@ include(APP_PATH."libs/head.php");
                         <td><?php if($serv['do']=='yes') { ?>Hoàn tất<?php } else { ?>Chưa hoàn tất<?php } ?></td>
                         <td><?php echo $serv['end'] ?></td>
                         <td><?php echo $numb_count_care; ?></td>
-                        <td><a href="<?php echo APP_URL ?>detail-care?id=<?php echo $serv['care']; ?>"><i class="fa fa-heart" aria-hidden="true"></i></a></td>
+                        <td><a href="<?php echo APP_URL ?>detail-care?id=<?php echo $serv['care']; ?>"><i class="fa fa-comments" aria-hidden="true"></i></a></td>
                     </tr>
                 <?php } ?>
                 </table>

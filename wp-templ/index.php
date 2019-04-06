@@ -9,6 +9,7 @@ if($_COOKIE['role_cookies']=='room') {
 }
 include(APP_PATH."libs/head.php"); 
 ?>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body id="top">
@@ -197,45 +198,9 @@ include(APP_PATH."libs/head.php");
                 <!-- CSKH   -->
                     <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='customer-care')) { ?>            
                         <h2 class="h2_page">Danh sách khách đến lịch</h2>
-                        <?php //do_shortcode('[tribe_events]'); 
-                            //dynamic_sidebar( 'home_right_1' ); 
-                        ?>
-                        <table class="tblPage">
-                            <thead>
-                            <tr>
-                                <td>Kì chăm sóc tiếp theo</td>
-                                <td>Ngày phẫu thuật</td>
-                                <td>Ca</td>
-                                <td>Họ tên</td>
-                                <td>Số điện thoại</td>
-                                <td>Chi tiết</td>
-                            </tr>
-                        </thead>
-                        <?php
-                            $wp_query = new WP_Query();
-                            $param = array (
-                            'posts_per_page' => '-1',
-                            'post_type' => 'surgery',
-                            'post_status' => 'publish',
-                            'order' => 'DESC',
-                            );
-                            $wp_query->query($param);
-                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
-                        ?>
-                        <tr>
-                            <td>
-                                
-                            </td>
-                            <td><?php the_field('date'); ?></td>
-                            <td><?php the_title(); ?></td>
-                            <td><?php the_field('fullname'); ?></td>
-                            <td><?php the_field('mobile'); ?></td>
-                            <td class="last"><a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>        
-                        </tr>
-                        <?php endwhile;endif; ?>
-                        </table>
+                        <div id="calendario"></div>
 
-                        <h2 class="h2_page">Danh sách khách hàng trong ngày</h2>
+                        <h2 class="h2_page">Danh sách khách hàng vừa phẫu thuật xong</h2>
                         <table class="tblPage">
                             <thead>
                                 <tr>
@@ -259,7 +224,12 @@ include(APP_PATH."libs/head.php");
                                                 'value'	  	=> 'hauphau',
                                                 'compare' 	=> '=',
                                             ),
-                                            )
+                                            array(
+                                                'key'	  	=> 'status',
+                                                'value'	  	=> 'phauthuat',
+                                                'compare' 	=> '=',
+                                            ),
+                                        )
                                     );
 
                                 $wp_query->query($param);
@@ -267,14 +237,52 @@ include(APP_PATH."libs/head.php");
                                 $stt = get_field('status');
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <td>
+                                    <?php
+                                    $stt = get_field('status');
+                                    switch ($stt) {
+                                        case "tvv":
+                                            $stt_text = "Tư vấn viên";
+                                        break;
+                                        case "pending":
+                                            $stt_text = "Chờ khám";
+                                        break;
+                                        case "quay":
+                                            $stt_text = "Quầy";
+                                        break;
+                                        case "bsnk":
+                                            $stt_text = "Bác sĩ ngoại khoa";
+                                        break;
+                                        case "bsk":
+                                            $stt_text = "Bác sĩ Khải";
+                                        break;
+                                        case "batdau":
+                                            $stt_text = "Đang mổ";
+                                        break;
+                                        case "phauthuat":
+                                            $stt_text = "Phẫu thuật";
+                                        break;
+                                        case "hauphau":
+                                            $stt_text = "Hậu phẫu";
+                                        break;
+                                        case "cshp":
+                                            $stt_text = "CSKH";
+                                        break;
+                                        case "huy":
+                                            $stt_text = "Đã Huỷ";
+                                        break;
+                                    }
+                                    ?>
+                                    <?php if($stt=='batdau') { ?><i class="fa fa-lock" aria-hidden="true"></i><?php } ?>
+                                    <span class="noteColor note--<?php echo $stt ?>"></span>
+                                    <em><?php echo $stt_text ?></em>
+                                </td>
                                     <td><?php the_title(); ?></td>
                                     <td><?php the_field('fullname'); ?></td>
                                     <td><?php the_field('mobile'); ?></td>
-                                    
-                                        <td class="last">
-                                        <a href="<?php echo APP_URL; ?>care/?idSurgery=<?php echo $post->ID; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
-                                        </td>        
+                                    <td class="last">
+                                        <a href="<?php echo APP_URL; ?>care-now/?idSurgery=<?php echo $post->ID; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
+                                    </td>        
                                     
                                 </tr> 
                             <?php endwhile;endif; ?>
@@ -282,52 +290,6 @@ include(APP_PATH."libs/head.php");
                             </table>
                     <?php } ?>
 
-                    <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='room')) { ?>            
-                        <h2 class="h2_page">Danh sách ca phẫu thuật đã hoàn thành</h2>
-                        <table class="tblPage">
-                            <thead>
-                            <tr>
-                                <td>Ngày phẫu thuật</td>
-                                <td>Ca</td>
-                                <td>Họ tên</td>
-                                <td>Chi tiết</td>
-                            </tr>
-                        </thead>
-                        <?php
-                            $wp_query = new WP_Query();
-                            $param=array(
-                                'post_type'=>'surgery',
-                                'order' => 'DESC',
-                                'posts_per_page' => '-1',
-                                'meta_query'	=> array(
-                                    'relation'		=> 'OR',
-                                    array(
-                                        'key'	  	=> 'status',
-                                        'value'	  	=> 'hauphau',
-                                        'compare' 	=> '=',
-                                    ),
-                                    )
-                            );
-                            $wp_query->query($param);
-                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
-                            $surger_cf = get_field('services_list');
-                            $surger_remain = array();
-                            for($i=0; $i < count($surger_cf); $i++){
-                                if($surger_cf[$i]['do']!='yes') {
-                                    $surger_remain[]=$surger_cf[$i]['name'];
-                                }
-                            }
-                            $remin_s = count($surger_remain);
-                        ?>
-                        <tr>
-                            <td><?php the_field('date'); ?></td>
-                            <td><?php the_title(); ?></td>
-                            <td><?php the_field('fullname'); ?></td>
-                            <td class="last"><a href="<?php echo APP_URL; ?>after-surgery/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
-                        </tr>
-                        <?php endwhile;endif; ?>
-                        </table>
-                    <?php } ?>    
                     
                     <?php  if($_COOKIE['role_cookies']!='customer-care') { ?>
                     <h2 class="h2_page">Danh sách khách hàng trong ngày</h2> 
@@ -528,7 +490,7 @@ include(APP_PATH."libs/head.php");
                                 <span class="noteColor note--<?php echo $stt ?>"></span>
                                 <em><?php echo $stt_text ?></em>
                                 <?php if(get_field('doctor_advise')!='') { ?>
-                                (BS tư vấn xong)
+                                (BS tư vấn)
                                 <?php } ?>
                             </td>
                             <td><?php the_title(); ?></td>
@@ -644,6 +606,88 @@ include(APP_PATH."libs/head.php");
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
   $(function() {
+    var events = [
+  {
+    ID: 1,
+    Title: "Evento 1",
+    Date: new Date("04/11/2019"),
+    Date_2: new Date("04/11/2019"),
+    Tipo: "Graduação"
+  },
+  {
+    ID: 2,
+    Title: "Evento 2",
+    Date: new Date("11/25/2017"),
+    Date_2: "",
+    Tipo: "Pós-Graduação"
+  },
+  {
+    ID: 3,
+    Title: "Evento 3",
+    Date: new Date("11/20/2017"),
+    Date_2: new Date("11/22/2017"),
+    Tipo: "Normal"
+  }
+];
+
+    $("#calendario").datepicker({
+    dateFormat: "dd/mm/yy",
+    dayNames: [
+      "Thứ Hai",
+      "Thứ Ba",
+      "Thứ Tư",
+      "Thứ Năm",
+      "Thứ Sáu",
+      "Thứ Bảy",
+      "Chủ nhật",
+      "Thứ test"
+    ],
+    dayNamesMin: ["Chủ nhật", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "D"],
+    dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+    monthNames: [
+      "Tháng 1 - ",
+      "Tháng 2 - ",
+      "Tháng 3 - ",
+      "Tháng 4 - ",
+      "Tháng 5 - ",
+      "Tháng 6 - ",
+      "Tháng 7 - ",
+      "Tháng 8 - ",
+      "Tháng 9 - ",
+      "Tháng 10 - ",
+      "Tháng 11 - ",
+      "Tháng 12 - "
+    ],
+    monthNamesShort: [
+      "Jan",
+      "Fev",
+      "Mar",
+      "Abr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Set",
+      "Out",
+      "Nov",
+      "Dez"
+    ],
+    nextText: "Tháng sau",
+    prevText: "Tháng trước",
+    beforeShowDay: function(date) {
+      var result = [true, "", null];
+      var matching = $.grep(events, function(event) {
+        return event.Date.valueOf() === date.valueOf();
+      });
+      if (matching.length) {
+        result = [true, "highlight", matching[0].Title];
+      }
+      return result;
+    }
+  });
+
+
+
     var availableTags = [
 	<?php 
 	$wp_query = new WP_Query();
@@ -675,6 +719,8 @@ include(APP_PATH."libs/head.php");
         $(this).fadeOut(200);
         $('.popUp').fadeOut(200);
     });
+
+    
 
   });
 </script>
