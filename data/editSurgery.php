@@ -815,10 +815,12 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         
         $customer_mess = $_POST['customer_mess'];
         $rating = $_POST['rating'];
+        $stt = $_POST['stt'];
         $nurse_mess = $_POST['nurse_mess'];
         $doctor = $_POST['doctor'];
         $url = $_POST['url'];
         $numb_serv = $_POST['numb'];
+        $idPost = $_POST['idPost'];
 
         $careId = 'CARE_'.get_the_title($pid).'_'.$numb_serv ;
         // DEFINE
@@ -844,6 +846,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                 'expire' => $after_day_1,
                 'name' => $name_cskh,
                 'time' => $time_care,
+                'stt' => $stt,
                 'customer_mess' => $customer_mess,
                 'nurse_mess' => $nurse_mess,
                 'doctor' => $doctor,
@@ -867,6 +870,51 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             );
             update_field('listcare', $listCare, $pid_care);
             update_post_meta($pid,'status',$status);
+        }
+
+        if($time=="after1day") {
+            update_post_meta($idPost, 'listcare_1_name' ,$name_cskh, false);
+            update_post_meta($idPost, 'listcare_1_customer_mess' ,$customer_mess, false);
+            update_post_meta($idPost, 'listcare_1_stt' ,$stt, false);
+            update_post_meta($idPost, 'listcare_1_nurse_mess' ,$nurse_mess, false);
+            update_post_meta($idPost, 'listcare_1_doctor' ,$doctor, false);
+            update_post_meta($idPost, 'listcare_1_rating' ,$rating, false);
+        }
+
+        if($time=="after3day") {
+            update_post_meta($idPost, 'listcare_2_name' ,$name_cskh, false);
+            update_post_meta($idPost, 'listcare_2_customer_mess' ,$customer_mess, false);
+            update_post_meta($idPost, 'listcare_2_stt' ,$stt, false);
+            update_post_meta($idPost, 'listcare_2_nurse_mess' ,$nurse_mess, false);
+            update_post_meta($idPost, 'listcare_2_doctor' ,$doctor, false);
+            update_post_meta($idPost, 'listcare_2_rating' ,$rating, false);
+        }
+
+        if($time=="after5day") {
+            update_post_meta($idPost, 'listcare_3_name' ,$name_cskh, false);
+            update_post_meta($idPost, 'listcare_3_customer_mess' ,$customer_mess, false);
+            update_post_meta($idPost, 'listcare_3_stt' ,$stt, false);
+            update_post_meta($idPost, 'listcare_3_nurse_mess' ,$nurse_mess, false);
+            update_post_meta($idPost, 'listcare_3_doctor' ,$doctor, false);
+            update_post_meta($idPost, 'listcare_3_rating' ,$rating, false);
+        }
+
+        if($time=="after10day") {
+            update_post_meta($idPost, 'listcare_4_name' ,$name_cskh, false);
+            update_post_meta($idPost, 'listcare_4_customer_mess' ,$customer_mess, false);
+            update_post_meta($idPost, 'listcare_4_stt' ,$stt, false);
+            update_post_meta($idPost, 'listcare_4_nurse_mess' ,$nurse_mess, false);
+            update_post_meta($idPost, 'listcare_4_doctor' ,$doctor, false);
+            update_post_meta($idPost, 'listcare_4_rating' ,$rating, false);
+        }
+
+        if($time=="after30day") {
+            update_post_meta($idPost, 'listcare_5_name' ,$name_cskh, false);
+            update_post_meta($idPost, 'listcare_5_customer_mess' ,$customer_mess, false);
+            update_post_meta($idPost, 'listcare_5_stt' ,$stt, false);
+            update_post_meta($idPost, 'listcare_5_nurse_mess' ,$nurse_mess, false);
+            update_post_meta($idPost, 'listcare_5_doctor' ,$doctor, false);
+            update_post_meta($idPost, 'listcare_5_rating' ,$rating, false);
         }
         
         // TIME

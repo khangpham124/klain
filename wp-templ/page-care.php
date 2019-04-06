@@ -75,10 +75,7 @@ include(APP_PATH."libs/head.php");
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Ngay sau phẫu thuật</h3>
-                <div class="inputBlock">
-                    <textarea class="inputForm" name="info" id="info" <?php if(get_field('status_1')!='') { ?>readonly<?php } ?>  placeholder="TÌnh trạng"><?php the_field('status_1'); ?></textarea>
-                </div>
-                <textarea class="inputForm" <?php if(get_field('message_1')!='') { ?>readonly<?php } ?>   name="nurse_mess" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
+                <textarea class="inputForm"  name="nurse_mess" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
                         <label class="h5_page">Bác sĩ khám</label>    

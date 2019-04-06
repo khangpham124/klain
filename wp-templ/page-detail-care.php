@@ -45,106 +45,540 @@ include(APP_PATH."libs/head.php");
             $wp_query->query($param);
             if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
             $listCare = get_field('listcare');
+            $idPost = $post->ID;
         ?>
-        <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
-                <!-- phuong thu tu van -->
-                <h3 class="h3_page">Ngay sau phẫu thuật</h3>
-                <div class="inputBlock">
-                    <textarea class="inputForm" name="info" id="info" placeholder="Tình trạng"><?php echo $listCare[0]['nurse_mess']; ?></textarea>
+
+        <ul class="treeCare">
+            <li>
+                <div class="point">
+                    <p class="title">Ngay sau phẫu thuật</p>
                 </div>
-                <textarea class="inputForm"  name="customer_mess" placeholder="Ý kiến khách hàng"><?php echo $listCare[0]['customer_mess']; ?></textarea>
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <div class="inputBlock">
-                    <label class="h5_page">Đánh giá của khách</label>
-                        <p class="customSelect mt0">
-                        <select name="rating" id="rating">
-                            <option value="">Đánh giá của khách</option>
-                            <option <?php if($listCare[0]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                            <option <?php if($listCare[0]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                            <option <?php if($listCare[0]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
-                        </select>
-                        </p>
-                    </div>
-                    <p class="inputBlock">     
-                        <label class="h5_page">Nhân viên chăm sóc</label>
-                        <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[0]['name']; ?>" />
-                    </p>
+                <div class="content">
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[0]['nurse_mess']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[0]['stt']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[0]['customer_mess']; ?></textarea>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[0]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[0]['time'] ?>" />
+                            </div>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[0]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                                    <option <?php if($listCare[0]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                                    <option <?php if($listCare[0]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[0]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
+                        <input type="hidden" name="numb" value="<?php echo $s; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
                 </div>
+            </li>
 
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <div class="inputBlock">
-                        <label class="h5_page">Bác sĩ khám</label>    
-                        <p class="customSelect mt0">
-                            <select name="doctor" id="doctor">
-                                <option value="">Bác sĩ khám</option>
-                                <?php
-                                    $param=array(
-                                        'post_type'=>'users',
-                                        'order' => 'DESC',
-                                        'posts_per_page' => '-1',
-                                        'tax_query' => array(
-                                            'relation' => 'OR',
-                                            array(
-                                            'taxonomy' => 'userscat',
-                                            'field' => 'slug',
-                                            'terms' => 'doctor'
-                                            ),
-                                            array(
-                                                'taxonomy' => 'userscat',
-                                                'field' => 'slug',
-                                                'terms' => 'nursing primary'
-                                            ),
-                                        )
-                                        );
-                                    $posts_array = get_posts( $param );
-                                    foreach ($posts_array as $sale ) {
-                                ?>
-                                    <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
-                                <?php } ?>
-                            </select>
-                        </p>
-                    </div>
-                    <p class="inputBlock">     
-                        <label class="h5_page">Ngày Khám</label>
-                        <input type="text" class="inputForm" value="<?php echo $listCare[0]['time'] ?>" />
-                    </p>                
+            <li>
+                <div class="point">
+                    <p class="title">Vệ sinh sau 1 ngày</p>
                 </div>
+                <div class="content">
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[1]['nurse_mess']; ?></textarea>
+                        </div>
 
-                <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
-                <input type="hidden" name="time" value="firsttime" >
-                <input type="hidden" name="end" value="<?php echo $time_end; ?>" >
-                <input type="hidden" name="status" value="cskh" >
-                <input type="hidden" name="numb" value="<?php echo $s; ?>" >
-                <input type="hidden" name="action" value="edit_cshp" >
-                <input class="btnSubmit" type="submit" name="submit" value="Lưu">
-            </form>
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[1]['stt']; ?></textarea>
+                        </div>
 
-            <h3 class="h3_page mt30">Vệ sinh sau 1 ngày</h3>
-            
-            <h3 class="h3_page">Tái khám sau 3 ngày</h3>
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[1]['customer_mess']; ?></textarea>
+                        </div>
 
-            <h3 class="h3_page">Tái khám sau 5 ngày</h3>
-            
-            <h3 class="h3_page">Tái khám sau 10 ngày</h3>
-            
-            <h3 class="h3_page">Tái khám sau 1 tháng</h3>
-            
-            <h3 class="h3_page">Tái khám khi có vấn đề</h3>
-            <div class="inputBlock">
-                <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
-                <div id="datepicker"></div>
-            </div>
-            <p class="inputBlock">
-                <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
-            </p>
-            <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[0]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[1]['time'] ?>" />
+                            </div>
+                        </div>
 
-            <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-            <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
-            <input type="hidden" name="status" value="cskh" >
-            <input type="hidden" name="action" value="cskh_edit" >
-            <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[1]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                                    <option <?php if($listCare[1]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                                    <option <?php if($listCare[1]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[1]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="time" value="after1day" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
+                </div>
+            </li>
+        <li>
+            <div class="point">
+                    <p class="title">Vệ sinh sau 3 ngày</p>
+                </div>
+                <div class="content">
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[2]['nurse_mess']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[2]['stt']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[2]['customer_mess']; ?></textarea>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[2]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[2]['time'] ?>" />
+                            </div>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[2]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                                    <option <?php if($listCare[2]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                                    <option <?php if($listCare[2]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[2]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="time" value="after3day" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
+                </div>
+            </li>
+
+
+            <li>
+            <div class="point">
+                    <p class="title">Vệ sinh sau 5 ngày</p>
+                </div>
+                <div class="content">
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[3]['nurse_mess']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[3]['stt']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[3]['customer_mess']; ?></textarea>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[3]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[3]['time'] ?>" />
+                            </div>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[3]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                                    <option <?php if($listCare[3]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                                    <option <?php if($listCare[3]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[2]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="time" value="after5day" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
+                </div>
+            </li>
+
+
+            <li>
+            <div class="point">
+                    <p class="title">Vệ sinh sau 10 ngày</p>
+                </div>
+                <div class="content">
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[4]['nurse_mess']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[4]['stt']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[4]['customer_mess']; ?></textarea>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[4]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[4]['time'] ?>" />
+                            </div>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[4]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                                    <option <?php if($listCare[4]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                                    <option <?php if($listCare[4]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[4]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="time" value="after10day" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
+                </div>
+            </li>
+
+            <li>
+            <div class="point">
+                    <p class="title">Vệ sinh sau 1 tháng</p>
+                </div>
+                <div class="content">
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[5]['nurse_mess']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[5]['stt']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[5]['customer_mess']; ?></textarea>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[5]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[5]['time'] ?>" />
+                            </div>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[5]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
+                                    <option <?php if($listCare[5]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
+                                    <option <?php if($listCare[5]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[5]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="time" value="after30dayy" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
+                </div>
+            </li>
+        </ul>
+
         
         <?php endwhile;endif; ?>
     </div>
