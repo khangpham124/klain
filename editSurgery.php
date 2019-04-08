@@ -9,55 +9,6 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
     // TEMP EKIP
 
-    if($_POST['action']=='paidDebt') {
-        $debt_paid = $_POST['debt_paid'];
-        $debt_date = $_POST['debt_date'];
-        $debt_get = $_POST['debt_get'];
-        $url = $_POST['url'];
-        $current_debt = get_field('debt',$pid);
-        $current_remain = get_field('remain',$pid);
-        $current_remain_depo = get_field('remain_depo',$pid);
-
-        $remain_debt = $current_debt - $debt_paid;
-        $new_reamin = $current_remain + $debt_paid;
-        $new_remain_depo = $current_remain_depo - $debt_paid;
-
-        update_post_meta($pid,'debt',$remain_debt);
-        update_post_meta($pid,'remain',$new_reamin);
-        update_post_meta($pid,'remain_depo',$new_remain_depo);
-
-        $list = get_field('treepay',$pid);
-        if( have_rows('treepay',$pid)) {
-            $treepay = array();
-            foreach($list as $m => $v) {
-                $treepay[] = array(
-                    array(
-                        $m => $v 
-                    )
-                );
-            }
-            $treepay[] = array(
-                'money' => $debt_paid,
-                'date' => $debt_date,
-                'name' => $debt_get,
-            );
-            update_field('treepay', $treepay, $pid);
-        } else {
-            $treepay = array();
-            $treepay[] = array(
-                'money' => $debt_paid,
-                'date' => $debt_date,
-                'name' => $debt_get,
-            );
-            update_field('treepay', $treepay, $pid);
-        }
-        
-        if($remain_debt==0) {
-            update_post_meta($pid,'payment_status','Thu đủ');
-        }
-        header('Location:'.$url);
-    }
-
     if($_POST['action']=='edit_info') {
         // DR ADVISE
         $doctor_advise = $_POST['doctor_advise'];
@@ -118,6 +69,8 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                 $s++;
             }
         }
+
+
         header('Location:'.APP_URL);
     }
 

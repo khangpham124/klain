@@ -123,7 +123,7 @@ include(APP_PATH."libs/head.php");
                         <?php } ?>
                         <span class="noteColor note--<?php echo $stt ?>"></span>
                         <em><?php echo $stt_text ?></em>
-                        <?php if(get_field('debt')!='') { ?>
+                        <?php if((get_field('debt')!='')||(get_field('debt')!=0)) { ?>
                         <span class="noteRemind noteRemind--1">Còn nợ</span>
                         <?php } ?>
                         

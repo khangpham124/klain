@@ -133,7 +133,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="action" value="edit_info" >
                     <input type="hidden" name="name_edit" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
-                    <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
+                    <div class="flexBox flexBox--C">
                         <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                         <?php if(($_COOKIE['role_cookies']=='doctor')||($_COOKIE['role_cookies']=='bsk')) { ?>
                             <input type="hidden" name="status" value="tvv" >        
@@ -199,13 +199,13 @@ include(APP_PATH."libs/head.php");
                         <table class="tblPage">
                             <tr>
                                 <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
-                                <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
+                                <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('payment_status')=='Đặt cọc') { ?>checked<?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
                                 <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
                                 <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
                                 <span></span>
                                 </p>
                                 </td>
-                                <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
+                                <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('payment_status')=='Nợ') { ?>checked<?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
                                 <p class="inputBlock inputNumber monneyNo" <?php if(get_field('debt')!='') { ?> style="display:block;" <?php } ?>>
                                 <input type="text" data-type="number" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo number_format(get_field('debt')); ?>" <?php } ?> />
                                 </p>
@@ -242,7 +242,7 @@ include(APP_PATH."libs/head.php");
                             <input type="radio" class="radioForm" id="rad_bank3" name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label>
                         </div>
 
-                        <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')) { ?>            
+                        <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')&&($_COOKIE['role_cookies']=='counter')) { ?>            
                         <p class="inputBlock">
                             <label class="labelReg" for="rad3">Người bảo lãnh</label>
                             <input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo get_field('guy'); ?>" />
@@ -259,7 +259,53 @@ include(APP_PATH."libs/head.php");
                             <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo number_format(get_field('remain')); ?><?php } ?>" /></p></td>
                         </tr>
                     </table>
-                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" class="btnSubmit">In</a>
+                    <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
+                    <h3 class="h3_page">Thanh toán nợ</h3>
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+                        <table class="tblPage">
+                            <tr>
+                                <th>Số tiền thanh toán</th>
+                                <td><p class="inputBlock"><input type="text" id="debt_paid" name="debt_paid" class="inputForm" value="" /></p></td>
+                            </tr>
+                            <tr>
+                                <th>Ngày thanh toán</th>
+                                <td>
+                                    <p class="inputBlock">
+                                    <input type="text" class="inputForm" id="datechose" name="debt_date" readonly value="<?php echo date('d/m/Y'); ?>">
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    
+                    <?php } ?>
+
+                    <h4 class="h4_page">Lịch sử thanh toán</h4>
+                    <table class="tblPage">
+                        <tr>
+                            <td>Số tiền thanh toán</td>
+                            <td>Ngày thanh toán</td>
+                            <td>Người thu</td>
+                        </tr>
+                        <?php while(has_sub_field('treepay')) { ?>
+                        <tr>
+                            <td><?php echo number_format(get_sub_field('money')); ?></td>
+                            <td><?php echo get_sub_field('date'); ?></td>
+                            <td><?php echo get_sub_field('name'); ?></td>
+                        </tr>
+                        <?php } ?>
+                    </table>
+
+                    <div class="flexBox flexBox--C">
+                        <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
+                            <input type="hidden" name="action" value="paidDebt" >
+                            <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                            <input type="hidden" name="debt_get" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                            <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                            <input class="btnSubmit" type="submit" name="submit" value="Thanh toán nợ">
+                    </form>    
+                        <?php } ?>
+                        <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" class="btnSubmit">In</a>
+                    </div>
                 </div>
 
 
@@ -485,8 +531,16 @@ include(APP_PATH."libs/head.php");
 </div>
 <script type="text/javascript" src="<?php echo APP_URL; ?>common/js/jquery.magnific-popup.js"></script>
  <script type="text/javascript">
+    <?php $tab = $_GET['tab'];
+    if(!$tab) {
+    ?>
     $('#tab1').show();
     $('.tabItem li:nth-child(1)').addClass('active');
+    <?php } else { ?>
+    $('#tab<?php echo $tab; ?>').show();
+    $('.tabItem li:nth-child(<?php echo $tab; ?>)').addClass('active');
+    <?php } ?>
+
     $('.tabItem li').click(function() {
         $('.tabItem li').removeClass('active');
         $(this).toggleClass('active');
@@ -527,6 +581,40 @@ return openerElement.is('img') ? openerElement : openerElement.find('img');
 
 			});
 	    });
+</script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+    var currTime = new Date();  
+    var hour = currTime.getHours();
+    var hourText = hour.toString()
+    var minutes = currTime.getMinutes();
+    var minText = minutes.toString();
+    var timeCompText = hourText + minText;
+    var timeComp = parseInt(timeCompText);
+    var dateToday = new Date();  
+
+    $('#datepicker').datepicker({
+    dateFormat: 'd-m-yy',
+    // minDate: dateToday,
+    // maxDate: "+4w",
+    altField: '#datechose',
+    onSelect: function (date) {
+        var currTime = new Date();
+        var currDate =currTime.getDate()+"-"+(currTime.getMonth()+1)+"-"+currTime.getFullYear();
+        var choseDate = $(this).val();
+    }
+    });
+
+    $("#datechose").on('click', function () {
+        $('#datepicker').show(200);
+    });
+
+    $('#datechose').change(function(){
+        $('#datepicker').datepicker('setDate', $(this).val());
+    });
+      
+  });
 </script>
 
 </body>

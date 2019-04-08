@@ -23,178 +23,85 @@ include(APP_PATH."libs/head.php");
         <!--/Header-->
 
         <div class="textBox">
+            <?php
+            $wp_query = new WP_Query();
+            $remind_3days;
+            $param = array (
+            'posts_per_page' => '-1',
+            'post_type' => 'surgery',
+            'post_status' => 'publish',
+            'order' => 'DESC',
+            'meta_query'	=> array(
+                array(
+                    'key' => 'deposit',
+                    'value' => '',
+                    'compare' => '!='
+                ),
+            )
+            );
+            $wp_query->query($param);
+            if($wp_query->have_posts()):
+            ?>
+            <h2 class="h2_page">Danh sách khách hàng đã đặt cọc</h2>
+            <table class="tblPage">
+                <thead>
+                <tr>
+                    <td>Trạng thái</td>
+                    <td>Ngày phẫu thuật</td>
+                    <td>Ca</td>
+                    <td>Họ tên</td>
+                    <td>Số điện thoại</td>
+                    <td>Chi tiết</td>
+                </tr>
+            </thead>
+            <?php
+                while($wp_query->have_posts()) :$wp_query->the_post();
+            ?>
+            <tr>
+                <td>
                 <?php
-                    if(($_COOKIE['role_cookies']!='doctor')) {
-                ?>        
-                <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
-                    <?php include(APP_PATH."libs/searchBlock.php"); ?>
-                    <?php include(APP_PATH."libs/searchSur.php"); ?>
-                </div>
-                <?php } ?>
-                <div class="blockPage blockPage--full mt40">
-                    
-                    <?php
-                    if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='counter')) {
-                    $wp_query = new WP_Query();
-                    $remind_3days;
-                    $param = array (
-                    'posts_per_page' => '-1',
-                    'post_type' => 'surgery',
-                    'post_status' => 'publish',
-                    'order' => 'DESC',
-                    'meta_query'	=> array(
-                        array(
-                            'key' => 'debt',
-                            'value' => '',
-                            'compare' => '!='
-                        ),
-                    )
-                    );
-                    $wp_query->query($param);
-                    if($wp_query->have_posts()):
-                    ?>
-                        <h2 class="h2_page">Danh sách khách hàng còn nợ</h2>
-                        <table class="tblPage">
-                            <thead>
-                            <tr>
-                                <td>Ngày phẫu thuật</td>
-                                <td>Ca</td>
-                                <td>Họ tên</td>
-                                <td>Số điện thoại</td>
-                                <td>Chi tiết</td>
-                            </tr>
-                        </thead>
-                        <?php 
-                            while($wp_query->have_posts()) :$wp_query->the_post();
-                        ?>
-                        <tr>
-                            <td>
-                            <?php
-                            $stt = get_field('status');
-                            switch ($stt) {
-                            case "tvv":
-                                $stt_text = "Tư vấn viên";
-                            break;
-                            case "pending":
-                                $stt_text = "Chờ khám";
-                            break;
-                            case "quay":
-                                $stt_text = "Quầy";
-                            break;
-                            case "bsnk":
-                                $stt_text = "Bác sĩ ngoại khoa";
-                            break;
-                            case "bsk":
-                                $stt_text = "Bác sĩ Khải";
-                            break;
-                            case "phauthuat":
-                                $stt_text = "Phẫu thuật";
-                            break;
-                            case "hauphau":
-                                $stt_text = "Hậu phẫu xong";
-                            break;
-                            case "cskh":
-                                $stt_text = "CSKH";
-                            break;
-                        }
-                        ?>
-                        <span class="noteColor note--<?php echo $stt ?>"></span>
-                        <em><?php echo $stt_text ?></em>
-                        <?php if(get_field('debt')!='') { ?>
-                        <span class="noteRemind noteRemind--1">Còn nợ</span>
-                        <?php } ?>
-                            </td>
-                            <td><?php the_field('date'); ?></td>
-                            <td><?php the_title(); ?></td>
-                            <td><?php the_field('fullname'); ?></td>
-                            <td><?php the_field('mobile'); ?></td>
-                            <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>        
-                        </tr>
-                        <?php endwhile; ?>
-                        </table>
-                        <?php endif; ?>
-
-                        <?php
-                        $wp_query = new WP_Query();
-                        $remind_3days;
-                        $param = array (
-                        'posts_per_page' => '-1',
-                        'post_type' => 'surgery',
-                        'post_status' => 'publish',
-                        'order' => 'DESC',
-                        'meta_query'	=> array(
-                            array(
-                                'key' => 'deposit',
-                                'value' => '',
-                                'compare' => '!='
-                            ),
-                        )
-                        );
-                        $wp_query->query($param);
-                        if($wp_query->have_posts()):
-                        ?>
-                        <h2 class="h2_page">Danh sách khách hàng đã đặt cọc</h2>
-                        <table class="tblPage">
-                            <thead>
-                            <tr>
-                                <td>Trạng thái</td>
-                                <td>Ngày phẫu thuật</td>
-                                <td>Ca</td>
-                                <td>Họ tên</td>
-                                <td>Số điện thoại</td>
-                                <td>Chi tiết</td>
-                            </tr>
-                        </thead>
-                        <?php
-                            while($wp_query->have_posts()) :$wp_query->the_post();
-                        ?>
-                        <tr>
-                            <td>
-                            <?php
-                            $stt = get_field('status');
-                            switch ($stt) {
-                            case "tvv":
-                                $stt_text = "Tư vấn viên";
-                            break;
-                            case "pending":
-                                $stt_text = "Chờ khám";
-                            break;
-                            case "quay":
-                                $stt_text = "Quầy";
-                            break;
-                            case "bsnk":
-                                $stt_text = "Bác sĩ ngoại khoa";
-                            break;
-                            case "bsk":
-                                $stt_text = "Bác sĩ Khải";
-                            break;
-                            case "phauthuat":
-                                $stt_text = "Phẫu thuật xong";
-                            break;
-                            case "hauphau":
-                                $stt_text = "Hậu phẫu";
-                            break;
-                            case "cskh":
-                                $stt_text = "CSKH";
-                            break;
-                        }
-                        ?>
-                        <span class="noteColor note--<?php echo $stt ?>"></span>
-                        <em><?php echo $stt_text ?></em>
-                            </td>
-                            <td><?php the_field('date'); ?></td>
-                            <td><?php the_title(); ?></td>
-                            <td><?php the_field('fullname'); ?></td>
-                            <td><?php the_field('mobile'); ?></td>
-                            <td class="last">
-                            <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                             </td>        
-                        </tr>
-                        <?php endwhile; ?>
-                        </table>
-                        <?php endif; ?>
-                        
-                    <?php } ?>
+                $stt = get_field('status');
+                switch ($stt) {
+                case "tvv":
+                    $stt_text = "Tư vấn viên";
+                break;
+                case "pending":
+                    $stt_text = "Chờ khám";
+                break;
+                case "quay":
+                    $stt_text = "Quầy";
+                break;
+                case "bsnk":
+                    $stt_text = "Bác sĩ ngoại khoa";
+                break;
+                case "bsk":
+                    $stt_text = "Bác sĩ Khải";
+                break;
+                case "phauthuat":
+                    $stt_text = "Phẫu thuật xong";
+                break;
+                case "hauphau":
+                    $stt_text = "Hậu phẫu";
+                break;
+                case "cskh":
+                    $stt_text = "CSKH";
+                break;
+            }
+            ?>
+            <span class="noteColor note--<?php echo $stt ?>"></span>
+            <em><?php echo $stt_text ?></em>
+                </td>
+                <td><?php the_field('date'); ?></td>
+                <td><?php the_title(); ?></td>
+                <td><?php the_field('fullname'); ?></td>
+                <td><?php the_field('mobile'); ?></td>
+                <td class="last">
+                <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                    </td>        
+            </tr>
+            <?php endwhile; ?>
+            </table>
+            <?php endif; ?>
                 <!-- CSKH   -->
                     <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='customer-care')) { ?>            
                         <h2 class="h2_page">Danh sách khách đến lịch</h2>
@@ -589,7 +496,7 @@ include(APP_PATH."libs/head.php");
 
 
     <!--Footer-->
-    <?php get_footer(); ?>
+    <?php include(APP_PATH."libs/footer.php");  ?>
     <?php //include(APP_PATH."libs/footer.php"); ?>
     <!--/Footer-->
     <!--===================================================-->
@@ -601,35 +508,58 @@ include(APP_PATH."libs/head.php");
 <div class="popUp">
     <?php include(APP_PATH."data/popReport.php"); ?>
 </div>
+
+<div class="CarepopUp">
+    <?php include(APP_PATH."data/carePopup.php"); ?>
+</div>
 <div class="overlay"></div>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<?php echo APP_URL; ?>common/js/jquery-ui.js"></script>
 <script>
-  $(function() {
-    var events = [
-  {
-    ID: 1,
-    Title: "Evento 1",
-    Date: new Date("04/11/2019"),
-    Date_2: new Date("04/11/2019"),
-    Tipo: "Graduação"
-  },
-  {
-    ID: 2,
-    Title: "Evento 2",
-    Date: new Date("11/25/2017"),
-    Date_2: "",
-    Tipo: "Pós-Graduação"
-  },
-  {
-    ID: 3,
-    Title: "Evento 3",
-    Date: new Date("11/20/2017"),
-    Date_2: new Date("11/22/2017"),
-    Tipo: "Normal"
-  }
-];
+$(function() {
+function addCustomInformation() {
+    <?php
+    $remind = array();
+    $wp_query = new WP_Query();
+    $param = array (
+    'posts_per_page' => '-1',
+    'post_type' => 'care',
+    'post_status' => 'publish',
+    'order' => 'DESC',
+    'paged' => $paged,
+    );
+    $wp_query->query($param);
+    if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+    $test = get_field('listcare',$post->ID);
+    foreach($test as $exp) {
+        $remind[]=date('d/m/Y', $exp['expire']);
+    }
+    endwhile;endif;
+    $vals = array_count_values($remind);
+?>
 
+$(".ui-datepicker-calendar td").each(function() {
+    var taga = $(this).find('a');
+    var ngay = taga.text();
+    if(parseInt(ngay) < 10){
+        ngay = '0' + ngay;
+    }
+    var thang_fake = $(this).attr('data-month');
+    var thang = parseInt(thang_fake) + 1;
+    if(parseInt(thang) < 10){
+        thang = '0' + thang;
+    }
+    var year = $(this).attr('data-year');
+    var getDate = ngay + '/' + thang + '/' + year;
+    <?php foreach($vals as $ca=>$k) { ?>
+    if(getDate=='<?php echo $ca ?>') {
+        taga.append( "<strong>(<?php echo $k; ?> ca)</strong>" );
+        taga.addClass('hasCare');
+        $(this).addClass('callPopup2');
+    }
+    <?php } ?>
+});
+}
     $("#calendario").datepicker({
     dateFormat: "dd/mm/yy",
     dayNames: [
@@ -645,18 +575,18 @@ include(APP_PATH."libs/head.php");
     dayNamesMin: ["Chủ nhật", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "D"],
     dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
     monthNames: [
-      "Tháng 1 - ",
-      "Tháng 2 - ",
-      "Tháng 3 - ",
-      "Tháng 4 - ",
-      "Tháng 5 - ",
-      "Tháng 6 - ",
-      "Tháng 7 - ",
-      "Tháng 8 - ",
-      "Tháng 9 - ",
-      "Tháng 10 - ",
-      "Tháng 11 - ",
-      "Tháng 12 - "
+      "Tháng 1 -",
+      "Tháng 2 -",
+      "Tháng 3 -",
+      "Tháng 4 -",
+      "Tháng 5 -",
+      "Tháng 6 -",
+      "Tháng 7 -",
+      "Tháng 8 -",
+      "Tháng 9 -",
+      "Tháng 10 -",
+      "Tháng 11 -",
+      "Tháng 12 -"
     ],
     monthNamesShort: [
       "Jan",
@@ -674,18 +604,11 @@ include(APP_PATH."libs/head.php");
     ],
     nextText: "Tháng sau",
     prevText: "Tháng trước",
-    beforeShowDay: function(date) {
-      var result = [true, "", null];
-      var matching = $.grep(events, function(event) {
-        return event.Date.valueOf() === date.valueOf();
-      });
-      if (matching.length) {
-        result = [true, "highlight", matching[0].Title];
-      }
-      return result;
-    }
+    beforeShowDay: addCustomInformation(),
+    onChangeMonthYear: addCustomInformation(),
+    onSelect: addCustomInformation(),
   });
-
+  addCustomInformation();
 
 
     var availableTags = [
@@ -715,9 +638,14 @@ include(APP_PATH."libs/head.php");
         $('#idSurgery').val(idSur);
     });
 
+    $('.callPopup2').live( "click", function() {
+        alert('test');
+    });
+
     $('.overlay').click(function() {
         $(this).fadeOut(200);
         $('.popUp').fadeOut(200);
+        $('.CarepopUp').fadeOut(200);
     });
 
     

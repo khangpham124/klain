@@ -65,9 +65,14 @@ include(APP_PATH."libs/head.php");
             <p><?php echo $serv['name']; ?><?php if($serv['do']=="yes") { ?>(Ngày phẫu thuật xong: <?php echo $serv['end']; ?>)<?php } ?></p>
             <?php if(count($listService)>1) { ?>
                 <span>
-                    <?php if($serv['end']===$listService[$s]['end']) { ?>
+                    <?php
+                    if($serv['end']!='') {
+                    if($serv['end']===$listService[$s]['end']) { ?>
                     (chăm sóc chung)
-                    <?php } ?>
+                    <?php }
+                    $s++;
+                    }
+                    ?>
                 </span>
             <?php } ?>    
             <strong><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></h4>
@@ -75,7 +80,7 @@ include(APP_PATH."libs/head.php");
             <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Ngay sau phẫu thuật</h3>
-                <textarea class="inputForm"  name="nurse_mess" placeholder="Lời dặn"><?php the_field('message_1'); ?></textarea>
+                <textarea class="inputForm"  name="nurse_mess" placeholder="Lời dặn"></textarea>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
                         <label class="h5_page">Bác sĩ khám</label>    
@@ -114,7 +119,7 @@ include(APP_PATH."libs/head.php");
                         <input type="text" class="inputForm" value="<?php echo date('d-m-Y'); ?>" />
                     </p>                
                 </div>
-                <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="customer_mess" placeholder="Ý kiến khách hàng"><?php the_field('custommer_voice_1'); ?></textarea>
+                <textarea class="inputForm" <?php if(get_field('custommer_voice_1')!='') { ?>readonly<?php } ?>  name="customer_mess" placeholder="Ý kiến khách hàng"></textarea>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
                     <label class="h5_page">Đánh giá của khách</label>
@@ -140,7 +145,6 @@ include(APP_PATH."libs/head.php");
                 <input type="hidden" name="end" value="<?php echo $time_end; ?>" >
                 <input type="hidden" name="status" value="cshp" >
                 <input type="hidden" name="numb" value="<?php echo $serv['numb']; ?>" >
-                <?php $s++; ?>  
                 <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                 <input type="hidden" name="action" value="edit_cshp" >
                 <!-- <input class="btnSubmit" type="submit" name="submit" value="Lưu"> -->
