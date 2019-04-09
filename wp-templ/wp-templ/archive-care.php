@@ -8,6 +8,10 @@ if(($_COOKIE['role_cookies']=='doctor')) {
 }
 
 include(APP_PATH."libs/head.php"); 
+$dateGet = $_GET['date'];
+$day =  substr($dateGet, 0,2);
+$month =  substr($dateGet, 2,2);
+$year =  substr($dateGet, 4,4);
 ?>
 </head>
 
@@ -23,25 +27,8 @@ include(APP_PATH."libs/head.php");
 
 <div class="textBox">
 <div class="blockPage blockPage--full maxW">
-            <h2 class="h2_page">Danh sách hồ sơ khách hàng</h2>
-            <div class="buttonBar">
-            <p class="inputBlock customSelect">
-                <select id="selectBox">
-                    <option value="">Tình trạng Hồ sơ</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=tvv">Khâu Tư vấn viên</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=pending">Khâu Chờ khám</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=quay">Khâu Quầy</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=bsnk">Khâu Bác sĩ ngoại khoa</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=bsk">Khâu Bác sĩ Khải</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=batdau">Khâu Đang mổ</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=phauthuat">Khâu Phẫu thuật Xong</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=hauphau">Khâu Hậu phẫu</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=cshp">Khâu Đang CSHP</option>
-                    <option value="<?php echo APP_URL ?>surgery?stt=huy">Đã huỷ</option>
-                    <option value="<?php echo APP_URL ?>surgery/">Tất cả</option>
-                </select>
-            </p>
-        </div>
+        <h2 class="h2_page">Danh sách chăm sóc khách hàng (ngày <?php echo $day; ?>/<?php echo $month; ?>/<?php echo $year; ?>)</h2>
+        
             <table class="tblPage">
             <thead>
                 <tr>
@@ -58,7 +45,7 @@ include(APP_PATH."libs/head.php");
                     $stt = $_GET['stt'];
                     if($stt=='') {
                         $param=array(
-                        'post_type'=>'surgery',
+                        'post_type'=>'care',
                         'order' => 'DESC',
                         'posts_per_page' => '20',
                         );
@@ -83,51 +70,7 @@ include(APP_PATH."libs/head.php");
                 ?>
                 <tr <?php if($stt=='batdau') { ?> class="lock"<?php } ?> >
                 <td>
-                        <?php
-                        $stt = get_field('status');
-                        switch ($stt) {
-                            case "tvv":
-                                $stt_text = "Tư vấn viên";
-                            break;
-                            case "pending":
-                                $stt_text = "Chờ khám";
-                            break;
-                            case "quay":
-                                $stt_text = "Quầy";
-                            break;
-                            case "bsnk":
-                                $stt_text = "Bác sĩ ngoại khoa";
-                            break;
-                            case "bsk":
-                                $stt_text = "Bác sĩ Khải";
-                            break;
-                            case "batdau":
-                                $stt_text = "Đang mổ";
-                            break;
-                            case "phauthuat":
-                                $stt_text = "Phẫu thuật";
-                            break;
-                            case "hauphau":
-                                $stt_text = "Hậu phẫu";
-                            break;
-                            case "cshp":
-                                $stt_text = "CSHP";
-                            break;
-                            case "huy":
-                                $stt_text = "Đã Huỷ";
-                            break;
-                        }
-                        ?>
-                        <?php if($stt=='batdau') { ?>
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        <?php } ?>
-                        <span class="noteColor note--<?php echo $stt ?>"></span>
-                        <em><?php echo $stt_text ?></em>
-                        <?php
-                        if((get_field('debt'))||(get_field('debt')!=0)) { ?>
-                        <span class="noteRemind noteRemind--1">Còn nợ</span>
-                        <?php } ?>
-                        
+                       
                     </td>
                     <td><?php the_title(); ?></td>
                     <td><?php the_field('fullname'); ?></td>
@@ -204,18 +147,6 @@ include(APP_PATH."libs/head.php");
 <!--/wrapper-->
 </div>
 
-<script>
-    $(function(){
-      // bind change event to select
-      $('#selectBox').on('change', function () {
-          var url = $(this).val(); // get selected value
-          if (url) { // require a URL
-              window.location = url; // redirect
-          }
-          return false;
-      });
-    });
-</script>
 
 </body>
 </html>	

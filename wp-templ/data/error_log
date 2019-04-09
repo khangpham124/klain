@@ -1,0 +1,7 @@
+[07-Apr-2019 14:00:53 Asia/Bangkok] PHP Warning:  Invalid argument supplied for foreach() in /home/kla93959/public_html/data/editSurgery.php on line 744
+[07-Apr-2019 14:02:20 Asia/Bangkok] PHP Warning:  Invalid argument supplied for foreach() in /home/kla93959/public_html/data/editSurgery.php on line 745
+[07-Apr-2019 14:10:07 Asia/Bangkok] PHP Warning:  Invalid argument supplied for foreach() in /home/kla93959/public_html/data/editSurgery.php on line 745
+[07-Apr-2019 14:10:32 Asia/Bangkok] PHP Warning:  Invalid argument supplied for foreach() in /home/kla93959/public_html/data/editSurgery.php on line 745
+[08-Apr-2019 11:31:39 Asia/Ho_Chi_Minh] PHP Parse error:  syntax error, unexpected ';' in /home/kla93959/public_html/data/editSurgery.php on line 27
+[08-Apr-2019 11:31:41 Asia/Ho_Chi_Minh] PHP Parse error:  syntax error, unexpected ';' in /home/kla93959/public_html/data/editSurgery.php on line 27
+[09-Apr-2019 10:36:44 Asia/Bangkok] PHP Warning:  Invalid argument supplied for foreach() in /home/kla93959/public_html/data/editSurgery.php on line 823
