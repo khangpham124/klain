@@ -230,6 +230,18 @@
     border: 1px solid #e6e6e6;
 }
 
+.tblPage tr td.col1 {
+    width: 20%;
+}
+
+.tblPage tr td.col2 {
+    width: 40%;
+}
+
+.tblPage tr td.col3 {
+    width: 40%;
+}
+
 .tblPage tr:hover {
     background: #f6f6f6;
 }
@@ -637,7 +649,7 @@ textarea.inputForm {
     display: none;
 }
 
-.popUp {
+.popUp, .CarepopUp {
     position: fixed;
     background: #fff;
     top:50%;
@@ -1029,6 +1041,8 @@ textarea.inputForm {
     overflow-y: auto;
 }
 
+
+
 #calendario {
     margin-bottom: 40px;
 }
@@ -1258,6 +1272,14 @@ textarea.inputForm {
     border: 1px solid #dcdcdc !important;
 }
 
+.ui-datepicker td.highlight {
+    font-weight: bold !important;
+}
+
+.ui-datepicker td.highlight a.ui-state-default {
+    background: #ffd6d6 !important;
+}
+
 .ui-state-default {
     display: block;
     text-align: center;
@@ -1270,7 +1292,6 @@ textarea.inputForm {
 .ui-datepicker .ui-state-active {
     border-color: #dcdcdc;
     background-color: #cff3f8 !important;
-    color: #ffd6d6 !important;
 } 
 
 .ui-datepicker-calendar thead tr th {
@@ -1381,4 +1402,35 @@ button.btnSubmit i {
 
 .treeCare li .content textarea {
     margin-top: 0;
+}
+
+.ui-datepicker .ui-state-default.hasCare {
+    background: #ffd6d6 !important;
+    position: relative;
+}
+
+.ui-datepicker .ui-state-default.hasCare  strong {
+    font-weight: bold;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.ui-datepicker .ui-state-default.hasCare .mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #36cf2a;
+    opacity: .6;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+}
+
+#listServices {
+    position: relative;
+}
+
+.lockCare {
+    pointer-events: none;
+    opacity: .6;
 }

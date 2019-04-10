@@ -25,7 +25,7 @@ include(APP_PATH."libs/head.php");
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thêm Vật tư</h2>
         
-            <form action="<?php echo APP_URL; ?>data/addSupplies.php" method="post">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/addSupplies.php" method="post">
                 <div class="flexBox flexBox--between flexBox__form">
                     <p class="inputBlock">
                     <input type="text" class="inputForm" name="name" placeholder="Tên vật tư" />

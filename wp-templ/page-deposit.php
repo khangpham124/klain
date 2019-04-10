@@ -1,4 +1,4 @@
-<?php /* Template Name: DEBT */ ?>
+<?php /* Template Name: Deposit */ ?>
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
@@ -24,7 +24,7 @@ include(APP_PATH."libs/head.php");
 
 <div class="textBox">
 <div class="blockPage blockPage--full maxW">
-        <h2 class="h2_page">Danh sách khách hàng còn nợ</h2>
+        <h2 class="h2_page">Danh sách khách hàng đặt cọc</h2>
             <table class="tblPage">
             <thead>
                 <tr>
@@ -44,10 +44,9 @@ include(APP_PATH."libs/head.php");
                         'post_status' => 'publish',
                         'order' => 'DESC',
                         'meta_query'	=> array(
-                            'relation'		=> 'AND',
                             array(
                                 'key' => 'payment_status',
-                                'value' => 'Nợ',
+                                'value' => 'Đặt cọc',
                                 'compare' => 'LIKE'
                             ),
                         )

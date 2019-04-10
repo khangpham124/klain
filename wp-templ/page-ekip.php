@@ -58,7 +58,7 @@ include(APP_PATH."libs/head.php");
             <?php endwhile;endif; ?>
                 
             <!-- EKIP XU LY -->
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="ekipForm">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="ekipForm">
             <h4 class="h4_page">Dịch vụ yêu cầu</h4>
                 <?php
                         $listService = get_field('services_list',$id_sur);

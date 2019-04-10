@@ -2,14 +2,16 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 // include(APP_PATH."libs/checklog.php");
+$id_sur = $_GET['idSurgery'];
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
-if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='boss')&&($_COOKIE['role_cookies']!='counter')) {
+if((($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='boss')&&($_COOKIE['role_cookies']!='counter'))||(get_field('status',$id_sur)=="quay")) {
     header('Location:'.APP_URL);
 }
 include(APP_PATH."libs/head.php"); 
 ?>
+<link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
 </head>
 
 <body id="counter">
@@ -24,11 +26,9 @@ include(APP_PATH."libs/head.php");
     <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
         
         <div class="blockPage blockPage--full">
-        <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+        <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="formCounter">
             <h2 class="h2_page">Tạo phiếu thu</h2>
                 <?php
-                    $id_sur = $_GET['idSurgery'];
-
                     $wp_query = new WP_Query();
                     $param = array (
                     'posts_per_page' => '1',
@@ -127,11 +127,11 @@ include(APP_PATH."libs/head.php");
                             </tr>
                             <tr>
                                 <th>Giảm giá</th>
-                                <td><input type="text" class="inputForm" name="sale_discount" id="sale_discount"  <?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readonly <?php } ?> value="<?php echo get_field('sale_discount'); ?>" /></td>
+                                <td><input type="text" data-type="number" class="inputForm" name="sale_discount" id="sale_discount"  <?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readonly <?php } ?> value="<?php echo get_field('sale_discount'); ?>" /></td>
                             </tr>
                             <tr>
                                 <th colspan="3">
-                                <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readOnly <?php } ?>">
+                                <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')) { ?> readOnly <?php } ?>">
                                 <?php
                                 $discount = get_field('sale_discount');
                                 $total_price = get_field('total');
@@ -173,6 +173,9 @@ include(APP_PATH."libs/head.php");
                                         $check = "";
                                     }
                                 }
+                                if($total_discount==0) {
+                                    $check = "checked";
+                                }
                                 ?>
                                     <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" />
                                     <label class="labelReg" for="accept">Giảm giá được chấp nhận</label>
@@ -199,17 +202,54 @@ include(APP_PATH."libs/head.php");
             
                         <h4 class="h4_page">Phương thức thanh toán</h4>
                         <table class="tblPage">
-                            <tr>
-                                <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
-                                <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
+                            <tr class="chkradio" id="chkradio">
+                                <td class="col1"><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
+                                <td class="col2"><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('deposit')!='') { ?> checked <?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
                                 <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
-                                    <input type="text" class="inputForm" id="deposit" name="deposit" value="<?php echo get_field('deposit') ?>" placeholder="Số tiền cọc" />
+                                    <input type="text"  class="inputForm" id="deposit" name="deposit" value="<?php echo get_field('deposit') ?>" placeholder="Số tiền cọc" />
                                 </p>
                                 </td>
-                                <td><input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
-                                <p class="inputBlock inputNumber monneyNo" <?php if(get_field('debt')!='') { ?> style="display:block;" <?php } ?>>
-                                <input type="text" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo get_field('debt'); ?>" <?php } ?> />
-                                </p>
+                                <td class="col3">
+                                    <input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
+                                    <p class="inputBlock inputNumber monneyNo" <?php if(get_field('debt')!='') { ?> style="display:block;" <?php } ?>>
+                                    <input type="text" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo get_field('debt'); ?>" <?php } ?> /></p>
+                                    <div id="listGuy">
+                                        
+                                            <p class="inputBlock customSelect">
+                                                <select name="guy" id="guy">
+                                                    <option value="">Người bảo lãnh</option>
+                                                    <?php
+                                                        $param=array(
+                                                        'post_type'=>'users',
+                                                        'order' => 'DESC',
+                                                        'posts_per_page' => '-1',
+                                                        'tax_query' => array(
+                                                            'relation' => 'OR',
+                                                            array(
+                                                            'taxonomy' => 'userscat',
+                                                            'field' => 'slug',
+                                                            'terms' => 'sale'
+                                                            ),
+                                                            array(
+                                                                'taxonomy' => 'userscat',
+                                                                'field' => 'slug',
+                                                                'terms' => 'adviser'
+                                                            ),
+                                                        )
+                                                        );
+                                                        $posts_array = get_posts( $param );
+                                                        foreach ($posts_array as $sale ) {
+                                                    ?>
+                                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </p>
+                                            <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readOnly <?php } ?> mt10">
+                                                <input type="checkbox" class="chkForm" <?php if(get_field('debter')=='yes') { ?> checked <?php } ?> id="debter" name="debter" value="yes" />
+                                                <label class="labelReg" for="debter">Người bảo lãnh được chấp nhận</label>
+                                            </p>
+                                        <?php if(get_field('debter')=='yes') { ?>Duyệt bởi : <?php echo get_field('approve2'); ?><?php } ?>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -247,55 +287,17 @@ include(APP_PATH."libs/head.php");
                             <input type="radio" class="radioForm" id="rad_bank3" <?php if(get_field('chose_bank')=='Eximbank') { ?>checked <?php } ?> name="nameBank" value="Eximbank" /><label class="labelReg" for="rad_bank3">Eximbank</label><br>
                         </div>
                         
-                        
-                        <div id="listGuy">
-                            <p class="inputBlock customSelect">
-                                <select name="guy" id="guy">
-                                    <option value="">Người bảo lãnh</option>
-                                    <?php
-                                        $param=array(
-                                        'post_type'=>'users',
-                                        'order' => 'DESC',
-                                        'posts_per_page' => '-1',
-                                        'tax_query' => array(
-                                            'relation' => 'OR',
-                                            array(
-                                            'taxonomy' => 'userscat',
-                                            'field' => 'slug',
-                                            'terms' => 'sale'
-                                            ),
-                                            array(
-                                                'taxonomy' => 'userscat',
-                                                'field' => 'slug',
-                                                'terms' => 'adviser'
-                                            ),
-                                        )
-                                        );
-                                        $posts_array = get_posts( $param );
-                                        foreach ($posts_array as $sale ) {
-                                    ?>
-                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
-                                    <?php } ?>
-                                </select>
-                            </p>
-                            <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readOnly <?php } ?>">
-                            <input type="checkbox" class="chkForm" <?php if(get_field('debter')=='yes') { ?> checked <?php } ?> id="debter" name="debter" value="yes" />
-                            <label class="labelReg" for="debter">Người bảo lãnh được chấp nhận</label>
-                            </p>
-                            <?php if(get_field('debter')=='yes') { ?>Duyệt bởi : <?php echo get_field('approve2'); ?><?php } ?>
-                        </div>
-
                     <table class="tblPage">
                         <tr>
                             <th>Số tiền thanh toán</th>
-                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo get_field('remain'); ?><?php } ?>" /></p></td>
+                            <td><p class="inputBlock"><input type="text" id="collect" name="collect" class="inputForm" readonly value="<?php if(get_field('collect')!='') { ?><?php echo get_field('collect'); ?><?php } ?>" /></p></td>
                         </tr>
                     </table>
 
                     <table class="tblPage">
                         <tr>
                             <th>Số tiền còn lại cần thanh toán</th>
-                            <td><p class="inputBlock"><input type="text" id="remain_depo" name="remain_depo" class="inputForm" readonly value="<?php if(get_field('remain_depo')!='') { ?><?php echo get_field('remain_depo'); ?><?php } ?>" /></p></td>
+                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo get_field('remain'); ?><?php } ?>" /></p></td>
                         </tr>
                     </table>
                 
@@ -305,22 +307,18 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="approve" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="counter" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="datePaid" value="<?php echo date('d/m/Y'); ?>" >
+
+                    <input type="hidden" name="timeRegis" value="register" >
                     
                     <input type="hidden" name="status" value="quay" >
                     <input type="hidden" name="action" value="edit" >
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) { ?>
-                        <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
-                            <a href="javascript:void(0)" class="btnSubmit callPopup">Cập nhật</a>
+                        <div class="flexBox flexBox--C mt30">
+                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                             <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
                         </div>
                     <?php } ?>   
-                    <div class="popUp">
-                        <p class="txtNote">Vui lòng kiểm tra lại thông tin chính xác,vì thông tin khi nhập vào sẽ ko thể thay đổi được nữa</p>
-                        <div class="flexBox flexBox--arround flexBox__form--2">
-                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
-                        <a href="javascript:void(0)" class="btnSubmit cancel">Quay lại</a>
-                        </div>
-                    </div> 
+
                 </form>
             <?php endwhile;endif; ?>    
         </div>
@@ -334,8 +332,26 @@ include(APP_PATH."libs/head.php");
     </div>
 <!--/wrapper-->
 </div>
-
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
 <script>
+$(function(){
+	  $("#formCounter").exValidation({
+	    rules: {
+            guy: "chkselect",
+            debt:"chkrequired",
+            deposit:"chkrequired",
+            accept:"chkcheckbox",
+	    },
+	    stepValidation: true,
+	    scrollToErr: true,
+	    errHoverHide: true
+      });
+    $('#guy').removeClass('chkselect errPosRight err');
+    $('#debt').removeClass('chkrequired errPosRight');
+    $('#deposit').removeClass('chkrequired errPosRight');
+});
+
 $( function() {
     $('#sale_discount').live('focusout', function(){
         var tt_templ = $('#hide_total').val();
@@ -347,24 +363,23 @@ $( function() {
 
     if($('#accept').is(':checked')) {
             var totalPrice = $('#hide_tt_final').val();
-            
             $('input[type=radio][name=statusPay]').change(function() {
                     var totalPrice = $('#totalFee').val();
-                    $('#remain').val(totalPrice);
+                    $('#collect').val(totalPrice);
             });
             
             $('#deposit').on('keyup', function(e){
                     var deposit = $('#deposit').val();
                     var remain_depo = totalPrice - deposit;
-                    $('#remain').val(numberWithCommas(deposit));
-                    $('#remain_depo').val(numberWithCommas(remain_depo));
+                    $('#collect').val(numberWithCommas(deposit));
+                    $('#remain').val(numberWithCommas(remain_depo));
                 
             });
             $('#debt').live('focusout', function(){
                     var debt = $('#debt').val();
                     var reMain = totalPrice - debt;
-                    $('#remain').val(numberWithCommas(reMain));
-                    $('#remain_depo').val(numberWithCommas(debt));
+                    $('#collect').val(numberWithCommas(reMain));
+                    $('#remain').val(numberWithCommas(debt));
             });
         }
 
@@ -374,39 +389,49 @@ $( function() {
             
             $('input[type=radio][name=statusPay]').change(function() {
                     var totalPrice = $('#totalFee').val();
-                    $('#remain').val(totalPrice);
+                    $('#collect').val(totalPrice);
             });
             
             $('#deposit').on('keyup', function(e){
                 var deposit = $('#deposit').val();
                 var remain_depo = totalPrice - deposit;
-                $('#remain').val(numberWithCommas(deposit));
-                $('#remain_depo').val(numberWithCommas(remain_depo));
+                $('#collect').val(numberWithCommas(deposit));
+                $('#remain').val(numberWithCommas(remain_depo));
                 
             });
             $('#debt').live('focusout', function(){
                     var debt = $('#debt').val();
                     var reMain = totalPrice - debt;
-                    $('#remain').val(numberWithCommas(reMain));
-                    $('#remain_depo').val(numberWithCommas(debt));
+                    $('#collect').val(numberWithCommas(reMain));
+                    $('#remain').val(numberWithCommas(debt));
             });
         }
     });
-
+    
     $('input[type=radio][name=statusPay]').change(function() {
         if (this.value == 'Đặt cọc') {
             $('.monneyDeposit').slideDown(200);
             $('.monneyNo').slideUp(200);
             $('#listGuy').slideUp(200);
             $('#debt').val(0);
-            $('#remain_depo').val(0);
+            $('#remain').val(0);
+            $('#guy').removeClass('chkselect errPosRight err');
+            $('#debt').removeClass('chkrequired errPosRight');
+            $('#deposit').addClass('chkrequired errPosRight');
+        } else {
+            $('#deposit').removeClass('chkrequired errPosRight');
         }
         if (this.value == 'Nợ') {
             $('.monneyDeposit').slideUp(200);
             $('.monneyNo').slideDown(200);
             $('#listGuy').slideDown(200);
             $('#deposit').val(0);
-            $('#remain_depo').val(0);
+            $('#remain').val(0);
+            $('#guy').addClass('chkselect errPosRight err');
+            $('#debt').addClass('chkrequired errPosRight');
+        } else {
+            $('#guy').removeClass('chkselect errPosRight err');
+            $('#debt').removeClass('chkrequired errPosRight');
         }
     });
 
@@ -418,6 +443,73 @@ $( function() {
         }
     });
 
+
+
+    $('#sale_discount').live('focusout', function(){
+        var lim1 = 30000000;
+        var lim2 = 49000000;
+        var lim3 = 50000000;
+        var lim4 = 79000000;
+        var lim5 = 80000000;
+        var lim6 = 99000000;
+        var lim7 = 100000000;
+        var total_price = parseInt($('#hide_total').val());
+        var total_discount = parseInt($(this).val());
+        if((total_price >= lim1)&&(total_price <= lim2)) {
+            if(total_discount <= 1000000) {
+                $('#accept').prop( "checked", true );
+            } else {
+                $('#accept').prop( "checked", false );
+            }
+        }
+        if((total_price >= lim3)&&(total_price <= lim4)) {
+            if(total_discount <= 2000000) {
+                $('#accept').prop( "checked", true );
+            } else {
+                $('#accept').prop( "checked", false );
+            }
+        }
+        if((total_price >= lim5)&&(total_price <= lim6)) {
+            if(total_discount <= 3000000) {
+                $('#accept').prop( "checked", true );
+            } else {
+                $('#accept').prop( "checked", false );
+            }
+        }
+        if(total_price >= lim7) {
+            if(total_discount <= 5000000) {
+                $('#accept').prop( "checked", true );
+            } else {
+                $('#accept').prop( "checked", false );
+            }
+        }
+        if(total_discount==0) {
+            $('#accept').prop( "checked", true );
+        }
+
+        if($('#accept').is(':checked')) {
+            var totalPrice = $('#hide_tt_final').val();
+            
+            $('input[type=radio][name=statusPay]').change(function() {
+                    var totalPrice = $('#totalFee').val();
+                    $('#collect').val(totalPrice);
+            });
+            
+            $('#deposit').on('keyup', function(e){
+                var deposit = $('#deposit').val();
+                var remain_depo = totalPrice - deposit;
+                $('#collect').val(numberWithCommas(deposit));
+                $('#remain').val(numberWithCommas(remain_depo));
+                
+            });
+            $('#debt').live('focusout', function(){
+                    var debt = $('#debt').val();
+                    var reMain = totalPrice - debt;
+                    $('#collect').val(numberWithCommas(reMain));
+                    $('#remain').val(numberWithCommas(debt));
+            });
+        }
+    });
     
     $('.callPopup').click(function() {
         $('.overlay').fadeIn(200);

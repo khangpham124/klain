@@ -33,6 +33,8 @@ include(APP_PATH."libs/head.php");
             <a href="javascript:void(0)" class="callPopup"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca khám trái lịch</a>
         </div>
         <?php
+            $now = strtotime("now");
+            // echo $now = strtotime($_GET['timetest']);
             $idCare = $_GET['id'];
             $wp_query = new WP_Query();
             $param = array (
@@ -51,10 +53,10 @@ include(APP_PATH."libs/head.php");
         <ul class="treeCare">
             <li>
                 <div class="point">
-                    <p class="title">Ngay sau phẫu thuật</p>
+                    <p class="title">Ngay sau phẫu thuật<br>(ngày mổ xong <?php echo date('d/m/Y', $listCare[0]['expire']); ?> )</p>
                 </div>
-                <div class="content">
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+        <div class="content <?php if($now > $listCare[0]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
                         <div class="block">
                             <label>Lời dặn của điều dưỡng</label>
                             <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[0]['nurse_mess']; ?></textarea>
@@ -139,10 +141,10 @@ include(APP_PATH."libs/head.php");
 
             <li>
                 <div class="point">
-                    <p class="title">Vệ sinh sau 1 ngày</p>
+                    <p class="title">Vệ sinh sau 1 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[1]['expire']); ?> )</p>
                 </div>
-                <div class="content">
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                <div class="content <?php if($now > $listCare[1]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
                         <div class="block">
                             <label>Lời dặn của điều dưỡng</label>
                             <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[1]['nurse_mess']; ?></textarea>
@@ -214,6 +216,11 @@ include(APP_PATH."libs/head.php");
                                 <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[1]['name']; ?>" />
                             </p>
                         </div>
+                        
+                        <?php if($listCare[1]['note']!='') { ?>
+                        <label>Ghi chú (khi khách đổi lịch)</label>
+                        <textarea readonly class="inputForm" ><?php echo $listCare[1]['note']; ?></textarea>
+                        <?php } ?>
 
                         <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                         <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
@@ -226,10 +233,10 @@ include(APP_PATH."libs/head.php");
             </li>
         <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 3 ngày</p>
+                    <p class="title">Vệ sinh sau 3 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[2]['expire']); ?> )</p>
                 </div>
-                <div class="content">
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                <div class="content <?php if($now > $listCare[2]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
                         <div class="block">
                             <label>Lời dặn của điều dưỡng</label>
                             <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[2]['nurse_mess']; ?></textarea>
@@ -302,6 +309,11 @@ include(APP_PATH."libs/head.php");
                             </p>
                         </div>
 
+                        <?php if($listCare[2]['note']!='') { ?>
+                        <label>Ghi chú (khi khách đổi lịch)</label>
+                        <textarea readonly class="inputForm" ><?php echo $listCare[2]['note']; ?></textarea>
+                        <?php } ?>
+
                         <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                         <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
                         <input type="hidden" name="action" value="edit_cshp" >
@@ -315,10 +327,10 @@ include(APP_PATH."libs/head.php");
 
             <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 5 ngày</p>
+                    <p class="title">Vệ sinh sau 5 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[3]['expire']); ?> )</p>
                 </div>
-                <div class="content">
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                <div class="content <?php if($now > $listCare[3]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
                         <div class="block">
                             <label>Lời dặn của điều dưỡng</label>
                             <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[3]['nurse_mess']; ?></textarea>
@@ -387,9 +399,14 @@ include(APP_PATH."libs/head.php");
                             </div>
                             <p class="inputBlock">     
                                 <label>Nhân viên chăm sóc</label>
-                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[2]['name']; ?>" />
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[3]['name']; ?>" />
                             </p>
                         </div>
+
+                        <?php if($listCare[3]['note']!='') { ?>
+                        <label>Ghi chú (khi khách đổi lịch)</label>
+                        <textarea readonly class="inputForm" ><?php echo $listCare[3]['note']; ?></textarea>
+                        <?php } ?>
 
                         <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                         <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
@@ -404,10 +421,10 @@ include(APP_PATH."libs/head.php");
 
             <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 10 ngày</p>
+                    <p class="title">Vệ sinh sau 10 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[4]['expire']); ?> )</p>
                 </div>
-                <div class="content">
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                <div class="content <?php if($now > $listCare[4]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
                         <div class="block">
                             <label>Lời dặn của điều dưỡng</label>
                             <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[4]['nurse_mess']; ?></textarea>
@@ -480,6 +497,11 @@ include(APP_PATH."libs/head.php");
                             </p>
                         </div>
 
+                        <?php if($listCare[4]['note']!='') { ?>
+                        <label>Ghi chú (khi khách đổi lịch)</label>
+                        <textarea readonly class="inputForm" ><?php echo $listCare[4]['note']; ?></textarea>
+                        <?php } ?>
+
                         <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                         <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
                         <input type="hidden" name="action" value="edit_cshp" >
@@ -492,10 +514,10 @@ include(APP_PATH."libs/head.php");
 
             <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 1 tháng</p>
+                    <p class="title">Vệ sinh sau 1 tháng<br>(dự kến <?php echo date('d/m/Y', $listCare[5]['expire']); ?> )</p>
                 </div>
-                <div class="content">
-                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                <div class="content <?php if($now > $listCare[5]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
                         <div class="block">
                             <label>Lời dặn của điều dưỡng</label>
                             <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[5]['nurse_mess']; ?></textarea>
@@ -567,6 +589,11 @@ include(APP_PATH."libs/head.php");
                                 <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[5]['name']; ?>" />
                             </p>
                         </div>
+
+                        <?php if($listCare[5]['note']!='') { ?>
+                        <label>Ghi chú (khi khách đổi lịch)</label>
+                        <textarea readonly class="inputForm" ><?php echo $listCare[5]['note']; ?></textarea>
+                        <?php } ?>
 
                         <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                         <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
@@ -669,16 +696,21 @@ include(APP_PATH."libs/head.php");
 </script>
 <div class="overlay"></div>
 <div class="popUp">
-    <h3 class="h3_page">Tái khám khi có vấn đề</h3>
-    <div class="inputBlock">
-        <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
-        <div id="datepicker"></div>
-    </div>
-    <p class="inputBlock">
-        <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
-    </p>
-    <textarea class="inputForm" name="problem_detail" placeholder="Lời dặn"></textarea>
-    <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+    <h3 class="h3_page">Tạo ca khám trái lịch</h3>
+    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editCare.php" method="post">
+        <div class="inputBlock">
+            <input type="text" class="inputForm" id="datechose" name="datechose" value="" placeholder="Chọn ngày phẫu thuật">
+            <div id="datepicker"></div>
+        </div>
+        <p class="inputBlock mt10">
+            <input type="text" class="inputForm" name="problem" id="problem" placeholder="Tình trạng" />
+        </p>
+        <input type="hidden" name="action" value="createSchedule" >
+        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+        <input class="btnSubmit" type="submit" name="submit" value="Lưu">
+    </form>
 </div>
+
 </body>
 </html>	

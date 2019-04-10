@@ -64,6 +64,16 @@ include(APP_PATH."libs/head.php");
                         $wp_query->query($param);
                         if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
                         $stt = get_field('status');
+                        
+                        $surger_cf = get_field('services_list');
+                        $care_remain = array();
+                        for($i=0; $i < count($surger_cf); $i++){
+                            if($surger_cf[$i]['care']=='') {
+                                $care_remain[]=$surger_cf[$i]['name'];
+                            }
+                        }
+                        $remin_c = count($care_remain);
+                        if($remin_c > 0) {
                         ?>
                         <tr>
                             <td>
@@ -113,7 +123,8 @@ include(APP_PATH."libs/head.php");
                                 <a href="<?php echo APP_URL; ?>care-now/?idSurgery=<?php echo $post->ID; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
                             </td>        
                             
-                        </tr> 
+                        </tr>
+                    <?php } ?>     
                     <?php endwhile;endif; ?>
                     </tbody>
                     </table>
@@ -333,8 +344,10 @@ include(APP_PATH."libs/head.php");
                     <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='boss')) { ?>
                         <td class="last">
                         <?php if($stt!='batdau') { ?>
+                            <?php if($stt=='tvv') { ?>
                             <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
-                            <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                            <?php } ?>
+                            <!-- <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a> -->
                             <?php if(($stt!='hauphau')&&($stt!='cshp')) { ?>
                             <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
                             <?php } ?>
@@ -384,7 +397,9 @@ include(APP_PATH."libs/head.php");
                                         }
                                         $remin_s = count($surger_remain);
                                     ?>
-                                    <a href="javascript:void(0)" class="callPopup" data-id=<?php echo $post->ID; ?>><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                    <?php if($_COOKIE['room_cookies']&&$_COOKIE['room_cookies']==$post->ID) { ?>
+                                        <a href="javascript:void(0)" class="callPopup" data-id=<?php echo $post->ID; ?>><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                                    <?php } ?>
                                     <?php } ?>
                                     <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                 <?php } else { ?>
@@ -445,7 +460,7 @@ include(APP_PATH."libs/head.php");
 <script src="<?php echo APP_URL; ?>common/js/jquery-ui.js"></script>
 <script>
 $(function() {
-function addCustomInformation() {
+    var addCustomInformation = function () {
     <?php
     $remind = array();
     $wp_query = new WP_Query();
@@ -481,14 +496,16 @@ $(".ui-datepicker-calendar td").each(function() {
     var getDate = ngay + '/' + thang + '/' + year;
     <?php foreach($vals as $ca=>$k) { ?>
     if(getDate=='<?php echo $ca ?>') {
+        var getDateURL = getDate.replace(/[/]/g,'');
         taga.append( "<strong>(<?php echo $k; ?> ca)</strong>" );
+        taga.attr('href','<?php echo APP_URL; ?>care?date='+getDateURL);
         taga.addClass('hasCare');
-        $(this).addClass('callPopup2');
     }
     <?php } ?>
 });
 }
-    $("#calendario").datepicker({
+  
+$("#calendario").datepicker({
     dateFormat: "dd/mm/yy",
     dayNames: [
       "Thứ Hai",
@@ -501,7 +518,6 @@ $(".ui-datepicker-calendar td").each(function() {
       "Thứ test"
     ],
     dayNamesMin: ["Chủ nhật", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "D"],
-    dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
     monthNames: [
       "Tháng 1 -",
       "Tháng 2 -",
@@ -516,28 +532,19 @@ $(".ui-datepicker-calendar td").each(function() {
       "Tháng 11 -",
       "Tháng 12 -"
     ],
-    monthNamesShort: [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dez"
-    ],
     nextText: "Tháng sau",
     prevText: "Tháng trước",
-    beforeShowDay: addCustomInformation(),
-    onChangeMonthYear: addCustomInformation(),
-    onSelect: addCustomInformation(),
+    onSelect: function () {
+        setTimeout(addCustomInformation, 10);
+    },
+    onChangeMonthYear: function () {
+        setTimeout(addCustomInformation, 10);
+    },
+    beforeShow: function () {
+        setTimeout(addCustomInformation, 10);
+    },
   });
   addCustomInformation();
-
 
     var availableTags = [
 	<?php 
@@ -566,8 +573,9 @@ $(".ui-datepicker-calendar td").each(function() {
         $('#idSurgery').val(idSur);
     });
 
-    $('.callPopup2').live( "click", function() {
-        alert('test');
+    $('.ui-state-default.hasCare').click(function() {
+        var url = $(this).attr('href');
+        window.location = url;
     });
 
     $('.overlay').click(function() {

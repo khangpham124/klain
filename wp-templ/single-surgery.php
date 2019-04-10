@@ -133,6 +133,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="action" value="edit_info" >
                     <input type="hidden" name="name_edit" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                    <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                     <div class="flexBox flexBox--C">
                         <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                         <?php if(($_COOKIE['role_cookies']=='doctor')||($_COOKIE['role_cookies']=='bsk')) { ?>
@@ -173,7 +174,7 @@ include(APP_PATH."libs/head.php");
                             </tr>
                             <tr>
                                 <th colspan="3">
-                                <p class="inputBlock">
+                                <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')) { ?> readOnly <?php } ?>">
                                     <input type="checkbox" class="chkForm"<?php if(get_field('accept')!="") { ?> checked <?php } ?> id="accept" name="accept" value="yes" />
                                     <label class="labelReg" for="accept">Giảm giá được chấp nhận</label>
                                 </p>
@@ -188,7 +189,7 @@ include(APP_PATH."libs/head.php");
                             <th>Tổng tiền sau điều chỉnh</th>
                                 <td>
                                     <p class="inputBlock">
-                                    <input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo number_format(get_field('remain')); ?>" />
+                                    <input type="text" id="totalFee" name="totalFee" class="inputForm" readonly value="<?php echo number_format(get_field('total')); ?>" />
                                     </p>
                                 </td>
                             </tr>
@@ -201,7 +202,7 @@ include(APP_PATH."libs/head.php");
                                 <td><input type="radio" class="radioForm" id="rad4" name="statusPay" <?php if(get_field('payment_status')=='Thu đủ') { ?>checked<?php } ?> value="Thu đủ" /><label class="labelReg" for="rad4">Thu đủ</label><br></td>
                                 <td><input type="radio" class="radioForm" id="rad5" name="statusPay" <?php if(get_field('payment_status')=='Đặt cọc') { ?>checked<?php } ?> value="Đặt cọc" /><label class="labelReg" for="rad5">Đặt cọc</label><br>
                                 <p class="inputBlock inputNumber monneyDeposit" <?php if(get_field('deposit')!='') { ?> style="display:block;" <?php } ?>>
-                                <input type="text" data-type="number" class="inputForm" id="deposit" name="deposit" placeholder="Số tiền cọc" />
+                                <input type="text" data-type="number" class="inputForm" value="<?php echo number_format(get_field('deposit'));  ?>" id="deposit" name="deposit" placeholder="Số tiền cọc" />
                                 <span></span>
                                 </p>
                                 </td>
@@ -256,10 +257,18 @@ include(APP_PATH."libs/head.php");
                     <table class="tblPage">
                         <tr>
                             <th>Số tiền đã thanh toán</th>
-                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo number_format(get_field('remain')); ?><?php } ?>" /></p></td>
+                            <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('collect')!='') { ?><?php echo number_format(get_field('collect')); ?><?php } ?>" /></p></td>
                         </tr>
                     </table>
-                    <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
+
+                    <table class="tblPage">
+                        <tr>
+                            <th>Số tiền còn lại cần thanh toán</th>
+                            <td><p class="inputBlock"><input type="text" id="remain_depo" name="remain_depo" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo number_format(get_field('remain')); ?><?php } ?>" /></p></td>
+                        </tr>
+                    </table>
+
+                    <?php if((get_field('payment_status')=='Nợ')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
                     <h3 class="h3_page">Thanh toán nợ</h3>
                     <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                         <table class="tblPage">
@@ -276,7 +285,25 @@ include(APP_PATH."libs/head.php");
                                 </td>
                             </tr>
                         </table>
-                    
+                    <?php } ?>
+
+                    <?php if((get_field('payment_status')=='Đặt cọc')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
+                    <h3 class="h3_page">Thanh toán tiền phần còn lại</h3>
+                    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+                        <table class="tblPage">
+                            <tr>
+                                <th>Số tiền thanh toán</th>
+                                <td><p class="inputBlock"><input type="text" id="debt_paid" name="debt_paid" class="inputForm" value="" /></p></td>
+                            </tr>
+                            <tr>
+                                <th>Ngày thanh toán</th>
+                                <td>
+                                    <p class="inputBlock">
+                                    <input type="text" class="inputForm" id="datechose" name="debt_date" readonly value="<?php echo date('d/m/Y'); ?>">
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
                     <?php } ?>
 
                     <h4 class="h4_page">Lịch sử thanh toán</h4>
@@ -296,14 +323,24 @@ include(APP_PATH."libs/head.php");
                     </table>
 
                     <div class="flexBox flexBox--C">
-                        <?php if((get_field('debt')>0)&&(get_field('debter')=='yes')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
-                            <input type="hidden" name="action" value="paidDebt" >
-                            <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
-                            <input type="hidden" name="debt_get" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                            <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
-                            <input class="btnSubmit" type="submit" name="submit" value="Thanh toán nợ">
+                    <?php if((get_field('payment_status')=='Nợ')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
+                        <input type="hidden" name="action" value="paidDebt" >
+                        <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                        <input type="hidden" name="debt_get" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <input class="btnSubmit" type="submit" name="submit" value="Thanh toán nợ">
                     </form>    
-                        <?php } ?>
+                    <?php } ?>
+
+                    <?php if((get_field('payment_status')=='Đặt cọc')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
+                        <input type="hidden" name="action" value="paidDebt" >
+                        <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+                        <input type="hidden" name="debt_get" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <input class="btnSubmit" type="submit" name="submit" value="Thanh toán tiếp">
+                    </form>    
+                    <?php } ?>
+
                         <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" class="btnSubmit">In</a>
                     </div>
                 </div>
@@ -513,6 +550,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="action" value="edit_info" >
                     <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
                     <input type="hidden" name="upload" value="upload" >
+                    <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                     <input class="btnSubmit" type="submit" name="submit" value="Tải lên">
                 </form>
             </div>

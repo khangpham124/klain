@@ -33,7 +33,7 @@ include(APP_PATH."libs/head.php");
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin khách hàng</h2>
         
-            <form action="<?php echo APP_URL; ?>data/addCustomer.php" method="post" enctype="multipart/form-data" id="formCustomer">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/addCustomer.php" method="post" enctype="multipart/form-data" id="formCustomer">
                 <h3 class="h3_page">Thông tin cơ bản</h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                     <p class="inputBlock">
@@ -77,7 +77,7 @@ include(APP_PATH."libs/head.php");
                 <h3 class="h3_page">Thông tin tài khoản online</h3>
                 <div class="flexBox flexBox--between flexBox__form">
                     <p class="inputBlock">
-                    <input type="text" class="inputForm" name="address" placeholder="Địa chỉ" />
+                    <input type="text" class="inputForm" id="address" name="address" placeholder="Địa chỉ" />
                     </p>
                     <p class="inputBlock">
                     <input type="text" class="inputForm" name="facebook" placeholder="facebook" />

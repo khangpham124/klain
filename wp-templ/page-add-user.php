@@ -25,7 +25,7 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thêm người dùng mới</h2>
-        <form id="addUser" action="<?php echo APP_URL; ?>data/addUser.php" method="post" enctype="multipart/form-data">
+        <form autocomplete="off" id="addUser" action="<?php echo APP_URL; ?>data/addUser.php" method="post" enctype="multipart/form-data">
                 <div class="flexBox flexBox--between flexBox__form">
                     <p class="inputBlock">
                     <input type="text" class="inputForm" id="fullname" name="fullname" placeholder="Họ tên" />

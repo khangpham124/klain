@@ -149,7 +149,7 @@ include(APP_PATH."libs/head.php");
                             <td><?php the_title(); ?></td>
                             <td><?php the_field('fullname'); ?></td>
                             <td><?php the_field('mobile'); ?></td>
-                            <td class="last"><a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                            <td class="last"><a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                         </tr>
                         <?php endwhile;endif; ?>
                             </tbody>
@@ -159,6 +159,7 @@ include(APP_PATH."libs/head.php");
                 <input type="hidden" name="action" value="edit" >
                 <input type="hidden" name="idPost" value="<?php echo $post->ID; ?>" >
                 <input type="hidden" name="editor" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                 <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
             </form>
         </div>

@@ -77,7 +77,7 @@ include(APP_PATH."libs/head.php");
             <?php } ?>    
             <strong><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></h4>
         <div class="servicesDone">
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <!-- phuong thu tu van -->
                 <h3 class="h3_page">Ngay sau phẫu thuật</h3>
                 <textarea class="inputForm"  name="nurse_mess" placeholder="Lời dặn"></textarea>
@@ -143,7 +143,22 @@ include(APP_PATH."libs/head.php");
                 <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
                 <input type="hidden" name="time" value="firsttime" >
                 <input type="hidden" name="end" value="<?php echo $time_end; ?>" >
-                <input type="hidden" name="status" value="cshp" >
+                <?php
+                $surger_cf = get_field('services_list',$_GET['idSurgery']);
+                $surger_remain = array();
+                for($i=0; $i < count($surger_cf); $i++){
+                    if($surger_cf[$i]['do']!='yes') {
+                        $surger_remain[]=$surger_cf[$i]['name'];
+                    }
+                }
+                $remin_s = count($surger_remain);
+                if($remin_s==0) {
+                ?>
+                <input type="hidden" name="status" value="hauphau" >
+                <?php } else { ?>
+                <input type="hidden" name="status" value="phauthuat" >
+                <?php } ?>
+
                 <input type="hidden" name="numb" value="<?php echo $serv['numb']; ?>" >
                 <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                 <input type="hidden" name="action" value="edit_cshp" >

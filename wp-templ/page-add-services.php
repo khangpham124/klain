@@ -27,7 +27,7 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thêm Dịch vụ</h2>
-            <form action="<?php echo APP_URL; ?>data/addServices.php" method="post" id="addServices">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/addServices.php" method="post" id="addServices">
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                     <p class="inputBlock">
                     <input type="text" class="inputForm" id="name" name="name" placeholder="Tên dịch vụ" />

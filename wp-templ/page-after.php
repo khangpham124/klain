@@ -22,7 +22,7 @@ include(APP_PATH."libs/head.php");
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin hậu phẫu</h2>
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="addServices">
             <?php
                 $id_sur = $_GET['idSurgery'];
                 if($id_sur!='') {

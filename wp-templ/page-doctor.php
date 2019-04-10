@@ -46,7 +46,7 @@ include(APP_PATH."libs/head.php");
             </div> 
 
 
-            <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <?php 
                     $id_med = get_field('idmedical');
                     if($id_med!='') {

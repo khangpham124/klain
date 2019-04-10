@@ -15,6 +15,7 @@
         html {
             overflow-x: hidden;
             background: #FFF;
+            /* height: 100%; */
         }
         
         body {
@@ -345,6 +346,7 @@ Body
         
         body {
             width: 100%;
+            height: 100%;
             margin: 0;
             padding: 0;
             line-height: 1.6;
@@ -352,6 +354,7 @@ Body
             font-size: 13px;
             color: #333;
             min-width: 320px;
+            /* position: relative; */
         }
         
         .pc {
@@ -436,6 +439,18 @@ Header
         
         .hideSide ul li {
             padding: 15px 0;
+        }
+
+        .hideSide ul li ul {
+            padding-left: 15px;
+        }
+
+        .hideSide ul li ul li {
+            border: none;
+            padding: 7.5px 0;
+        }
+
+        .hideSide ul > li {
             border-bottom: 1px solid #ccc;
         }
 
@@ -455,9 +470,9 @@ Header
             opacity: .7;
         }
 
-        .hideSide ul li:hover i {
+        /* .hideSide ul.lstSide li:hover > i {
             margin-right: 15px;
-        }
+        } */
         
         .hideSide .iconClose {
             display: none;
@@ -504,9 +519,8 @@ Footer
         }
         
         #copyright {
-            text-align: center;
-            border-top: 1px solid #ccc;
             padding: 10px 0;
+            color: #fff;
         }
         /*---*/
         
@@ -518,6 +532,14 @@ Footer
             align-items: center;
         }
         
+        .flexBox--C {
+            justify-content: center;
+        }
+
+        .flexBox--C .btnSubmit {
+            margin: 0 10px;
+        }
+
         .flexBox--between {
             justify-content: space-between;
         }

@@ -14,15 +14,39 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $debt_date = $_POST['debt_date'];
         $debt_get = $_POST['debt_get'];
         $url = $_POST['url'];
-        $current_debt = get_field('debt',$pid);
-        $current_remain = get_field('remain',$pid);
-        $current_remain_depo = get_field('remain_depo',$pid);
 
-        $remain_debt = $current_debt - $debt_paid;
-        $new_reamin = $current_remain + $debt_paid;
-        $new_remain_depo = $current_remain_depo - $debt_paid;
+        
+        if(get_field('payment_status',$pid)=='Nợ') {
+            $current_debt = get_field('debt',$pid);
+            $current_remain = get_field('remain',$pid);
+            $current_collect = get_field('collect',$pid);
+            $remain_debt = $current_debt - $debt_paid;
+            $new_reamin = $current_remain - $debt_paid;
+            $new_collect = $current_collect + $debt_paid;
 
-        update_post_meta($pid,'debt',$remain_debt);
+            update_post_meta($pid,'remain',$new_reamin);
+            update_post_meta($pid,'collect',$new_collect);
+            update_post_meta($pid,'debt',$remain_debt);
+            if($remain_debt==0) {
+                update_post_meta($pid,'payment_status','Thu đủ');
+            }
+        }
+
+        if(get_field('payment_status',$pid)=='Đặt cọc') {
+            $current_deposit = get_field('deposit',$pid);
+            $current_remain = get_field('remain',$pid);
+            $current_collect = get_field('collect',$pid);
+            $new_reamin = $current_remain - $debt_paid;
+            $new_deposit = $current_deposit + $debt_paid;
+            $new_collect = $current_collect + $debt_paid;
+            update_post_meta($pid,'deposit',$new_deposit);
+            update_post_meta($pid,'remain',$new_reamin);
+            update_post_meta($pid,'collect',$new_collect);
+            if($new_reamin==0) {
+                update_post_meta($pid,'payment_status','Thu đủ');
+            }
+        }
+        
         update_post_meta($pid,'remain',$new_reamin);
         update_post_meta($pid,'remain_depo',$new_remain_depo);
 
@@ -52,15 +76,14 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             update_field('treepay', $treepay, $pid);
         }
         
-        if($remain_debt==0) {
-            update_post_meta($pid,'payment_status','Thu đủ');
-        }
+        
         header('Location:'.$url);
     }
 
     if($_POST['action']=='edit_info') {
         // DR ADVISE
         $doctor_advise = $_POST['doctor_advise'];
+        $url = $_POST['url'];
         $doctor_advise .='<br>Chỉnh sửa lần cuối:'.$_POST['name_edit'];
         if($_POST['status']) {
             echo $status = $_POST['status'];
@@ -114,11 +137,11 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                     }
                 
                 update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_before' ,$imgBefore, false);
-                update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_after' ,$imgBefore, false);
+                update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_after' ,$imgAfter, false);
                 $s++;
             }
         }
-        header('Location:'.APP_URL);
+        header('Location:'.$url);
     }
 
 
@@ -182,6 +205,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $accept = $_POST['accept'];
         $approve = $_POST['approve'];
         $sale_discount = $_POST['sale_discount'];
+        $hide_tt_final = $_POST['hide_tt_final'];
         
 
         update_post_meta($pid,'accept',$accept);
@@ -189,22 +213,23 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
             update_post_meta($pid,'approve',$approve);
         }
         update_post_meta($pid,'sale_discount',$sale_discount);
+        update_post_meta($pid,'total_final',$hide_tt_final);
 
 
         $status = $_POST['status'];
         $methodPay = $_POST['methodPay'];
 
-        $cash_money = $_POST['cash_money'];
-        $bank_money = $_POST['bank_money'];
-        $visa_money = $_POST['visa_money'];
+        $cash_money = str_replace(array(',','.'),array('',''),$_POST['cash_money']);
+        $bank_money = str_replace(array(',','.'),array('',''),$_POST['bank_money']);
+        $visa_money = str_replace(array(',','.'),array('',''),$_POST['remavisa_moneyin']);
 
         $statusPay = $_POST['statusPay'];
         $deposit = $_POST['deposit'];
         $debt = $_POST['debt'];
         $debter = $_POST['debter'];
         $guy = $_POST['guy'];
+        $collect = str_replace(array(',','.'),array('',''),$_POST['collect']);
         $remain = str_replace(array(',','.'),array('',''),$_POST['remain']);
-        $remain_depo = str_replace(array(',','.'),array('',''),$_POST['remain_depo']);
 
         $nameBank = $_POST['nameBank'];
 
@@ -221,15 +246,22 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         update_post_meta($pid,'visa_money',$visa_money);
 
         update_post_meta($pid,'chose_bank',$nameBank);
+        update_post_meta($pid,'collect',$collect);
         update_post_meta($pid,'remain',$remain);
-        update_post_meta($pid,'remain_depo',$remain_depo);
         update_post_meta($pid,'payment_status',$statusPay);
         update_post_meta($pid,'status',$status);
         $approve_cf = get_field('approve',$pid);
         if($approve_cf!='') {
             update_post_meta($pid,'process','yes');
         }
-    
+
+        $treepay = array();
+            $treepay[] = array(
+                'money' => $collect,
+                'date' => $_POST['datePaid'],
+                'name' => $_POST['counter'],
+            );
+            update_field('treepay', $treepay, $pid);
         header('Location:'.APP_URL);
     }
 
@@ -717,7 +749,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $bsk = $_POST['bsk'];
         update_post_meta($pid,'status',$status);
         update_post_meta($pid,'bsk',$bsk);
-        header('Location:'.APP_URL.'surgery');
+        header('Location:'.APP_URL);
     }
 
 // EKIP PART
@@ -728,8 +760,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $time_room = date('Ymd_Hi');
         $idRoom = 'RM_'.$room.'_'.$time_room;
         update_post_meta($pid,'status',$status);
-        
-
+    
         $reg_dr = $_POST['check01'];
         $reg_mc = $_POST['check02'];
         $reg_pm = $_POST['check03'];
@@ -797,6 +828,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         }
         setcookie('did_cookies', $cookies_do, time() + (86400 * 30), "/");
         setcookie('sur_cookies', $pid, time() + (86400 * 30), "/");
+        setcookie('room_cookies', $pid, time() + (86400 * 30), "/");
         // UPDATE SERVICES
         
         header('Location:'.APP_URL);
@@ -847,6 +879,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         update_post_meta($pid,'status',$status);
         setcookie('did_cookies','', time() + 86400, "/");
         setcookie('sur_cookies','', time() + 86400, "/");
+        setcookie('room_cookies','', time() + 86400, "/");
         header('Location:'.APP_URL);
     }
 
@@ -870,14 +903,14 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         $numb_serv = $_POST['numb'];
         $idPost = $_POST['idPost'];
 
-        $careId = 'CARE_'.get_the_title($pid).'_'.$numb_serv ;
+        $careId = 'CARE-'.get_the_title($pid).'-'.$numb_serv ;
         // DEFINE
-        $after_day_1 = 86400 + $time_end;
-        $after_day_2 = 259200 + $time_end;
-        $after_day_3 = 432000 + $time_end;
-        $after_day_4 = 864000 + $time_end;
-        $after_day_5 = 2592000 + $time_end;
-        $after_day_6 = 7776000 + $time_end;
+        $after_day_1 = $time_end;
+        $after_day_2 = 86400 + $time_end;
+        $after_day_3 = 259200 + $time_end;
+        $after_day_4 = 432000 + $time_end;
+        $after_day_5 = 864000 + $time_end;
+        $after_day_6 = 2592000 + $time_end;
 
         
         if($time=="firsttime") {
