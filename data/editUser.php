@@ -1,9 +1,8 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
-require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
+include($_SERVER["DOCUMENT_ROOT"].'/Net/SFTP.php');
+$sftp = new Net_SFTP($sftpServer);
 if($_POST['action']=='update') {
     $fullname = $_POST['fullname'];
     $mobile = str_replace(' ','',$_POST['mobile']);
@@ -12,13 +11,20 @@ if($_POST['action']=='update') {
     
     update_post_meta($pid,'fullname',$fullname);
     add_post_meta($pid, 'password', md5($password));
-    $attach_id = media_handle_upload('file', $pid);
-    if (is_numeric($attach_id)) {
-        update_option('option_image', $attach_id);
-        update_post_meta($pid, '_my_file_upload', $attach_id);
+
+    if ($sftp->login($sftpUsername, $sftpPassword)){
+        if($_FILES["file"]["name"]!="") {
+            $parts1=pathinfo($_FILES["file"]["name"]);
+            $ext1=".".strtolower($parts1["extension"]);	
+            $filename = strtolower($parts1["filename"]);
+            $attach_file = $filename.$ext1;
+            $sftp->put(
+                APP_PATH_UPLOAD."user/".$attach_file, file_get_contents($_FILES["file"]["tmp_name"])
+            );
+            $avatar= APP_IMG."user/".$attach_file;
+            update_post_meta($pid, 'avatar', $avatar);
+        }
     }
-    update_post_meta($pid,'_thumbnail_id',$attach_id);
-    set_post_thumbnail( $pid, $thumbnail_id );
-    header('Location:'.APP_URL.'users');
+    header('Location:'.$_POST['url']);
 }
 ?>

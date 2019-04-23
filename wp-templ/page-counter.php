@@ -362,6 +362,7 @@ $( function() {
     });
 
     if($('#accept').is(':checked')) {
+            $('#accept').removeClass('chkcheckbox errPosRight err');
             var totalPrice = $('#hide_tt_final').val();
             $('input[type=radio][name=statusPay]').change(function() {
                     var totalPrice = $('#totalFee').val();
@@ -381,12 +382,14 @@ $( function() {
                     $('#collect').val(numberWithCommas(reMain));
                     $('#remain').val(numberWithCommas(debt));
             });
+        } else {
+            $('#accept').addClass('chkcheckbox errPosRight err');
         }
 
     $('input[type=checkbox][name=accept]').change(function() {
         if($('#accept').is(':checked')) {
             var totalPrice = $('#hide_tt_final').val();
-            
+            $(this).removeClass('chkcheckbox errPosRight err');
             $('input[type=radio][name=statusPay]').change(function() {
                     var totalPrice = $('#totalFee').val();
                     $('#collect').val(totalPrice);

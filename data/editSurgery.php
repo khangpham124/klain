@@ -1,10 +1,8 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
-require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
-
+include($_SERVER["DOCUMENT_ROOT"].'/Net/SFTP.php');
+$sftp = new Net_SFTP($sftpServer);
     $pid = $_POST['idSurgery'];
 
     // TEMP EKIP
@@ -93,57 +91,58 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
 
         // UPLOAD IMAGE
         if($_POST['upload']) {
-            $s=0;
-            $listService = get_field('services_list',$pid);
-            if (!file_exists($_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid))) {
-               mkdir($_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid), 0777, true);
-            }
-            foreach($listService as $serv) {
-                
-                $imgBefore = $serv['image_before'];
-                $imgAfter = $serv['image_after'];
-                $args = array("post_type" => "services", "s" => $serv['name']);
-                $query = get_posts( $args );
-                foreach ($query as $querys ) {
-                    $ids = $querys->ID;
+            if ($sftp->login($sftpUsername, $sftpPassword)){
+                $s=0;
+                $listService = get_field('services_list',$pid);
+                if (!$sftp->file_exists(APP_PATH_UPLOAD."surgery/".get_the_title($pid))) {
+                    $sftp->mkdir(APP_PATH_UPLOAD."surgery/".get_the_title($pid), 0777, true);
                 }
-                
-                $numb_image = get_field('numb_image',$ids);
-                    for($i=0;$i<$numb_image;$i++) { 
-                        // UPLOAD BEFORE
-                        if($_FILES["file{$i}{$s}_before"]["name"]!="") {
-                            $parts1=pathinfo($_FILES["file{$i}{$s}_before"]["name"]);
-                            $ext1=".".strtolower($parts1["extension"]);	
-                            $filename = strtolower($parts1["filename"]);
-                            $img_name = $filename.'_'.$i.'_'.$s.'_before';
-                            $attach_file = $img_name.$ext1;
-                            
-                            move_uploaded_file($_FILES["file{$i}{$s}_before"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid).'/'.$attach_file);
-                            
-                            $imgBefore .= $attach_file.',';
-                        }
-                        // UPLOAD AFTER    
-                        if($_FILES["file{$i}{$s}_after"]["name"]!="") {
-                            $parts1=pathinfo($_FILES["file{$i}{$s}_after"]["name"]);
-                            $ext1=".".strtolower($parts1["extension"]);	
-                            $filename = strtolower($parts1["filename"]);
-                            $img_name = $filename.'_'.$i.'_'.$s.'_after';
-                            $attach_file = $img_name.$ext1;
-                            
-                            move_uploaded_file($_FILES["file{$i}{$s}_after"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/surgery/".get_the_title($pid).'/'.$attach_file);
-                            
-                            $imgAfter .= $attach_file.',';
-                        }
+                foreach($listService as $serv) {
+                    
+                    $imgBefore = $serv['image_before'];
+                    $imgAfter = $serv['image_after'];
+                    $args = array("post_type" => "services", "s" => $serv['name']);
+                    $query = get_posts( $args );
+                    foreach ($query as $querys ) {
+                        $ids = $querys->ID;
                     }
-                
-                update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_before' ,$imgBefore, false);
-                update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_after' ,$imgAfter, false);
-                $s++;
+                    
+                    $numb_image = get_field('numb_image',$ids);
+                        for($i=0;$i<$numb_image;$i++) { 
+                            // UPLOAD BEFORE
+                            if($_FILES["file{$i}{$s}_before"]["name"]!="") {
+                                $parts1=pathinfo($_FILES["file{$i}{$s}_before"]["name"]);
+                                $ext1=".".strtolower($parts1["extension"]);	
+                                $filename = strtolower($parts1["filename"]);
+                                $img_name = $filename.'_'.$i.'_'.$s.'_before';
+                                $attach_file = $img_name.$ext1;
+                                $sftp->put(
+                                    APP_PATH_UPLOAD."surgery/".get_the_title($pid)."/".$attach_file, file_get_contents($_FILES["file{$i}{$s}_before"]["tmp_name"])
+                                );
+                                $imgBefore .= $attach_file.',';
+                            }
+                            // UPLOAD AFTER    
+                            if($_FILES["file{$i}{$s}_after"]["name"]!="") {
+                                $parts1=pathinfo($_FILES["file{$i}{$s}_after"]["name"]);
+                                $ext1=".".strtolower($parts1["extension"]);	
+                                $filename = strtolower($parts1["filename"]);
+                                $img_name = $filename.'_'.$i.'_'.$s.'_after';
+                                $attach_file = $img_name.$ext1;
+                                $sftp->put(
+                                    APP_PATH_UPLOAD."surgery/".get_the_title($pid)."/".$attach_file, file_get_contents($_FILES["file{$i}{$s}_after"]["tmp_name"])
+                                );
+                                $imgAfter .= $attach_file.',';
+                            }
+                        }
+                    
+                    update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_before' ,$imgBefore, false);
+                    update_post_meta($pid, 'services_list'.'_'.$s.'_'.'image_after' ,$imgAfter, false);
+                    $s++;
+                }
             }
         }
         header('Location:'.$url);
     }
-
 
     // COUNTER PART
     if($_POST['action']=='edit') {
@@ -159,27 +158,31 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
         }    
 
         $customer_id = get_field('idcustomer',$cusid_post);
-        if($_FILES["file1"]["name"]!="") {
-            $parts1=pathinfo($_FILES["file1"]["name"]);
-            $ext1=".".strtolower($parts1["extension"]);	
-            $filename = strtolower($parts1["filename"]);
-            $custom_name = $customer_id.'_front';
-            
-            $attach_file = $custom_name.$ext1;
-            move_uploaded_file($_FILES["file1"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
-            $linkFile_front="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
-            update_post_meta($cusid_post, 'ic_front', $linkFile_front);
-        }
-        if($_FILES["file2"]["name"]!="") {
-            $parts1=pathinfo($_FILES["file2"]["name"]);
-            $ext1=".".strtolower($parts1["extension"]);	
-            $filename = strtolower($parts1["filename"]);
-            $custom_name = $customer_id.'_back';
-            
-            $attach_file = $custom_name.$ext1;
-            move_uploaded_file($_FILES["file2"]["tmp_name"],$_SERVER['DOCUMENT_ROOT']."/data/uploads/customers/".$attach_file);
-            $linkFile_back="http://$_SERVER[HTTP_HOST]/data/uploads/customers/".$attach_file;
-            update_post_meta($cusid_post, 'ic_back', $linkFile_back);
+        if ($sftp->login($sftpUsername, $sftpPassword)){
+            if($_FILES["file1"]["name"]!="") {
+                $parts1=pathinfo($_FILES["file1"]["name"]);
+                $ext1=".".strtolower($parts1["extension"]);	
+                $filename = strtolower($parts1["filename"]);
+                $custom_name = $customer_id.'_front';
+                $attach_file = $custom_name.$ext1;
+                $sftp->put(
+                    APP_PATH_UPLOAD."customer/".$attach_file, file_get_contents($_FILES["file1"]["tmp_name"])
+                );
+                $linkFile_front= APP_IMG."customer/".$attach_file;
+                update_post_meta($cusid_post, 'ic_front', $linkFile_front);
+            }
+            if($_FILES["file2"]["name"]!="") {
+                $parts1=pathinfo($_FILES["file2"]["name"]);
+                $ext1=".".strtolower($parts1["extension"]);	
+                $filename = strtolower($parts1["filename"]);
+                $custom_name = $customer_id.'_back';
+                $attach_file = $custom_name.$ext1;
+                $sftp->put(
+                    APP_PATH_UPLOAD."customer/".$attach_file, file_get_contents($_FILES["file2"]["tmp_name"])
+                );
+                $linkFile_back=APP_IMG."customer/".$attach_file;
+                update_post_meta($cusid_post, 'ic_back', $linkFile_back);
+            }
         }
 
         $fullname = $_POST['fullname'];
@@ -739,7 +742,7 @@ require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
                 add_post_meta($pid_med,'bsnk_advise',$detail_med);
         }
         update_post_meta($pid,'status',$status);
-        header('Location:'.APP_URL.'surgery');
+        header('Location:'.APP_URL);
     }
 
 

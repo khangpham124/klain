@@ -1,9 +1,8 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
-require_once( APP_PATH . 'admin/wp-admin/includes/image.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/file.php' );
-require_once( APP_PATH . 'admin/wp-admin/includes/media.php' );
+include($_SERVER["DOCUMENT_ROOT"].'/Net/SFTP.php');
+$sftp = new Net_SFTP($sftpServer);
 if($_POST['action']=='create') {
     $fullname = $_POST['fullname'];
     $username = $_POST['username'];
@@ -23,17 +22,24 @@ if($_POST['action']=='create') {
     add_post_meta($pid, 'password', md5('123456'));
     add_post_meta($pid, 'mobile', $mobile);
     add_post_meta($pid, 'id_user', $id_user);
-    $attach_id = media_handle_upload('file', $pid);
-    if (is_numeric($attach_id)) {
-        update_option('option_image', $attach_id);
-        update_post_meta($pid, '_my_file_upload', $attach_id);
+
+    if ($sftp->login($sftpUsername, $sftpPassword)){
+        if($_FILES["file"]["name"]!="") {
+            $parts1=pathinfo($_FILES["file"]["name"]);
+            $ext1=".".strtolower($parts1["extension"]);	
+            $filename = strtolower($parts1["filename"]);
+            $custom_name = $customer_id.'_front';
+            $attach_file = $custom_name.$ext1;
+            $sftp->put(
+                APP_PATH_UPLOAD."user/".$attach_file, file_get_contents($_FILES["file"]["tmp_name"])
+            );
+            $avatar= APP_IMG."user/".$attach_file;
+            add_post_meta($pid, 'avatar', $avatar);
+        } else {
+            $thumbnail_id = APP_URL.'img/top/favicon.png';
+            add_post_meta($pid, 'avatar', $thumbnail_id);
+        }
     }
-    if($attach_id!="") {
-        update_post_meta($pid,'_thumbnail_id',$attach_id);
-    } else {
-        $thumbnail_id = APP_URL.'img/top/favicon.png';
-    }
-    set_post_thumbnail( $pid, $thumbnail_id );
     header('Location:'.APP_URL.'users');
 }
 ?>

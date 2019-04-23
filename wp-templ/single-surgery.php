@@ -516,7 +516,7 @@ include(APP_PATH."libs/head.php");
                                 unset($listImage[count($listImage)-1]);
                                 foreach ($listImage as $img ) {
                                 ?>
-                                <li><a href="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>"></a></li>
+                                <li><a href="<?php echo APP_IMG; ?>surgery/<?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?>surgery/<?php the_title(); ?>/<?php echo $img; ?>"></a></li>
                                 <?php } ?>
                             </ul> 
 
@@ -539,7 +539,7 @@ include(APP_PATH."libs/head.php");
                                 unset($listImage[count($listImage)-1]);
                                 foreach ($listImage as $img ) {
                                 ?>
-                                <li><a href="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?><?php the_title(); ?>/<?php echo $img; ?>"></a></li>
+                                <li><a href="<?php echo APP_IMG; ?>surgery/<?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?>surgery/<?php the_title(); ?>/<?php echo $img; ?>"></a></li>
                                 <?php } ?>
                             </ul> 
                             

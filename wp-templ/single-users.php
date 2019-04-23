@@ -45,15 +45,15 @@ include(APP_PATH."libs/head.php");
                     </p>
                     
                     <input type="hidden" name="postid" value="<?php echo $post->ID; ?>" >
+                    <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                     <input type="hidden" name="action" value="update" >
                     <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                 </div>
                 <div class="customerCard">
-                    <?
-                    $thumb = get_post_thumbnail_id($post->ID);
-                    $thumb_url = wp_get_attachment_image_src($thumb,'full');
+                    <?php
+                    $thumb_url = get_field('avatar');
                     ?>
-                    <img src="<?php echo thumbCrop($thumb_url[0],500,500); ?>">
+                    <img src="<?php echo thumbCrop($thumb_url,500,500); ?>">
                     <h3 class="h4_page">Thay đổi hình đại diện</h3>
                     <input type="file" name="file" id="file" aria-label="File browser example">
                 </div>

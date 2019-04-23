@@ -7,6 +7,7 @@ if(!$_COOKIE['login_cookies']) {
 }
 include(APP_PATH."libs/head.php"); 
 ?>
+<link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
 </head>
 
 <body id="doctor">
@@ -46,7 +47,7 @@ include(APP_PATH."libs/head.php");
             </div> 
 
 
-            <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+            <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="formDoctor">
                 <?php 
                     $id_med = get_field('idmedical');
                     if($id_med!='') {
@@ -81,21 +82,21 @@ include(APP_PATH."libs/head.php");
                         <tr>
                             <th>Dị ứng thuốc</th>
                             <td>
-                                <p class="inputBlock borderBox">
-                                    <input type="radio" class="radioForm" id="f_2" name="f_3" value="Có" /><label class="labelReg" for="f_2">Có</label>
-                                    <input type="radio" class="radioForm" id="f_3" name="f_3" value="Không" /><label class="labelReg" for="f_3">Không</label>
+                                <p class="inputBlock borderBox chkradio" id="chkF3">
+                                    <input type="radio" class="radioForm" id="f_3_1" name="f_3" value="Có" /><label class="labelReg" for="f_3_1">Có</label>
+                                    <input type="radio" class="radioForm" id="f_3_2" name="f_3" value="Không" /><label class="labelReg" for="f_3_2">Không</label>
                                 </p>
-                                <textarea class="inputForm" name="f_2" placeholder="Thuốc dị ứng"></textarea>
+                                <textarea class="inputForm" id="f_2" name="f_2" placeholder="Thuốc dị ứng"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>Dị ứng thức ăn</th>
                             <td>
-                                <p class="inputBlock borderBox">
-                                    <input type="radio" class="radioForm" id="f_4" name="f_5" value="Có" /><label class="labelReg" for="f_4">Có</label>
-                                    <input type="radio" class="radioForm" id="f_5" name="f_5" value="Không" /><label class="labelReg" for="f_5">Không</label>
+                                <p class="inputBlock borderBox chkradio" id="chkF5">
+                                    <input type="radio" class="radioForm" id="f_5_1" name="f_5" value="Có" /><label class="labelReg" for="f_5_1">Có</label>
+                                    <input type="radio" class="radioForm" id="f_5_2" name="f_5" value="Không" /><label class="labelReg" for="f_5_2">Không</label>
                                 </p>
-                                <textarea class="inputForm" name="f_4" placeholder="Thức ăn dị ứng"></textarea>
+                                <textarea class="inputForm" id="f_4" name="f_4" placeholder="Thức ăn dị ứng"></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -556,20 +557,9 @@ include(APP_PATH."libs/head.php");
                         </div>
                     <h3 class="h3_page">Hướng điều trị</h3>   
                     <div class="inputBlock">
-                        <textarea class="inputForm" name="f_96" placeholder=""></textarea>
+                        <textarea class="inputForm" name="f_96" id="f_96" placeholder=""></textarea>
                     </div>  
 
-
-                    <h4 class="h4_page">Hình ảnh trước phẫu thuật</h4>
-                    <?php
-                    $numb_image = get_field('numb_image');
-                    for($i=1;$i<=$numb_image;$i++) {
-                    ?>
-                    <label class="file">
-                        <input type="file" name="file<?php echo $i; ?>" id="file<?php echo $i; ?>" accept="image/*" capture="camera">
-                        <span class="file-custom"></span>
-                    </label>
-                    <?php } ?>
                 <?php } ?>
 
                 <h3 class="h3_page">Dành riêng cho BSK</h3>    
@@ -619,6 +609,24 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 </div>
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
+<script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
+<script type="text/javascript">
+	$(function(){
+	  $("#formDoctor").exValidation({
+	    rules: {
+            f_2: "chkrequired",
+            f_4: "chkrequired",
+            f_96: "chkrequired",
+	    },
+	    stepValidation: true,
+	    scrollToErr: true,
+	    errHoverHide: true
+	  });
+    });
+</script>
+<div class="overlay"></div>
+
 <script type="text/javascript">
     $('#tab1').show();
     $('.tabItem li:nth-child(1)').addClass('active');
@@ -644,9 +652,6 @@ include(APP_PATH."libs/head.php");
         $('.popUp').fadeOut(200);
     });
 </script>
-
-<div class="overlay"></div>
-
 
 </body>
 </html>	

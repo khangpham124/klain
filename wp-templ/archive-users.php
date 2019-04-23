@@ -79,16 +79,15 @@ include(APP_PATH."libs/head.php");
                     }
                     $wp_query->query($param);
                     if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
-                    $thumb = get_post_thumbnail_id($post->ID);
-                    $thumb_url = wp_get_attachment_image_src($thumb,'full');
                     $terms = get_the_terms($post->ID, 'userscat');
                     foreach($terms as $term) { 
                         $name_user = $term->name;
                     }
+                    $avatar = get_field('avatar');
                 ?>
                 <tr>
                     <td><?php the_field('id_user') ?></td>
-                    <td><img src="<?php echo thumbCrop($thumb_url[0],80,80); ?>" alt=""></td>
+                    <td><img src="<?php echo thumbCrop($avatar,80,80); ?>" alt=""></td>
                     <td><?php the_field('fullname') ?></td>
                     <td><?php echo $name_user; ?></td>
                     <td><?php the_field('mobile') ?></td>

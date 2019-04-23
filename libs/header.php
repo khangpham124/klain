@@ -8,8 +8,7 @@
         );
         $posts_array = get_posts( $param );
         foreach ($posts_array as $user ) {
-        $thumb = get_post_thumbnail_id($user->ID);
-        $thumb_url = wp_get_attachment_image_src($thumb,'full');
+        $thumb_url = get_field('avatar',$user->ID);
 ?>
 <header id="header" class="flexBox flexBox--center flexBox--between">
     <p id="logo"><a href="<?php echo APP_URL; ?>"><img src="<?php echo APP_URL; ?>common/img/header/logo.png" alt=""></a></p>
@@ -25,7 +24,7 @@
     </p>
         <p class="headerInfo__ava"><a href="javascript:void(0)" class="iconShow">
             <?php if($thumb_url!='') { ?>
-            <img src="<?php echo thumbCrop($thumb_url[0],150,150); ?>" alt=""></a>
+            <img src="<?php echo thumbCrop($thumb_url,150,150); ?>" alt=""></a>
             <?php } else { ?>
             <img src="<?php echo APP_URL; ?>common/img/icon/no-img.jpg" alt=""></a>
             <?php } ?>
