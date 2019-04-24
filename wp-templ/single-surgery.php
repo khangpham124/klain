@@ -36,9 +36,9 @@ include(APP_PATH."libs/head.php");
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
             <?php } ?>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
-            <li><a href="javascript:void(0)"  data-id="tab6">Chi tiết ca phẫu thuật</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab4">Chi tiết ca phẫu thuật</a></li>
             <li><a href="javascript:void(0)"  data-id="tab5">Chăm sóc hậu phẫu</a></li>
-            <li><a href="javascript:void(0)"  data-id="tab7">Hình ảnh</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab6">Hình ảnh</a></li>
         </ul>
 
         <div class="tabContent">
@@ -381,7 +381,7 @@ include(APP_PATH."libs/head.php");
                 </div>
 
 
-                <div class="tabBox" id="tab6">
+                <div class="tabBox" id="tab4">
                     <?php 
                     foreach($listService as $serv) {
                         $ekip = $serv['ekip'];
@@ -483,7 +483,7 @@ include(APP_PATH."libs/head.php");
                 </table>
             </div>
 
-            <div class="tabBox" id="tab7">
+            <div class="tabBox" id="tab6">
                 <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                     <?php 
                         $s=0;
@@ -551,7 +551,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
                     <input type="hidden" name="upload" value="upload" >
                     <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
-                    <input class="btnSubmit" type="submit" name="submit" value="Tải lên">
+                    <input class="btnSubmit btnUpload" type="submit" name="submit" value="Tải lên">
                 </form>
             </div>
             <!-- <button onclick="window.print();return false;" class="btnSubmit">In</button> -->
@@ -567,6 +567,7 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 </div>
+<script type="text/javascript" src="<?php echo APP_URL; ?>common/js/pageload.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>common/js/jquery.magnific-popup.js"></script>
  <script type="text/javascript">
     <?php $tab = $_GET['tab'];
@@ -713,6 +714,8 @@ $( function() {
     });
 });
 </script>
+
+<?php include(APP_PATH."libs/pageload.php"); ?>
 
 </body>
 </html>	

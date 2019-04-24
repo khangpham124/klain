@@ -21,8 +21,6 @@ include(APP_PATH."libs/head.php");
 $form = $_GET['form'];
 $idSurgery = $_GET['idSurgery'];
 $type = $_GET['type'];
-
-
 if($form=='tvv') {
 ?>
 <h2 class="h2_page_print">Phiếu thông tin khách hàng</h2>
@@ -134,7 +132,7 @@ foreach($listService as $serv) {
                 if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
             ?>
             <tr>
-                <th colspan="2">Ngày <?php echo date("d") ?>Tháng <?php echo date("m") ?>Năm <?php echo date("Y") ?>                
+                <th colspan="2">Ngày <?php echo date("d") ?> Tháng <?php echo date("m") ?> Năm <?php echo date("Y") ?>                
                 </th>
             </tr>
 
@@ -147,12 +145,12 @@ foreach($listService as $serv) {
                 <th>Số điện thoại</th>
                 <td><?php the_field('mobile'); ?></td>
             </tr>
-
-            <tr>
-                <th>Số CMND</th>
-                <td><?php echo get_field('idcard',get_field('cusid_post')); ?></td>
-            </tr>
-
+            <?php if(get_field('idcard',get_field('cusid_post'))!='') { ?>
+                <tr>
+                    <th>Số CMND</th>
+                    <td><?php echo get_field('idcard',get_field('cusid_post')); ?></td>
+                </tr>
+            <?php } ?>
             <tr>
                 <th>Địa chỉ</th>
                 <td><?php echo get_field('address',get_field('cusid_post')); ?></td>
@@ -160,63 +158,50 @@ foreach($listService as $serv) {
 
             <tr>
                 <th>Dịch vụ thực hiện</th>
+                <td>
+                <?php
+                $listService = get_field('services_list',$idSurgery);
+                foreach($listService as $serv) {
+                    echo '<p><strong>'.$serv['name'].'</strong></p>';
+                }   
+                ?>
+                </td>
             </tr>
-
             <tr>
-                <th><?php the_field('services'); ?></th>
-                <td><input type="text" class="inputForm" id="price_real_1" readonly value="<?php echo number_format(get_field('price')); ?>" /></td>
+                <th>Số tỉền phải thanh toán</th>
+                <td><?php echo number_format(get_field('total_final')); ?> VND</td>
             </tr>
-            <?php if(get_field('services_2')!='') { ?>
-            <tr>
-                <th><?php the_field('services_2'); ?></th>
-                <td><input type="text" class="inputForm" id="price_real_2" readonly value="<?php echo number_format(get_field('price_2')); ?>" /></td>
-            </tr>
+            <?php if(get_field('sale_discount')!=0) { ?>
+                <tr>
+                    <th>Khuyến mãi</th>
+                    <td><?php echo number_format(get_field('sale_discount')); ?> VND</td>
+                </tr>
             <?php } ?>
-            <?php if(get_field('services_3')!='') { ?>
             <tr>
-                <th><?php the_field('services_3'); ?></th>
-                <td><input type="text" class="inputForm" id="price_real_3" readonly value="<?php echo number_format(get_field('price_3')); ?>" /></td>
+                <th>Số tỉền đã thanh toán</th>
+                <td><?php echo number_format(get_field('collect')); ?> VND</td>
             </tr>
-            <?php } ?>
-
-            <tr>
-                <th>Khuyến mãi</th>
-                <td><?php echo number_format(get_field('sale_discount')); ?></td>
-            </tr>
-
-            <tr>
-                <th>Số tỉền thanh toán</th>
-                <td><?php echo number_format(get_field('remain')); ?></td>
-            </tr>
-
-            
-
             <tr>
                 <th>Tình trạng thu</th>
-                <td><?php the_field('payment_status'); ?>
-                    <?php if(get_field('deposit')!='') { ?>
-                    <h4 class="h4_page">Đặt cọc</h4>
-                    <?php echo get_field('deposit'); ?>
+                <td>
+                    <?php if(get_field('deposit')!=0) { ?>
+                    <h4 class="h4_page">Đặt cọc:<?php echo number_format(get_field('deposit')); ?> VND</h4>
                     <?php } ?>
-                    <?php if(get_field('debt')!='') { ?>
-                    <h4 class="h4_page">Còn nợ</h4>
-                    <?php echo get_field('debt'); ?>
+                    <?php if(get_field('debt')!=0) { ?>
+                    <h4 class="h4_page">Còn nợ: <?php echo number_format(get_field('debt')); ?> VND&nbsp;&nbsp;&nbsp;&nbsp;Người bảo lãnh: <?php echo get_field('guy'); ?></h4>
                     <?php } ?>
-                    <h4 class="h4_page">Chi tiết</h4>
+
+                    <?php if(get_field('cash_money')!=0) { ?>
                     <label class="labelReg" for="rad1">Tiền mặt</label>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="cash_money" <?php if(get_field('process')=='yes') { ?>readonly<?php } ?> id="cash_money" placeholder="Số tiền mặt" value="<?php echo get_field('cash_money'); ?>" />
-                    </p>
-                    <label class="labelReg" for="rad2">Chuyển khoản</label>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="bank_money" <?php if(get_field('process')=='yes') { ?>readonly<?php } ?> id="bank_money" placeholder="Số chuyển khoản" value="<?php echo get_field('bank_money'); ?>" />
-                        
-                    </p>
+                    <h4 class="h4_page"><?php echo number_format(get_field('cash_money')); ?> VND</h4>
+                    <?php } ?>
+                    <?php if(get_field('bank_money')!=0) { ?>
+                    <h4 class="h4_page">Chuyển khoản: <?php echo number_format(get_field('bank_money')); ?>VND qua <?php echo get_field('chose_bank'); ?></h4>
+                    <?php } ?>
+                    <?php if(get_field('visa_money')!=0) { ?>
                     <label class="labelReg" for="rad3">Visa/Master</label>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="visa_money" <?php if(get_field('process')=='yes') { ?>readonly<?php } ?> id="visa_money" placeholder="Thanh toán visa" value="<?php echo get_field('visa_money'); ?>" />
-                        
-                    </p>
+                    <h4 class="h4_page"><?php echo number_format(get_field('visa_money')); ?> VND</h4>
+                    <?php } ?>
                 </td>
             </tr>
             <?php endwhile;endif; ?>  
@@ -228,7 +213,6 @@ foreach($listService as $serv) {
             <p class="inputBlock inputNumber"><strong>Người lập phiếu</strong><em>(Ký ,họ tên, đóng dấu)</em></p>
         </div>        
     </div>
-
 <?php } ?>
 
 
@@ -260,7 +244,7 @@ foreach($listService as $serv) {
                 if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
             ?>
             <tr>
-                <th colspan="2">Ngày <?php echo date("d") ?>Tháng <?php echo date("m") ?>Năm <?php echo date("Y") ?>                
+                <th colspan="2">Ngày <?php echo date("d") ?> Tháng <?php echo date("m") ?> Năm <?php echo date("Y") ?>                
                 </th>
             </tr>
 
@@ -273,12 +257,12 @@ foreach($listService as $serv) {
                 <th>Số điện thoại</th>
                 <td><?php the_field('mobile'); ?></td>
             </tr>
-
-            <tr>
-                <th>Số CMND</th>
-                <td><?php echo get_field('idcard',get_field('cusid_post')); ?></td>
-            </tr>
-
+            <?php if(get_field('idcard',get_field('cusid_post'))!='') { ?>
+                <tr>
+                    <th>Số CMND</th>
+                    <td><?php echo get_field('idcard',get_field('cusid_post')); ?></td>
+                </tr>
+            <?php } ?>
             <tr>
                 <th>Địa chỉ</th>
                 <td><?php echo get_field('address',get_field('cusid_post')); ?></td>
@@ -287,57 +271,54 @@ foreach($listService as $serv) {
             <tr>
                 <th>Dịch vụ thực hiện</th>
                 <td>
-                    <?php
-                        $listService = get_field('services',$id_sur);
-                        $listServices = explode('<br>',$listService);
-
-                        $tt_in = get_field('total',$id_sur);
-                        $dis_in = get_field('sale_discount',$id_sur);
-                        $final_in = $tt_in - $dis_in;
-                    ?>
-                    <?php foreach($listServices as $serv) {
-                        echo $serv.'<br>';
-                    }    
-                    ?>
-                    <input type="text" class="inputForm" id="price_real_1" readonly value="<?php echo number_format($final_in); ?>" /></td>
+                <?php
+                $listService = get_field('services_list',$idSurgery);
+                foreach($listService as $serv) {
+                    echo '<p><strong>'.$serv['name'].'</strong></p>';
+                }   
+                ?>
+                </td>
             </tr>
-
             <tr>
-                <th>Khuyến mãi</th>
-                <td><?php echo number_format(get_field('sale_discount')); ?></td>
+                <th>Số tỉền phải thanh toán</th>
+                <td><?php echo number_format(get_field('total_final')); ?> VND</td>
             </tr>
-
+            <?php if(get_field('sale_discount')!=0) { ?>
+                <tr>
+                    <th>Khuyến mãi</th>
+                    <td><?php echo number_format(get_field('sale_discount')); ?> VND</td>
+                </tr>
+            <?php } ?>
             <tr>
-                <th>Số tỉền thanh toán</th>
-                <td><?php echo number_format(get_field('remain')); ?></td>
+                <th>Số tỉền đã thanh toán</th>
+                <td><?php echo number_format(get_field('collect')); ?> VND</td>
             </tr>
-
             <tr>
                 <th>Tình trạng thu</th>
                 <td>
-                    <?php if(get_field('deposit')!='') { ?>
-                    <h4 class="h4_page">Đặt cọc</h4>
-                    <?php echo number_format(get_field('deposit')); ?>
+                    <?php if(get_field('deposit')!=0) { ?>
+                    <h4 class="h4_page">Đặt cọc: <?php echo number_format(get_field('deposit')); ?> VND</h4>
+                    <h4 class="h4_page">Còn lại: <?php echo number_format(get_field('remain')); ?> VND</h4>
                     <?php } ?>
-                    <h4 class="h4_page">Chi tiết</h4>
+                    <?php if(get_field('debt')!=0) { ?>
+                    <h4 class="h4_page">Còn nợ: <?php echo number_format(get_field('debt')); ?> VND&nbsp;&nbsp;&nbsp;&nbsp;Người bảo lãnh: <?php echo get_field('guy'); ?></h4>
+                    <?php } ?>
+
+                    <?php if(get_field('cash_money')!=0) { ?>
                     <label class="labelReg" for="rad1">Tiền mặt</label>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="cash_money" <?php if(get_field('process')=='yes') { ?>readonly<?php } ?> id="cash_money" placeholder="Số tiền mặt" value="<?php echo number_format(get_field('cash_money')); ?>" />
-                    </p>
-                    <label class="labelReg" for="rad2">Chuyển khoản</label>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="bank_money" <?php if(get_field('process')=='yes') { ?>readonly<?php } ?> id="bank_money" placeholder="Số chuyển khoản" value="<?php echo number_format(get_field('bank_money')); ?>" />
-                        
-                    </p>
+                    <h4 class="h4_page"><?php echo number_format(get_field('cash_money')); ?> VND</h4>
+                    <?php } ?>
+                    <?php if(get_field('bank_money')!=0) { ?>
+                    <h4 class="h4_page">Chuyển khoản: <?php echo number_format(get_field('bank_money')); ?>VND qua <?php echo get_field('chose_bank'); ?></h4>
+                    <?php } ?>
+                    <?php if(get_field('visa_money')!=0) { ?>
                     <label class="labelReg" for="rad3">Visa/Master</label>
-                    <p class="inputBlock inputNumber">
-                        <input type="text" data-type="number" class="inputForm" name="visa_money" <?php if(get_field('process')=='yes') { ?>readonly<?php } ?> id="visa_money" placeholder="Thanh toán visa" value="<?php echo number_format(get_field('visa_money')); ?>" />
-                        
-                    </p>
+                    <h4 class="h4_page"><?php echo number_format(get_field('visa_money')); ?> VND</h4>
+                    <?php } ?>
                 </td>
             </tr>
             <?php endwhile;endif; ?>  
-        </table>    
+        </table>     
 
         <div class="flexBox flexBox--between flexBox__form flexBox__form--3 txtPrint">
             <p class="inputBlock inputNumber"><strong>Giám đốc</strong><em>(Ký ,họ tên, đóng dấu)</em></p>
@@ -354,14 +335,7 @@ foreach($listService as $serv) {
 </div>
 <!--/wrapper-->
 <!--===================================================-->
-
-<script>
-$( function() {
-    // $(window).load(function() {
-    //     window.print();
-    // });
-});
-</script>      
+  
 
 </body>
 </html>	

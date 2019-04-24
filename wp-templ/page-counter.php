@@ -307,7 +307,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="approve" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="counter" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="datePaid" value="<?php echo date('d/m/Y'); ?>" >
-
+                    <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                     <input type="hidden" name="timeRegis" value="register" >
                     
                     <input type="hidden" name="status" value="quay" >

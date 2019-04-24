@@ -127,6 +127,10 @@ include(APP_PATH."libs/head.php");
                         if((get_field('debt'))||(get_field('debt')!=0)) { ?>
                         <span class="noteRemind noteRemind--1">Còn nợ</span>
                         <?php } ?>
+                        <?php
+                        if((get_field('deposit'))||(get_field('deposit')!=0)) { ?>
+                        <span class="noteRemind noteRemind--1">Đặt Cọc</span>
+                        <?php } ?>
                         
                     </td>
                     <td><?php the_title(); ?></td>
@@ -147,7 +151,11 @@ include(APP_PATH."libs/head.php");
                                     <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-print" aria-hidden="true"></i></a>
                                     <?php } ?>
                                     <?php if($stt=='quay') { ?>
-                                    <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $id_sur; ?>&form=counter" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
+                                        <?php if(get_field('deposit')==0) { ?>
+                                            <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" target="_blank" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu thu</a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter&type=deposit" target="_blank" class="btnPrint <?php if(get_field('accept')=='no') { ?>disable<?php } ?>">In phiếu cọc</a>
+                                        <?php } ?>
                                     <?php } ?>
                                     <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                                 </td>

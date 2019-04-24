@@ -275,7 +275,7 @@ include(APP_PATH."libs/head.php");
                                         <input type="text" class="inputForm mb10" name="f_35" value="" placeholder="Vật liệu sử dụng" />
                                         <input type="text" class="inputForm" name="f_36" value="" placeholder="Cách dựng trụ" />
 
-                                        <h5 class="h5_page">Tien dinh mui</h5>
+                                        <h5 class="h5_page">Tiền đình mũi</h5>
                                         <input type="radio" class="radioForm" id="f_37_1" name="f_37" value="Không khuyết" /><label class="labelReg" for="f_37_1">Không khuyết</label>
                                         <input type="radio" class="radioForm" id="f_37_2" name="f_37" value="Khuyết" /><label class="labelReg" for="f_37_2">Khuyết</label>
                                         <input type="text" class="inputForm mb10" name="f_38" value="" placeholder="Cần ghép chỗ khuyết" />
@@ -362,7 +362,7 @@ include(APP_PATH."libs/head.php");
                                         <th>Mô tả mí hiện tại</th>
                                         <td>
                                             <p class="mb10">
-                                                <h5 class="h5_page">>Có mí </h5>
+                                                <h5 class="h5_page">>ó mí </h5>
                                                 <input type="radio" class="radioForm" id="f_51_1" name="f_51" value="Có" /><label class="labelReg" for="f_51_1">Có</label>
                                                 <input type="radio" class="radioForm" id="f_51_2" name="f_51" value="Không" /><label class="labelReg" for="f_51_2">Không</label>
                                             </p>
@@ -564,14 +564,14 @@ include(APP_PATH."libs/head.php");
 
                 <h3 class="h3_page">Dành riêng cho BSK</h3>    
                 <textarea class="inputForm" <?php if($_COOKIE['role_cookies']!='boss') { ?>readonly<?php } ?> name="bsk" id="bsk"></textarea>
-                
+                 
+
                 <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
                 <?php if($_COOKIE['role_cookies']=='doctor') { ?>
                     <input type="hidden" name="status" value="bsnk" >
                     <input type="hidden" name="bsnk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
-                    <!-- <input type="hidden" name="numb_image" value="<?php echo $numb_image; ?>" > -->
                     <input type="hidden" name="action" value="edit_bsnk" >
-                    <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
+                    <div class="flexBox flexBox--C mt30">
                         <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                         <a href="javascript:void(0)" class=" callPopup btnSubmit">Trả quầy</a>
                     </div>
@@ -579,23 +579,27 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="status" value="bsk" >
                     <input type="hidden" name="bsk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="action" value="edit_bsk" >
-                    <div class="flexBox flexBox--arround flexBox__form flexBox__form--2">
+                    <div class="flexBox flexBox--C mt30">
                         <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
                         <a href="javascript:void(0)" class=" callPopup btnSubmit">Trả quầy</a>
                     </div>
                 <?php } ?>
+            </form>
 
-                <div class="popUp">
+            <div class="popUp">
                     <h3 class="h3_page">Huỷ dịch vụ</h3>
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/changeStt.php" method="post" enctype="multipart/form-data">
                     <p class="inputBlock">
                         <input type="text" class="inputForm" name="reason_cancel" id="reason_cancel" placeholder="Lý do huỷ" />
                     </p>
+                    <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
+                    <input type="hidden" name="change" value="huy" >
                     <div class="flexBox flexBox--arround flexBox__form--2">
-                        <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
+                        <input class="btnSubmit" type="submit" name="submit" value="Huỷ">
                         <a href="javascript:void(0)" class="btnSubmit cancel">Quay lại</a>
                     </div>
-                </div> 
-            </form>
+                    </form>
+            </div>
         <?php endwhile;endif; ?>
         <?php } ?>
     </div>

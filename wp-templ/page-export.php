@@ -105,6 +105,7 @@ $objPHPExcel = new PHPExcel();
                     </p>
                 </div>
                 <div class="tabBox" id="tab2">
+                <form autocomplete="off" id="queryRoom" action="?tab=2" method="post" enctype="multipart/form-data">
                     <h3 class="h3_page">Xuất thông tin phòng mổ</h3>
                     <select name="input" id="input">
                         <option value="">Lựa chọn phòng mổ</option>
@@ -236,54 +237,103 @@ $objPHPExcel = new PHPExcel();
                             </label>
                         <?php endwhile;endif; ?>
                     </p>
+                    <input type="submit" value="FILTER" class="btnSubmit">
+                </form>                
+
+                    <h2 class="h2_page mt30">Kết quả truy vấn</h2>
+                        <table class="tblPage">
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Họ tên</td>
+                                <td>Số điện thoại</td>
+                                <td>Số CMND</td>
+                                <td>Chi tiết</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $wp_query = new WP_Query();				
+                            $param = array (
+                                'posts_per_page' => '-1',
+                                'post_type' => 'customers',
+                                'post_status' => 'publish',
+                                'order' => 'DESC',
+                                'paged' => $paged,
+                                'meta_query'	=> array(
+                                    array(
+                                        'key' => 'creator',
+                                        'value' => $_COOKIE['name_cookies'],
+                                        'compare' => 'LIKE'
+                                    ),
+                                )
+                                );
+                            
+                            $wp_query->query($param);
+                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                            ?>
+                            <tr>
+                                <td><?php the_field('idcustomer'); ?></td>
+                                <td><?php the_title(); ?></td>
+                                <td><?php the_field('mobile'); ?></td>
+                                <td><?php the_field('idcard'); ?></td>
+                                <td class="last"><a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <?php endwhile;endif;  ?>
+                        </tbody>
+                    </table>
+                    <a href="#" class="btnSubmit"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất file Excel</a>
+
                 </div>
                 <div class="tabBox" id="tab3"></div>
-                <div class="tabBox" id="tab4"></div>
+                <div class="tabBox" id="tab4">
+                    <h2 class="h2_page mt30">Kết quả truy vấn</h2>
+                        <table class="tblPage">
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Họ tên</td>
+                                <td>Số điện thoại</td>
+                                <td>Số CMND</td>
+                                <td>Chi tiết</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $wp_query = new WP_Query();				
+                            $param = array (
+                                'posts_per_page' => '-1',
+                                'post_type' => 'customers',
+                                'post_status' => 'publish',
+                                'order' => 'DESC',
+                                'paged' => $paged,
+                                'meta_query'	=> array(
+                                    array(
+                                        'key' => 'creator',
+                                        'value' => $_COOKIE['name_cookies'],
+                                        'compare' => 'LIKE'
+                                    ),
+                                )
+                                );
+                            
+                            $wp_query->query($param);
+                            if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
+                            ?>
+                            <tr>
+                                <td><?php the_field('idcustomer'); ?></td>
+                                <td><?php the_title(); ?></td>
+                                <td><?php the_field('mobile'); ?></td>
+                                <td><?php the_field('idcard'); ?></td>
+                                <td class="last"><a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <?php endwhile;endif;  ?>
+                        </tbody>
+                    </table>
+                    <a href="#" class="btnSubmit"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất file Excel</a>
+                </div>
             </div>
 
-            <h2 class="h2_page mt30">Kết quả truy vấn</h2>
-			<table class="tblPage">
-			<thead>
-				<tr>
-					<td>ID</td>
-					<td>Họ tên</td>
-					<td>Số điện thoại</td>
-					<td>Số CMND</td>
-					<td>Chi tiết</td>
-				</tr>
-			</thead>
-			<tbody>
-				<?php
-				$wp_query = new WP_Query();				
-                $param = array (
-                    'posts_per_page' => '-1',
-                    'post_type' => 'customers',
-                    'post_status' => 'publish',
-                    'order' => 'DESC',
-                    'paged' => $paged,
-                    'meta_query'	=> array(
-                        array(
-                            'key' => 'creator',
-                            'value' => $_COOKIE['name_cookies'],
-                            'compare' => 'LIKE'
-                        ),
-                    )
-                    );
-				
-				$wp_query->query($param);
-				if($wp_query->have_posts()): while($wp_query->have_posts()) :$wp_query->the_post();
-				?>
-				<tr>
-					<td><?php the_field('idcustomer'); ?></td>
-					<td><?php the_title(); ?></td>
-					<td><?php the_field('mobile'); ?></td>
-					<td><?php the_field('idcard'); ?></td>
-					<td class="last"><a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
-				</tr>
-				<?php endwhile;endif;  ?>
-			</tbody>
-        </table>
-        <a href="#" class="btnSubmit"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Xuất file Excel</a>
+            
 	</div>
 
 
@@ -297,8 +347,16 @@ $objPHPExcel = new PHPExcel();
 </div>	
 
 <script type="text/javascript">
+    <?php $tab = $_GET['tab'];
+    if(!$tab) {
+    ?>
     $('#tab1').show();
     $('.tabItem li:nth-child(1)').addClass('active');
+    <?php } else { ?>
+    $('#tab<?php echo $tab; ?>').show();
+    $('.tabItem li:nth-child(<?php echo $tab; ?>)').addClass('active');
+    <?php } ?>
+    
     $('.tabItem li').click(function() {
         $('.tabItem li').removeClass('active');
         $(this).toggleClass('active');

@@ -28,8 +28,7 @@ if($_POST['action']=='create') {
             $parts1=pathinfo($_FILES["file"]["name"]);
             $ext1=".".strtolower($parts1["extension"]);	
             $filename = strtolower($parts1["filename"]);
-            $custom_name = $customer_id.'_front';
-            $attach_file = $custom_name.$ext1;
+            $attach_file = $filename.'_'.date().$ext1;
             $sftp->put(
                 APP_PATH_UPLOAD."user/".$attach_file, file_get_contents($_FILES["file"]["tmp_name"])
             );

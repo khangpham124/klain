@@ -88,7 +88,7 @@ $sftp = new Net_SFTP($sftpServer);
             update_post_meta($pid,'status',$status);
         }
         update_post_meta($pid,'doctor_advise',$doctor_advise);
-
+        header('Location:'.$url);
         // UPLOAD IMAGE
         if($_POST['upload']) {
             if ($sftp->login($sftpUsername, $sftpPassword)){
@@ -140,8 +140,9 @@ $sftp = new Net_SFTP($sftpServer);
                     $s++;
                 }
             }
+            header('Location:'.$url.'?tab=6');
         }
-        header('Location:'.$url);
+        
     }
 
     // COUNTER PART
@@ -204,7 +205,7 @@ $sftp = new Net_SFTP($sftpServer);
         update_post_meta($cusid_post, 'birthday', $birth);
             
         
-
+        $url = $_POST['url'];
         $accept = $_POST['accept'];
         $approve = $_POST['approve'];
         $sale_discount = $_POST['sale_discount'];
@@ -265,28 +266,26 @@ $sftp = new Net_SFTP($sftpServer);
                 'name' => $_POST['counter'],
             );
             update_field('treepay', $treepay, $pid);
-        header('Location:'.APP_URL);
+        header('Location:'.$url);
     }
 
 
 // DOCTOR PART    
     if($_POST['action']=='edit_bsnk') {
-        $reason = $_POST['reason'];
+        $reason = $_POST['reason_cancel'];
         if($reason!='') {
-            $status = 'huy';    
+            $status = 'huy';
+            update_post_meta($pid,'reason_cancel',$reason); 
         } else {
             $status = $_POST['status'];
             $idMedical = 'MED_'.get_the_title($pid);
-            update_post_meta($pid,'idmedical',$idMedical );
+            update_post_meta($pid,'idmedical',$idMedical);
             $medical_post = array(
                 'post_title'    => $idMedical,
                 'post_status'   => 'publish',
                 'post_type' => 'medical',
             );
             $pid_med = wp_insert_post($medical_post);
-
-            //UPLOAD IMAGEIMAGE
-            
 
             $bsnk = $_POST['bsnk'];
             add_post_meta($pid_med,'bsnk_name',$bsnk);

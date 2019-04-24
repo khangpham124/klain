@@ -254,7 +254,7 @@ include(APP_PATH."libs/head.php");
             <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
             <input type="hidden" name="action" value="ekip_create" >
             <input type="hidden" name="status" value="batdau" >
-            <!-- <a href="javascript:void(0)" class="btnSubmit callPopup">Bắt đầu</a> -->
+            <input type="hidden" name="room" value="<?php echo $_COOKIE['name_cookies']; ?>" >
             <input class="btnSubmit" type="submit" name="submit" value="Bắt đầu">
             <div class="popUp">
                 <p class="txtNote">Vui lòng kiểm tra lại thông tin chính xác,vì thông tin khi nhập vào sẽ ko thể thay đổi được nữa</p>
@@ -283,7 +283,6 @@ include(APP_PATH."libs/head.php");
 	    rules: {
             doctor1: "chkselect",
             ktv:"chkselect",
-            room:"chkselect",
             input:"chkselect",
 	    },
 	    stepValidation: true,
@@ -291,21 +290,6 @@ include(APP_PATH."libs/head.php");
 	    errHoverHide: true
 	  });
     });
-
-    // $('.callPopup').click(function() {
-    //     $('.overlay').fadeIn(200);
-    //     $('.popUp').fadeIn(200);
-    // });
-
-    // $('.overlay').click(function() {
-    //     $(this).fadeOut(200);
-    //     $('.popUp').fadeOut(200);
-    // });
-
-    // $('.cancel').click(function() {
-    //     $('.overlay').fadeOut(200);
-    //     $('.popUp').fadeOut(200);
-    // });
 </script>
 <div class="overlay"></div>
 </body>

@@ -210,11 +210,6 @@ include(APP_PATH."libs/head.php");
                         'posts_per_page' => '-1',
                         'meta_query'	=> array(
                             'relation'		=> 'OR',
-                            // array(
-                            //     'key' => 'date',
-                            //     'value' => $curr_date,
-                            //     'compare' => 'LIKE'
-                            // ),
                             array(
                                 'key'	  	=> 'status',
                                 'value'	  	=> 'quay',
@@ -225,12 +220,7 @@ include(APP_PATH."libs/head.php");
                                 'value' => 'pending',
                                 'compare' => '='
                             ),
-                            array(
-                                'key' => 'payment_status',
-                                'value' => 'Đặt cọc',
-                                'compare' => '!='
-                            ),
-                            )
+                        ),   
                         );
                     }
 
