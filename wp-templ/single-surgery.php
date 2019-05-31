@@ -5,7 +5,10 @@ include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 if(!$_COOKIE['login_cookies']) {    
 	header('Location:'.APP_URL.'login');
 }
-include(APP_PATH."libs/head.php"); 
+if(get_post_status($post->ID)!="publish") {    
+    header('Location:'.APP_URL.'surgery');
+}
+include(APP_PATH."libs/head.php");
 ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>common/css/magnific-popup.css" />
@@ -28,7 +31,7 @@ include(APP_PATH."libs/head.php");
 
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
-        <h2 class="h2_page">Thông tin Ca phẫu thuật</h2>
+        <h2 class="h2_page flexBox flexBox--between">Thông tin Ca phẫu thuật <a onclick="myFunction()" data-link="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=surgery"class="removeItem btnPage btnPage--red">Xóa hồ sơ</a></h2>
 
          <ul class="tabItem tabItem--6 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
@@ -44,7 +47,8 @@ include(APP_PATH."libs/head.php");
         <div class="tabContent">
             <div class="tabBox" id="tab1">
                 <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
-                <h3 class="h3_page">Thông tin cơ bản</h3>
+                <h3 class="h3_page">Thông tin cơ bản
+                </h3>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <p class="inputBlock">
                     <input type="text" class="inputForm" name="fullname" id="fullname" value="<?php echo get_field('fullname'); ?>" placeholder="Họ tên" />
@@ -147,6 +151,7 @@ include(APP_PATH."libs/head.php");
 
 
                 <div class="tabBox" id="tab2">
+                    <?php if(get_field('status')!='pending') { ?>
                     <h3 class="h3_page">Tình trạng thanh toán : <?php the_field('payment_status'); ?></h3>
                     <h4 class="h4_page">Thông tin dịch vụ</h4>
                         <table class="tblPage">
@@ -343,6 +348,7 @@ include(APP_PATH."libs/head.php");
 
                         <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" class="btnSubmit">In</a>
                     </div>
+                    <?php } ?>
                 </div>
 
 
@@ -477,7 +483,7 @@ include(APP_PATH."libs/head.php");
                         <td><?php if($serv['do']=='yes') { ?>Hoàn tất<?php } else { ?>Chưa hoàn tất<?php } ?></td>
                         <td><?php echo $serv['end'] ?></td>
                         <td><?php echo $numb_count_care; ?></td>
-                        <td><a href="<?php echo APP_URL ?>detail-care?id=<?php echo $serv['care']; ?>"><i class="fa fa-comments" aria-hidden="true"></i></a></td>
+                        <td><?php if($serv['do']=='yes') { ?><a href="<?php echo APP_URL ?>detail-care?id=<?php echo $serv['care']; ?>"><i class="fa fa-comments" aria-hidden="true"></i></a><?php } ?></td>
                     </tr>
                 <?php } ?>
                 </table>
@@ -567,7 +573,6 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 </div>
-<script type="text/javascript" src="<?php echo APP_URL; ?>common/js/pageload.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>common/js/jquery.magnific-popup.js"></script>
  <script type="text/javascript">
     <?php $tab = $_GET['tab'];
@@ -712,10 +717,23 @@ $( function() {
         $('.overlay').fadeOut(200);
         $('.popUp').fadeOut(200);
     });
+
+    function myFunction() {
+        confirm("Xoá hồ sơ đã chọn?");
+    }
+
+    $(".removeItem").click(function(){
+        if(confirm("Xoá hồ sơ đã chọn?")){
+            var url = $(this).attr('data-link');
+            window.location = url;
+        }
+        else{
+            return false;
+        }
+    });
 });
 </script>
 
-<?php include(APP_PATH."libs/pageload.php"); ?>
 
 </body>
 </html>	

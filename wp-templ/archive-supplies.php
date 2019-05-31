@@ -8,7 +8,7 @@ include(APP_PATH."libs/head.php");
 ?>
 </head>
 
-<body id="users">
+<body id="supply">
 <div class="flexBox flexBox--between flexBox--wrap">
 <?php include(APP_PATH."libs/sidebar.php"); ?>
 <div id="wrapper">
@@ -27,28 +27,29 @@ include(APP_PATH."libs/head.php");
             <thead>
                 <tr>
                     <td>Tên vật tư</td>
+                    <td>Mã vật tư</td>
                     <td>Đơn vị tính</td>
+                    <td>Xóa</td>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    $wp_query = new WP_Query();
-                    $param = array (
-                        'posts_per_page' => '-1',
-                        'post_type' => 'supplies',
-                        'post_status' => 'publish',
-                        'order' => 'DESC',
-                    );
-                    $wp_query->query($param);
-                    if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
+                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+                    query_posts($query_string . '&orderby=post_date&order=desc&posts_per_page=30&paged=' . $paged); 
+                    if(have_posts()):while(have_posts()) : the_post();
                 ?>
                 <tr>
                     <td><?php the_title(); ?></td>
+                    <td><?php the_field('sort') ?></td>
                     <td><?php the_field('unit') ?></td>
+                    <td class="last">
+                    <span><a onclick="myFunction()" data-link="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=supplies"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>
+                    </td>
                 </tr>
                 <?php endwhile;endif;?>
             </tbody>
         </table>
+        <?php if(function_exists('wp_pagenavi')) { wp_pagenavi(); } ?>
     </div>
 
 
@@ -69,6 +70,19 @@ include(APP_PATH."libs/head.php");
           }
           return false;
       });
+      function myFunction() {
+        confirm("Xoá hồ sơ đã chọn?");
+    }
+
+    $(".removeItem").click(function(){
+        if(confirm("Xoá hồ sơ đã chọn?")){
+            var url = $(this).attr('data-link');
+            window.location = url;
+        }
+        else{
+            return false;
+        }
+    });
     });
 </script>
 </body>

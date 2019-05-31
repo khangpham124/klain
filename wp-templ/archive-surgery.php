@@ -25,6 +25,7 @@ include(APP_PATH."libs/head.php");
 <div class="blockPage blockPage--full maxW">
             <h2 class="h2_page">Danh sách hồ sơ khách hàng</h2>
             <div class="buttonBar">
+            <a href="javascript:void(0)" class="showIcon"><i class="fa fa-minus-square" aria-hidden="true"></i>Xoá ca phẫu thuật</a>
             <p class="inputBlock customSelect">
                 <select id="selectBox">
                     <option value="">Tình trạng Hồ sơ</option>
@@ -141,12 +142,14 @@ include(APP_PATH."libs/head.php");
                                 <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
                                 <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
                                 <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
-                                <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+                                <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                <span><a onclick="myFunction()" data-link="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=surgery"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>
                                 </td>        
                             <?php } ?>
 
                             <?php if($_COOKIE['role_cookies']=='counter') { ?>
                                 <td class="last">
+                                    <span><a onclick="return confirm(\'Xoá hồ sơ đã chọn?\')" href="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=users"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>
                                     <?php if($stt=='tvv') { ?>
                                     <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-print" aria-hidden="true"></i></a>
                                     <?php } ?>
@@ -213,7 +216,7 @@ include(APP_PATH."libs/head.php");
 </div>
 
 <script>
-    $(function(){
+$(function(){
       // bind change event to select
       $('#selectBox').on('change', function () {
           var url = $(this).val(); // get selected value
@@ -222,7 +225,23 @@ include(APP_PATH."libs/head.php");
           }
           return false;
       });
+      $('.showIcon').click(function() {
+          $('.removeItem').toggleClass('fade');
+     });
+     function myFunction() {
+        confirm("Xoá hồ sơ đã chọn?");
+    }
+
+    $(".removeItem").click(function(){
+        if(confirm("Xoá hồ sơ đã chọn?")){
+            var url = $(this).attr('data-link');
+            window.location = url;
+        }
+        else{
+            return false;
+        }
     });
+});
 </script>
 
 </body>

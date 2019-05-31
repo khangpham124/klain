@@ -145,6 +145,15 @@ $sftp = new Net_SFTP($sftpServer);
         
     }
 
+    if($_POST['action']=='wait_mng') {
+        $debt = $_POST['debt'];
+        $guy = $_POST['guy'];
+        $url = $_POST['url'];
+        update_post_meta($pid,'guy',$guy);
+        update_post_meta($pid,'debt',$debt);
+        header('Location:'.$url);
+    }
+
     // COUNTER PART
     if($_POST['action']=='edit') {
         
@@ -759,7 +768,7 @@ $sftp = new Net_SFTP($sftpServer);
         // CREAT EKIP
         $room = $_POST['room'];
         $status = $_POST['status'];
-        $time_room = date('Ymd_Hi');
+        $time_room = time();
         $idRoom = 'RM_'.$room.'_'.$time_room;
         update_post_meta($pid,'status',$status);
     

@@ -38,13 +38,13 @@
 }
 
 .h5_page {
-    border-bottom:1px solid #e6e6e6;
-    padding-bottom:10px;
-    margin-bottom: 15px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
     font-style: italic;
+    display: block;
 }
 
-.flexBox__form + .h3_page {
+.flexBox__form+.h3_page {
     margin-top: 35px;
 }
 
@@ -66,20 +66,37 @@
     box-shadow: none !important;
 }
 
+.inputForm+.inputForm {
+    margin-top: 10px;
+}
+
+.labelReg+.inputForm {
+    margin-top: 10px;
+}
+
+.labelReg+.h5_page {
+    margin-top: 20px;
+}
+
+.inputForm+.h5_page {
+    margin-top: 20px;
+}
+
 .inputForm:read-only {
-    font-weight:bold;
+    font-weight: bold;
     background: #e6e6e6;
 }
 
-.blockAdvise +.h3_page {
+.blockAdvise+.h3_page {
     margin-top: 35px;
 }
 
-.radioForm, .labelReg, .chkForm {
+.radioForm,
+.labelReg,
+.chkForm {
     display: inline-block;
     vertical-align: middle;
 }
-
 
 .labelReg {
     margin-left: 5px;
@@ -104,6 +121,7 @@
     overflow: hidden;
     background: #fff;
     max-height: 40px;
+    position: relative;
 }
 
 .customSelect::before {
@@ -147,7 +165,8 @@
     width: 100% !important;
 }
 
-.flexBox__form--2, .flexBox__form--3 {
+.flexBox__form--2,
+.flexBox__form--3 {
     flex-wrap: wrap;
 }
 
@@ -225,6 +244,10 @@
     font-weight: 900;
 }
 
+.tblPage th span {
+    color: #fd1717;
+}
+
 .tblPage tr td {
     padding: 10px;
     border: 1px solid #e6e6e6;
@@ -267,7 +290,7 @@
     margin: 0 4px;
 }
 
-.tblPage tr td.text a  {
+.tblPage tr td.text a {
     font-size: 12px;
     display: inline-block;
     background: #000;
@@ -293,11 +316,16 @@
     position: relative;
 }
 
-.btnSubmit.disable, #getData.disable {
+.btnSubmit.disable,
+#getData.disable {
     pointer-events: none;
     opacity: .7;
 }
 
+.customSelect.disable {
+    pointer-events: none;
+    opacity: .7;
+}
 
 .btnSubmit:hover {
     opacity: .6;
@@ -305,7 +333,7 @@
 
 .loginBlock {
     position: absolute;
-    top:50%;
+    top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
@@ -331,7 +359,8 @@
     margin-left: 10px;
 }
 
-.buttonBar a:hover, .btnPage:hover  {
+.buttonBar a:hover,
+.btnPage:hover {
     opacity: .7;
 }
 
@@ -343,14 +372,17 @@
     margin-right: 10px;
 }
 
-.btnPage--ref:hover {
+.btnPage i {
+    margin-right: 5px;
 }
+
+.btnPage--ref:hover {}
 
 .listMange {
     flex-wrap: wrap;
 }
 
-.listMange + .listMange {
+.listMange+.listMange {
     margin-top: 10px;
 }
 
@@ -363,19 +395,21 @@
     background: #000;
     color: #fff;
     padding: 8px 15px;
-
 }
 
 .buttonBar a:first-child {
     margin-left: 0;
 }
 
-.buttonBar a i , .listMange a i{
+.buttonBar a i,
+.listMange a i {
     margin-right: 5px;
 }
+
 .formSearch {
     margin-bottom: 35px;
 }
+
 
 /* TEST */
 
@@ -405,8 +439,8 @@
 }
 
 textarea.inputForm {
-    margin-top: 15px;
-    min-height: 120px;
+    margin: 0;
+    min-height: 40px;
 }
 
 .innerService {
@@ -414,16 +448,20 @@ textarea.inputForm {
     background: #f6f6f6;
 }
 
+
 /* HIDE */
 
-.blockAdvise, .blockSur, .form_services, .monneyDeposit, .monneyNo {
+.blockAdvise,
+.blockSur,
+.form_services,
+.monneyDeposit,
+.monneyNo {
     display: none;
 }
 
 #sugery_detail .blockAdvise {
     display: block;
 }
- 
 
 .blockSur {
     margin-top: 20px;
@@ -432,6 +470,7 @@ textarea.inputForm {
 .blockFacebook {
     margin-top: 10px;
 }
+
 
 /* COLOR */
 
@@ -493,6 +532,7 @@ textarea.inputForm {
 #totalFee {
     background: #ffd6d6;
 }
+
 .tabBox {
     display: none;
     padding-top: 20px;
@@ -504,7 +544,7 @@ textarea.inputForm {
 }
 
 .borderBox {
-    padding: 15px;
+    padding: 8px;
     border: 1px solid #e6e6e6;
 }
 
@@ -523,7 +563,6 @@ textarea.inputForm {
 .tabItem li.active {
     background: #c6c6c6;
 }
-
 
 .tabItem--5 li {
     width: 20%;
@@ -557,7 +596,7 @@ textarea.inputForm {
     color: #000;
 }
 
-.noteRemind--10 { 
+.noteRemind--10 {
     background: #fb76ea;
     color: #000;
 }
@@ -566,9 +605,11 @@ textarea.inputForm {
     margin-top: 30px;
     margin-bottom: 0;
 }
+
 .mt40 {
     margin-top: 40px;
 }
+
 .mt0 {
     margin-top: 0 !important;
 }
@@ -627,7 +668,6 @@ textarea.inputForm {
     font-size: 12px;
 }
 
-
 .inputNumber input {
     /* color: #fff; */
 }
@@ -639,9 +679,9 @@ textarea.inputForm {
 }
 
 .overlay {
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, .6);
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -649,10 +689,11 @@ textarea.inputForm {
     display: none;
 }
 
-.popUp, .CarepopUp {
+.popUp,
+.CarepopUp {
     position: fixed;
     background: #fff;
-    top:50%;
+    top: 50%;
     left: 50%;
     width: 60%;
     transform: translateX(-50%) translateY(-50%);
@@ -685,19 +726,22 @@ textarea.inputForm {
     opacity: .7;
 }
 
-#doctor .tblPage th, #counter .tblPage th, #sugery_detail .tblPage th {
+#doctor .tblPage th,
+#counter .tblPage th,
+#sugery_detail .tblPage th {
     width: 28%;
     padding: 15px;
     border-bottom: 1px solid #e6e6e6;
     font-weight: bold;
 }
 
-#print .tblPage th{
+#print .tblPage th {
     width: 28%;
     padding: 10px 15px;
     border-bottom: 1px solid #e6e6e6;
     font-weight: bold;
 }
+
 #print .tblPage tr td {
     padding: 10px 15px;
 }
@@ -714,17 +758,30 @@ textarea.inputForm {
 .removeItem {
     color: #fc0410 !important;
     opacity: 0;
-    -moz-transition:all 0.2s ease-out;
-    -o-transition:all 0.2s ease-out;
-    -webkit-transition:all 0.2s ease-out;
-    -ms-transition:all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
     pointer-events: none;
+}
+
+.btnPage--red {
+    background: #fc0410;
+    color: #fff !important;
+    font-size: 14px;
+}
+
+#supply .removeItem,
+#sugery_detail .removeItem {
+    pointer-events: inherit;
+    cursor: pointer;
+    opacity: 1;
 }
 
 .fade {
     opacity: 1;
     pointer-events: inherit;
-} 
+}
 
 .noteServices {
     font-style: italic;
@@ -802,51 +859,69 @@ textarea.inputForm {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .checkStyle input {
+}
+
+.checkStyle+h5 {
+    margin-top: 25px;
+}
+
+
+/* Hide the browser's default checkbox */
+
+.checkStyle input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+}
+
+
+/* Create a custom checkbox */
+
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 20px;
     width: 20px;
     background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .checkStyle:hover input ~ .checkmark {
+}
+
+
+/* On mouse-over, add a grey background color */
+
+.checkStyle:hover input~.checkmark {
     background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .checkStyle input:checked ~ .checkmark {
+}
+
+
+/* When the checkbox is checked, add a blue background */
+
+.checkStyle input:checked~.checkmark {
     background-color: #000;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .checkStyle input:checked ~ .checkmark:after {
+}
+
+
+/* Show the checkmark when checked */
+
+.checkStyle input:checked~.checkmark:after {
     display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .checkStyle .checkmark:after {
+}
+
+
+/* Style the checkmark/indicator */
+
+.checkStyle .checkmark:after {
     left: 5px;
     top: 3px;
     width: 5px;
@@ -856,90 +931,92 @@ textarea.inputForm {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
 
-  .h4_page--services {
-      text-transform: uppercase;
-  }
+.h4_page--services {
+    text-transform: uppercase;
+}
 
-  .h4_page.lock {
-      pointer-events: none;
-      opacity: .8;
-  }
-
-  .inputNumber__new {
-      position: relative;
-  }
-
-  .inputNumber__new span {
-      position: absolute;
-      top:0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      line-height: 40px;
-      padding-left: 15px;
-  }
-  .inputNumber__new input {
-      color: #fff;
-  }
-
-  .tabItem {
-      margin-top: 25px;
-  }
-
-  #listBank, #listGuy {
-      display: none;
-  }
-
-  #listBank {
-      width: 33.33%;
-      margin: 0 auto;
-  }
-
-  .txtNote {
-      text-align: center;
-      font-weight: 700;
-  }
-
-
-  .lock {
-      pointer-events: none;
-      background: #c6c6c6;
-  }
-
-  .lock a {
+.h4_page.lock {
     pointer-events: none;
-  }
+    opacity: .8;
+}
 
-  .maxW__print {
-      max-width: 900px;
-      margin: 40px auto;
-  }
+.inputNumber__new {
+    position: relative;
+}
 
+.inputNumber__new span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    padding-left: 15px;
+}
 
-  .lockCheck {
+.inputNumber__new input {
+    color: #fff;
+}
+
+.tabItem {
+    margin-top: 25px;
+}
+
+#listBank,
+#listGuy {
+    display: none;
+}
+
+#listBank {
+    width: 33.33%;
+    margin: 0 auto;
+}
+
+.txtNote {
+    text-align: center;
+    font-weight: 700;
+}
+
+.lock {
     pointer-events: none;
-  }
+    background: #c6c6c6;
+}
 
+.lock a {
+    pointer-events: none;
+}
 
-  #print #wrapper {
-      width: 100%;
-  }
+.maxW__print {
+    max-width: 900px;
+    margin: 40px auto;
+}
 
-  #print .h3_page,#print .h4_page {
-      margin: 10px 0;
-      padding: 5px 0 0 5px;
-      font-size: 13px;
-  }
+.lockCheck {
+    pointer-events: none;
+}
 
-  #print .flexBox__form + .h3_page {
+#print #wrapper {
+    width: 100%;
+}
+
+#print .h3_page,
+#print .h4_page {
+    margin: 10px 0;
+    padding: 5px 0 0 5px;
+    font-size: 13px;
+}
+
+#print .flexBox__form+.h3_page {
     margin-top: 20px;
 }
+
 #print .inputForm {
     height: 30px;
     line-height: 3px;
 }
+
 .mb30 {
     margin-bottom: 30px;
 }
@@ -951,6 +1028,7 @@ textarea.inputForm {
 .doctorPart .tabBox {
     display: block !important;
 }
+
 .btnPrint {
     background: #000;
     color: #fff !important;
@@ -973,8 +1051,8 @@ textarea.inputForm {
 }
 
 .reportBlock table {
-        width: 100%;
-        border: 1px solid #e6e6e6;
+    width: 100%;
+    border: 1px solid #e6e6e6;
 }
 
 .reportBlock table tr td {
@@ -982,16 +1060,16 @@ textarea.inputForm {
     width: 50%;
     border: 1px solid #e6e6e6;
 }
-    
+
 .reportBlock table tr:hover {
     background: #f6f6f6;
 }
-    
+
 .reportBlock table tr td.last {
-        text-align: center;
+    text-align: center;
 }
 
-.imgBox{
+.imgBox {
     margin-bottom: 25px;
 }
 
@@ -1012,7 +1090,9 @@ textarea.inputForm {
     vertical-align: middle;
     margin-right: 10px;
 }
-.h4_page span, .h4_page p {
+
+.h4_page span,
+.h4_page p {
     display: inline-block;
     vertical-align: middle;
 }
@@ -1020,6 +1100,7 @@ textarea.inputForm {
 .h4_page span {
     color: #36cf2a;
 }
+
 .servicesDone {
     display: none;
 }
@@ -1028,6 +1109,7 @@ textarea.inputForm {
     float: right;
     font-size: 16px;
 }
+
 .mb30 {
     margin-bottom: 30px;
 }
@@ -1040,8 +1122,6 @@ textarea.inputForm {
     max-height: 80vh;
     overflow-y: auto;
 }
-
-
 
 #calendario {
     margin-bottom: 40px;
@@ -1251,7 +1331,7 @@ textarea.inputForm {
     margin: 0;
 }
 
-.ui-datepicker .ui-state-default.ui-state-highlight{
+.ui-datepicker .ui-state-default.ui-state-highlight {
     border-color: #dcdcdc;
     background-color: #000 !important;
     color: #fff !important;
@@ -1284,6 +1364,7 @@ textarea.inputForm {
     display: block;
     text-align: center;
 }
+
 .ui-state-default.ui-state-hover {
     border-color: #ccc;
     background-color: #ccc !important;
@@ -1292,7 +1373,7 @@ textarea.inputForm {
 .ui-datepicker .ui-state-active {
     border-color: #dcdcdc;
     background-color: #cff3f8 !important;
-} 
+}
 
 .ui-datepicker-calendar thead tr th {
     font-family: Open Sans, Arial, sans-serif;
@@ -1352,8 +1433,9 @@ textarea.inputForm {
 .ui-state-default {
     border: 0 !important;
 }
+
 button.btnSubmit i {
-    margin-right: 5px; 
+    margin-right: 5px;
 }
 
 .treeCare li {
@@ -1409,7 +1491,7 @@ button.btnSubmit i {
     position: relative;
 }
 
-.ui-datepicker .ui-state-default.hasCare  strong {
+.ui-datepicker .ui-state-default.hasCare strong {
     font-weight: bold;
     font-size: 12px;
     margin-left: 5px;
@@ -1433,4 +1515,65 @@ button.btnSubmit i {
 .lockCare {
     pointer-events: none;
     opacity: .6;
+}
+
+.page-loader {
+    background: rgba(255, 255, 255, 0.9);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    display: none;
+    font-size: 16px;
+}
+
+.page-loader .page-loader-inner {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#careNow {}
+
+@-webkit-keyframes chop {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+@keyframes chop {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+.dot1 {
+    display: inline-block;
+    animation: chop 0.5s infinite;
+}
+
+.dot2 {
+    display: inline-block;
+    animation: chop 0.8s infinite;
+}
+
+.dot3 {
+    display: inline-block;
+    animation: chop 1.1s infinite;
 }

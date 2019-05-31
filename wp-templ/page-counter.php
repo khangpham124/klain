@@ -127,7 +127,7 @@ include(APP_PATH."libs/head.php");
                             </tr>
                             <tr>
                                 <th>Giảm giá</th>
-                                <td><input type="text" data-type="number" class="inputForm" name="sale_discount" id="sale_discount"  <?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readonly <?php } ?> value="<?php echo get_field('sale_discount'); ?>" /></td>
+                                <td><input type="text" data-type="number" <?php if(get_field('accept')!='') { ?> readOnly <?php } ?> class="inputForm" name="sale_discount" id="sale_discount"  <?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readonly <?php } ?> value="<?php echo get_field('sale_discount'); ?>" /></td>
                             </tr>
                             <tr>
                                 <th colspan="3">
@@ -149,7 +149,7 @@ include(APP_PATH."libs/head.php");
                                     if($total_discount <= 1000000) {
                                         $check = "checked";
                                     } else {
-                                        $check = "test";
+                                        $check = "";
                                     }
                                 }
                                 if(($total_price >= $lim3)&&($total_price <= $lim4)) {
@@ -177,12 +177,12 @@ include(APP_PATH."libs/head.php");
                                     $check = "checked";
                                 }
                                 ?>
-                                    <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')=='yes') { ?> checked <?php } ?> id="accept" name="accept" value="yes" />
+                                    <input type="checkbox" class="chkForm" <?php echo $check; ?> <?php if(get_field('accept')!='') { ?> checked <?php } ?> id="accept" name="accept" value="yes" />
                                     <label class="labelReg" for="accept">Giảm giá được chấp nhận</label>
                                 </p>
                                     <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?>">
-                                    <?php if(get_field('accept')=='yes') { ?>
-                                        <br>
+                                    <?php if(get_field('accept')!='') { ?>
+                                    <br>
                                     Duyệt bởi : <?php echo get_field('approve'); ?>
                                     <?php } ?>
                                 </p>
@@ -213,9 +213,8 @@ include(APP_PATH."libs/head.php");
                                     <input type="radio" class="radioForm" id="rad6" name="statusPay" value="Nợ" <?php if(get_field('debt')!='') { ?> checked <?php } ?> /><label class="labelReg" for="rad6">Nợ</label><br>
                                     <p class="inputBlock inputNumber monneyNo" <?php if(get_field('debt')!='') { ?> style="display:block;" <?php } ?>>
                                     <input type="text" class="inputForm" id="debt" name="debt" placeholder="Còn nợ" <?php if(get_field('debt')!='') { ?> readonly value="<?php echo get_field('debt'); ?>" <?php } ?> /></p>
-                                    <div id="listGuy">
-                                        
-                                            <p class="inputBlock customSelect">
+                                    <div id="listGuy" <?php if(get_field('debt')!='') { ?>style="display:block;"<?php } ?>>
+                                            <p class="inputBlock customSelect <?php if(get_field('debt')!='') { ?> disable <?php } ?>">
                                                 <select name="guy" id="guy">
                                                     <option value="">Người bảo lãnh</option>
                                                     <?php
@@ -240,12 +239,12 @@ include(APP_PATH."libs/head.php");
                                                         $posts_array = get_posts( $param );
                                                         foreach ($posts_array as $sale ) {
                                                     ?>
-                                                        <option value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                                        <option <?php if(get_field('guy')==get_field('fullname',$sale->ID)) { ?>selected<?php } ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </p>
-                                            <p class="inputBlock<?php if(($_COOKIE['role_cookies']!='manager')&&($_COOKIE['role_cookies']!='counter')) { ?> readOnly <?php } ?> mt10">
-                                                <input type="checkbox" class="chkForm" <?php if(get_field('debter')=='yes') { ?> checked <?php } ?> id="debter" name="debter" value="yes" />
+                                            <p class="inputBlock<?php if($_COOKIE['role_cookies']!='manager') { ?> readOnly <?php } ?> mt10">
+                                                <input type="checkbox" class="chkForm" <?php if(get_field('debter')!='') { ?> checked <?php } ?> id="debter" name="debter" value="yes" />
                                                 <label class="labelReg" for="debter">Người bảo lãnh được chấp nhận</label>
                                             </p>
                                         <?php if(get_field('debter')=='yes') { ?>Duyệt bởi : <?php echo get_field('approve2'); ?><?php } ?>
@@ -310,12 +309,18 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                     <input type="hidden" name="timeRegis" value="register" >
                     
-                    <input type="hidden" name="status" value="quay" >
+                    <?php if($_COOKIE['role_cookies']=='manager') { ?>
+                    <input type="hidden" name="status" value="tvv" >
                     <input type="hidden" name="action" value="edit" >
-                    <?php if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) { ?>
+                    <?php } else { ?>
+                    <input type="hidden" id="statusDynamic" name="status" value="quay" >
+                    <?php } ?>
+                    <input type="hidden" id="actionDynamic" name="action" value="edit" >
+                    <?php if((($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter'))&&(get_field('payment_status')!="Nợ")) { ?>
                         <div class="flexBox flexBox--C mt30">
-                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
-                            <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
+                        
+                    <input class="btnSubmit" <?php if($_COOKIE['role_cookies']=='counter') { ?>id="btnSubmit"<?php } ?> type="submit" name="submit" value="Cập nhật">
+                        <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
                         </div>
                     <?php } ?>   
 
@@ -332,25 +337,28 @@ include(APP_PATH."libs/head.php");
     </div>
 <!--/wrapper-->
 </div>
+
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exvalidation.js"></script>
 <script type="text/javascript" src="<?php echo APP_URL; ?>checkform/exchecker-ja.js"></script>
 <script>
-$(function(){
-	  $("#formCounter").exValidation({
-	    rules: {
-            guy: "chkselect",
-            debt:"chkrequired",
-            deposit:"chkrequired",
-            accept:"chkcheckbox",
-	    },
-	    stepValidation: true,
-	    scrollToErr: true,
-	    errHoverHide: true
-      });
-    $('#guy').removeClass('chkselect errPosRight err');
-    $('#debt').removeClass('chkrequired errPosRight');
-    $('#deposit').removeClass('chkrequired errPosRight');
-});
+<?php if($_COOKIE['role_cookies']!='manager') { ?>
+    $(function(){
+        $("#formCounter").exValidation({
+            rules: {
+                guy: "chkselect",
+                debt:"chkrequired",
+                deposit:"chkrequired",
+                accept:"chkcheckbox",
+            },
+            stepValidation: true,
+            scrollToErr: true,
+            errHoverHide: true
+        });
+        $('#guy').removeClass('chkselect errPosRight err');
+        $('#debt').removeClass('chkrequired errPosRight');
+        $('#deposit').removeClass('chkrequired errPosRight');
+    });
+<?php } ?>
 
 $( function() {
     $('#sale_discount').live('focusout', function(){
@@ -432,9 +440,21 @@ $( function() {
             $('#remain').val(0);
             $('#guy').addClass('chkselect errPosRight err');
             $('#debt').addClass('chkrequired errPosRight');
+            if($('#debter').is(':checked')) {
+                $('#statusDynamic').val('quay');
+                $('#actionDynamic').val('edit');
+                $('#btnSubmit').val('CẬP NHẬT');
+            } else {
+                $('#statusDynamic').val('mngpending');
+                $('#actionDynamic').val('wait_mng');
+                $('#btnSubmit').val('CHỜ DUYỆT');
+            }
         } else {
             $('#guy').removeClass('chkselect errPosRight err');
             $('#debt').removeClass('chkrequired errPosRight');
+            $('#statusDynamic').val('quay');
+            $('#actionDynamic').val('edit');
+            $('#btnSubmit').val('CẬP NHẬT');
         }
     });
 
@@ -445,8 +465,6 @@ $( function() {
             $('#listBank').slideUp(200);
         }
     });
-
-
 
     $('#sale_discount').live('focusout', function(){
         var lim1 = 30000000;

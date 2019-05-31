@@ -18,7 +18,6 @@ include(APP_PATH."libs/head.php");
 <!--Header-->
 <?php include(APP_PATH."libs/header.php"); ?>
 <!--/Header-->
-
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
         <h2 class="h2_page">Thông tin bệnh án</h2>
@@ -61,7 +60,7 @@ include(APP_PATH."libs/head.php");
                     $posts_array = get_posts( $param );
                     foreach ($posts_array as $medical ) {
                 ?>
-                <?php echo get_field('bsnk_advise',$medical->ID); } ?>
+                    <?php echo get_field('bsnk_advise',$medical->ID); } ?>
                 <?php } else { ?>
                 <h3 class="h3_page">Bệnh Án</h3>
                 <h4 class="h4_page">Dịch vụ yêu cầu</h4>
@@ -73,14 +72,14 @@ include(APP_PATH."libs/head.php");
                         echo '<p>'.$serv['name'].'</p>';
                     }
                     ?>
-                <h4 class="h4_page">Hỏi bệnh</h4>
+                    <h4 class="h4_page">Hỏi bệnh</h4>
                     <table class="tblPage">
                         <tr>
                             <th>Quá trình bệnh lý</th>
                             <td><textarea class="inputForm" name="f_1" placeholder=""></textarea></td>
                         </tr>
                         <tr>
-                            <th>Dị ứng thuốc</th>
+                            <th>Dị ứng thuốc<span>(*)</span></th>
                             <td>
                                 <p class="inputBlock borderBox chkradio" id="chkF3">
                                     <input type="radio" class="radioForm" id="f_3_1" name="f_3" value="Có" /><label class="labelReg" for="f_3_1">Có</label>
@@ -90,7 +89,7 @@ include(APP_PATH."libs/head.php");
                             </td>
                         </tr>
                         <tr>
-                            <th>Dị ứng thức ăn</th>
+                            <th>Dị ứng thức ăn<span>(*)</span></th>
                             <td>
                                 <p class="inputBlock borderBox chkradio" id="chkF5">
                                     <input type="radio" class="radioForm" id="f_5_1" name="f_5" value="Có" /><label class="labelReg" for="f_5_1">Có</label>
@@ -619,8 +618,8 @@ include(APP_PATH."libs/head.php");
 	$(function(){
 	  $("#formDoctor").exValidation({
 	    rules: {
-            f_2: "chkrequired",
-            f_4: "chkrequired",
+            // f_2: "chkrequired",
+            // f_4: "chkrequired",
             f_96: "chkrequired",
 	    },
 	    stepValidation: true,
@@ -655,6 +654,24 @@ include(APP_PATH."libs/head.php");
         $('.overlay').fadeOut(200);
         $('.popUp').fadeOut(200);
     });
+
+    // $('input[type=radio][name=f_3]').change(function() {
+    //     var valu = $(this).val();
+    //     if(valu=='Không') {
+    //         $('#f_2').removeClass('chkrequired errPosRight err');
+    //     } else {
+    //         $('#f_2').addClass('chkrequired errPosRight err');
+    //     }
+    // });
+
+    // $('input[type=radio][name=f_5]').change(function() {
+    //     var valu = $(this).val();
+    //     if(valu=='Không') {
+    //         $('#f_4').removeClass('chkrequired errPosRight err');
+    //     } else {
+    //         $('#f_4').addClass('chkrequired errPosRight err');
+    //     }
+    // });
 </script>
 
 </body>

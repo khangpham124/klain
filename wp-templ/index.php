@@ -338,11 +338,14 @@ include(APP_PATH."libs/head.php");
                             <a href="<?php echo APP_URL; ?>form-counter/?idSurgery=<?php echo $post->ID; ?>" title="Quầy"><i class="fa fa-print" aria-hidden="true"></i></a>
                             <?php } ?>
                             <!-- <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>" title="Bác sĩ khám"><i class="fa fa-stethoscope" aria-hidden="true"></i></a> -->
-                            <?php if(($stt!='hauphau')&&($stt!='cshp')) { ?>
+                            <?php if(($stt!='hauphau')&&($stt!='cshp')&&($stt!='pending')) { ?>
                             <a href="<?php echo APP_URL; ?>ekip-surgery/?idSurgery=<?php echo $post->ID; ?>&idEkip=<?php echo $idEkip; ?>" title="Ca mổ"><i class="fa fa-heartbeat" aria-hidden="true"></i></a>
                             <?php } ?>
                         <?php } ?>
-                        <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+                        <a href="<?php the_permalink(); ?>" title="Chi tiết"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        <?php if($stt=='bsnk') { ?>
+                        <a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                        <?php } ?>
                         </td>        
                     <?php } ?>
 
@@ -372,6 +375,7 @@ include(APP_PATH."libs/head.php");
                         <td class="last"><a href="<?php echo APP_URL; ?>doctor-confirm/?idSurgery=<?php echo $post->ID; ?>"><i class="fa fa-stethoscope" aria-hidden="true"></i></a></td>
                         <?php } ?>
                     <?php } ?>
+
 
                     <?php if($_COOKIE['role_cookies']=='room') { ?>
                         <?php if(($stt=='bsk')||($stt=='bsnk')||($stt=='batdau')) { ?>

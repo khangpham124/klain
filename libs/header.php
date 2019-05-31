@@ -16,7 +16,8 @@
     <div class="headerInfo flexBox flexBox--center">
         <?php if(($_COOKIE['role_cookies']=='manager')||(($_COOKIE['role_cookies']=='boss')||($_COOKIE['role_cookies']=='sale'))) { ?>
         <a href="<?php echo APP_URL ?>add-customer/" class="btnPage"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo khách hàng mới</a>
-        <a href="<?php echo APP_URL ?>add-surgery/" class="btnPage" ><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
+        <a href="<?php echo APP_URL ?>add-surgery/" class="btnPage" ><i class="fa fa-medkit" aria-hidden="true"></i>Tạo ca phẫu thuật</a>
+        <a href="<?php echo APP_URL ?>add-surgery?type=guarantee" class="btnPage"><i class="fa fa-id-badge" aria-hidden="true"></i></i>Tạo ca bảo hành</a>
         <?php } ?>
         <a href="javascript:void(0)" onClick="window.location.href=window.location.href" class="btnPage btnPage--ref"><i class="fa fa-refresh" aria-hidden="true"></i>Cập nhật hệ thống</a>
         <p class="headerInfo__username pc"><?php echo get_field('fullname',$user->ID); ?><br>

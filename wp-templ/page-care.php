@@ -16,7 +16,7 @@ include(APP_PATH."libs/head.php");
 </style>
 </head>
 
-<body id="care">
+<body id="careNow">
 <div class="flexBox flexBox--between flexBox--wrap">
     <?php include(APP_PATH."libs/sidebar.php"); ?>
 
@@ -126,9 +126,9 @@ include(APP_PATH."libs/head.php");
                         <p class="customSelect mt0">
                         <select name="rating" id="rating">
                             <option value="">Đánh giá của khách</option>
-                            <option value="Hài lòng">Hài lòng</option>
-                            <option value="Bình thường">Bình thường</option>
-                            <option value="Không hài lòng">Không hài lòng</option>
+                            <option value="3">Hài lòng</option>
+                            <option value="2">Bình thường</option>
+                            <option value="1">Không hài lòng</option>
                         </select>
                         </p>
                     </div>

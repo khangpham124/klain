@@ -92,7 +92,7 @@ include(APP_PATH."libs/head.php");
                     <td><?php echo $name_user; ?></td>
                     <td><?php the_field('mobile') ?></td>
                     <td class="last">
-                    <span><a onclick="return confirm(\'Xoá dịch vụ?\')" href="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=users"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>
+                    <span><a onclick="myFunction()" data-link="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=users"class="removeItem"><i class="fa fa-minus-circle" aria-hidden="true"></i></a></span>
                     <a href="<?php the_permalink(); ?>"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
                 </tr>
                 <?php endwhile;endif;?>
@@ -122,6 +122,19 @@ include(APP_PATH."libs/head.php");
       $('.showIcon').click(function() {
           $('.removeItem').toggleClass('fade');
         });
+    function myFunction() {
+        confirm("Xoá hồ sơ đã chọn?");
+    }
+
+    $(".removeItem").click(function(){
+        if(confirm("Xoá hồ sơ đã chọn?")){
+            var url = $(this).attr('data-link');
+            window.location = url;
+        }
+        else{
+            return false;
+        }
+    });
     });
 </script>
 </body>

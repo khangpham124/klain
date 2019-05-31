@@ -33,7 +33,8 @@ include(APP_PATH."libs/head.php");
             <a href="javascript:void(0)" class="callPopup"><i class="fa fa-user-plus" aria-hidden="true"></i>Tạo ca khám trái lịch</a>
         </div>
         <?php
-            $now = strtotime("now");
+            $now = strtotime("now")-86400;
+             
             // echo $now = strtotime($_GET['timetest']);
             $idCare = $_GET['id'];
             $wp_query = new WP_Query();
@@ -117,9 +118,9 @@ include(APP_PATH."libs/head.php");
                                 <p class="customSelect mt0">
                                 <select name="rating" >
                                     <option value="">Đánh giá của khách</option>
-                                    <option <?php if($listCare[0]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                                    <option <?php if($listCare[0]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                                    <option <?php if($listCare[0]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                    <option <?php if($listCare[0]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[0]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[0]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
                                 </select>
                                 </p>
                             </div>
@@ -205,9 +206,9 @@ include(APP_PATH."libs/head.php");
                                 <p class="customSelect mt0">
                                 <select name="rating" >
                                     <option value="">Đánh giá của khách</option>
-                                    <option <?php if($listCare[1]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                                    <option <?php if($listCare[1]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                                    <option <?php if($listCare[1]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                    <option <?php if($listCare[1]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[1]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[1]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
                                 </select>
                                 </p>
                             </div>
@@ -297,9 +298,9 @@ include(APP_PATH."libs/head.php");
                                 <p class="customSelect mt0">
                                 <select name="rating" >
                                     <option value="">Đánh giá của khách</option>
-                                    <option <?php if($listCare[2]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                                    <option <?php if($listCare[2]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                                    <option <?php if($listCare[2]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                    <option <?php if($listCare[2]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[2]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[2]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
                                 </select>
                                 </p>
                             </div>
@@ -391,9 +392,9 @@ include(APP_PATH."libs/head.php");
                                 <p class="customSelect mt0">
                                 <select name="rating" >
                                     <option value="">Đánh giá của khách</option>
-                                    <option <?php if($listCare[3]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                                    <option <?php if($listCare[3]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                                    <option <?php if($listCare[3]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                    <option <?php if($listCare[3]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[3]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[3]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
                                 </select>
                                 </p>
                             </div>
@@ -485,9 +486,9 @@ include(APP_PATH."libs/head.php");
                                 <p class="customSelect mt0">
                                 <select name="rating" >
                                     <option value="">Đánh giá của khách</option>
-                                    <option <?php if($listCare[4]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                                    <option <?php if($listCare[4]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                                    <option <?php if($listCare[4]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                    <option <?php if($listCare[4]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[4]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[4]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
                                 </select>
                                 </p>
                             </div>
@@ -578,9 +579,9 @@ include(APP_PATH."libs/head.php");
                                 <p class="customSelect mt0">
                                 <select name="rating" >
                                     <option value="">Đánh giá của khách</option>
-                                    <option <?php if($listCare[5]['rating']=="Hài lòng") {echo "selected";} ?> value="Hài lòng">Hài lòng</option>
-                                    <option <?php if($listCare[5]['rating']=="Bình thường") {echo "selected";} ?> value="Bình thường">Bình thường</option>
-                                    <option <?php if($listCare[5]['rating']=="Không hài lòng") {echo "selected";} ?> value="Không hài lòng">Không hài lòng</option>
+                                    <option <?php if($listCare[5]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[5]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[5]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
                                 </select>
                                 </p>
                             </div>
