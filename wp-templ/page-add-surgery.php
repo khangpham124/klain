@@ -19,7 +19,11 @@ include(APP_PATH."libs/head.php");
 </head>
 
 <body id="top">
-
+<?php $type = $_GET['type']; 
+if($type=='guarantee') {
+    include(APP_PATH."libs/guarantee.php"); 
+} else {
+?>
 <div class="flexBox flexBox--between flexBox--wrap">
     <?php include(APP_PATH."libs/sidebar.php"); ?>
     <div id="wrapper">
@@ -123,10 +127,10 @@ include(APP_PATH."libs/head.php");
                     <div class="flexBox flexBox--between flexBox--center flexBox__form flexBox__form--2">
                         <label class="checkStyle">
                             <?php the_title(); ?>
-                            <input type="checkbox" class="servName" data-price="<?php echo get_field('price'); ?>" name="services[]" value="<?php the_title(); ?>">
+                            <input type="checkbox" class="servName" data-short="<?php echo get_field('short_name'); ?>" data-price="<?php echo get_field('price'); ?>" name="services[]" value="<?php the_title(); ?>">
                             <span class="checkmark"></span>
                         </label>
-                        <p class="inputBlock">
+                        <p class="inputBlock fieldPrice">
                         <input type="text" class="inputForm priceNumb" id="price_<?php the_ID() ?>" readonly  name="price_<?php the_ID(); ?>" value="<?php echo number_format(get_field('price')); ?>" placeholder="" />
                         </p>
                     </div>
@@ -268,6 +272,7 @@ include(APP_PATH."libs/head.php");
 
                 <input type="hidden" name="action" value="create" >
                 <input type="hidden" name="status" value="tvv" >
+                <input type="hidden" name="shortname" id="shortname" value="" >
                 <input type="hidden" name="adviser" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                 <!-- <input type="hidden" name="numb_image" id="numb_image" value="" > -->
                 <div class="flexBox flexBox--C mt30">
@@ -278,14 +283,13 @@ include(APP_PATH."libs/head.php");
             </form>
         </div>
     </div>
-
-
     <!--Footer-->
     <?php include(APP_PATH."libs/footer.php"); ?>
     <!--/Footer-->
     </div>
 <!--/wrapper-->
 </div>
+<?php } ?>
 
 <script>
   $( function() {
@@ -365,6 +369,10 @@ include(APP_PATH."libs/head.php");
             $('#total_templ').val(total_templ);
             $('#total_hide').val(total_templ);
             $('#tt_mask').text(numberWithCommas(total_templ));
+            var short_name = $(this).attr('data-short');
+            var curr_short_name = $('#shortname').val();
+            var shostList = curr_short_name + short_name;
+            $('#shortname').val(shostList);
         } else {
             var price = $(this).attr('data-price');
             var tt_templ = $('#total_templ').val();
@@ -372,6 +380,10 @@ include(APP_PATH."libs/head.php");
             $('#total_templ').val(total_templ);
             $('#total_hide').val(total_templ);
             $('#tt_mask').text(numberWithCommas(total_templ));
+            var short_name = $(this).attr('data-short');
+            var curr_short_name = $('#shortname').val();
+            var shostList = curr_short_name.replace(short_name,'');
+            $('#shortname').val(shostList);
         }
     });
 
@@ -416,6 +428,14 @@ include(APP_PATH."libs/head.php");
         $(this).fadeOut(200);
         $('.popUp').fadeOut(200);
     });
+
+    $('#typeG').on('change', function() {
+        if($(this).val()=='no-fee') {
+            $('.fieldPrice').hide();
+        } else {
+            $('.fieldPrice').show();
+        }
+    });
 });
 </script>
 
@@ -423,7 +443,7 @@ include(APP_PATH."libs/head.php");
 <script>
 $(function() {
 var availableTags = [
-<?php 
+<?php
 $wp_query = new WP_Query();
 $param = array (
 'posts_per_page' => '-1',

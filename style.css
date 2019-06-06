@@ -1,0 +1,1589 @@
+@charset "UTF-8";
+.h2_page {
+    position: relative;
+    font-size: 18px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.h2_page::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: #333;
+    bottom: 0;
+    left: 0;
+}
+
+.h3_page {
+    position: relative;
+    font-size: 15px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: #000;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.h4_page {
+    background: #e6e6e6;
+    margin: 20px 0;
+    padding: 10px;
+    font-weight: 700;
+}
+
+.h5_page {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    font-style: italic;
+    display: block;
+}
+
+.flexBox__form+.h3_page {
+    margin-top: 35px;
+}
+
+.inputBlock {
+    position: relative;
+}
+
+.inputForm {
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: none !important;
+}
+
+.inputForm+.inputForm {
+    margin-top: 10px;
+}
+
+.labelReg+.inputForm {
+    margin-top: 10px;
+}
+
+.labelReg+.h5_page {
+    margin-top: 20px;
+}
+
+.inputForm+.h5_page {
+    margin-top: 20px;
+}
+
+.inputForm:read-only {
+    font-weight: bold;
+    background: #e6e6e6;
+}
+
+.blockAdvise+.h3_page {
+    margin-top: 35px;
+}
+
+.radioForm,
+.labelReg,
+.chkForm {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.labelReg {
+    margin-left: 5px;
+    margin-right: 20px;
+}
+
+.labelBlock {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.inputBlock+.labelBlock {
+    margin-top: 20px;
+}
+
+.customSelect {
+    padding: 0;
+    margin: 10px 0 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    max-height: 40px;
+    position: relative;
+}
+
+.customSelect::before {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 30%;
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid #333;
+    border-top: 2px solid #333;
+    -moztransform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+    -ms-transform: rotate(225deg);
+    transform: rotate(225deg);
+}
+
+.customSelect select {
+    padding: 10px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #333;
+    outline: none;
+}
+
+.flexBox__form+.flexBox__form {
+    margin: 10px 0;
+}
+
+.flexBox__form .inputBlock {
+    width: 49%;
+}
+
+.flexBox__form .inputBlock--full {
+    width: 100% !important;
+}
+
+.flexBox__form--2,
+.flexBox__form--3 {
+    flex-wrap: wrap;
+}
+
+.flexBox__form--3 .inputBlock {
+    width: 32%;
+}
+
+.flexBox__form--2 .inputBlock {
+    width: 48%;
+}
+
+.submitBtn {
+    border: none;
+    outline: none;
+}
+
+.file-custom:after {
+    content: 'Chọn hình ảnh' !important;
+}
+
+.file-custom:before {
+    max-height: 40px !important;
+    height: auto !important;
+}
+
+.file-custom {
+    box-shadow: none !important;
+}
+
+.file {
+    display: block !important;
+    width: 49%;
+}
+
+.searchBtn {
+    background: url('../img/header/icon_loop.svg') no-repeat center center;
+    background-size: 25px 25px;
+    height: 40px;
+    width: 40px;
+    font-size: 0 !important;
+    position: absolute;
+    right: 0px;
+    top: 0;
+}
+
+.blockPage {
+    border: none;
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 20px;
+    width: 48%;
+}
+
+.customerInfo {
+    width: 58%;
+}
+
+.customerCard {
+    width: 40%;
+}
+
+.customerCard img {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.tblPage {
+    margin: 25px 0;
+    width: 100%;
+    border: 1px solid #e6e6e6;
+}
+
+.tblPage thead {
+    background: #e6e6e6;
+    font-weight: 900;
+}
+
+.tblPage th span {
+    color: #fd1717;
+}
+
+.tblPage tr td {
+    padding: 10px;
+    border: 1px solid #e6e6e6;
+}
+
+.tblPage tr td.col1 {
+    width: 20%;
+}
+
+.tblPage tr td.col2 {
+    width: 40%;
+}
+
+.tblPage tr td.col3 {
+    width: 40%;
+}
+
+.tblPage tr:hover {
+    background: #f6f6f6;
+}
+
+.tblPage tr td.last {
+    text-align: center;
+}
+
+.tblPage tr td a {
+    font-size: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tblPage tr td em {
+    font-style: italic;
+    font-size: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tblPage tr td.last a {
+    margin: 0 4px;
+}
+
+.tblPage tr td.text a {
+    font-size: 12px;
+    display: inline-block;
+    background: #000;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+.btnSubmit {
+    border: none;
+    background: #333;
+    color: #fff !important;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    text-align: center;
+    max-width: 200px;
+    margin: 10px auto 0;
+    padding: 0 50px;
+    text-transform: uppercase;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+}
+
+.btnSubmit.disable,
+#getData.disable {
+    pointer-events: none;
+    opacity: .7;
+}
+
+.customSelect.disable {
+    pointer-events: none;
+    opacity: .7;
+}
+
+.btnSubmit:hover {
+    opacity: .6;
+}
+
+.loginBlock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.buttonBar {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonBar .customSelect {
+    margin-top: 0;
+    margin-right: 10px;
+    width: 20%;
+}
+
+.buttonBar a {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+    margin-left: 10px;
+}
+
+.buttonBar a:hover,
+.btnPage:hover {
+    opacity: .7;
+}
+
+.btnPage {
+    display: inline-block;
+    background: #000;
+    color: #fff !important;
+    padding: 8px 15px;
+    margin-right: 10px;
+}
+
+.btnPage i {
+    margin-right: 5px;
+}
+
+.btnPage--ref:hover {}
+
+.listMange {
+    flex-wrap: wrap;
+}
+
+.listMange+.listMange {
+    margin-top: 10px;
+}
+
+.listMange li {
+    width: 49%;
+}
+
+.listMange a {
+    display: block;
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+}
+
+.buttonBar a:first-child {
+    margin-left: 0;
+}
+
+.buttonBar a i,
+.listMange a i {
+    margin-right: 5px;
+}
+
+.formSearch {
+    margin-bottom: 35px;
+}
+
+
+/* TEST */
+
+.blockPage+.blockPage {
+    margin-top: 50px;
+}
+
+.blockPage--full {
+    width: 100%;
+}
+
+.blockPage--half {
+    width: 49%;
+}
+
+.textBox {
+    margin: 20px 0;
+    padding: 30px 20px;
+}
+
+.mt0 {
+    margin-top: 0;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+textarea.inputForm {
+    margin: 0;
+    min-height: 40px;
+}
+
+.innerService {
+    padding: 20px;
+    background: #f6f6f6;
+}
+
+
+/* HIDE */
+
+.blockAdvise,
+.blockSur,
+.form_services,
+.monneyDeposit,
+.monneyNo {
+    display: none;
+}
+
+#sugery_detail .blockAdvise {
+    display: block;
+}
+
+.blockSur {
+    margin-top: 20px;
+}
+
+.blockFacebook {
+    margin-top: 10px;
+}
+
+
+/* COLOR */
+
+.noteIcon em {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10px;
+    margin: 0 25px 0 5px;
+}
+
+.noteColor {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+}
+
+.note--tvv {
+    background: #fc0410;
+}
+
+.note--pending {
+    background: #10befe;
+}
+
+.note--bsnk {
+    background: #ff7031;
+}
+
+.note--quay {
+    background: #fce128;
+}
+
+.note--bsk {
+    background: #5d56da;
+}
+
+.note--phauthuat {
+    background: #36cf2a;
+}
+
+.note--hauphau {
+    background: #fb76ea;
+}
+
+.note--cskh {
+    background: #63fef1;
+}
+
+.typeService {
+    display: none;
+}
+
+.readOnly {
+    pointer-events: none;
+}
+
+#totalFee {
+    background: #ffd6d6;
+}
+
+.tabBox {
+    display: none;
+    padding-top: 20px;
+}
+
+.smallLabel {
+    display: block;
+    font-style: italic;
+}
+
+.borderBox {
+    padding: 8px;
+    border: 1px solid #e6e6e6;
+}
+
+.tabItem {
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.tabItem li {
+    background: #f1f1f1;
+    padding: 15px 0;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.tabItem li.active {
+    background: #c6c6c6;
+}
+
+.tabItem--5 li {
+    width: 20%;
+}
+
+.tabItem--6 li {
+    width: 16.666%;
+}
+
+.tabItem--4 li {
+    width: 25%;
+}
+
+.noteRemind {
+    display: inline-block;
+    padding: 3px 10px;
+    color: #fff;
+}
+
+.noteRemind--1 {
+    background: #fc0410;
+}
+
+.noteRemind--3 {
+    background: #fce128;
+    color: #000;
+}
+
+.noteRemind--5 {
+    background: #36cf2a;
+    color: #000;
+}
+
+.noteRemind--10 {
+    background: #fb76ea;
+    color: #000;
+}
+
+#top .buttonBar {
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+.mt0 {
+    margin-top: 0 !important;
+}
+
+.infoPay {
+    display: none;
+}
+
+.formSearch {
+    padding: 0;
+    margin: 10px 0 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    max-height: 40px;
+    margin-bottom: 30px;
+}
+
+.methodSearch {
+    position: absolute;
+    right: 42px;
+    top: 3px;
+    background: #c6c6c6;
+    height: 34px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 18%;
+}
+
+.methodSearch::before {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 30%;
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    -moztransform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+    -ms-transform: rotate(225deg);
+    transform: rotate(225deg);
+}
+
+.methodSearch select {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    font-size: 12px;
+}
+
+.inputNumber input {
+    /* color: #fff; */
+}
+
+.inputNumber span {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    display: none;
+}
+
+.popUp,
+.CarepopUp {
+    position: fixed;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 30px;
+    z-index: 550;
+    display: none;
+}
+
+.addServices {
+    padding: 15px 20px;
+    margin: 20px 0 5px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    display: inline-block;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.addServices--rmv {
+    display: none;
+    padding: 15px 20px;
+    margin: 20px 0 5px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.addServices:hover {
+    opacity: .7;
+}
+
+#doctor .tblPage th,
+#counter .tblPage th,
+#sugery_detail .tblPage th {
+    width: 28%;
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: bold;
+}
+
+#print .tblPage th {
+    width: 28%;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: bold;
+}
+
+#print .tblPage tr td {
+    padding: 10px 15px;
+}
+
+#print .tblPage tr td .floatR {
+    font-weight: bold;
+    float: right;
+}
+
+#print #footer {
+    display: none;
+}
+
+.removeItem {
+    color: #fc0410 !important;
+    opacity: 0;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    pointer-events: none;
+}
+
+.btnPage--red {
+    background: #fc0410;
+    color: #fff !important;
+    font-size: 14px;
+}
+
+#supply .removeItem,
+#sugery_detail .removeItem {
+    pointer-events: inherit;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.fade {
+    opacity: 1;
+    pointer-events: inherit;
+}
+
+.noteServices {
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.txtPrint p {
+    text-align: center;
+}
+
+.txtPrint strong {
+    font-weight: bold;
+    display: block;
+}
+
+.txtPrint em {
+    font-style: italic;
+    display: block;
+    margin-bottom: 100px;
+}
+
+.txtHead__print {
+    font-size: 10px;
+}
+
+.h2_page_print {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 30px 0 20px;
+}
+
+.hisAdivise li {
+    margin-bottom: 25px;
+}
+
+.hisAdivise li .date {
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #000;
+    color: #fff;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.hisAdivise li .adviser {
+    text-align: right;
+    font-size: 12px;
+    font-style: italic;
+    padding: 5px;
+    background: #f5f4f5;
+    margin: 10px -15px 0;
+}
+
+.hisAdivise li div {
+    background: #f8f8f8;
+    padding: 15px 15px 0;
+}
+
+.checkStyle {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkStyle+h5 {
+    margin-top: 25px;
+}
+
+
+/* Hide the browser's default checkbox */
+
+.checkStyle input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+
+/* Create a custom checkbox */
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+}
+
+
+/* On mouse-over, add a grey background color */
+
+.checkStyle:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+
+.checkStyle input:checked~.checkmark {
+    background-color: #000;
+}
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+/* Show the checkmark when checked */
+
+.checkStyle input:checked~.checkmark:after {
+    display: block;
+}
+
+
+/* Style the checkmark/indicator */
+
+.checkStyle .checkmark:after {
+    left: 5px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.h4_page--services {
+    text-transform: uppercase;
+}
+
+.h4_page.lock {
+    pointer-events: none;
+    opacity: .8;
+}
+
+.inputNumber__new {
+    position: relative;
+}
+
+.inputNumber__new span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+.inputNumber__new input {
+    color: #fff;
+}
+
+.tabItem {
+    margin-top: 25px;
+}
+
+#listBank,
+#listGuy {
+    display: none;
+}
+
+#listBank {
+    width: 33.33%;
+    margin: 0 auto;
+}
+
+.txtNote {
+    text-align: center;
+    font-weight: 700;
+}
+
+.lock {
+    pointer-events: none;
+    background: #c6c6c6;
+}
+
+.lock a {
+    pointer-events: none;
+}
+
+.maxW__print {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.lockCheck {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+#print #wrapper {
+    width: 100%;
+}
+
+#print .h3_page,
+#print .h4_page {
+    margin: 10px 0;
+    padding: 5px 0 0 5px;
+    font-size: 13px;
+}
+
+#print .flexBox__form+.h3_page {
+    margin-top: 20px;
+}
+
+#print .inputForm {
+    height: 30px;
+    line-height: 3px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.doctor .h5_page {
+    margin-top: 25px;
+}
+
+.doctorPart .tabBox {
+    display: block !important;
+}
+
+.btnPrint {
+    background: #000;
+    color: #fff !important;
+    font-size: 12px !important;
+    display: inline-block;
+    padding: 5px 10px;
+    vertical-align: middle;
+}
+
+.adviserBox {
+    padding: 15px 0;
+}
+
+.lockCheck {
+    pointer-events: none;
+}
+
+.reportBlock p {
+    margin-bottom: 25px;
+}
+
+.reportBlock table {
+    width: 100%;
+    border: 1px solid #e6e6e6;
+}
+
+.reportBlock table tr td {
+    padding: 10px;
+    width: 50%;
+    border: 1px solid #e6e6e6;
+}
+
+.reportBlock table tr:hover {
+    background: #f6f6f6;
+}
+
+.reportBlock table tr td.last {
+    text-align: center;
+}
+
+.imgBox {
+    margin-bottom: 25px;
+}
+
+.lstImge li {
+    width: 25%;
+    padding: 5px;
+}
+
+#care .h5_page {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.h4_page em {
+    color: #36cf2a;
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.h4_page span,
+.h4_page p {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.h4_page span {
+    color: #36cf2a;
+}
+
+
+/* .servicesDone {
+    display: none;
+} */
+
+.h4_page strong {
+    float: right;
+    font-size: 16px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.mt30 {
+    margin-top: 30px;
+}
+
+#top .popUp {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#calendario {
+    margin-bottom: 40px;
+}
+
+
+/* datepicker css */
+
+.ui-datepicker {
+    text-align: center;
+}
+
+.ui-widget.ui-widget-content {
+    width: 100%;
+}
+
+.ui-datepicker-trigger {
+    margin: 0 0 0 5px;
+    vertical-align: text-top;
+}
+
+.ui-datepicker {
+    font-family: Open Sans, Arial, sans-serif;
+    margin-top: 2px;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.ui-datepicker {
+    width: 100%;
+}
+
+.ui-datepicker {
+    width: 100%;
+}
+
+.ui-datepicker table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.ui-datepicker table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.ui-datepicker-header {
+    background-color: #ffd6d6 !important;
+    background-image: none !important;
+    border-radius: 0 !important;
+}
+
+.ui-datepicker-header {
+    background-color: #ffd6d6 !important;
+    border-width: 1px;
+    border-color: #e6e6e6;
+    border-style: solid;
+}
+
+.ui-datepicker-title {
+    line-height: 35px !important;
+    margin: 0 10px !important;
+}
+
+.ui-datepicker-title {
+    line-height: 20px !important;
+}
+
+.ui-datepicker-prev span {
+    display: none !important;
+}
+
+.ui-datepicker-next {
+    text-align: center;
+}
+
+.ui-datepicker-next span {
+    display: none !important;
+}
+
+.ui-datepicker-prev {
+    background-color: transparent !important;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAAUklEQVQYlXWPwQnAMAwDj9IBOlpH8CjdJLNksuujFIJjC/w6WUioFBcqJ7sGEAD5Y/hpqLRghRv4YQlUjqXI3Kql2MixraGbEhVcDXcFUR/1egEHNuTBpFW0NgAAAABJRU5ErkJggg==') !important;
+    height: 12px !important;
+    width: 7px !important;
+    margin: 14px 12px;
+    display: inline-block;
+    left: 0 !important;
+    top: 0 !important;
+}
+
+.ui-datepicker-prev {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAOCAYAAAD9lDaoAAAAuUlEQVQokXXRsUtCYRAA8J8pDQ1CVIgIgtBU2NDiZIuDS4uLf6WDS1O0tLREEE8icBNKS3lTs8/B78XHw3dwcHA/juOuqjzucYJVrQQMcYctvo4OgEFIeMK6iPphCjzjEWLUC3vACx7yRo5uMUIFr5gii1EL41AvMIkBVPGH04DrSLEsIvjEOZq4wi9+iijDR0ANXOMbmxjlcIY2LtANO6YxymGCDs5wg/ciYv+KBJeY4+2A+Y9j4Y47RtUkrNXeDxUAAAAASUVORK5CYII=') !important;
+    height: 14px !important;
+    width: 9px !important;
+    margin: 5px !important;
+}
+
+.ui-datepicker-next {
+    cursor: pointer;
+}
+
+.ui-datepicker-prev {
+    cursor: pointer;
+}
+
+.ui-datepicker-next {
+    background-color: transparent !important;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAMCAYAAABfnvydAAAAVUlEQVQYlXWQ0Q3AIAhEL07gKI7kKN2kI3Wk1w9to3KQEELucQEECOizhhTQGHFnwOdgobWx0GkZILfYBhXl0STVbPoBarbkL7ozN/F8VBBXh8uJgF5r2hrI4GHUkAAAAABJRU5ErkJggg==') !important;
+    height: 12px !important;
+    width: 8px !important;
+    margin: 14px 12px;
+    display: inline-block;
+    right: 0 !important;
+    top: 0 !important;
+}
+
+.ui-datepicker-next {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAAtElEQVQYlXXQsUpCcRQH4I97EQyHa1pgIEE0hBGYL+BjNLRFjxXh4rM4F21BS4S4FAgqQioOngt/RM/6+zi/w4EanlA4MDkecYsO3vG/D8a4Rx03eMMqBQt8oodTXAdalwBm+IpNDVxG3aYEMMU3ujjDBT5SAH9R2cE58mwPFOgneJSCGp7RjLoXTEtQjbCFOV7xCxkqdp9sYxnhpFyb4QFXdh8c4Cc9Ko++OwzjFwfn5FiwBVeuI/K2UCkSAAAAAElFTkSuQmCC') !important;
+    height: 14px !important;
+    width: 8px !important;
+    margin: 5px;
+}
+
+.ui-datepicker-month {
+    border-radius: 2px;
+    background-color: #3985a0;
+    width: 110px !important;
+    height: 22px;
+    font-family: Open Sans !important;
+    color: #fff;
+    font-size: 14px !important;
+    font-weight: 600;
+    text-align: left;
+    border: none !important;
+    margin-right: 17px !important;
+    vertical-align: text-top;
+}
+
+.ui-datepicker-month {
+    font-family: Open Sans, Arial, sans-serif;
+    color: rgba(34, 34, 34, 0.87);
+    font-size: 12px !important;
+    font-weight: 700;
+    text-align: center;
+    transform: scaleX(1.0029)
+}
+
+.ui-datepicker-year {
+    border-radius: 2px;
+    background-color: #e6e6e6;
+    width: 61px !important;
+    height: 22px;
+    border: none !important;
+    font-family: Open Sans !important;
+    color: #fff;
+    font-size: 14px !important;
+    font-weight: 600;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+.ui-datepicker-year {
+    font-family: Open Sans, Arial, sans-serif;
+    color: rgba(34, 34, 34, 0.87);
+    font-size: 12px !important;
+    font-weight: 700;
+    text-align: center;
+    transform: scaleX(1.0029)
+}
+
+.ui-datepicker-month option,
+.ui-datepicker-year option {
+    color: #3985a0 !important;
+    background-color: #fff !important;
+    font-family: Open Sans !important;
+    font-size: 14px !important;
+    font-weight: 600;
+}
+
+.ui-datepicker-month option[selected],
+.ui-datepicker-year option[selected] {
+    background-color: #e5edf0 !important;
+}
+
+.ui-datepicker .ui-state-hover {
+    /*background: none !important;*/
+    border: 0 !important;
+}
+
+.ui-datepicker td {
+    vertical-align: top;
+}
+
+.ui-datepicker .ui-state-default {
+    border-radius: 2px;
+    border-color: #edebeb !important;
+    background: white !important;
+    display: block;
+    padding: 0 !important;
+    line-height: 60px;
+    text-align: center !important;
+    font-family: Open Sans, Arial, sans-serif;
+    color: #707070;
+    font-size: 14px;
+    font-weight: 400 !important;
+    margin: 0;
+}
+
+.ui-datepicker .ui-state-default.ui-state-highlight {
+    border-color: #dcdcdc;
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.ui-state-default {
+    font-size: 10px;
+    margin: 0;
+}
+
+.ui-datepicker td {
+    width: 33px;
+}
+
+.ui-datepicker td {
+    width: 26px;
+    text-align: center !important;
+    border: 1px solid #dcdcdc !important;
+}
+
+.ui-datepicker td.highlight {
+    font-weight: bold !important;
+}
+
+.ui-datepicker td.highlight a.ui-state-default {
+    background: #ffd6d6 !important;
+}
+
+.ui-state-default {
+    display: block;
+    text-align: center;
+}
+
+.ui-state-default.ui-state-hover {
+    border-color: #ccc;
+    background-color: #ccc !important;
+}
+
+.ui-datepicker .ui-state-active {
+    border-color: #dcdcdc;
+    background-color: #cff3f8 !important;
+}
+
+.ui-datepicker-calendar thead tr th {
+    font-family: Open Sans, Arial, sans-serif;
+    color: #549fa8;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0.45em 0.3em !important;
+    /*   width: 15px !important; */
+}
+
+.ui-datepicker-calendar thead tr th {
+    font-size: 10px;
+}
+
+.ui-datepicker-close {
+    display: none;
+}
+
+.ui-datepicker thead {
+    background-color: #f5f5f5;
+}
+
+.ui-datepicker thead {
+    border: 1px solid #dcdcdc !important;
+}
+
+.ui-state-default.ui-datepicker-current {
+    float: none !important;
+    font-family: Open Sans, Arial, sans-serif;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+    border-width: 0 !important;
+    border: none;
+    vertical-align: top;
+    margin: 0 !important;
+    background-color: transparent !important;
+}
+
+.ui-datepicker-buttonpane.ui-widget-content {
+    text-align: center;
+    background-color: #ffd6d6;
+    margin: 0 !important;
+    height: 28px;
+    padding: 0 !important;
+}
+
+.ui-datepicker-year {
+    background-color: transparent;
+}
+
+.ui-datepicker-month {
+    background-color: transparent;
+}
+
+.ui-state-default {
+    border: 0 !important;
+}
+
+button.btnSubmit i {
+    margin-right: 5px;
+}
+
+.treeCare li {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.treeCare li .point {
+    width: 28%;
+}
+
+.treeCare li .point .title {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.treeCare li .content {
+    width: 72%;
+    background: #f0eded;
+    padding: 15px;
+}
+
+.treeCare li .content .block {
+    margin-bottom: 25px;
+}
+
+.treeCare li .content .customSelect {
+    position: relative;
+    min-height: 40px;
+}
+
+.treeCare li .content .flexBox .block {
+    width: 49%;
+}
+
+.treeCare li .content label {
+    font-weight: bold;
+    display: block;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px
+}
+
+.treeCare li .content textarea {
+    margin-top: 0;
+}
+
+.ui-datepicker .ui-state-default.hasCare {
+    background: #ffd6d6 !important;
+    position: relative;
+}
+
+.ui-datepicker .ui-state-default.hasCare strong {
+    font-weight: bold;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.ui-datepicker .ui-state-default.hasCare .mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #36cf2a;
+    opacity: .6;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+}
+
+#listServices {
+    position: relative;
+}
+
+.lockCare {
+    pointer-events: none;
+    opacity: .6;
+}
+
+.page-loader {
+    background: rgba(255, 255, 255, 0.9);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    display: none;
+    font-size: 16px;
+}
+
+.page-loader .page-loader-inner {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#careNow {}
+
+.redText {
+    color: red;
+}
+
+@-webkit-keyframes chop {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+@keyframes chop {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+.dot1 {
+    display: inline-block;
+    animation: chop 0.5s infinite;
+}
+
+.dot2 {
+    display: inline-block;
+    animation: chop 0.8s infinite;
+}
+
+.dot3 {
+    display: inline-block;
+    animation: chop 1.1s infinite;
+}
+
+.hidePart {
+    display: none;
+}

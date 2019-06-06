@@ -3,9 +3,47 @@ include($_SERVER["DOCUMENT_ROOT"] . "/app_config.php");
 include(APP_PATH."admin/wp-load.php");
 include($_SERVER["DOCUMENT_ROOT"].'/Net/SFTP.php');
 $sftp = new Net_SFTP($sftpServer);
-    $pid = $_POST['idSurgery'];
+$pid = $_POST['idSurgery'];
 
     // TEMP EKIP
+
+    if($_POST['action']=='reFund') {
+        $refundRs = $_POST['refundRs'];
+        $refund = $_POST['refund'];
+        $debt_date = $_POST['debt_date'];
+        $debt_get = $_POST['debt_get'];
+        $url = $_POST['url'];
+        update_post_meta($pid,'refundRs',$refundRs);
+        update_post_meta($pid,'numbrf',$refund);
+        $list = get_field('treepay',$pid);
+        if( have_rows('treepay',$pid)) {
+            $treepay = array();
+            foreach($list as $m => $v) {
+                $treepay[] = array(
+                    array(
+                        $m => $v 
+                    )
+                );
+            }
+            $treepay[] = array(
+                'money' => $refund,
+                'date' => $debt_date,
+                'name' => $debt_get,
+                'note' => $refundRs,
+            );
+            update_field('treepay', $treepay, $pid);
+        } else {
+            $treepay = array();
+            $treepay[] = array(
+                'money' => $refund,
+                'date' => $debt_date,
+                'name' => $debt_get,
+                'note' => $refundRs,
+            );
+            update_field('treepay', $treepay, $pid);
+        }
+        header('Location:'.$url);
+    }
 
     if($_POST['action']=='paidDebt') {
         $debt_paid = $_POST['debt_paid'];
@@ -165,9 +203,20 @@ $sftp = new Net_SFTP($sftpServer);
             fwrite($file,$down);
             $idCustomer = 'CUS_'.date("Y").'_'.date("m").'_'.$count;
             update_post_meta($cusid_post, 'idcustomer', $idCustomer);
+            $my_post = array(
+                'ID'           => $pid,
+                'post_title'   => $idCustomer.'_'.get_the_title($pid),
+            );
+            wp_update_post( $my_post );
         }    
 
         $customer_id = get_field('idcustomer',$cusid_post);
+        $my_post = array(
+            'ID'           => $pid,
+            'post_title'   => $customer_id.'_'.get_the_title($pid),
+        );
+        wp_update_post( $my_post );
+
         if ($sftp->login($sftpUsername, $sftpPassword)){
             if($_FILES["file1"]["name"]!="") {
                 $parts1=pathinfo($_FILES["file1"]["name"]);
@@ -267,7 +316,6 @@ $sftp = new Net_SFTP($sftpServer);
         if($approve_cf!='') {
             update_post_meta($pid,'process','yes');
         }
-
         $treepay = array();
             $treepay[] = array(
                 'money' => $collect,
@@ -913,8 +961,9 @@ $sftp = new Net_SFTP($sftpServer);
         $url = $_POST['url'];
         $numb_serv = $_POST['numb'];
         $idPost = $_POST['idPost'];
+        $summary = $_POST['summary'];
 
-        $careId = 'CARE-'.get_the_title($pid).'-'.$numb_serv ;
+        $careId = 'CARE-'.get_the_title($pid).'-'.$summary ;
         // DEFINE
         $after_day_1 = $time_end;
         $after_day_2 = 86400 + $time_end;
@@ -925,7 +974,14 @@ $sftp = new Net_SFTP($sftpServer);
 
         
         if($time=="firsttime") {
-            update_post_meta($pid, 'services_list'.'_'.$numb_serv.'_'.'care' ,$careId, false);
+            $listService = get_field('services_list',$pid);
+            $ls = 0;
+            foreach($listService as $serv) {
+                if($serv['type']==$summary) {
+                    update_post_meta($pid, 'services_list'.'_'.$ls.'_'.'care' ,$careId, false);
+                }
+                $ls++;
+            }
              $care_post = array(
                 'post_title'    => $careId,
                 'post_status'   => 'publish',
@@ -1008,7 +1064,19 @@ $sftp = new Net_SFTP($sftpServer);
             update_post_meta($idPost, 'listcare_5_doctor' ,$doctor, false);
             update_post_meta($idPost, 'listcare_5_rating' ,$rating, false);
         }
-        
+
+        $listCare = get_field('listcare',$idPost);
+        for($ad=6;$ad<count($listCare);$ad++){
+            echo $moreCare = "moreCare_".$ad;
+            if($time==$moreCare) {
+                update_post_meta($idPost, 'listcare_'.$ad.'_name' ,$name_cskh, false);
+                update_post_meta($idPost, 'listcare_'.$ad.'_customer_mess' ,$customer_mess, false);
+                update_post_meta($idPost, 'listcare_'.$ad.'_stt' ,$stt, false);
+                update_post_meta($idPost, 'listcare_'.$ad.'_nurse_mess' ,$nurse_mess, false);
+                update_post_meta($idPost, 'listcare_'.$ad.'_doctor' ,$doctor, false);
+                update_post_meta($idPost, 'listcare_'.$ad.'_rating' ,$rating, false);
+            }
+        }
         // TIME
         header('Location:'.$url);
     }

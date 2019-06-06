@@ -10,6 +10,7 @@ include(APP_PATH."libs/head.php");
 ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>checkform/exvalidation.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo APP_URL; ?>common/css/magnific-popup.css" />
 <style type="text/css">
     #datepicker {
         display: none;
@@ -56,28 +57,43 @@ include(APP_PATH."libs/head.php");
 
 
             <?php endwhile;endif; ?>
-                
+            <?php $listService = get_field('services_list',$id_sur); ?>
+            
             <!-- EKIP XU LY -->
             <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data" id="ekipForm">
-            <h4 class="h4_page">Dịch vụ yêu cầu</h4>
-                <?php
-                        $listService = get_field('services_list',$id_sur);
-                    ?>
+                <h4 class="h4_page">Dịch vụ yêu cầu</h4>
                     <?php 
                     $u = 0;
                     foreach($listService as $serv) {
+                    $listImage = explode(',',$serv['image_before']);
+                    $countImg = count($listImage) - 1;
                     $u++;
                     ?>
-                    <p class="inputBlock <?php if($serv['do']=='yes') { ?>lockCheck<?php } ?>">
+                    <p class="inputBlock <?php if(($serv['do']=='yes')||($countImg==0)) { ?>lockCheck<?php } ?>" id="servChose">
                     <input type="checkbox" <?php if($serv['do']=='yes') { ?>checked<?php } ?> id="do_<?php echo $u; ?>"  <?php if($serv['do']!='yes') { ?>name="startSur[]"<?php } ?> value="<?php echo $serv['name']; ?>"><label for="do_<?php echo $u; ?>"><?php echo $serv['name']; ?><?php if($serv['do']=='yes') { ?>đã xong<?php } ?></label>
                     </p>
-            <?php }  ?>
+                <?php }  ?>
+                <h3 class="h3_page">Hình ảnh trước phẫu thuật</h3>
+            <?php 
+            foreach($listService as $serv) {
+            $listImage = explode(',',$serv['image_before']);
+            unset($listImage[count($listImage)-1]);
+            ?>
+            <h4 class="h4_page"><?php echo $serv['name']; ?></h4>
+            <ul class="lstImge flexBox flexBox--wrap flexBox--start">
+            <?php
+            foreach ($listImage as $img ) {
+            ?>
+            <li><a href="<?php echo APP_IMG; ?>surgery/<?php the_title(); ?>/<?php echo $img; ?>" title="" rel="lightbox-cats"><img src="<?php echo APP_IMG; ?>surgery/<?php the_title(); ?>/<?php echo $img; ?>"></a></li>
+            <?php } ?>
+            </ul> 
+            <?php }?>
 
             <h4 class="h4_page flexBox flexBox--center flexBox--between">Hồ sơ bệnh án và tư vấn của bác sĩ
             <a href="<?php the_permalink(); ?>" title="Chi tiết" class="btnPage" target="_blank">Xem hồ sơ</a>
             </h4>
             <h3 class="h3_page">Bác sĩ phụ trách</h3>
-            <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+            <div class="flexBox flexBox--between flexBox__form flexBox__form--2" id="mainDoctor">
             <p class="inputBlock" >
                 <?php
                     $wp_query = new WP_Query();
@@ -256,13 +272,6 @@ include(APP_PATH."libs/head.php");
             <input type="hidden" name="status" value="batdau" >
             <input type="hidden" name="room" value="<?php echo $_COOKIE['login_cookies']; ?>" >
             <input class="btnSubmit" type="submit" name="submit" value="Bắt đầu">
-            <div class="popUp">
-                <p class="txtNote">Vui lòng kiểm tra lại thông tin chính xác,vì thông tin khi nhập vào sẽ ko thể thay đổi được nữa</p>
-                <div class="flexBox flexBox--arround flexBox__form--2">
-                <input class="btnSubmit" type="submit" name="submit" value="Bắt đầu">
-                <a href="javascript:void(0)" class="btnSubmit cancel">Quay lại</a>
-                </div>
-            </div>         
         </form>
     </div>
 </div>
@@ -284,13 +293,48 @@ include(APP_PATH."libs/head.php");
             doctor1: "chkselect",
             ktv:"chkselect",
             input:"chkselect",
+            servChose:"chkcheckbox",
+            mainDoctor:"chkcheckbox",
 	    },
 	    stepValidation: true,
 	    scrollToErr: true,
 	    errHoverHide: true
-	  });
+      });
+      $(function() {
+	    	$('.lstImge').magnificPopup({
+			  	delegate: 'a',
+				type: 'image',
+				tLoading: 'Loading image #%curr%...',
+				mainClass: 'mfp-img-mobile',
+				gallery: {
+					enabled: true,
+					navigateByImgClick: true,
+
+					preload: [0,1]
+
+				},
+                zoom: {
+				enabled: true, // By default it's false, so don't forget to enable it
+			 	duration: 300, // duration of the effect, in milliseconds
+
+                    easing: 'ease-in-out', // CSS transition easing function 
+                    opener: function(openerElement) {
+return openerElement.is('img') ? openerElement : openerElement.find('img');
+                    }
+                },
+
+				image: {
+					tError: '<a href="%url%">cannot load image</a>.',
+
+					titleSrc: 'title'
+
+				}
+
+			});
+	    }); 
     });
 </script>
 <div class="overlay"></div>
+<script type="text/javascript" src="<?php echo APP_URL; ?>common/js/jquery.magnific-popup.js"></script>
 </body>
 </html>	

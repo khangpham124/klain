@@ -54,42 +54,32 @@ include(APP_PATH."libs/head.php");
         <?php 
             $listService = get_field('services_list');
             $s=0;
-            $check_type = array();
-            $numbType = array();
             foreach($listService as $serv) {
-                if($serv['care']=='') {
-                    $check_type[] = $serv['type'];
-                }
-                $checked_t = array_unique($check_type);
-                if($serv['end']!='') { $progress='<i class="fa fa-check-circle-o" aria-hidden="true"></i>'; } else { $progress='<i class="fa fa-stop-circle-o" aria-hidden="true"></i>'; }
-                $time_end = strtotime($serv['end']);
-                $search_key = array_search($time_end,$arr);
-                if($serv['care']=='') {
+            if($serv['end']!='') { $progress='<i class="fa fa-check-circle-o" aria-hidden="true"></i>'; } else { $progress='<i class="fa fa-stop-circle-o" aria-hidden="true"></i>'; }
+            $time_end = strtotime($serv['end']);
+            $search_key = array_search($time_end,$arr);
+            if($serv['care']=='') {
         ?>
-            <h4 class="h4_page <?php if($serv['do']!="yes") { ?>lock<?php } ?>">
-                <em><?php echo $progress; ?></em>
-                <p><?php echo $serv['name']; ?><?php if($serv['do']=="yes") { ?> (Ngày phẫu thuật xong: <?php echo $serv['end']; ?>)<?php } ?></p>
-                <?php if(count($listService)>1) { ?>
-                    <span>
-                        <?php
-                        if($serv['end']!='') {
-                        if($serv['end']===$listService[$s]['end']) { ?>
-                        (chăm sóc chung)
-                        <?php }
-                        $s++;
-                        }
-                        ?>
-                    </span>
-                <?php } ?>    
-                <strong><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></strong>
-            </h4>
-        <?php } } ?>
-        <?php $new_checked = array_values($checked_t);?>
-            <?php foreach($new_checked as $chk) { ?>
-            <div class="servicesDone">
-            <h3 class="h3_page">Chăm sóc <?php $term = get_term_by('slug', $chk, 'typecat'); echo $name = $term->name; ?></h3>
+        <h4 class="h4_page <?php if($serv['do']!="yes") { ?>lock<?php } ?>">
+            <em><?php echo $progress; ?></em>
+            <p><?php echo $serv['name']; ?><?php if($serv['do']=="yes") { ?>(Ngày phẫu thuật xong: <?php echo $serv['end']; ?>)<?php } ?></p>
+            <?php if(count($listService)>1) { ?>
+                <span>
+                    <?php
+                    if($serv['end']!='') {
+                    if($serv['end']===$listService[$s]['end']) { ?>
+                    (chăm sóc chung)
+                    <?php }
+                    $s++;
+                    }
+                    ?>
+                </span>
+            <?php } ?>    
+            <strong><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></strong></h4>
+        <div class="servicesDone">
             <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
                 <!-- phuong thu tu van -->
+                <h3 class="h3_page">Ngay sau phẫu thuật</h3>
                 <textarea class="inputForm"  name="nurse_mess" placeholder="Lời dặn"></textarea>
                 <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
                     <div class="inputBlock">
@@ -147,6 +137,8 @@ include(APP_PATH."libs/head.php");
                         <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" />
                     </p>
                 </div>
+
+                                                      
                 <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                 <input type="hidden" name="idSurgery" value="<?php echo $_GET['idSurgery']; ?>" >
                 <input type="hidden" name="time" value="firsttime" >
@@ -166,15 +158,15 @@ include(APP_PATH."libs/head.php");
                 <?php } else { ?>
                 <input type="hidden" name="status" value="phauthuat" >
                 <?php } ?>
-                <input type="hidden" name="summary" value="<?php echo $chk;  ?>" >
+
                 <input type="hidden" name="numb" value="<?php echo $serv['numb']; ?>" >
                 <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
                 <input type="hidden" name="action" value="edit_cshp" >
                 <!-- <input class="btnSubmit" type="submit" name="submit" value="Lưu"> -->
                 <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>
             </form>
-            </div>
-            <?php } ?>
+        </div>
+        <?php } } ?>
         <?php endwhile;endif; ?>
     </div>
 </div>

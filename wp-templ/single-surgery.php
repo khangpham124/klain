@@ -31,7 +31,11 @@ include(APP_PATH."libs/head.php");
 
 <div class="flexBox flexBox--between textBox flexBox--wrap maxW">
     <div class="blockPage blockPage--full">
-        <h2 class="h2_page flexBox flexBox--between">Thông tin Ca phẫu thuật <a onclick="myFunction()" data-link="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=surgery"class="removeItem btnPage btnPage--red">Xóa hồ sơ</a></h2>
+        <h2 class="h2_page flexBox flexBox--between">Thông tin Ca phẫu thuật 
+            <?php  if(($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter')) { ?>            
+            <a onclick="myFunction()" data-link="<?php echo APP_URL; ?>data/removePost.php?idSurgery=<?php echo $post->ID; ?>&page=surgery"class="removeItem btnPage btnPage--red">Xóa hồ sơ</a>
+            <?php } ?>
+        </h2>
 
          <ul class="tabItem tabItem--6 flexBox flexBox--center flexBox--wrap">
             <li><a href="javascript:void(0)"  data-id="tab1">Thông tin ban đầu</a></li>
@@ -39,7 +43,7 @@ include(APP_PATH."libs/head.php");
             <li><a href="javascript:void(0)"  data-id="tab2">Tình trạng thanh toán</a></li>
             <?php } ?>
             <li><a href="javascript:void(0)"  data-id="tab3">Bác sĩ khám</a></li>
-            <li><a href="javascript:void(0)"  data-id="tab4">Chi tiết ca phẫu thuật</a></li>
+            <li><a href="javascript:void(0)"  data-id="tab7">Chi tiết ca phẫu thuật</a></li>
             <li><a href="javascript:void(0)"  data-id="tab5">Chăm sóc hậu phẫu</a></li>
             <li><a href="javascript:void(0)"  data-id="tab6">Hình ảnh</a></li>
         </ul>
@@ -316,17 +320,24 @@ include(APP_PATH."libs/head.php");
                         <tr>
                             <td>Số tiền thanh toán</td>
                             <td>Ngày thanh toán</td>
-                            <td>Người thu</td>
+                            <td>Nhân viên</td>
+                            <td>Ghi chú</td>
                         </tr>
-                        <?php while(has_sub_field('treepay')) { ?>
-                        <tr>
-                            <td><?php echo number_format(get_sub_field('money')); ?></td>
+                        <?php $check_refund = array(); ?>
+                        <?php while(has_sub_field('treepay')) {
+                            if(get_sub_field('note')!='') {
+                                $check_refund[]=get_sub_field('money');
+                            }
+                        ?>
+                        <tr <?php if(get_sub_field('note')!='') { ?> class="redText"<?php } ?>>
+                            <td><?php if(get_sub_field('note')!='') { ?>-<?php } else { ?>+<?php } ?><?php echo number_format(get_sub_field('money')); ?></td>
                             <td><?php echo get_sub_field('date'); ?></td>
                             <td><?php echo get_sub_field('name'); ?></td>
+                            <td><?php echo get_sub_field('note'); ?></td>
                         </tr>
                         <?php } ?>
                     </table>
-
+                    
                     <div class="flexBox flexBox--C">
                     <?php if((get_field('payment_status')=='Nợ')&&(($_COOKIE['role_cookies']=='counter')||($_COOKIE['role_cookies']=='manager'))) { ?>   
                         <input type="hidden" name="action" value="paidDebt" >
@@ -345,8 +356,8 @@ include(APP_PATH."libs/head.php");
                         <input class="btnSubmit" type="submit" name="submit" value="Thanh toán tiếp">
                     </form>    
                     <?php } ?>
-
                         <a href="<?php echo APP_URL; ?>print?idSurgery=<?php echo $post->ID; ?>&form=counter" class="btnSubmit">In</a>
+                        <a href="javascript:void(0)" class="callPopup btnSubmit <?php if(array_sum($check_refund)==get_field('collect')) { ?>disable<?php } ?>">Hoàn tiền</a>
                     </div>
                     <?php } ?>
                 </div>
@@ -387,7 +398,7 @@ include(APP_PATH."libs/head.php");
                 </div>
 
 
-                <div class="tabBox" id="tab4">
+                <div class="tabBox" id="tab7">
                     <?php 
                     foreach($listService as $serv) {
                         $ekip = $serv['ekip'];
@@ -573,6 +584,40 @@ include(APP_PATH."libs/head.php");
 </div>
 <!--/wrapper-->
 </div>
+
+
+<div class="popUp">
+    <h3 class="h3_page">Lý do hoàn tiền</h3>
+    <form action="<?php echo APP_URL; ?>data/editSurgery.php" method="post" enctype="multipart/form-data">
+        <div class="flexBox flexBox--arround flexBox__form--3">
+            <p class="inputBlock customSelect mt0">
+                <select name="refundRs" id="refundRs">
+                    <option value="">Lý do</option>
+                    <option value="Khách làm xong nhưng không hài lòng">Khách làm xong nhưng không hài lòng</option>
+                    <option value="Khách đổi dịch vụ">Khách đổi dịch vụ</option>
+                    <option value="Khách hủy 1 hoặc 1 số dịch vụ trong combo">Khách hủy 1 hoặc 1 số dịch vụ trong combo</option>
+                    <option value="Khách hủy toàn bộ dịch vụ">Khách hủy toàn bộ dịch vụ</option>
+                </select>
+            </p>
+            <p class="inputBlock inputNumber">
+                <input type="text" class="inputForm" name="refund" id="refund" value="" placeholder="Số tiền hoàn" />
+            </p>
+            <p class="inputBlock">
+                <input type="text" class="inputForm" id="datechose" name="debt_date" readonly value="<?php echo date('d/m/Y'); ?>">
+            </p>
+        </div>    
+        <input type="hidden" name="idSurgery" value="<?php echo $post->ID; ?>" >
+        <input type="hidden" name="action" value="reFund" >
+        <input type="hidden" name="debt_get" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+        <div class="flexBox flexBox--arround flexBox__form--2">
+            <input class="btnSubmit" type="submit" name="submit" value="Huỷ">
+            <a href="javascript:void(0)" class="btnSubmit cancel">Quay lại</a>
+        </div>
+    </form>
+</div>
+<div class="overlay"></div>
+
 <script type="text/javascript" src="<?php echo APP_URL; ?>common/js/jquery.magnific-popup.js"></script>
  <script type="text/javascript">
     <?php $tab = $_GET['tab'];
@@ -591,6 +636,7 @@ include(APP_PATH."libs/head.php");
         var tabId = $(this).find('a').attr('data-id');
         $('.tabBox').fadeOut(200);
         $('#'+tabId).fadeIn(200);
+        $('#'+tabId).addClass('test');
     });
 
 	    $(function() {

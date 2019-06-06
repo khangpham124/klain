@@ -43,7 +43,7 @@ include(APP_PATH."libs/head.php");
             'post_type' => 'care',
             'post_status' => 'publish',
             'order' => 'DESC',
-            's'=> $id_sur
+            's'=> $idCare
             );
             $wp_query->query($param);
             if($wp_query->have_posts()):while($wp_query->have_posts()) : $wp_query->the_post();
@@ -142,7 +142,7 @@ include(APP_PATH."libs/head.php");
 
             <li>
                 <div class="point">
-                    <p class="title">Vệ sinh sau 1 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[1]['expire']); ?> )</p>
+                    <p class="title">Vệ sinh sau 1 ngày<br>(dự kiến <?php echo date('d/m/Y', $listCare[1]['expire']); ?> )</p>
                 </div>
                 <div class="content <?php if($now > $listCare[1]['expire']) { ?>lockCare<?php } ?>">
                     <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
@@ -234,7 +234,7 @@ include(APP_PATH."libs/head.php");
             </li>
         <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 3 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[2]['expire']); ?> )</p>
+                    <p class="title">Vệ sinh sau 3 ngày<br>(dự kiến <?php echo date('d/m/Y', $listCare[2]['expire']); ?> )</p>
                 </div>
                 <div class="content <?php if($now > $listCare[2]['expire']) { ?>lockCare<?php } ?>">
                     <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
@@ -328,7 +328,7 @@ include(APP_PATH."libs/head.php");
 
             <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 5 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[3]['expire']); ?> )</p>
+                    <p class="title">Vệ sinh sau 5 ngày<br>(dự kiến <?php echo date('d/m/Y', $listCare[3]['expire']); ?> )</p>
                 </div>
                 <div class="content <?php if($now > $listCare[3]['expire']) { ?>lockCare<?php } ?>">
                     <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
@@ -422,7 +422,7 @@ include(APP_PATH."libs/head.php");
 
             <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 10 ngày<br>(dự kến <?php echo date('d/m/Y', $listCare[4]['expire']); ?> )</p>
+                    <p class="title">Vệ sinh sau 10 ngày<br>(dự kiến <?php echo date('d/m/Y', $listCare[4]['expire']); ?> )</p>
                 </div>
                 <div class="content <?php if($now > $listCare[4]['expire']) { ?>lockCare<?php } ?>">
                     <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
@@ -515,7 +515,7 @@ include(APP_PATH."libs/head.php");
 
             <li>
             <div class="point">
-                    <p class="title">Vệ sinh sau 1 tháng<br>(dự kến <?php echo date('d/m/Y', $listCare[5]['expire']); ?> )</p>
+                    <p class="title">Vệ sinh sau 1 tháng<br>(dự kiến <?php echo date('d/m/Y', $listCare[5]['expire']); ?> )</p>
                 </div>
                 <div class="content <?php if($now > $listCare[5]['expire']) { ?>lockCare<?php } ?>">
                     <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
@@ -605,6 +605,104 @@ include(APP_PATH."libs/head.php");
                     </form>
                 </div>
             </li>
+            
+            <!-- ADD CARE MORE -->
+            <?php
+            for($i=6;$i<count($listCare);$i++) {
+            ?>
+            <li>
+            <div class="point">
+                    <p class="title">Khám thêm<br>(ngày khám <?php echo date('d/m/Y', $listCare[$i]['expire']); ?> )</p>
+                </div>
+                <div class="content <?php if($now > $listCare[$i]['expire']) { ?>lockCare<?php } ?>">
+                    <form autocomplete="off" action="<?php echo APP_URL; ?>data/editSurgery.php" method="post">
+                        <div class="block">
+                            <label>Lời dặn của điều dưỡng</label>
+                            <textarea class="inputForm" name="nurse_mess"><?php echo $listCare[$i]['nurse_mess']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Tình trạng của khách</label>
+                            <textarea class="inputForm" name="stt"><?php echo $listCare[$i]['stt']; ?></textarea>
+                        </div>
+
+                        <div class="block">
+                            <label>Ý kiến khách hàng</label>
+                            <textarea class="inputForm"  name="customer_mess"><?php echo $listCare[$i]['customer_mess']; ?></textarea>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Bác sĩ khám</label>    
+                                <p class="customSelect mt0">
+                                    <select name="doctor">
+                                        <option value="">Lựa chọn</option>
+                                        <?php
+                                            $param=array(
+                                                'post_type'=>'users',
+                                                'order' => 'DESC',
+                                                'posts_per_page' => '-1',
+                                                'tax_query' => array(
+                                                    'relation' => 'OR',
+                                                    array(
+                                                    'taxonomy' => 'userscat',
+                                                    'field' => 'slug',
+                                                    'terms' => 'doctor'
+                                                    ),
+                                                    array(
+                                                        'taxonomy' => 'userscat',
+                                                        'field' => 'slug',
+                                                        'terms' => 'nursing primary'
+                                                    ),
+                                                )
+                                                );
+                                            $posts_array = get_posts( $param );
+                                            foreach ($posts_array as $sale ) {
+                                        ?>
+                                            <option <?php if($listCare[$i]['doctor']==get_field('fullname',$sale->ID)) {echo "selected";} ?> value="<?php echo get_field('fullname',$sale->ID); ?>"><?php echo get_field('fullname',$sale->ID); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="block">  
+                                <label>Ngày Khám</label>
+                                <input type="text" class="inputForm" value="<?php echo $listCare[$i]['time'] ?>" />
+                            </div>
+                        </div>
+
+                        <div class="flexBox flexBox--between flexBox__form flexBox__form--2">
+                            <div class="block">
+                                <label>Đánh giá của khách</label>
+                                <p class="customSelect mt0">
+                                <select name="rating" >
+                                    <option value="">Đánh giá của khách</option>
+                                    <option <?php if($listCare[$i]['rating']=="3") {echo "selected";} ?> value="3">Hài lòng</option>
+                                    <option <?php if($listCare[$i]['rating']=="2") {echo "selected";} ?> value="2">Bình thường</option>
+                                    <option <?php if($listCare[$i]['rating']=="1") {echo "selected";} ?> value="1">Không hài lòng</option>
+                                </select>
+                                </p>
+                            </div>
+                            <p class="inputBlock">     
+                                <label>Nhân viên chăm sóc</label>
+                                <input type="text" class="inputForm" readonly name="name_cskh" value="<?php echo $listCare[$i]['name']; ?>" />
+                            </p>
+                        </div>
+
+                        <?php if($listCare[$i]['note']!='') { ?>
+                        <label>Ghi chú (khi khách đổi lịch)</label>
+                        <textarea readonly class="inputForm" ><?php echo $listCare[$i]['note']; ?></textarea>
+                        <?php } ?>
+
+                        <input type="hidden" name="name_cskh" value="<?php echo $_COOKIE['name_cookies']; ?>" >
+                        <input type="hidden" name="idPost" value="<?php echo $idPost; ?>" >
+                        <input type="hidden" name="action" value="edit_cshp" >
+                        <input type="hidden" name="time" value="moreCare_<?php echo $i; ?>" >
+                        <input type="hidden" name="url" value="<?php echo $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" >
+                        <button class="btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Lưu</button>                
+                    </form>
+                </div>
+            </li>
+            <?php } ?>
         </ul>
 
         
@@ -635,7 +733,7 @@ include(APP_PATH."libs/head.php");
     $('#datepicker').datepicker({
     dateFormat: 'd-m-yy',
     minDate: dateToday,
-    maxDate: "+4w",
+    maxDate: "+6w",
     altField: '#datechose',
     onSelect: function (date) {
         var currTime = new Date();

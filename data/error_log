@@ -1,3 +1,1 @@
-[23-Apr-2019 15:43:42 Asia/Bangkok] PHP Fatal error:  Call to a member function login() on a non-object in /home/kla93959/public_html/data/editCustomer.php on line 49
-[23-Apr-2019 16:25:55 Asia/Bangkok] PHP Warning:  mkdir() [<a href='function.mkdir'>function.mkdir</a>]: Permission denied in /home/kla93959/public_html/data/editSurgery.php on line 98
-[23-Apr-2019 16:36:32 Asia/Bangkok] PHP Catchable fatal error:  Object of class Net_SFTP could not be converted to string in /home/kla93959/public_html/data/editSurgery.php on line 98
+[06-Jun-2019 13:15:15 Asia/Bangkok] PHP Warning:  Invalid argument supplied for foreach() in /home/kla93959/public_html/data/editSurgery.php on line 978

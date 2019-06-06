@@ -8,7 +8,8 @@ include(APP_PATH."admin/wp-load.php");
         $file=fopen(APP_PATH."data/sur_no.txt","w");
         $down=$count+1;
         fwrite($file,$down);
-        $idsurgery = 'SUR_'.date("Y").'_'.date("m").'_'.$count;
+        $shortname = $_POST['shortname'];
+        $idsurgery = $shortname.'_'.date("y").date("m").'_'.$count;
         // create id
 
         $fullname = $_POST['fullname'];
@@ -137,10 +138,14 @@ include(APP_PATH."admin/wp-load.php");
         $cus_note = $_POST['cus_note'];
 
 
-
-        $total_hide = $_POST['total_hide']; 
-        $discount = str_replace(array(',','.'),array('',''),$_POST['sale_discount']);
-        
+        $typeG = $_POST['typeG'];
+        if($typeG=='no-fee') {
+            $total_hide = 0;
+            $discount = 0;
+        } else {
+            $total_hide = $_POST['total_hide']; 
+            $discount = str_replace(array(',','.'),array('',''),$_POST['sale_discount']);
+        }
         $numb_image = $_POST['numb_image'];
         if($_POST['submit']!='') {
             $status = $_POST['status'];
@@ -160,7 +165,6 @@ include(APP_PATH."admin/wp-load.php");
         add_post_meta($pid, 'advise', $advise);
         add_post_meta($pid, 'adviser', $adviser);
         add_post_meta($pid, 'channel', $channel);
-        // add_post_meta($pid, 'services', $listService);
         add_post_meta($pid, 'date', $date);
         add_post_meta($pid, 'time', $time);
         add_post_meta($pid, 'hasSur', $hasSur);
@@ -179,13 +183,21 @@ include(APP_PATH."admin/wp-load.php");
         $listService = array();
         for($i=0; $i < count($services); $i++)
         {
+            $s = get_page_by_title($services[$i],'','services');
+            $id_s = $s->ID;
+            $terms = get_the_terms($id_s, 'typecat');
+            foreach($terms as $term) { 
+                $slugname = $term->slug;
+            }
+
             $listService[] = array(
                 'name' => $services[$i],
                 'numb' => $i,
+                'type' => $slugname,
+                
             );
         }
         update_field('services_list', $listService, $pid);
-        
         header('Location:'.APP_URL.'surgery');
     }
 ?>

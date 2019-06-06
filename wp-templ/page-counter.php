@@ -199,7 +199,7 @@ include(APP_PATH."libs/head.php");
                             </tr>
                         </table>
 
-            
+                        <div class="hidePart" <?php if(get_field('accept')!='') { ?>style="display:block"<?php } ?>>            
                         <h4 class="h4_page">Phương thức thanh toán</h4>
                         <table class="tblPage">
                             <tr class="chkradio" id="chkradio">
@@ -253,28 +253,26 @@ include(APP_PATH."libs/head.php");
                             </tr>
                         </table>
                         <div class="inputBlock" id="radstatusPay">
-                            
-                            
                         </div>
 
                         <div class="flexBox flexBox--between flexBox__form flexBox__form--3">
                             <div class="inputBlock">    
                                 <label class="labelReg" for="rad1">Tiền mặt</label>
                                 <p class="inputNumber">
-                                    <input type="text" data-type="number" class="inputForm" name="cash_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="cash_money" placeholder="Số tiền mặt" value="<?php echo get_field('cash_money'); ?>" />
+                                    <input type="text"  class="inputForm moneyInput" name="cash_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="cash_money" placeholder="Số tiền mặt" value="<?php echo get_field('cash_money'); ?>" />
                                 </p>
                             </div>
 
                             <div class="inputBlock">
                                 <label class="labelReg" for="rad2">Chuyển khoản</label>
                                 <p class="inputNumber">
-                                    <input type="text" data-type="number" class="inputForm" name="bank_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="bank_money" placeholder="Số chuyển khoản" value="<?php echo get_field('bank_money'); ?>" />
+                                    <input type="text"  class="inputForm moneyInput" name="bank_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="bank_money" placeholder="Số chuyển khoản" value="<?php echo get_field('bank_money'); ?>" />
                                 </p>
                             </div>
                             <div class="inputBlock">
                                 <label class="labelReg" for="rad3">Visa/Master</label>
                                 <p class="inputNumber">
-                                    <input type="text" data-type="number" class="inputForm" name="visa_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="visa_money" placeholder="Thanh toán visa" value="<?php echo get_field('visa_money'); ?>" />
+                                    <input type="text"  class="inputForm moneyInput" name="visa_money" <?php if(get_field('process')=='yes') { ?><?php } ?> id="visa_money" placeholder="Thanh toán visa" value="<?php echo get_field('visa_money'); ?>" />
 
                                 </p>
                             </div>
@@ -299,6 +297,7 @@ include(APP_PATH."libs/head.php");
                             <td><p class="inputBlock"><input type="text" id="remain" name="remain" class="inputForm" readonly value="<?php if(get_field('remain')!='') { ?><?php echo get_field('remain'); ?><?php } ?>" /></p></td>
                         </tr>
                     </table>
+                    </div>
                 
         
                     <input type="hidden" name="cusid_post" value="<?php echo get_field('cusid_post') ?>" >
@@ -310,20 +309,19 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="timeRegis" value="register" >
                     
                     <?php if($_COOKIE['role_cookies']=='manager') { ?>
-                    <input type="hidden" name="status" value="tvv" >
-                    <input type="hidden" name="action" value="edit" >
+                        <input type="hidden" name="status" value="tvv" >
+                        <input type="hidden" name="action" value="edit" >
                     <?php } else { ?>
-                    <input type="hidden" id="statusDynamic" name="status" value="quay" >
+                        <input type="hidden" id="statusDynamic" name="status" value="quay" >
                     <?php } ?>
                     <input type="hidden" id="actionDynamic" name="action" value="edit" >
-                    <?php if((($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter'))&&(get_field('payment_status')!="Nợ")) { ?>
-                        <div class="flexBox flexBox--C mt30">
-                        
-                    <input class="btnSubmit" <?php if($_COOKIE['role_cookies']=='counter') { ?>id="btnSubmit"<?php } ?> type="submit" name="submit" value="Cập nhật">
-                        <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
-                        </div>
-                    <?php } ?>   
 
+                    <?php if((($_COOKIE['role_cookies']=='manager')||($_COOKIE['role_cookies']=='counter'))) { ?>
+                        <div class="flexBox flexBox--C mt30">
+                            <input class="btnSubmit" <?php if($_COOKIE['role_cookies']=='counter') { ?>id="btnSubmit"<?php } ?> type="submit" name="submit" value="Cập nhật">
+                            <a href="<?php echo APP_URL; ?>data/changeStt.php?idSurgery=<?php echo $post->ID; ?>&change=huy" class="btnSubmit" title="Hoàn tất">Huỷ</a>
+                        </div>
+                    <?php } ?>
                 </form>
             <?php endwhile;endif; ?>    
         </div>
@@ -349,6 +347,9 @@ include(APP_PATH."libs/head.php");
                 debt:"chkrequired",
                 deposit:"chkrequired",
                 accept:"chkcheckbox",
+                cash_money:"chkrequired",
+                bank_money:"chkrequired",
+                visa_money:"chkrequired",
             },
             stepValidation: true,
             scrollToErr: true,
@@ -358,9 +359,43 @@ include(APP_PATH."libs/head.php");
         $('#debt').removeClass('chkrequired errPosRight');
         $('#deposit').removeClass('chkrequired errPosRight');
     });
+    $('.btnSubmit').addClass('disable');
 <?php } ?>
 
 $( function() {
+    $('.moneyInput').on('focusout', function(e){
+        if($('#cash_money').val()!='') {
+            var cash_money = parseInt($('#cash_money').val());
+        } else {
+            cash_money = 0;
+        }
+        if($('#bank_money').val()!='') {
+            var bank_money = parseInt($('#bank_money').val());
+        } else {
+            bank_money = 0;
+        }
+        if($('#visa_money').val()!='') {
+            var visa_money = parseInt($('#visa_money').val());
+        } else {
+            visa_money = 0;
+        }
+        if(($(this).val()!='')||($(this).val()!=0)) {
+            $('.moneyInput').removeClass('chkrequired errPosRight');
+            $('.btnSubmit').addClass('loadPage');
+        } else {
+            $('.moneyInput').addClass('chkrequired errPosRight');
+            $('.btnSubmit').removeClass('loadPage');
+        }
+        var collect = $('#collect').val();
+        var money_must = collect;
+        var money_sum = cash_money + bank_money + visa_money;
+        if(numberWithCommas(money_sum) == money_must) {
+            $('#btnSubmit').removeClass('disable');
+        } else {
+            $('#btnSubmit').addClass('disable');
+        }
+    });
+
     $('#sale_discount').live('focusout', function(){
         var tt_templ = $('#hide_total').val();
         var discount = $(this).val();
@@ -393,6 +428,7 @@ $( function() {
         } else {
             $('#accept').addClass('chkcheckbox errPosRight err');
         }
+
 
     $('input[type=checkbox][name=accept]').change(function() {
         if($('#accept').is(':checked')) {
@@ -444,10 +480,14 @@ $( function() {
                 $('#statusDynamic').val('quay');
                 $('#actionDynamic').val('edit');
                 $('#btnSubmit').val('CẬP NHẬT');
+                $('#btnSubmit').addClass('disable');
+                $('.moneyInput').addClass('chkrequired errPosRight');
             } else {
                 $('#statusDynamic').val('mngpending');
                 $('#actionDynamic').val('wait_mng');
                 $('#btnSubmit').val('CHỜ DUYỆT');
+                $('#btnSubmit').removeClass('disable');
+                $('.moneyInput').removeClass('chkrequired errPosRight');
             }
         } else {
             $('#guy').removeClass('chkselect errPosRight err');
@@ -455,9 +495,11 @@ $( function() {
             $('#statusDynamic').val('quay');
             $('#actionDynamic').val('edit');
             $('#btnSubmit').val('CẬP NHẬT');
+            $('#btnSubmit').addClass('disable');
+            $('.moneyInput').addClass('chkrequired errPosRight');
         }
     });
-
+    
     $('input[type=text][name=bank_money]').keyup(function() {
         if (this.value != '') {
             $('#listBank').slideDown(200);
@@ -510,7 +552,6 @@ $( function() {
 
         if($('#accept').is(':checked')) {
             var totalPrice = $('#hide_tt_final').val();
-            
             $('input[type=radio][name=statusPay]').change(function() {
                     var totalPrice = $('#totalFee').val();
                     $('#collect').val(totalPrice);
@@ -531,6 +572,19 @@ $( function() {
             });
         }
     });
+
+    if($('#accept').is(':checked')) {
+        var totalPrice = $('#hide_tt_final').val();
+        if($('#rad6').is(':checked')) {
+            var debt = $('#debt').val();
+            var reMain = totalPrice - debt;
+            $('#collect').val(numberWithCommas(reMain));
+            $('#remain').val(numberWithCommas(debt));
+        }
+        $('.hidePart').slideDown(200);
+    } else {
+        $('.hidePart').slideUp(200);
+    }
     
     $('.callPopup').click(function() {
         $('.overlay').fadeIn(200);

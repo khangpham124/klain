@@ -81,7 +81,7 @@ include(APP_PATH."libs/head.php");
                         <tr>
                             <th>Dị ứng thuốc<span>(*)</span></th>
                             <td>
-                                <p class="inputBlock borderBox chkradio" id="chkF3">
+                                <p class="inputBlock borderBox" id="chkF3">
                                     <input type="radio" class="radioForm" id="f_3_1" name="f_3" value="Có" /><label class="labelReg" for="f_3_1">Có</label>
                                     <input type="radio" class="radioForm" id="f_3_2" name="f_3" value="Không" /><label class="labelReg" for="f_3_2">Không</label>
                                 </p>
@@ -91,7 +91,7 @@ include(APP_PATH."libs/head.php");
                         <tr>
                             <th>Dị ứng thức ăn<span>(*)</span></th>
                             <td>
-                                <p class="inputBlock borderBox chkradio" id="chkF5">
+                                <p class="inputBlock borderBox" id="chkF5">
                                     <input type="radio" class="radioForm" id="f_5_1" name="f_5" value="Có" /><label class="labelReg" for="f_5_1">Có</label>
                                     <input type="radio" class="radioForm" id="f_5_2" name="f_5" value="Không" /><label class="labelReg" for="f_5_2">Không</label>
                                 </p>
@@ -579,7 +579,7 @@ include(APP_PATH."libs/head.php");
                     <input type="hidden" name="bsk" value="<?php echo $_COOKIE['name_cookies']; ?>" >
                     <input type="hidden" name="action" value="edit_bsk" >
                     <div class="flexBox flexBox--C mt30">
-                        <input class="btnSubmit" type="submit" name="submit" value="Cập nhật">
+                        <input class="btnSubmit loadPage" type="submit" name="submit" value="Cập nhật">
                         <a href="javascript:void(0)" class=" callPopup btnSubmit">Trả quầy</a>
                     </div>
                 <?php } ?>
